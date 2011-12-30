@@ -1,0 +1,24 @@
+== SonosControl ==
+
+=== About ===
+A Java API for controlling the SONOS.
+
+=== Goals ===
+
+==== Java "On" Button ====
+
+To start with, I want to achieve a simple button which does the following:
+
+* Connect all visible Sonos Devices, using the biggest current group or the first currently playing Sonos as the main device in the group
+* If there is no currently playing device, still group all devices together, and start playing a preset station (first step: hardcode ndr2) 
+
+=== Android "On" Button ===
+
+Ideally, create an android app which only does the above
+If possible, act like the "On" button on start, show a short success (or dont) - and quit.
+
+
+=== Hardware "On" Button ===
+
+Implement the above with Arduino or similar
+
