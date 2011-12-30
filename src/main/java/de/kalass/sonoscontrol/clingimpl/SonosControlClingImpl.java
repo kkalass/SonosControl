@@ -9,11 +9,13 @@ import org.teleal.cling.registry.Registry;
 import org.teleal.cling.registry.RegistryListener;
 
 import de.kalass.sonoscontrol.api.control.SonosControl;
+import de.kalass.sonoscontrol.api.core.Callback;
+import de.kalass.sonoscontrol.api.core.Callback2;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
+import de.kalass.sonoscontrol.api.core.FailableCallback;
 import de.kalass.sonoscontrol.api.core.ZoneIcon;
 import de.kalass.sonoscontrol.api.core.ZoneName;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
-import de.kalass.sonoscontrol.api.services.DevicePropertiesService.RetrieveZoneAttributes;
 
 /**
  * Implementation of the SonosControl service, using CLING http://teleal.org/projects/cling
@@ -24,10 +26,26 @@ public class SonosControlClingImpl implements SonosControl {
 	
 	private final UpnpService _upnpService;
 
-	private ErrorStrategy _errorStrategy;
+	private ErrorStrategy _errorStrategy = new BaseErrorStrategy(null);
 
 	private int _millis;
 	
+	private static final class BaseErrorStrategy implements ErrorStrategy {
+		private final ErrorStrategy _delegate;
+		public BaseErrorStrategy(@javax.annotation.Nullable ErrorStrategy delegate) {
+			_delegate = delegate;
+		}
+		@Override
+		public void onFailure(Callback callback, String message) {
+			if (callback instanceof FailableCallback) {
+				final FailableCallback cb = (FailableCallback)callback;
+				cb.fail(message);
+			}
+			if (_delegate != null) {
+				_delegate.onFailure(callback, message);
+			}
+		}
+	}
     private final class ExecuteOnZoneListener extends
 			DefaultRegistryListener {
 		private final SonosDeviceCallback callback;
@@ -43,12 +61,11 @@ public class SonosControlClingImpl implements SonosControl {
 		@Override
 		public void deviceAdded(Registry registry, final Device device) {
 			final DevicePropertiesService propsService = new DevicePropertiesServiceImpl(_upnpService, device, _errorStrategy);
-			propsService.retrieveZoneAttributes(new RetrieveZoneAttributes() {
-				
+			propsService.retrieveZoneAttributes(new Callback2<ZoneName, ZoneIcon>() {
 				@Override
 				public void success(ZoneName currentZoneName, ZoneIcon currentIcon) {
 					if (zoneName.equals(currentZoneName)) {
-						callback.success(new SonosDeviceImpl(zoneName, propsService, _upnpService, device));
+						callback.success(new SonosDeviceImpl(zoneName, propsService, _upnpService, device, _errorStrategy));
 						// avoid firing multiple times
 						_upnpService.getRegistry().removeListener(ExecuteOnZoneListener.this);
 					}
@@ -67,7 +84,7 @@ public class SonosControlClingImpl implements SonosControl {
 	
 	@Override
 	public void setErrorStrategy(ErrorStrategy errorStrategy) {
-		this._errorStrategy = errorStrategy;
+		this._errorStrategy = new BaseErrorStrategy(errorStrategy);
 	}
 
 	@Override
