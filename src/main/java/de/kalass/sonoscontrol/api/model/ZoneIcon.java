@@ -1,21 +1,21 @@
-package de.kalass.sonoscontrol.api.core;
+package de.kalass.sonoscontrol.api.model;
 
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public class ZoneName {
+public class ZoneIcon {
 	private final String _name;
 	
-	public ZoneName(@Nonnull String name) {
+	public ZoneIcon(@Nonnull String name) {
 		_name = Preconditions.checkNotNull(name);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof ZoneName) {
-			final ZoneName other = (ZoneName) obj;
+		if (obj instanceof ZoneIcon) {
+			final ZoneIcon other = (ZoneIcon) obj;
 			return Objects.equal(_name, other._name);
 		}
 		return false;
@@ -30,7 +30,7 @@ public class ZoneName {
 		return _name;
 	}
 	
-	public static ZoneName getInstance(String name) {
-		return new ZoneName(name);
+	public static ZoneIcon getInstance(String name) {
+		return new ZoneIcon(name);
 	}
 }

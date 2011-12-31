@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import de.kalass.sonoscontrol.api.core.Callback;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
-import de.kalass.sonoscontrol.api.core.ZoneName;
+import de.kalass.sonoscontrol.api.model.ZoneName;
 
 public interface SonosControl {
 	

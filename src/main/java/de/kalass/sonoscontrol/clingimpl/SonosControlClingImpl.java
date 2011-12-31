@@ -1,5 +1,7 @@
 package de.kalass.sonoscontrol.clingimpl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.UpnpServiceImpl;
 import org.teleal.cling.model.message.header.STAllHeader;
@@ -10,11 +12,11 @@ import org.teleal.cling.registry.RegistryListener;
 
 import de.kalass.sonoscontrol.api.control.SonosControl;
 import de.kalass.sonoscontrol.api.core.Callback;
-import de.kalass.sonoscontrol.api.core.Callback2;
+import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 import de.kalass.sonoscontrol.api.core.FailableCallback;
-import de.kalass.sonoscontrol.api.core.ZoneIcon;
-import de.kalass.sonoscontrol.api.core.ZoneName;
+import de.kalass.sonoscontrol.api.model.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.ZoneName;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 
 /**
@@ -22,7 +24,7 @@ import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
  * @author klas
  */
 public class SonosControlClingImpl implements SonosControl {
-	//private static final Logger LOG = LoggerFactory.getLogger(SonosControlClingImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SonosControlClingImpl.class);
 	
 	private final UpnpService _upnpService;
 
@@ -61,13 +63,15 @@ public class SonosControlClingImpl implements SonosControl {
 		@Override
 		public void deviceAdded(Registry registry, final Device device) {
 			final DevicePropertiesService propsService = new DevicePropertiesServiceImpl(_upnpService, device, _errorStrategy);
-			propsService.retrieveZoneAttributes(new Callback2<ZoneName, ZoneIcon>() {
+			propsService.retrieveZoneAttributes(new Callback1<ZoneAttributes>() {
 				@Override
-				public void success(ZoneName currentZoneName, ZoneIcon currentIcon) {
-					if (zoneName.equals(currentZoneName)) {
+				public void success(ZoneAttributes attributes) {
+					if (zoneName.equals(attributes.getZoneName())) {
 						callback.success(new SonosDeviceImpl(zoneName, propsService, _upnpService, device, _errorStrategy));
+
 						// avoid firing multiple times
 						_upnpService.getRegistry().removeListener(ExecuteOnZoneListener.this);
+						LOG.debug("removed "+ ExecuteOnZoneListener.this);
 					}
 				}
 			});
@@ -99,6 +103,7 @@ public class SonosControlClingImpl implements SonosControl {
 	
 	protected void execute(RegistryListener listener, int timeout) {
 		// FIXME (KK): how to implement timeout?
+		LOG.debug("Added " + listener);
 		this._upnpService.getRegistry().addListener(listener);
 		
 		// Send a search message to all devices and services, they should respond soon

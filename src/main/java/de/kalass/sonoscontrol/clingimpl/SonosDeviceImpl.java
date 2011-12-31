@@ -7,7 +7,8 @@ import org.teleal.cling.model.meta.Device;
 
 import de.kalass.sonoscontrol.api.control.SonosDevice;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
-import de.kalass.sonoscontrol.api.core.ZoneName;
+import de.kalass.sonoscontrol.api.model.ZoneName;
+import de.kalass.sonoscontrol.api.services.AVTransportService;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 import de.kalass.sonoscontrol.api.services.RenderingControlService;
 
@@ -43,5 +44,9 @@ public class SonosDeviceImpl implements SonosDevice {
 	@Override
 	public RenderingControlService getRenderingControlService() {
 		return new RenderingControlServiceImpl(_service, _device, _errorStrategy);
+	}
+	@Override
+	public AVTransportService getAVTransportService() {
+		return new AVTransportServiceImpl(_service, _device, _errorStrategy);
 	}
 }

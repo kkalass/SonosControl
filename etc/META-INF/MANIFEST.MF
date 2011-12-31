@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: Buildr
+Main-Class: de.kalass.sonoscontrol.SonosControlApp
+Copyright: Klas Kalass (C) 2011
+

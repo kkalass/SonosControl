@@ -22,8 +22,8 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public void retrieveVolume(final Callback1<Long> successHandler) {
-		execute(new Call1<Long>("GetVolume", successHandler) {
+	public <C extends Callback1<Long>> C retrieveVolume(final C successHandler) {
+		return execute(successHandler, new Call1<Long>("GetVolume") {
 			@Override
 			public void prepareArguments(ActionInvocation invocation)
 					throws InvalidValueException {
@@ -40,11 +40,11 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 	
 	@Override
-	public void retrieveMute(final Callback1<Boolean> successHandler) {
+	public <C extends Callback1<Boolean>> C retrieveMute(final C successHandler) {
 		
 		// FIXME: do something about the hard coded channel and instance params...
 		
-		execute(new Call1<Boolean>("GetMute", successHandler) {
+		return execute(successHandler, new Call1<Boolean>("GetMute") {
 			@Override
 			public void prepareArguments(ActionInvocation invocation)
 					throws InvalidValueException {
@@ -61,8 +61,8 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 	
 	@Override
-	public void setMute(final boolean mute, Callback0 successHandler) {
-		execute(new Call0("SetMute", successHandler) {
+	public <C extends Callback0> C setMute(final boolean mute, C successHandler) {
+		return execute(successHandler, new Call0("SetMute") {
 			@Override
 			public void prepareArguments(ActionInvocation invocation)
 					throws InvalidValueException {

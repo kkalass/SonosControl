@@ -7,9 +7,7 @@ import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 
 public interface RenderingControlService {
-	
-	
-	void retrieveVolume(@Nonnull Callback1<Long> successHandler);
-	void retrieveMute(@Nonnull Callback1<Boolean> successHandler);
-	void setMute(boolean mute, @Nullable Callback0 successHandler);
+	<C extends Callback1<Long>> C retrieveVolume(@Nonnull C successHandler);
+	<C extends Callback1<Boolean>> C retrieveMute(@Nonnull C successHandler);
+	<C extends Callback0> C setMute(boolean mute, @Nullable C successHandler);
 }

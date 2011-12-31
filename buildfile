@@ -11,6 +11,14 @@ COPYRIGHT = "Klas Kalass"
 repositories.remote << "http://repo1.maven.org/maven2"
 repositories.remote << "http://4thline.org/m2"
 
+def add_dependencies(pkg)
+  tempfile = pkg.to_s.sub(/.jar$/, "-without-dependencies.jar")
+  mv pkg.to_s, tempfile
+
+  dependencies = compile.dependencies.map { |d| "-c #{d}"}.join(" ")
+  sh "java -jar tools/autojar.jar -baev -m etc/META-INF/MANIFEST.MF -o #{pkg} #{dependencies} #{tempfile}"
+end
+
 desc "The Sonoscontrol project"
 define "SonosControl" do
   project.version = VERSION_NUMBER
@@ -19,4 +27,5 @@ define "SonosControl" do
 
   compile.with 'org.teleal.cling:cling-core:jar:1.0.5','org.teleal:teleal-common:jar:1.0.14','com.google.guava:guava:jar:11.0','org.slf4j:slf4j-api:jar:1.6.4', 'com.google.code.findbugs:jsr305:jar:1.3.9','org.slf4j:slf4j-jdk14:jar:1.6.4'
   package(:jar).with :manifest=>{ 'Copyright'=>'Klas Kalass (C) 2011', 'Main-Class'=>'de.kalass.sonoscontrol.SonosControl' }
+  package(:jar).enhance { |pkg| pkg.enhance { |pkg| add_dependencies(pkg) }}
 end

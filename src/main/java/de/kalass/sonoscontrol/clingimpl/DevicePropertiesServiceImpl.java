@@ -4,10 +4,11 @@ import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.model.meta.Device;
 
-import de.kalass.sonoscontrol.api.core.Callback2;
+import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
-import de.kalass.sonoscontrol.api.core.ZoneIcon;
-import de.kalass.sonoscontrol.api.core.ZoneName;
+import de.kalass.sonoscontrol.api.model.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.ZoneIcon;
+import de.kalass.sonoscontrol.api.model.ZoneName;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 
 @SuppressWarnings("rawtypes")
@@ -19,15 +20,15 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public void retrieveZoneAttributes(final Callback2<ZoneName, ZoneIcon> successHandler) {
-		execute(new Call2<ZoneName, ZoneIcon>("GetZoneAttributes", successHandler) {
+	public <C extends Callback1<ZoneAttributes>> C retrieveZoneAttributes(final C successHandler) {
+		return execute(successHandler, new Call2<ZoneAttributes>("GetZoneAttributes") {
 			@Override
 			public void success(
-					Callback2<ZoneName, ZoneIcon> handler,
+					Callback1<ZoneAttributes> handler,
 					ActionArgumentValue p1, ActionArgumentValue p2) {
 				final ZoneName currentZoneName = ZoneName.getInstance((String)p1.getValue());
 				final ZoneIcon currentIcon = ZoneIcon.getInstance((String)p2.getValue());
-				successHandler.success(currentZoneName, currentIcon);
+				successHandler.success(new ZoneAttributes(currentZoneName, currentIcon));
 			}
 		});
 	}

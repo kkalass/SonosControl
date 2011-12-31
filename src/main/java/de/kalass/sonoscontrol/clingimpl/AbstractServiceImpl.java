@@ -16,7 +16,6 @@ import org.teleal.cling.model.types.UDAServiceId;
 import de.kalass.sonoscontrol.api.core.Callback;
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
-import de.kalass.sonoscontrol.api.core.Callback2;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 
 @SuppressWarnings("rawtypes")
@@ -31,26 +30,21 @@ public abstract class AbstractServiceImpl {
 	private final ErrorStrategy _errorStrategy;
 
 	public abstract class Call<C extends Callback> {
-		private final C _successHandler;
 		private final String _actionName;
 		
-		Call(String actionName, C successHandler) {
+		Call(String actionName) {
 			this._actionName = actionName;
-			this._successHandler = successHandler;
 		}
 		public String getActionName() {
 			return _actionName;
-		}
-		public C getSuccessHandler() {
-			return _successHandler;
 		}
 		public void prepareArguments(ActionInvocation invocation) throws InvalidValueException{}
 		public abstract void success(C handler, ActionInvocation invocation);
 	}
 	
 	public abstract class Call0 extends Call<Callback0> {
-		Call0(String actionName, Callback0 successHandler) {
-			super(actionName, successHandler);
+		Call0(String actionName) {
+			super(actionName);
 		}
 		@Override
 		public void success(Callback0 handler, ActionInvocation invocation) {
@@ -59,8 +53,8 @@ public abstract class AbstractServiceImpl {
 	}
 	public abstract class Call1<T> extends Call<Callback1<T>> {
 
-		Call1(String actionName, Callback1<T> successHandler) {
-			super(actionName, successHandler);
+		Call1(String actionName) {
+			super(actionName);
 		}
 		@Override
 		public final void success(Callback1<T> handler, ActionInvocation invocation) {
@@ -71,19 +65,20 @@ public abstract class AbstractServiceImpl {
 		public abstract void success(Callback1<T> handler, ActionArgumentValue p1);
 	}
 	
-	public abstract class Call2<T, V> extends Call<Callback2<T, V>> {
+	public abstract class Call2<T> extends Call<Callback1<T>> {
 
-		Call2(String actionName, Callback2<T, V> successHandler) {
-			super(actionName, successHandler);
+		Call2(String actionName) {
+			super(actionName);
 		}
 		@Override
-		public final void success(Callback2<T, V> handler, ActionInvocation invocation) {
+		public final void success(Callback1<T> handler, ActionInvocation invocation) {
 			assert invocation.getOutput().length == 2;
 			final ActionArgumentValue[] output = invocation.getOutput();
 			success(handler, output[0], output[1]);
 		}
-		public abstract void success(Callback2<T, V> handler, ActionArgumentValue p1, ActionArgumentValue p2);
+		public abstract void success(Callback1<T> handler, ActionArgumentValue p1, ActionArgumentValue p2);
 	}
+	
 	public AbstractServiceImpl(String serviceIdName, UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
 		this._serviceId =  new UDAServiceId(serviceIdName);
 		this._upnpService = upnpService;
@@ -91,7 +86,7 @@ public abstract class AbstractServiceImpl {
 		this._errorStrategy = errorStrategy;
 	}
 
-	public <C extends Callback> void execute(final Call<C> handler) {
+	public <C extends Callback> C execute(final C successHandler, final Call<? super C> handler) {
 		Service service;
 		if ((service = this._device.findService(_serviceId)) != null) {
 
@@ -109,17 +104,18 @@ public abstract class AbstractServiceImpl {
 
 						@Override
 						public void success(ActionInvocation invocation) {
-							handler.success(handler.getSuccessHandler(), invocation);
+							handler.success(successHandler, invocation);
 						}
 
 						@Override
 						public void failure(ActionInvocation invocation, UpnpResponse operation, String defaultMsg) {
-							_errorStrategy.onFailure(handler.getSuccessHandler(), defaultMsg);
+							_errorStrategy.onFailure(successHandler, defaultMsg);
 						}
 					}
 					);
 		} else {
 			LOG.warn("Cannot find the Service " + _serviceId + " for device "+ _device);
 		}
+		return successHandler;
 	}
 }
