@@ -44,4 +44,18 @@ public class AVTransportServiceImpl extends AbstractServiceImpl implements AVTra
 			
 		});		
 	}
+	
+	@Override
+	public <C extends Callback0> C setAVTransportURI(final String uri, final String metadata, C successHandler) {
+		return execute(successHandler, new Call0("SetAVTransportURI"){
+			@Override
+			public void prepareArguments(ActionInvocation invocation)
+					throws InvalidValueException {
+				invocation.setInput("InstanceID", new UnsignedIntegerFourBytes(0l));
+				invocation.setInput("CurrentURI", uri);
+				invocation.setInput("CurrentURIMetaData", metadata);
+			}
+		});
+		
+	};
 }

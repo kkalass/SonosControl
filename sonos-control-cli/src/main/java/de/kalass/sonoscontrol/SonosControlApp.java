@@ -66,14 +66,31 @@ public class SonosControlApp {
     
     private static final class StartCommand extends SonosDeviceCommand {
 
+		private final String _trackUri;
+
 		private StartCommand(StartArgs args) {
 			super(args);
+			_trackUri = args.getTrackUri();
 		}
 
 		@Override
 		public void call(final SonosDevice device, final CliCommandResultCallback callback) {
-			AVTransportService avTransportService = device.getAVTransportService();
-			avTransportService.play(new CallbackWrapper(callback, "Started playing "));
+			final AVTransportService avTransportService = device.getAVTransportService();
+			
+			// FIXME (KK): replace Hack with proper radio favourites lookup
+			final Callback0 playCallback = new CallbackWrapper(callback, "Started playing ");
+			final String trackUri = _trackUri != null ? ("radio:favourites:NDR2".equals(_trackUri) ? "x-rincon-mp3radio://ndrstream.ic.llnwd.net/stream/ndrstream_ndr2_hi_mp3" : _trackUri) : null;
+			if (trackUri != null) {
+				avTransportService.setAVTransportURI(trackUri, null, new Callback0() {
+					
+					@Override
+					public void success() {
+						avTransportService.play(playCallback);
+					}
+				});
+			} else {
+				avTransportService.play(playCallback);
+			}
 		}
 	}
     

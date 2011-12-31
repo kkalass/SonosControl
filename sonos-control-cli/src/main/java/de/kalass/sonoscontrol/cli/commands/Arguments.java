@@ -30,7 +30,8 @@ public abstract class Arguments {
 			return new ShowArgs(zoneSpec);
 		}
 		if (StartArgs.CMD.equals(cmd)) {
-			return new StartArgs(zoneSpec);
+			final String trackUri = args.length < 3 ? null : args[2];
+			return new StartArgs(zoneSpec, trackUri);
 		}
 		if (StopArgs.CMD.equals(cmd)) {
 			return new StopArgs(zoneSpec);
