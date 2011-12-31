@@ -8,7 +8,7 @@ A Java API and a simple command line client for controlling the SONOS.
   $ buildr package
   $
   $ # Example usage:
-  $ java -jar target/SonosControl-0.0.1.jar start Esszimmer
+  $ java -jar sonos-control-cli/target/sonos-control-cli-0.0.1.jar  start Esszimmer
 
 === Goals ===
 
