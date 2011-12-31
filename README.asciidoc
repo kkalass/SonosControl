@@ -1,7 +1,14 @@
 == SonosControl ==
 
 === About ===
-A Java API for controlling the SONOS.
+A Java API and a simple command line client for controlling the SONOS.
+
+=== Usage ===
+
+  $ buildr package
+  $
+  $ # Example usage:
+  $ java -jar target/SonosControl-0.0.1.jar start Esszimmer
 
 === Goals ===
 
