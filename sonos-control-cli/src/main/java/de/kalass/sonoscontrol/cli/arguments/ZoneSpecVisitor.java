@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.cli.commands;
+package de.kalass.sonoscontrol.cli.arguments;
 
 public interface ZoneSpecVisitor<T> {
 	T visitSingleZone(SingleZoneSpec spec);

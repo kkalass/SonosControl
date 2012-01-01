@@ -1,5 +1,4 @@
 package de.kalass.sonoscontrol;
-import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,157 +8,28 @@ import com.google.common.base.Preconditions;
 import de.kalass.sonoscontrol.api.control.SonosControl;
 import de.kalass.sonoscontrol.api.control.SonosControl.SonosDeviceCallback;
 import de.kalass.sonoscontrol.api.control.SonosDevice;
-import de.kalass.sonoscontrol.api.core.AsyncValue;
-import de.kalass.sonoscontrol.api.core.Callback0;
-import de.kalass.sonoscontrol.api.core.FailableCallback;
 import de.kalass.sonoscontrol.api.core.LoggingErrorStrategy;
-import de.kalass.sonoscontrol.api.model.avtransport.AVTransportURI;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.MuteChannel;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Volume;
-import de.kalass.sonoscontrol.api.services.AVTransportService;
-import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
-import de.kalass.sonoscontrol.api.services.RenderingControlService;
-import de.kalass.sonoscontrol.cli.commands.Arguments;
-import de.kalass.sonoscontrol.cli.commands.ArgumentsVisitor;
-import de.kalass.sonoscontrol.cli.commands.GroupZoneSpec;
-import de.kalass.sonoscontrol.cli.commands.HelpArgs;
-import de.kalass.sonoscontrol.cli.commands.MuteArgs;
-import de.kalass.sonoscontrol.cli.commands.ShowArgs;
-import de.kalass.sonoscontrol.cli.commands.SingleZoneSpec;
-import de.kalass.sonoscontrol.cli.commands.StartArgs;
-import de.kalass.sonoscontrol.cli.commands.StopArgs;
-import de.kalass.sonoscontrol.cli.commands.ZoneCommandArgs;
-import de.kalass.sonoscontrol.cli.commands.ZoneSpec;
-import de.kalass.sonoscontrol.cli.commands.ZoneSpecVisitor;
+import de.kalass.sonoscontrol.cli.arguments.Arguments;
+import de.kalass.sonoscontrol.cli.arguments.ArgumentsVisitor;
+import de.kalass.sonoscontrol.cli.arguments.GroupZoneSpec;
+import de.kalass.sonoscontrol.cli.arguments.HelpArgs;
+import de.kalass.sonoscontrol.cli.arguments.MuteArgs;
+import de.kalass.sonoscontrol.cli.arguments.ShowArgs;
+import de.kalass.sonoscontrol.cli.arguments.SingleZoneSpec;
+import de.kalass.sonoscontrol.cli.arguments.StartArgs;
+import de.kalass.sonoscontrol.cli.arguments.StopArgs;
+import de.kalass.sonoscontrol.cli.arguments.ZoneSpec;
+import de.kalass.sonoscontrol.cli.arguments.ZoneSpecVisitor;
+import de.kalass.sonoscontrol.cli.commands.CliCommandResultCallback;
+import de.kalass.sonoscontrol.cli.commands.MuteCommand;
+import de.kalass.sonoscontrol.cli.commands.ShowCommand;
+import de.kalass.sonoscontrol.cli.commands.SonosDeviceCommand;
+import de.kalass.sonoscontrol.cli.commands.StartCommand;
+import de.kalass.sonoscontrol.cli.commands.StopCommand;
 import de.kalass.sonoscontrol.clingimpl.SonosControlClingImpl;
 
 public class SonosControlApp {
 	private static final Logger LOG = LoggerFactory.getLogger(SonosControlApp.class);
-
-    private static final class CallbackWrapper implements Callback0, FailableCallback {
-    	private final String _msg;
-    	private final CliCommandResultCallback _callback;
-		public CallbackWrapper(CliCommandResultCallback callback, String msg) {
-			super();
-			_msg = msg;
-			_callback = callback;
-		}
-    	@Override
-    	public void success() {
-    		_callback.success(_msg);
-    	}
-    	@Override
-    	public void fail(String defaultMsg) {
-    		_callback.fail(new RuntimeException(defaultMsg));
-    	}
-    }
-    
-    private static final class MuteCommand extends SonosDeviceCommand {
-		private final MuteArgs _muteCmd;
-
-		private MuteCommand(MuteArgs muteArgs) {
-			super(muteArgs);
-			_muteCmd = muteArgs;
-		}
-
-		@Override
-		public void call(final SonosDevice device, final CliCommandResultCallback callback) {
-			final RenderingControlService renderingControlService = device.getRenderingControlService();
-			renderingControlService.setMute(MuteChannel.MASTER, Mute.valueOf(_muteCmd.isMute()), new CallbackWrapper(callback, "Mute " + _muteCmd.isMute()));
-		}
-	}
-    
-    private static final class StartCommand extends SonosDeviceCommand {
-
-		private final String _trackUri;
-
-		private StartCommand(StartArgs args) {
-			super(args);
-			_trackUri = args.getTrackUri();
-		}
-
-		@Override
-		public void call(final SonosDevice device, final CliCommandResultCallback callback) {
-			final AVTransportService avTransportService = device.getAVTransportService();
-			
-			// FIXME (KK): replace Hack with proper radio favourites lookup
-			final Callback0 playCallback = new CallbackWrapper(callback, "Started playing ");
-			final AVTransportURI trackUri = _trackUri != null ? ("radio:favourites:NDR2".equals(_trackUri) ? AVTransportURI.valueOf("x-rincon-mp3radio://ndrstream.ic.llnwd.net/stream/ndrstream_ndr2_hi_mp3") : AVTransportURI.valueOf(_trackUri)) : null;
-			if (trackUri != null) {
-				avTransportService.setAVTransportURI(trackUri, null, new Callback0() {
-					
-					@Override
-					public void success() {
-						avTransportService.play(playCallback);
-					}
-				});
-			} else {
-				avTransportService.play(playCallback);
-			}
-		}
-	}
-    
-    private static final class StopCommand extends SonosDeviceCommand {
-
-		private StopCommand(StopArgs args) {
-			super(args);
-		}
-
-		@Override
-		public void call(final SonosDevice device, final CliCommandResultCallback callback) {
-			AVTransportService avTransportService = device.getAVTransportService();
-			avTransportService.stop(new CallbackWrapper(callback, "Stopped playing "));
-		}
-	}
-    
-	private static final class ShowCommand extends SonosDeviceCommand {
-		public ShowCommand(ShowArgs args) {
-			super(args);
-		}
-
-		@Override
-		public void call(SonosDevice device, CliCommandResultCallback callback) throws InterruptedException, ExecutionException  {
-			final DevicePropertiesService propsService = device.getDevicePropertiesService();
-			final RenderingControlService renderingControlService = device.getRenderingControlService();
-			
-			final AsyncValue<ZoneAttributes> attributes = propsService.getZoneAttributes(new AsyncValue<ZoneAttributes>());
-
-			final AsyncValue<Volume> volume = renderingControlService.getVolume(Channel.MASTER, new AsyncValue<Volume>());
-			final AsyncValue<Mute> mute = renderingControlService.getMute(MuteChannel.MASTER, new AsyncValue<Mute>());
-
-			String msg = "VOLUME: " + volume.get().asLong() + "\n"  
-					+ "MUTE: " + mute.get().asBoolean() + "\n"  
-					+ "ATTRIBUTES: " + attributes.get() +  "\n";
-
-			callback.success(msg);
-		}
-	}
-	
-	public interface CliCommandResultCallback {
-		void success(String output);
-		void fail(Throwable t);
-	}
-
-	public static abstract class SonosDeviceCommand {
-		private final ZoneSpec _zoneSpec;
-		
-		public SonosDeviceCommand(ZoneCommandArgs args) {
-			this(args.getZoneSpec());
-		}
-		
-		public SonosDeviceCommand(ZoneSpec zoneSpec) {
-			_zoneSpec = zoneSpec;
-		}
-		
-		public final ZoneSpec getZoneSpec() {
-			return _zoneSpec;
-		}
-		  
-    	public abstract void call(SonosDevice device, CliCommandResultCallback callback) throws Exception;
-    }
 
     static Void execute(final SonosDeviceCommand command) {
     	final SonosControl sonosControl = new SonosControlClingImpl();

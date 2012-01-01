@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.cli.commands;
+package de.kalass.sonoscontrol.cli.arguments;
 
 public class HelpArgs extends Arguments {
 	public static final String CMD = "help";

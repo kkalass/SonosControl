@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.cli.commands;
+package de.kalass.sonoscontrol.cli.arguments;
 
 public class ShowArgs extends ZoneCommandArgs {
 	public static final String CMD = "show";

@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.cli.commands;
+package de.kalass.sonoscontrol.cli.arguments;
 
 public class MuteArgs extends ZoneCommandArgs {
 	public static final String CMD = "mute";

@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.cli.commands;
+package de.kalass.sonoscontrol.cli.arguments;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;

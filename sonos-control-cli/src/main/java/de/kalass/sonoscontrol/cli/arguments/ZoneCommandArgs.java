@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.cli.commands;
+package de.kalass.sonoscontrol.cli.arguments;
 
 public abstract class ZoneCommandArgs extends Arguments {
 	private final ZoneSpec _zoneSpec;

@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.cli.commands;
+package de.kalass.sonoscontrol.cli.arguments;
 
 public interface ArgumentsVisitor<T> {
 	T visitHelp(HelpArgs help);
