@@ -25,7 +25,7 @@ public class Generator {
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		final File docDir = new File(args.length == 0 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api/doc/sonos/example-device-descriptions" : args[0]);
-		final File outputDir = new File(args.length < 2 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api/target/gen-src/sonos-api/" : args[1]);
+		final File outputDir = new File(args.length < 2 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api/src/main/java/" : args[1]);
 		Preconditions.checkArgument(docDir.isDirectory());
 		
 		for (final File f : docDir.listFiles()) {
@@ -36,22 +36,22 @@ public class Generator {
 			final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			final Document document = documentBuilder.parse(f);
 			final String name = getName(f);
-			final String serviceName = name + "Service";
-			final String fqPackageName = "de.kalass.sonoscontrol.api." + name.toLowerCase();
+			
+			final String fqPackageName = "de.kalass.sonoscontrol.api";
 			final SCDP scdp = SCDPReader.read(document);
 			if (scdp != null) {
 				System.out.println("----------------------------");
 				System.out.println(f.getName() + ": ");
 				System.out.println("----------------------------");
 				
-				final SCDPType type = new SCDPType(scdp, fqPackageName, serviceName);
+				final SCDPType type = new SCDPType(scdp, fqPackageName, name);
 				for (StateVariableType stateVariable : type.getStateVariables()) {
 					final File typeFile = stateVariable.getJavaFile(outputDir);
 					Files.createParentDirs(typeFile);
 					final String sourceCode = stateVariable.generateSourceCode();
 					Files.write(sourceCode, typeFile, UTF8);
-					System.out.println(sourceCode);
-					System.out.println("");
+					//System.out.println(sourceCode);
+					System.out.println("StateVariableType: " + typeFile);
 				}
 				
 				for (ActionType action : type.getActions()) {
@@ -62,8 +62,8 @@ public class Generator {
 						Files.createParentDirs(typeFile);
 						final String sourceCode = compound.generateSourceCode();
 						Files.write(sourceCode, typeFile, UTF8);
-						System.out.println(sourceCode);
-						System.out.println("");
+						//System.out.println(sourceCode);
+						System.out.println("ActionOutputType: " + typeFile);
 					}
 				}
 				final File serviceFile = type.getServiceInterfaceJavaFile(outputDir);

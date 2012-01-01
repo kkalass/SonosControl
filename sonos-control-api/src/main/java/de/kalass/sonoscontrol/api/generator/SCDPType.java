@@ -18,7 +18,7 @@ import de.kalass.sonoscontrol.api.generator.SCDP.ActionArgument;
 import de.kalass.sonoscontrol.api.generator.SCDP.StateVariable;
 
 public final class SCDPType {
-	private final String _packageName;
+	private final String _servicePackageName;
 	private final String _serviceName;
 	private final List<SCDPType.ActionType> _actions;
 	private final List<SCDPType.StateVariableType> _stateVariables;
@@ -95,7 +95,7 @@ public final class SCDPType {
 			return new File(baseDir, convertPackageToDirName(getPackageName()));
 		}
 		public File getJavaFile(File outputDir) {
-			return new File(getPackageDir(outputDir), ".java");
+			return new File(getPackageDir(outputDir), getJavaTypeName() + ".java");
 		}
 		public String generateSourceCode() {
 			final StringBuilder sb = new StringBuilder();
@@ -129,13 +129,15 @@ public final class SCDPType {
 			sb.append("\n");
 			for (ActionArgumentType prop : _properties) {
 				sb.append("\n");
-				sb.append("    public ").append(prop.getRelatedStateVariable().getJavaTypeName()).append(" get").append(prop.getRelatedStateVariable().getJavaTypeName()).append("() {\n")
+				String parameterName = prop.getParameterName();
+				String getterName = "get" + parameterName.substring(0, 1).toUpperCase() + parameterName.substring(1);
+				sb.append("    public ").append(prop.getRelatedStateVariable().getJavaTypeName()).append(" ").append(getterName).append("() {\n")
 				.append("        return _").append(prop.getParameterName()).append(";\n");
 				sb.append("    }\n");
 			}
 			sb.append("\n");
 			sb.append("    @Override\n");
-			sb.append("    public boolean hashCode() {\n");
+			sb.append("    public int hashCode() {\n");
 			sb.append("        return Objects.hashCode(\n");
 			final Iterator<ActionArgumentType> hashIterator = _properties.iterator();
 			while (hashIterator.hasNext()) {
@@ -171,12 +173,12 @@ public final class SCDPType {
 			sb.append("    }\n");
 			sb.append("\n");
 			sb.append("    @Override\n");
-			sb.append("    public boolean toString() {\n");
+			sb.append("    public String toString() {\n");
 			sb.append("        return Objects.toStringHelper(this)\n");
 			final Iterator<ActionArgumentType> toStringIterator = _properties.iterator();
 			while (toStringIterator.hasNext()) {
 				ActionArgumentType prop = toStringIterator.next();
-				sb.append("             .append(\"").append(prop.getParameterName()).append("\",_").append(prop.getParameterName()).append(")\n");
+				sb.append("             .add(\"").append(prop.getParameterName()).append("\",_").append(prop.getParameterName()).append(")\n");
 			}
 			sb.append("             .toString();\n");
 			sb.append("    }\n");
@@ -242,10 +244,14 @@ public final class SCDPType {
 			return new File(baseDir, convertPackageToDirName(getPackageName()));
 		}
 		public File getJavaFile(File outputDir) {
-			return new File(getPackageDir(outputDir), ".java");
+			return new File(getPackageDir(outputDir), getJavaTypeName() + ".java");
 		}
 		
 		private static final String toEnumValue(String input) {
+			if ("1".equals(input)) {
+				// special case needed for TransportPlaySpeed
+				return "ONE";
+			}
 			final StringBuilder sb = new StringBuilder();
 			boolean wasLower = false;
 			for (int i = 0; i < input.length(); i++) {
@@ -295,8 +301,8 @@ public final class SCDPType {
 		
 		private void generateBooleanSourceCode(StringBuilder sb) {
 			sb.append("public enum ").append(getJavaTypeName()).append(" {\n");
-			sb.append("    ON,\n");
-			sb.append("    OFF;\n");
+			sb.append("    ON(true),\n");
+			sb.append("    OFF(false);\n");
 			sb.append("");
 			sb.append("    private final boolean _b;\n");
 			sb.append("");
@@ -324,12 +330,12 @@ public final class SCDPType {
 			sb.append("        _value = Preconditions.checkNotNull(value);\n");
 			sb.append("    }\n");
 			sb.append("\n");
-			sb.append("    public boolean to").append(javaType.getSimpleName()).append("() {\n");
+			sb.append("    public ").append(javaType.getSimpleName()).append(" as").append(javaType.getSimpleName()).append("() {\n");
 			sb.append("        return _value;\n");
 			sb.append("    }\n");
 			sb.append("\n");
 			sb.append("    @Override\n");
-			sb.append("    public boolean hashCode() {\n");
+			sb.append("    public int hashCode() {\n");
 			sb.append("        return _value.hashCode();\n");
 			sb.append("    }\n");
 			sb.append("\n");
@@ -342,8 +348,8 @@ public final class SCDPType {
 			sb.append("    }\n");
 			sb.append("\n");
 			sb.append("    @Override\n");
-			sb.append("    public boolean toString() {\n");
-			sb.append("        return Objects.toStringHelper(this).append(\"value\", _value).toString();\n");
+			sb.append("    public String toString() {\n");
+			sb.append("        return Objects.toStringHelper(this).add(\"value\", _value).toString();\n");
 			sb.append("    }\n");
 			sb.append("\n");
 			sb.append("    public static ").append(getJavaTypeName()).append(" valueOf(").append(javaType.getSimpleName()).append(" value) {\n");
@@ -389,15 +395,16 @@ public final class SCDPType {
 	}
 	
 	
-	public SCDPType(SCDP scdp, final String packageName, final String serviceName) {
-		_packageName = packageName;
-		_serviceName = serviceName;
+	public SCDPType(SCDP scdp, final String packageName, final String name) {
+		_servicePackageName = packageName + ".services";
+		final String modelPackageName = packageName + ".model." + name.toLowerCase();
+		_serviceName = name + "Service";;
 		final Map<StateVariable, SCDPType.StateVariableType> m = Maps.transformValues(
 				Maps.uniqueIndex(scdp.getStateVariables(), Functions.<StateVariable>identity()),
 				new Function<StateVariable, SCDPType.StateVariableType>() {
 					@Override
 					public SCDPType.StateVariableType apply(StateVariable input) {
-						return new StateVariableType(input, packageName);
+						return new StateVariableType(input, modelPackageName);
 					}
 				}
 				);
@@ -412,7 +419,7 @@ public final class SCDPType {
 						return new ActionArgumentType(input.getName(), m.get(sv));
 					}
 				};
-				final ActionOutputType out = ActionOutputType.getInstance(packageName, input.getName(), ImmutableList.copyOf(Iterables.transform(input.getOutputParameters(), converter)));
+				final ActionOutputType out = ActionOutputType.getInstance(modelPackageName, input.getName(), ImmutableList.copyOf(Iterables.transform(input.getOutputParameters(), converter)));
 				return new ActionType(input.getName(), 
 						ImmutableList.copyOf(Iterables.transform(input.getInputParameters(), converter)),
 						out 
@@ -432,8 +439,9 @@ public final class SCDPType {
 		return _serviceName;
 	}
 	
+	
 	public String getServicePackageName() {
-		return _packageName;
+		return _servicePackageName;
 	}
 	
 	public File getServicePackageDir(File baseDir) {
@@ -457,6 +465,15 @@ public final class SCDPType {
 		sb.append("\n");
 		sb.append("import de.kalass.sonoscontrol.api.core.Callback0;\n");
 		sb.append("import de.kalass.sonoscontrol.api.core.Callback1;\n");
+		for (final SCDPType.ActionType action : getActions()) {
+			ActionOutputType out = action.getOut();
+			if (out instanceof CompoundActionOutputType) {
+				sb.append("import ").append(((CompoundActionOutputType) out).getJavaFQN()).append(";\n");
+			}
+		}
+		for (final SCDPType.StateVariableType v : getStateVariables()) {
+			sb.append("import ").append(v.getJavaFQN()).append(";\n");
+		}
 		sb.append("\n");
 		sb.append("public interface " + getServiceName() + " {\n");
 		// each action is a service method 
@@ -464,7 +481,7 @@ public final class SCDPType {
 			final String methodName = action.getMethodName();
 			// TODO: multiple outputs
 			final ActionOutputType outputArgs = action.getOut();
-			sb.append("    public <C extends ");
+			sb.append("\n    public <C extends ");
 			if (outputArgs instanceof VoidActionOutputType) {
 				sb.append("Callback0");
 			} else if (outputArgs instanceof SimpleActionOutputType) {
