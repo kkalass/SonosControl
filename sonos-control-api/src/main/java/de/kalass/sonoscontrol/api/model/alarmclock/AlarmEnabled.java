@@ -7,7 +7,7 @@ public enum AlarmEnabled {
     AlarmEnabled(final boolean value) {
         _b = value;
     }
-    public boolean toBoolean() {
+    public boolean asBoolean() {
         return _b;
     }
     public static AlarmEnabled valueOf(boolean b) {

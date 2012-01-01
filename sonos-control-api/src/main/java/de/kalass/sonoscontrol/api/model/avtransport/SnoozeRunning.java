@@ -7,7 +7,7 @@ public enum SnoozeRunning {
     SnoozeRunning(final boolean value) {
         _b = value;
     }
-    public boolean toBoolean() {
+    public boolean asBoolean() {
         return _b;
     }
     public static SnoozeRunning valueOf(boolean b) {

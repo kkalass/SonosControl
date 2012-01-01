@@ -7,7 +7,7 @@ public enum CachedOnly {
     CachedOnly(final boolean value) {
         _b = value;
     }
-    public boolean toBoolean() {
+    public boolean asBoolean() {
         return _b;
     }
     public static CachedOnly valueOf(boolean b) {

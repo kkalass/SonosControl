@@ -7,7 +7,7 @@ public enum HeadphoneConnected {
     HeadphoneConnected(final boolean value) {
         _b = value;
     }
-    public boolean toBoolean() {
+    public boolean asBoolean() {
         return _b;
     }
     public static HeadphoneConnected valueOf(boolean b) {

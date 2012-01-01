@@ -7,7 +7,7 @@ public enum ResumePlayback {
     ResumePlayback(final boolean value) {
         _b = value;
     }
-    public boolean toBoolean() {
+    public boolean asBoolean() {
         return _b;
     }
     public static ResumePlayback valueOf(boolean b) {

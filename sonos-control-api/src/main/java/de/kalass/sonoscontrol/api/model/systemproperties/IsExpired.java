@@ -7,7 +7,7 @@ public enum IsExpired {
     IsExpired(final boolean value) {
         _b = value;
     }
-    public boolean toBoolean() {
+    public boolean asBoolean() {
         return _b;
     }
     public static IsExpired valueOf(boolean b) {

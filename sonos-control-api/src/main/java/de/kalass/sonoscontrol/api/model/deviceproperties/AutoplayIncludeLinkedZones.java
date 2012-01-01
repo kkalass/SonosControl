@@ -7,7 +7,7 @@ public enum AutoplayIncludeLinkedZones {
     AutoplayIncludeLinkedZones(final boolean value) {
         _b = value;
     }
-    public boolean toBoolean() {
+    public boolean asBoolean() {
         return _b;
     }
     public static AutoplayIncludeLinkedZones valueOf(boolean b) {

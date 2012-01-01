@@ -7,7 +7,7 @@ public enum Mute {
     Mute(final boolean value) {
         _b = value;
     }
-    public boolean toBoolean() {
+    public boolean asBoolean() {
         return _b;
     }
     public static Mute valueOf(boolean b) {

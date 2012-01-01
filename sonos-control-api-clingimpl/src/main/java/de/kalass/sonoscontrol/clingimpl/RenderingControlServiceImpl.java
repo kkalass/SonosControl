@@ -94,7 +94,7 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 				// Throws InvalidValueException if the value is of wrong type
 				invocation.setInput("Channel", channel.getSonosValue());
 				invocation.setInput("InstanceID", INSTANCE_ID);
-				invocation.setInput("DesiredMute", Boolean.valueOf(mute.toBoolean()));
+				invocation.setInput("DesiredMute", Boolean.valueOf(mute.asBoolean()));
 			}
 			
 		});		

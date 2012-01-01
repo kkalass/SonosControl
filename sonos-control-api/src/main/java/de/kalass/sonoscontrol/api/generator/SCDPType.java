@@ -310,7 +310,7 @@ public final class SCDPType {
 			sb.append("        _b = value;\n");
 			sb.append("    }\n");
 			sb.append("");
-			sb.append("    public boolean toBoolean() {\n");
+			sb.append("    public boolean asBoolean() {\n");
 			sb.append("        return _b;\n");
 			sb.append("    }\n");
 			sb.append("    public static ").append(getJavaTypeName()).append(" valueOf(boolean b) {\n");
