@@ -7,7 +7,7 @@ import org.teleal.cling.model.meta.Device;
 
 import de.kalass.sonoscontrol.api.control.SonosDevice;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
-import de.kalass.sonoscontrol.api.model.ZoneName;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.AVTransportService;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 import de.kalass.sonoscontrol.api.services.RenderingControlService;

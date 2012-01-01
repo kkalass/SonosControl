@@ -4,11 +4,24 @@ import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.model.meta.Device;
 
+import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
-import de.kalass.sonoscontrol.api.model.ZoneAttributes;
-import de.kalass.sonoscontrol.api.model.ZoneIcon;
-import de.kalass.sonoscontrol.api.model.ZoneName;
+import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayIncludeLinkedZones;
+import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayRoomUUID;
+import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayUseVolume;
+import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayVolume;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ChannelMapSet;
+import de.kalass.sonoscontrol.api.model.deviceproperties.HouseholdID;
+import de.kalass.sonoscontrol.api.model.deviceproperties.Icon;
+import de.kalass.sonoscontrol.api.model.deviceproperties.Invisible;
+import de.kalass.sonoscontrol.api.model.deviceproperties.LEDState;
+import de.kalass.sonoscontrol.api.model.deviceproperties.SettingID;
+import de.kalass.sonoscontrol.api.model.deviceproperties.SettingURI;
+import de.kalass.sonoscontrol.api.model.deviceproperties.SpeakerSize;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneInfo;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 
 @SuppressWarnings("rawtypes")
@@ -20,16 +33,144 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<ZoneAttributes>> C retrieveZoneAttributes(final C successHandler) {
+	public <C extends Callback1<ZoneAttributes>> C getZoneAttributes(final C successHandler) {
 		return execute(successHandler, new Call2<ZoneAttributes>("GetZoneAttributes") {
 			@Override
 			public void success(
 					Callback1<ZoneAttributes> handler,
 					ActionArgumentValue p1, ActionArgumentValue p2) {
-				final ZoneName currentZoneName = ZoneName.getInstance((String)p1.getValue());
-				final ZoneIcon currentIcon = ZoneIcon.getInstance((String)p2.getValue());
+				final ZoneName currentZoneName = ZoneName.valueOf((String)p1.getValue());
+				final Icon currentIcon = Icon.valueOf((String)p2.getValue());
 				successHandler.success(new ZoneAttributes(currentZoneName, currentIcon));
 			}
 		});
 	}
+
+	@Override
+	public <C extends Callback0> C setLEDState(LEDState desiredLEDState,
+			C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback1<LEDState>> C getLEDState(C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C setInvisible(Invisible desiredInvisible,
+			C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback1<Invisible>> C getInvisible(C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C addBondedZones(ChannelMapSet channelMapSet,
+			C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C removeBondedZones(
+			ChannelMapSet channelMapSet, C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C createStereoPair(
+			ChannelMapSet channelMapSet, C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C separateStereoPair(
+			ChannelMapSet channelMapSet, C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C setZoneAttributes(ZoneName desiredZoneName,
+			Icon desiredIcon, C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback1<HouseholdID>> C getHouseholdID(C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback1<ZoneInfo>> C getZoneInfo(C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C setAutoplayLinkedZones(
+			AutoplayIncludeLinkedZones includeLinkedZones, C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback1<AutoplayIncludeLinkedZones>> C getAutoplayLinkedZones(
+			C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C setAutoplayRoomUUID(
+			AutoplayRoomUUID roomUUID, C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback1<AutoplayRoomUUID>> C getAutoplayRoomUUID(
+			C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C setAutoplayVolume(AutoplayVolume volume,
+			C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback1<AutoplayVolume>> C getAutoplayVolume(C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C importSetting(SettingID settingID,
+			SettingURI settingURI, C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C setSpeakerSize(SpeakerSize speakerSize,
+			C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback1<SpeakerSize>> C getSpeakerSize(C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback0> C setUseAutoplayVolume(
+			AutoplayUseVolume useVolume, C callback) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <C extends Callback1<AutoplayUseVolume>> C getUseAutoplayVolume(
+			C callback) {
+		throw new UnsupportedOperationException();
+	}
+	
+	
 }

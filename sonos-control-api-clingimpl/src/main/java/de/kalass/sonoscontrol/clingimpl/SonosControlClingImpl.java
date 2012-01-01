@@ -15,8 +15,8 @@ import de.kalass.sonoscontrol.api.core.Callback;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 import de.kalass.sonoscontrol.api.core.FailableCallback;
-import de.kalass.sonoscontrol.api.model.ZoneAttributes;
-import de.kalass.sonoscontrol.api.model.ZoneName;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 
 /**
@@ -63,10 +63,10 @@ public class SonosControlClingImpl implements SonosControl {
 		@Override
 		public void deviceAdded(Registry registry, final Device device) {
 			final DevicePropertiesService propsService = new DevicePropertiesServiceImpl(_upnpService, device, _errorStrategy);
-			propsService.retrieveZoneAttributes(new Callback1<ZoneAttributes>() {
+			propsService.getZoneAttributes(new Callback1<ZoneAttributes>() {
 				@Override
 				public void success(ZoneAttributes attributes) {
-					if (zoneName.equals(attributes.getZoneName())) {
+					if (zoneName.equals(attributes.getCurrentZoneName())) {
 						callback.success(new SonosDeviceImpl(zoneName, propsService, _upnpService, device, _errorStrategy));
 
 						// avoid firing multiple times
