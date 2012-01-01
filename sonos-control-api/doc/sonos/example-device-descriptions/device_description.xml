@@ -6,7 +6,7 @@
   </specVersion>
   <device>
     <deviceType>urn:schemas-upnp-org:device:ZonePlayer:1</deviceType>
-    <friendlyName>192.168.0.153 - Sonos CONNECT:AMP</friendlyName>
+    <friendlyName>192.168.0.159 - Sonos CONNECT:AMP</friendlyName>
     <manufacturer>Sonos, Inc.</manufacturer>
     <manufacturerURL>http://www.sonos.com</manufacturerURL>
     <modelNumber>ZP120</modelNumber>
@@ -91,7 +91,7 @@
     <deviceList>
       <device>
   <deviceType>urn:schemas-upnp-org:device:MediaServer:1</deviceType>
-  <friendlyName>192.168.0.153 - Sonos CONNECT:AMP Media Server</friendlyName>
+  <friendlyName>192.168.0.159 - Sonos CONNECT:AMP Media Server</friendlyName>
   <manufacturer>Sonos, Inc.</manufacturer>
   <manufacturerURL>http://www.sonos.com</manufacturerURL>
   <modelNumber>ZP120</modelNumber>
