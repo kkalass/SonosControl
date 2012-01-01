@@ -16,10 +16,11 @@ import com.google.common.collect.Maps;
 
 import de.kalass.sonoscontrol.api.generator.SCDP.Action;
 import de.kalass.sonoscontrol.api.generator.SCDP.ActionArgument;
+import de.kalass.sonoscontrol.api.generator.SCDP.AllowedValueRange;
 import de.kalass.sonoscontrol.api.generator.SCDP.StateVariable;
 
 public final class SCDPReader {
-
+	
 	private SCDPReader() {
 		// utility constructor
 	}
@@ -43,6 +44,7 @@ public final class SCDPReader {
 						String name = null;
 						String dataType = null;
 						List<String> allowedValueList = new ArrayList<String>();
+						AllowedValueRange allowedValueRange = null;
 						NodeList svChildren = stateVariable.getChildNodes();
 						for (int i3 = 0; i3 < svChildren.getLength(); i3++) {
 							Node svChild = svChildren.item(i3);
@@ -60,11 +62,31 @@ public final class SCDPReader {
 										allowedValueList.add(allowedValueNode.getTextContent());
 									}
 								}
+							} else if ("allowedValueRange".equals(nodeName)) {
+								NodeList allowedValueRangeNodes = svChild.getChildNodes();
+								String minimum = null;
+								String maximum = null;
+								String step = null;
+								for (int i4 = 0; i4 < allowedValueRangeNodes.getLength(); i4 ++) {
+									Node allowedValueRangeNode = allowedValueRangeNodes.item(i4);
+									String allowedValueRangeNodeName = allowedValueRangeNode.getNodeName();
+									if ("minimum".equals(allowedValueRangeNodeName)) {
+										minimum = allowedValueRangeNode.getTextContent();
+									} else if ("maximum".equals(allowedValueRangeNodeName)) {
+										maximum = allowedValueRangeNode.getTextContent();
+									} else if ("step".equals(allowedValueRangeNodeName)) {
+										step = allowedValueRangeNode.getTextContent();
+									}	
+								}
+								Preconditions.checkNotNull(minimum);
+								Preconditions.checkNotNull(maximum);
+								allowedValueRange = new AllowedValueRange(minimum, maximum, step);
 							}
+							
 						}
 						Preconditions.checkNotNull(name);
 						Preconditions.checkNotNull(dataType);
-						vars.put(name, new StateVariable(name, dataType, ImmutableList.copyOf(allowedValueList)));
+						vars.put(name, new StateVariable(name, dataType, ImmutableList.copyOf(allowedValueList), allowedValueRange));
 					}
 				}
 			}

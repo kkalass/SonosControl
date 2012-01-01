@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
@@ -16,6 +19,7 @@ import com.google.common.collect.Maps;
 
 import de.kalass.sonoscontrol.api.generator.SCDP.Action;
 import de.kalass.sonoscontrol.api.generator.SCDP.ActionArgument;
+import de.kalass.sonoscontrol.api.generator.SCDP.AllowedValueRange;
 import de.kalass.sonoscontrol.api.generator.SCDP.StateVariable;
 
 public final class SCDPType {
@@ -215,11 +219,18 @@ public final class SCDPType {
 	}
 	
 	public static final class StateVariableType {
+		@Nonnull
 		private final StateVariable _stateVariable;
+		@Nonnull
 		private final String _javaTypeName;
+		@Nonnull
 		private final String _packageName;
+		@Nonnull
 		private final String _dataType;
+		@Nonnull
 		private final List<String> _allowedValueList;
+		@CheckForNull
+		private final AllowedValueRange _allowedValueRange;
 		
 		public StateVariableType(StateVariable stateVariable, String packageName) {
 			_stateVariable = stateVariable;
@@ -227,7 +238,14 @@ public final class SCDPType {
 			_dataType = stateVariable.getDataType();
 			_allowedValueList = stateVariable.getAllowedValueList();
 			_packageName = packageName;
+			_allowedValueRange = stateVariable.getAllowedValueRange();
+			if (_allowedValueRange != null) {
+				if (!getValueType().equals(Long.class)) {
+					throw new IllegalArgumentException("don't know how to implement ranges for " + getValueType() + ": " + _javaTypeName);
+				}
+			}
 		}
+		
 		private String createJavaTypeName(StateVariable stateVariable) {
 			final String name = stateVariable.getName();
 			return name.startsWith("A_ARG_TYPE_") ? name.substring("A_ARG_TYPE_".length()) : name ;
@@ -331,10 +349,28 @@ public final class SCDPType {
 			sb.append("import com.google.common.base.Preconditions;\n");
 			sb.append("\n");
 			sb.append("public final class ").append(getJavaTypeName()).append(" {\n");
+			if (_allowedValueRange != null && javaType.equals(Long.class)) {
+				long min = Long.parseLong(_allowedValueRange.getMinimum(), 10);
+				long max = Long.parseLong(_allowedValueRange.getMaximum(), 10);
+				sb.append("\n");
+				sb.append("    public static final long MIN = ").append(min).append(";\n");
+				sb.append("    public static final long MAX = ").append(max).append(";\n");
+				if (_allowedValueRange.getStep() != null) {
+					long step = Long.parseLong(_allowedValueRange.getStep(), 10);
+					sb.append("    public static final long STEP = ").append(step).append(";\n");	
+				}
+				sb.append("\n");
+			}
 			sb.append("    private final ").append(javaType.getSimpleName()).append(" _value;\n");
 			sb.append("\n");
 			sb.append("    private ").append(getJavaTypeName()).append("(final ").append(javaType.getSimpleName()).append(" value) {\n");
 			sb.append("        _value = Preconditions.checkNotNull(value);\n");
+			if (_allowedValueRange != null && javaType.equals(Long.class)) {
+				sb.append("        Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);\n");
+				if (_allowedValueRange.getStep() != null) {
+					sb.append("        Preconditions.checkArgument(((value.longValue() -  MIN) % STEP) == 0);\n");
+				}
+			}
 			sb.append("    }\n");
 			sb.append("\n");
 			sb.append("    public ").append(javaType.getSimpleName()).append(" as").append(javaType.getSimpleName()).append("() {\n");
@@ -370,18 +406,22 @@ public final class SCDPType {
 
 			sb.append("package ").append(getPackageName()).append(";\n");
 			sb.append("\n");
-			if ("boolean".equals(_dataType)) {
+			final Class<?> valueType = getValueType();
+			if (Boolean.class.equals(valueType)) {
 				generateBooleanSourceCode(sb);
-			} else if ("string".equals(_dataType) && !_allowedValueList.isEmpty()) {
+			} else if (String.class.equals(valueType) && !_allowedValueList.isEmpty()) {
 				generateEnumSourceCode(sb, _allowedValueList);
 			} else {
-				final Class<?> valueType = getValueType(_dataType);
 				generateValueTypeSourceCode(sb, valueType);
 			}
 			return sb.toString();
 		}
 		
-		private Class<?> getValueType(String datatype) {
+		private Class<?> getValueType() {
+			final String datatype = _dataType;
+			if ("boolean".equals(datatype)) {
+				return Boolean.class;
+			}
 			if ("string".equals(datatype)) {
 				return String.class;
 			}
