@@ -4,13 +4,13 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 public final class EQValue {
-    private final Integer _value;
+    private final Long _value;
 
-    private EQValue(final Integer value) {
+    private EQValue(final Long value) {
         _value = Preconditions.checkNotNull(value);
     }
 
-    public Integer asInteger() {
+    public Long asLong() {
         return _value;
     }
 
@@ -32,7 +32,7 @@ public final class EQValue {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
 
-    public static EQValue valueOf(Integer value) {
+    public static EQValue valueOf(Long value) {
         return value == null ? null : new EQValue(value);
     }
 }

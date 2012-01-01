@@ -4,13 +4,13 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 public final class AlarmVolume {
-    private final Integer _value;
+    private final Long _value;
 
-    private AlarmVolume(final Integer value) {
+    private AlarmVolume(final Long value) {
         _value = Preconditions.checkNotNull(value);
     }
 
-    public Integer asInteger() {
+    public Long asLong() {
         return _value;
     }
 
@@ -32,7 +32,7 @@ public final class AlarmVolume {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
 
-    public static AlarmVolume valueOf(Integer value) {
+    public static AlarmVolume valueOf(Long value) {
         return value == null ? null : new AlarmVolume(value);
     }
 }

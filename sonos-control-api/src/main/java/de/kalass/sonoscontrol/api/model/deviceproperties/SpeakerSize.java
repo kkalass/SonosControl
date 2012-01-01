@@ -4,13 +4,13 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 public final class SpeakerSize {
-    private final Integer _value;
+    private final Long _value;
 
-    private SpeakerSize(final Integer value) {
+    private SpeakerSize(final Long value) {
         _value = Preconditions.checkNotNull(value);
     }
 
-    public Integer asInteger() {
+    public Long asLong() {
         return _value;
     }
 
@@ -32,7 +32,7 @@ public final class SpeakerSize {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
 
-    public static SpeakerSize valueOf(Integer value) {
+    public static SpeakerSize valueOf(Long value) {
         return value == null ? null : new SpeakerSize(value);
     }
 }

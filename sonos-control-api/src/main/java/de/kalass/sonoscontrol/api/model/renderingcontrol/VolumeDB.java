@@ -4,13 +4,13 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 public final class VolumeDB {
-    private final Integer _value;
+    private final Long _value;
 
-    private VolumeDB(final Integer value) {
+    private VolumeDB(final Long value) {
         _value = Preconditions.checkNotNull(value);
     }
 
-    public Integer asInteger() {
+    public Long asLong() {
         return _value;
     }
 
@@ -32,7 +32,7 @@ public final class VolumeDB {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
 
-    public static VolumeDB valueOf(Integer value) {
+    public static VolumeDB valueOf(Long value) {
         return value == null ? null : new VolumeDB(value);
     }
 }

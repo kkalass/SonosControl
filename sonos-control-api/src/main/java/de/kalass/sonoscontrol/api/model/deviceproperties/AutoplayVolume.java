@@ -4,13 +4,13 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 public final class AutoplayVolume {
-    private final Integer _value;
+    private final Long _value;
 
-    private AutoplayVolume(final Integer value) {
+    private AutoplayVolume(final Long value) {
         _value = Preconditions.checkNotNull(value);
     }
 
-    public Integer asInteger() {
+    public Long asLong() {
         return _value;
     }
 
@@ -32,7 +32,7 @@ public final class AutoplayVolume {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
 
-    public static AutoplayVolume valueOf(Integer value) {
+    public static AutoplayVolume valueOf(Long value) {
         return value == null ? null : new AutoplayVolume(value);
     }
 }

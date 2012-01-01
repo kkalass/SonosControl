@@ -385,10 +385,10 @@ public final class SCDPType {
 				return Long.class;
 			}
 			if ("ui2".equals(datatype)) {
-				return Integer.class;
+				return Long.class;
 			}
 			if ("i2".equals(datatype)) {
-				return Integer.class;
+				return Long.class;
 			}
 			throw new IllegalArgumentException("unsupported type: " + datatype);
 		}

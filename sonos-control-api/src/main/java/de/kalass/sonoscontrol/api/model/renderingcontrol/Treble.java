@@ -4,13 +4,13 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 public final class Treble {
-    private final Integer _value;
+    private final Long _value;
 
-    private Treble(final Integer value) {
+    private Treble(final Long value) {
         _value = Preconditions.checkNotNull(value);
     }
 
-    public Integer asInteger() {
+    public Long asLong() {
         return _value;
     }
 
@@ -32,7 +32,7 @@ public final class Treble {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
 
-    public static Treble valueOf(Integer value) {
+    public static Treble valueOf(Long value) {
         return value == null ? null : new Treble(value);
     }
 }

@@ -4,13 +4,13 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 public final class LeftVolume {
-    private final Integer _value;
+    private final Long _value;
 
-    private LeftVolume(final Integer value) {
+    private LeftVolume(final Long value) {
         _value = Preconditions.checkNotNull(value);
     }
 
-    public Integer asInteger() {
+    public Long asLong() {
         return _value;
     }
 
@@ -32,7 +32,7 @@ public final class LeftVolume {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
 
-    public static LeftVolume valueOf(Integer value) {
+    public static LeftVolume valueOf(Long value) {
         return value == null ? null : new LeftVolume(value);
     }
 }
