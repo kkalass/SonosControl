@@ -1,6 +1,8 @@
 package de.kalass.sonoscontrol.cli.commands;
 
-import de.kalass.sonoscontrol.api.model.ZoneName;
+import com.google.common.collect.ImmutableSet;
+
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 
 /**
  * A Command that can be specified on the command line.
@@ -14,7 +16,25 @@ public abstract class Arguments {
 		if (args.length < 2) {
 			return null;
 		}
-		return new ZoneSpec(ZoneName.getInstance(args[1]));
+		final String spec = args[1];
+		if (spec.startsWith("group:")) {
+			final String groupMembersString=spec.substring("group:".length());
+			final String[] groupMembers = groupMembersString.split(" *, *");
+			if (groupMembers.length < 2) {
+				throw new IllegalArgumentException("Too few parameters for zone group spec. Example: 'group:Esszimmer,Wohnzimmer'");
+			}
+			final ZoneName coordinator = ZoneName.valueOf(groupMembers[0]);
+			final ImmutableSet.Builder<ZoneName> otherMembers = ImmutableSet.builder();
+			for (int i = 1 ; i <  groupMembers.length; i++) {
+				final ZoneName name = ZoneName.valueOf(groupMembers[i]);
+				if (!coordinator.equals(name)) {
+					otherMembers.add(name);
+				}
+			}
+			return GroupZoneSpec.ofGroup(coordinator, otherMembers.build());
+		} else {
+			return SingleZoneSpec.ofZone(ZoneName.valueOf(spec));
+		}
 	}
 	
 	public static final Arguments parse(String[] args) {

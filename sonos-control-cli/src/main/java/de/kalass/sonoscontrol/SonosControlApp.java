@@ -13,19 +13,28 @@ import de.kalass.sonoscontrol.api.core.AsyncValue;
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.FailableCallback;
 import de.kalass.sonoscontrol.api.core.LoggingErrorStrategy;
-import de.kalass.sonoscontrol.api.model.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.avtransport.AVTransportURI;
+import de.kalass.sonoscontrol.api.model.avtransport.TransportPlaySpeed;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.MuteChannel;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.Volume;
 import de.kalass.sonoscontrol.api.services.AVTransportService;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 import de.kalass.sonoscontrol.api.services.RenderingControlService;
 import de.kalass.sonoscontrol.cli.commands.Arguments;
 import de.kalass.sonoscontrol.cli.commands.ArgumentsVisitor;
+import de.kalass.sonoscontrol.cli.commands.GroupZoneSpec;
 import de.kalass.sonoscontrol.cli.commands.HelpArgs;
 import de.kalass.sonoscontrol.cli.commands.MuteArgs;
 import de.kalass.sonoscontrol.cli.commands.ShowArgs;
+import de.kalass.sonoscontrol.cli.commands.SingleZoneSpec;
 import de.kalass.sonoscontrol.cli.commands.StartArgs;
 import de.kalass.sonoscontrol.cli.commands.StopArgs;
 import de.kalass.sonoscontrol.cli.commands.ZoneCommandArgs;
 import de.kalass.sonoscontrol.cli.commands.ZoneSpec;
+import de.kalass.sonoscontrol.cli.commands.ZoneSpecVisitor;
 import de.kalass.sonoscontrol.clingimpl.SonosControlClingImpl;
 
 public class SonosControlApp {
@@ -60,7 +69,7 @@ public class SonosControlApp {
 		@Override
 		public void call(final SonosDevice device, final CliCommandResultCallback callback) {
 			final RenderingControlService renderingControlService = device.getRenderingControlService();
-			renderingControlService.setMute(_muteCmd.isMute(), new CallbackWrapper(callback, "Mute " + _muteCmd.isMute()));
+			renderingControlService.setMute(MuteChannel.MASTER, Mute.valueOf(_muteCmd.isMute()), new CallbackWrapper(callback, "Mute " + _muteCmd.isMute()));
 		}
 	}
     
@@ -79,17 +88,17 @@ public class SonosControlApp {
 			
 			// FIXME (KK): replace Hack with proper radio favourites lookup
 			final Callback0 playCallback = new CallbackWrapper(callback, "Started playing ");
-			final String trackUri = _trackUri != null ? ("radio:favourites:NDR2".equals(_trackUri) ? "x-rincon-mp3radio://ndrstream.ic.llnwd.net/stream/ndrstream_ndr2_hi_mp3" : _trackUri) : null;
+			final AVTransportURI trackUri = _trackUri != null ? ("radio:favourites:NDR2".equals(_trackUri) ? AVTransportURI.valueOf("x-rincon-mp3radio://ndrstream.ic.llnwd.net/stream/ndrstream_ndr2_hi_mp3") : AVTransportURI.valueOf(_trackUri)) : null;
 			if (trackUri != null) {
 				avTransportService.setAVTransportURI(trackUri, null, new Callback0() {
 					
 					@Override
 					public void success() {
-						avTransportService.play(playCallback);
+						avTransportService.play(TransportPlaySpeed.ONE, playCallback);
 					}
 				});
 			} else {
-				avTransportService.play(playCallback);
+				avTransportService.play(TransportPlaySpeed.ONE, playCallback);
 			}
 		}
 	}
@@ -117,13 +126,13 @@ public class SonosControlApp {
 			final DevicePropertiesService propsService = device.getDevicePropertiesService();
 			final RenderingControlService renderingControlService = device.getRenderingControlService();
 			
-			final AsyncValue<ZoneAttributes> attributes = propsService.retrieveZoneAttributes(new AsyncValue<ZoneAttributes>());
+			final AsyncValue<ZoneAttributes> attributes = propsService.getZoneAttributes(new AsyncValue<ZoneAttributes>());
 
-			final AsyncValue<Long> volume = renderingControlService.retrieveVolume(new AsyncValue<Long>());
-			final AsyncValue<Boolean> mute = renderingControlService.retrieveMute(new AsyncValue<Boolean>());
+			final AsyncValue<Volume> volume = renderingControlService.getVolume(Channel.MASTER, new AsyncValue<Volume>());
+			final AsyncValue<Mute> mute = renderingControlService.getMute(MuteChannel.MASTER, new AsyncValue<Mute>());
 
-			String msg = "VOLUME: " + volume.get() + "\n"  
-					+ "MUTE: " + mute.get() + "\n"  
+			String msg = "VOLUME: " + volume.get().asLong() + "\n"  
+					+ "MUTE: " + mute.get().asBoolean() + "\n"  
 					+ "ATTRIBUTES: " + attributes.get() +  "\n";
 
 			callback.success(msg);
@@ -179,19 +188,32 @@ public class SonosControlApp {
         
     	sonosControl.setErrorStrategy(new LoggingErrorStrategy());
     	
-    	sonosControl.executeOnZone(command.getZoneSpec().getZoneName(), new SonosDeviceCallback() {
-			
-			@Override
-			public void success(SonosDevice device) {
-				LOG.debug("Found  Sonos device " + device.getZoneName());
-				Preconditions.checkState(device.getZoneName().equals(command.getZoneSpec().getZoneName()));
-				try {
-					command.call(device, finish);
-				} catch(Throwable t) {
-					finish.fail(t);
-				}
-			}
+    	final ZoneSpec zoneSpec = command.getZoneSpec();
+    	zoneSpec.invite(new ZoneSpecVisitor<Void>() {
+    		@Override
+    		public Void visitGroup(GroupZoneSpec spec) {
+    			// TODO Auto-generated method stub
+    			return null;
+    		}
+    		@Override
+    		public Void visitSingleZone(final SingleZoneSpec spec) {
+    			sonosControl.executeOnZone(spec.getZoneName(), new SonosDeviceCallback() {
+    				
+    				@Override
+    				public void success(SonosDevice device) {
+    					LOG.debug("Found  Sonos device " + device.getZoneName());
+    					Preconditions.checkState(device.getZoneName().equals(spec.getZoneName()));
+    					try {
+    						command.call(device, finish);
+    					} catch(Throwable t) {
+    						finish.fail(t);
+    					}
+    				}
+    			});    			
+    			return null;
+    		}
 		});
+    	
     	
         return null;
     }
