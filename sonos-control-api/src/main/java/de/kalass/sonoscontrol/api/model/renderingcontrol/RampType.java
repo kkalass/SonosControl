@@ -5,22 +5,22 @@ public enum RampType {
     ALARM_RAMP_TYPE("ALARM_RAMP_TYPE"),
     AUTOPLAY_RAMP_TYPE("AUTOPLAY_RAMP_TYPE");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    RampType(final String sonosName) {
-        _sonosName = sonosName;
+    RampType(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static RampType valueOfSonosName(String b) {
+    public static RampType valueOfBySonosValue(String sonosValue) {
         	for (RampType v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

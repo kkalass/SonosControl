@@ -3,22 +3,22 @@ package de.kalass.sonoscontrol.api.model.avtransport;
 public enum RecordStorageMedium {
     NONE("NONE");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    RecordStorageMedium(final String sonosName) {
-        _sonosName = sonosName;
+    RecordStorageMedium(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static RecordStorageMedium valueOfSonosName(String b) {
+    public static RecordStorageMedium valueOfBySonosValue(String sonosValue) {
         	for (RecordStorageMedium v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

@@ -4,22 +4,22 @@ public enum UnresponsiveDeviceActionType {
     REMOVE("Remove"),
     VERIFY_THEN_REMOVE_SYSTEMWIDE("VerifyThenRemoveSystemwide");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    UnresponsiveDeviceActionType(final String sonosName) {
-        _sonosName = sonosName;
+    UnresponsiveDeviceActionType(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static UnresponsiveDeviceActionType valueOfSonosName(String b) {
+    public static UnresponsiveDeviceActionType valueOfBySonosValue(String sonosValue) {
         	for (UnresponsiveDeviceActionType v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

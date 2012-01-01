@@ -6,22 +6,22 @@ public enum CurrentPlayMode {
     SHUFFLE_NOREPEAT("SHUFFLE_NOREPEAT"),
     SHUFFLE("SHUFFLE");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    CurrentPlayMode(final String sonosName) {
-        _sonosName = sonosName;
+    CurrentPlayMode(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static CurrentPlayMode valueOfSonosName(String b) {
+    public static CurrentPlayMode valueOfBySonosValue(String sonosValue) {
         	for (CurrentPlayMode v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

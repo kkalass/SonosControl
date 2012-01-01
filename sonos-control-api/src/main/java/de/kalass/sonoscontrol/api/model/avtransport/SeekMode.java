@@ -5,22 +5,22 @@ public enum SeekMode {
     REL_TIME("REL_TIME"),
     SECTION("SECTION");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    SeekMode(final String sonosName) {
-        _sonosName = sonosName;
+    SeekMode(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static SeekMode valueOfSonosName(String b) {
+    public static SeekMode valueOfBySonosValue(String sonosValue) {
         	for (SeekMode v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

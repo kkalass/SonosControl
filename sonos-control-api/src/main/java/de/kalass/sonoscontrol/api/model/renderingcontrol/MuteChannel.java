@@ -6,22 +6,22 @@ public enum MuteChannel {
     RF("RF"),
     SPEAKER_ONLY("SpeakerOnly");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    MuteChannel(final String sonosName) {
-        _sonosName = sonosName;
+    MuteChannel(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static MuteChannel valueOfSonosName(String b) {
+    public static MuteChannel valueOfBySonosValue(String sonosValue) {
         	for (MuteChannel v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

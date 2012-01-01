@@ -3,22 +3,22 @@ package de.kalass.sonoscontrol.api.model.avtransport;
 public enum TransportPlaySpeed {
     ONE("1");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    TransportPlaySpeed(final String sonosName) {
-        _sonosName = sonosName;
+    TransportPlaySpeed(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static TransportPlaySpeed valueOfSonosName(String b) {
+    public static TransportPlaySpeed valueOfBySonosValue(String sonosValue) {
         	for (TransportPlaySpeed v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

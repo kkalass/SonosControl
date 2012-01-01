@@ -4,22 +4,22 @@ public enum LEDState {
     ON("On"),
     OFF("Off");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    LEDState(final String sonosName) {
-        _sonosName = sonosName;
+    LEDState(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static LEDState valueOfSonosName(String b) {
+    public static LEDState valueOfBySonosValue(String sonosValue) {
         	for (LEDState v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

@@ -7,22 +7,22 @@ public enum ConnectionStatus {
     UNRELIABLE_CHANNEL("UnreliableChannel"),
     UNKNOWN("Unknown");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    ConnectionStatus(final String sonosName) {
-        _sonosName = sonosName;
+    ConnectionStatus(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static ConnectionStatus valueOfSonosName(String b) {
+    public static ConnectionStatus valueOfBySonosValue(String sonosValue) {
         	for (ConnectionStatus v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

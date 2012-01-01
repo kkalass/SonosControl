@@ -6,22 +6,22 @@ public enum AlarmPlayMode {
     SHUFFLE_NOREPEAT("SHUFFLE_NOREPEAT"),
     SHUFFLE("SHUFFLE");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    AlarmPlayMode(final String sonosName) {
-        _sonosName = sonosName;
+    AlarmPlayMode(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static AlarmPlayMode valueOfSonosName(String b) {
+    public static AlarmPlayMode valueOfBySonosValue(String sonosValue) {
         	for (AlarmPlayMode v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

@@ -5,22 +5,22 @@ public enum Channel {
     LF("LF"),
     RF("RF");
 
-    private final String _sonosName;
+    private final String _sonosValue;
 
-    Channel(final String sonosName) {
-        _sonosName = sonosName;
+    Channel(final String sonosValue) {
+        _sonosValue = sonosValue;
     }
 
-    public String getSonosName() {
-        return _sonosName;
+    public String getSonosValue() {
+        return _sonosValue;
     }
 
-    public static Channel valueOfSonosName(String b) {
+    public static Channel valueOfBySonosValue(String sonosValue) {
         	for (Channel v : values()) {
-    		if (v._sonosName.equals(b)) {
+    		if (v._sonosValue.equals(sonosValue)) {
     			return v;
     		}
     	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + b);
+    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
     }
 }

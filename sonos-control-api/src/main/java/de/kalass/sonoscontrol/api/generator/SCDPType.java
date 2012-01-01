@@ -278,23 +278,23 @@ public final class SCDPType {
 				.append("(\"").append(sonosName).append("\")").append(it.hasNext() ? ",\n" : ";\n");
 			}
 			sb.append("\n");
-			sb.append("    private final String _sonosName;\n");
+			sb.append("    private final String _sonosValue;\n");
 			sb.append("\n");
-			sb.append("    ").append(getJavaTypeName()).append("(final String sonosName) {\n");
-			sb.append("        _sonosName = sonosName;\n");
+			sb.append("    ").append(getJavaTypeName()).append("(final String sonosValue) {\n");
+			sb.append("        _sonosValue = sonosValue;\n");
 			sb.append("    }\n");
 			sb.append("\n");
-			sb.append("    public String getSonosName() {\n");
-			sb.append("        return _sonosName;\n");
+			sb.append("    public String getSonosValue() {\n");
+			sb.append("        return _sonosValue;\n");
 			sb.append("    }\n");
 			sb.append("\n");
-			sb.append("    public static ").append(getJavaTypeName()).append(" valueOfSonosName(String b) {\n");
+			sb.append("    public static ").append(getJavaTypeName()).append(" valueOfBySonosValue(String sonosValue) {\n");
 			sb.append("        	for (").append(getJavaTypeName()).append(" v : values()) {\n");
-			sb.append("    		if (v._sonosName.equals(b)) {\n");
+			sb.append("    		if (v._sonosValue.equals(sonosValue)) {\n");
 			sb.append("    			return v;\n");
 			sb.append("    		}\n");
 			sb.append("    	}\n");
-			sb.append("    	throw new IllegalArgumentException(\"Unknown sonos name: \" + b);\n");
+			sb.append("    	throw new IllegalArgumentException(\"Unknown sonos name: \" + sonosValue);\n");
 			sb.append("    }\n");
 			sb.append("}\n");
 		}
