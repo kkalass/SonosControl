@@ -18,6 +18,7 @@ import de.kalass.sonoscontrol.api.model.avtransport.DeviceCapabilities;
 import de.kalass.sonoscontrol.api.model.avtransport.EnqueueAsNext;
 import de.kalass.sonoscontrol.api.model.avtransport.GroupID;
 import de.kalass.sonoscontrol.api.model.avtransport.ISO8601Time;
+import de.kalass.sonoscontrol.api.model.avtransport.InstanceID;
 import de.kalass.sonoscontrol.api.model.avtransport.MediaInfo;
 import de.kalass.sonoscontrol.api.model.avtransport.MemberID;
 import de.kalass.sonoscontrol.api.model.avtransport.MemberList;
@@ -45,75 +46,220 @@ import de.kalass.sonoscontrol.api.model.avtransport.URIMetaData;
 
 public interface AVTransportService {
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C setAVTransportURI(AVTransportURI currentURI, AVTransportURIMetaData currentURIMetaData, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<AddURIToQueueResult>> C addURIToQueue(URI enqueuedURI, URIMetaData enqueuedURIMetaData, TrackNumber desiredFirstTrackNumberEnqueued, EnqueueAsNext enqueueAsNext, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C reorderTracksInQueue(TrackNumber startingIndex, NumTracks numberOfTracks, TrackNumber insertBefore, QueueUpdateID updateID, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C removeTrackFromQueue(ObjectID objectID, QueueUpdateID updateID, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C removeAllTracksFromQueue(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<ObjectID>> C saveQueue(SavedQueueTitle title, ObjectID objectID, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<MediaInfo>> C getMediaInfo(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<TransportInfo>> C getTransportInfo(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<PositionInfo>> C getPositionInfo(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<DeviceCapabilities>> C getDeviceCapabilities(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<TransportSettings>> C getTransportSettings(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<CurrentCrossfadeMode>> C getCrossfadeMode(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C stop(C callback);
 
-    public <C extends Callback0> C play(TransportPlaySpeed speed, C callback);
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link TransportPlaySpeed speed} is set to an appropriate default value automatically.</p> 
+     */
+    public <C extends Callback0> C play(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C pause(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C seek(SeekMode unit, SeekTarget target, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C next(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C nextProgrammedRadioTracks(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C previous(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C nextSection(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C previousSection(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C setPlayMode(CurrentPlayMode newPlayMode, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C setCrossfadeMode(CurrentCrossfadeMode crossfadeMode, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C notifyDeletedURI(AVTransportURI deletedURI, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<CurrentTransportActions>> C getCurrentTransportActions(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C becomeCoordinatorOfStandaloneGroup(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C becomeGroupCoordinator(MemberID currentCoordinator, GroupID currentGroupID, MemberList otherMembers, TransportSettings transportSettings, AVTransportURI currentURI, AVTransportURIMetaData currentURIMetaData, SleepTimerState sleepTimerState, AlarmState alarmState, StreamRestartState streamRestartState, Queue currentQueueTrackList, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C becomeGroupCoordinatorAndSource(MemberID currentCoordinator, GroupID currentGroupID, MemberList otherMembers, AVTransportURI currentURI, AVTransportURIMetaData currentURIMetaData, SleepTimerState sleepTimerState, AlarmState alarmState, StreamRestartState streamRestartState, Queue currentAVTTrackList, Queue currentQueueTrackList, SourceState currentSourceState, ResumePlayback resumePlayback, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C changeCoordinator(MemberID currentCoordinator, MemberID newCoordinator, TransportSettings newTransportSettings, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C changeTransportSettings(TransportSettings newTransportSettings, CurrentAVTransportURI currentAVTransportURI, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C configureSleepTimer(ISO8601Time newSleepTimerDuration, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<RemainingSleepTimerDuration>> C getRemainingSleepTimerDuration(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C runAlarm(AlarmIDRunning alarmID, AlarmLoggedStartTime loggedStartTime, ISO8601Time duration, AVTransportURI programURI, AVTransportURIMetaData programMetaData, CurrentPlayMode playMode, AlarmVolume volume, AlarmIncludeLinkedZones includeLinkedZones, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C startAutoplay(AVTransportURI programURI, AVTransportURIMetaData programMetaData, AlarmVolume volume, AlarmIncludeLinkedZones includeLinkedZones, ResetVolumeAfter resetVolumeAfter, C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback1<RunningAlarmProperties>> C getRunningAlarmProperties(C callback);
 
+    /**
+     *
+     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
+     */
     public <C extends Callback0> C snoozeAlarm(ISO8601Time duration, C callback);
 }

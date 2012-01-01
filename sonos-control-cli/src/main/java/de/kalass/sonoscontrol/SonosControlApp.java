@@ -14,7 +14,6 @@ import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.FailableCallback;
 import de.kalass.sonoscontrol.api.core.LoggingErrorStrategy;
 import de.kalass.sonoscontrol.api.model.avtransport.AVTransportURI;
-import de.kalass.sonoscontrol.api.model.avtransport.TransportPlaySpeed;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
@@ -94,11 +93,11 @@ public class SonosControlApp {
 					
 					@Override
 					public void success() {
-						avTransportService.play(TransportPlaySpeed.ONE, playCallback);
+						avTransportService.play(playCallback);
 					}
 				});
 			} else {
-				avTransportService.play(TransportPlaySpeed.ONE, playCallback);
+				avTransportService.play(playCallback);
 			}
 		}
 	}

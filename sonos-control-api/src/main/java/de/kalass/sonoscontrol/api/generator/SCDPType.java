@@ -8,6 +8,7 @@ import java.util.Map;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -247,6 +248,12 @@ public final class SCDPType {
 			return new File(getPackageDir(outputDir), getJavaTypeName() + ".java");
 		}
 		
+		public boolean isSingleValueType() {
+			// the type is restricted, but there is only one valid value...
+			// one example of this currently (1.1.2012) is TransportPlaySpeed
+			return _allowedValueList.size() == 1;
+		}
+		
 		private static final String toEnumValue(String input) {
 			if ("1".equals(input)) {
 				// special case needed for TransportPlaySpeed
@@ -459,6 +466,7 @@ public final class SCDPType {
 	private static String convertPackageToDirName(String packageName) {
 		return packageName.replace('.', '/');
 	}
+
 	public String generateServiceInterfaceSourceCode() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("package ").append(getServicePackageName()).append(";\n");
@@ -479,9 +487,29 @@ public final class SCDPType {
 		// each action is a service method 
 		for (final SCDPType.ActionType action : getActions()) {
 			final String methodName = action.getMethodName();
-			// TODO: multiple outputs
+			
+			final boolean needsDocumentation = Iterables.any(action.getIn(), new Predicate<ActionArgumentType>() {
+				@Override
+				public boolean apply(ActionArgumentType input) {
+					return isValueHardcoded(input);
+				}
+			});
+			sb.append("\n");
+			if (needsDocumentation) {
+				sb.append("    /**\n");
+				sb.append("     *\n");
+				final Iterator<ActionArgumentType> inputArgsDocIt = action.getIn().iterator();
+				while (inputArgsDocIt.hasNext()) {
+					final ActionArgumentType argumentType = inputArgsDocIt.next();
+					if (isValueHardcoded(argumentType)) {
+						sb.append("     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link ").append(argumentType.getRelatedStateVariable().getJavaTypeName()).append(" ").append(argumentType.getParameterName()).append("} is set to an appropriate default value automatically.</p> \n");
+					}
+				}
+				sb.append("     */\n");
+			} 
+
 			final ActionOutputType outputArgs = action.getOut();
-			sb.append("\n    public <C extends ");
+			sb.append("    public <C extends ");
 			if (outputArgs instanceof VoidActionOutputType) {
 				sb.append("Callback0");
 			} else if (outputArgs instanceof SimpleActionOutputType) {
@@ -507,8 +535,12 @@ public final class SCDPType {
 	}
 	
 	private boolean isValueHardcoded(ActionArgumentType argumentType) {
-		// TODO: find out if there is any other possible value besides "0", which would 
+		// TODO: find out if there is any other possible value besides "0" for InstanceID, which would 
 		//       make sense to be exposed in the service interface
-		return "InstanceID".equals(argumentType.getRelatedStateVariable().getJavaTypeName());
+		//
+		//      Also: types like TransportPlaySpeed that have only one valid value by definition are not exposed in the API either
+		//
+		final String javaTypeName = argumentType.getRelatedStateVariable().getJavaTypeName();
+		return "InstanceID".equals(javaTypeName) || argumentType.getRelatedStateVariable().isSingleValueType();
 	}
 }

@@ -73,14 +73,14 @@ public class AVTransportServiceImpl extends AbstractServiceImpl implements AVTra
 	}
 	
 	@Override
-	public <C extends Callback0> C play(final TransportPlaySpeed speed, C successHandler) {
+	public <C extends Callback0> C play(C successHandler) {
 		return execute(successHandler, new Call0("Play") {
 			@Override
 			public void prepareArguments(ActionInvocation invocation)
 					throws InvalidValueException {
 				// Throws InvalidValueException if the value is of wrong type
 				invocation.setInput("InstanceID", new UnsignedIntegerFourBytes(0l));
-				invocation.setInput("Speed", speed.getSonosValue());
+				invocation.setInput("Speed", TransportPlaySpeed.ONE.getSonosValue());
 			}
 			
 		});		
