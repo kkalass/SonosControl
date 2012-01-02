@@ -2,12 +2,12 @@ package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
+import de.kalass.sonoscontrol.api.model.MemberID;
 import de.kalass.sonoscontrol.api.model.audioin.AudioInputAttributes;
 import de.kalass.sonoscontrol.api.model.audioin.AudioInputName;
 import de.kalass.sonoscontrol.api.model.audioin.Icon;
 import de.kalass.sonoscontrol.api.model.audioin.LeftLineInLevel;
 import de.kalass.sonoscontrol.api.model.audioin.LineInLevel;
-import de.kalass.sonoscontrol.api.model.audioin.MemberID;
 import de.kalass.sonoscontrol.api.model.audioin.ObjectID;
 import de.kalass.sonoscontrol.api.model.audioin.RightLineInLevel;
 import de.kalass.sonoscontrol.api.model.audioin.TransportSettings;

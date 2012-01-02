@@ -2,9 +2,9 @@ package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
+import de.kalass.sonoscontrol.api.model.MemberID;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.CachedOnly;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.DiagnosticID;
-import de.kalass.sonoscontrol.api.model.zonegrouptopology.MemberID;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.UnresponsiveDeviceActionType;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.UpdateFlags;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.UpdateItem;

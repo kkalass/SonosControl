@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.api.model.zonegrouptopology;
+package de.kalass.sonoscontrol.api.model;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;

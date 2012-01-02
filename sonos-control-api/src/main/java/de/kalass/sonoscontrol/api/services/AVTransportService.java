@@ -2,6 +2,7 @@ package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
+import de.kalass.sonoscontrol.api.model.MemberID;
 import de.kalass.sonoscontrol.api.model.avtransport.AVTransportURI;
 import de.kalass.sonoscontrol.api.model.avtransport.AVTransportURIMetaData;
 import de.kalass.sonoscontrol.api.model.avtransport.AddURIToQueueResult;
@@ -20,7 +21,6 @@ import de.kalass.sonoscontrol.api.model.avtransport.GroupID;
 import de.kalass.sonoscontrol.api.model.avtransport.ISO8601Time;
 import de.kalass.sonoscontrol.api.model.avtransport.InstanceID;
 import de.kalass.sonoscontrol.api.model.avtransport.MediaInfo;
-import de.kalass.sonoscontrol.api.model.avtransport.MemberID;
 import de.kalass.sonoscontrol.api.model.avtransport.MemberList;
 import de.kalass.sonoscontrol.api.model.avtransport.NumTracks;
 import de.kalass.sonoscontrol.api.model.avtransport.ObjectID;

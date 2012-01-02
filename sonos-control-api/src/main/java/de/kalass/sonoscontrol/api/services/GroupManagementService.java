@@ -2,9 +2,9 @@ package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
+import de.kalass.sonoscontrol.api.model.MemberID;
 import de.kalass.sonoscontrol.api.model.groupmanagement.AddMemberResult;
 import de.kalass.sonoscontrol.api.model.groupmanagement.BufferingResultCode;
-import de.kalass.sonoscontrol.api.model.groupmanagement.MemberID;
 
 public interface GroupManagementService {
 
