@@ -63,15 +63,24 @@ public class SonosControlClingImpl implements SonosControl {
 		@Override
 		public void deviceAdded(Registry registry, final Device device) {
 			final DevicePropertiesService propsService = new DevicePropertiesServiceImpl(_upnpService, device, _errorStrategy);
-			propsService.getZoneAttributes(new Callback1<ZoneAttributes>() {
+			propsService.retrieveZoneAttributes(new Callback1<ZoneAttributes>() {
 				@Override
 				public void success(ZoneAttributes attributes) {
 					if (zoneName.equals(attributes.getCurrentZoneName())) {
+						ZoneGroupTopologyServiceImpl t = new ZoneGroupTopologyServiceImpl(_upnpService, device, _errorStrategy);
+						
+//						try {
+//							Thread.sleep(10000);
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
 						callback.success(new SonosDeviceImpl(zoneName, propsService, _upnpService, device, _errorStrategy));
 
 						// avoid firing multiple times
 						_upnpService.getRegistry().removeListener(ExecuteOnZoneListener.this);
 						LOG.debug("removed "+ ExecuteOnZoneListener.this);
+						
 					}
 				}
 			});

@@ -31,7 +31,7 @@ public interface RenderingControlService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<Mute>> C getMute(MuteChannel channel, C callback);
+    public <C extends Callback1<Mute>> C retrieveMute(MuteChannel channel, C callback);
 
     /**
      *
@@ -55,7 +55,7 @@ public interface RenderingControlService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<Volume>> C getVolume(Channel channel, C callback);
+    public <C extends Callback1<Volume>> C retrieveVolume(Channel channel, C callback);
 
     /**
      *
@@ -73,7 +73,7 @@ public interface RenderingControlService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<VolumeDB>> C getVolumeDB(Channel channel, C callback);
+    public <C extends Callback1<VolumeDB>> C retrieveVolumeDB(Channel channel, C callback);
 
     /**
      *
@@ -85,13 +85,13 @@ public interface RenderingControlService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<VolumeDBRange>> C getVolumeDBRange(Channel channel, C callback);
+    public <C extends Callback1<VolumeDBRange>> C retrieveVolumeDBRange(Channel channel, C callback);
 
     /**
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<Bass>> C getBass(C callback);
+    public <C extends Callback1<Bass>> C retrieveBass(C callback);
 
     /**
      *
@@ -103,7 +103,7 @@ public interface RenderingControlService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<Treble>> C getTreble(C callback);
+    public <C extends Callback1<Treble>> C retrieveTreble(C callback);
 
     /**
      *
@@ -115,7 +115,7 @@ public interface RenderingControlService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<EQValue>> C getEQ(EQType eQType, C callback);
+    public <C extends Callback1<EQValue>> C retrieveEQ(EQType eQType, C callback);
 
     /**
      *
@@ -127,7 +127,7 @@ public interface RenderingControlService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<Loudness>> C getLoudness(Channel channel, C callback);
+    public <C extends Callback1<Loudness>> C retrieveLoudness(Channel channel, C callback);
 
     /**
      *
@@ -139,13 +139,13 @@ public interface RenderingControlService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<SupportsOutputFixed>> C getSupportsOutputFixed(C callback);
+    public <C extends Callback1<SupportsOutputFixed>> C retrieveSupportsOutputFixed(C callback);
 
     /**
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<OutputFixed>> C getOutputFixed(C callback);
+    public <C extends Callback1<OutputFixed>> C retrieveOutputFixed(C callback);
 
     /**
      *
@@ -157,7 +157,7 @@ public interface RenderingControlService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<HeadphoneConnected>> C getHeadphoneConnected(C callback);
+    public <C extends Callback1<HeadphoneConnected>> C retrieveHeadphoneConnected(C callback);
 
     /**
      *

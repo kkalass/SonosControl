@@ -1,5 +1,7 @@
 package de.kalass.sonoscontrol.clingimpl;
 
+import javax.annotation.CheckForNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.teleal.cling.UpnpService;
@@ -88,7 +90,7 @@ public abstract class AbstractServiceImpl {
 
 	public <C extends Callback> C execute(final C successHandler, final Call<? super C> handler) {
 		Service service;
-		if ((service = this._device.findService(_serviceId)) != null) {
+		if ((service = getService()) != null) {
 
 			// Executes asynchronous in the background
 			@SuppressWarnings("unchecked")
@@ -117,5 +119,10 @@ public abstract class AbstractServiceImpl {
 			LOG.warn("Cannot find the Service " + _serviceId + " for device "+ _device);
 		}
 		return successHandler;
+	}
+	
+	@CheckForNull
+	protected Service getService() {
+		return this._device.findService(_serviceId);
 	}
 }

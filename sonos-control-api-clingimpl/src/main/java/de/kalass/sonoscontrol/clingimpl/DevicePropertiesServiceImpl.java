@@ -33,7 +33,7 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<ZoneAttributes>> C getZoneAttributes(final C successHandler) {
+	public <C extends Callback1<ZoneAttributes>> C retrieveZoneAttributes(final C successHandler) {
 		return execute(successHandler, new Call2<ZoneAttributes>("GetZoneAttributes") {
 			@Override
 			public void success(
@@ -53,7 +53,7 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<LEDState>> C getLEDState(C callback) {
+	public <C extends Callback1<LEDState>> C retrieveLEDState(C callback) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -64,7 +64,7 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<Invisible>> C getInvisible(C callback) {
+	public <C extends Callback1<Invisible>> C retrieveInvisible(C callback) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,12 +99,12 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<HouseholdID>> C getHouseholdID(C callback) {
+	public <C extends Callback1<HouseholdID>> C retrieveHouseholdID(C callback) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <C extends Callback1<ZoneInfo>> C getZoneInfo(C callback) {
+	public <C extends Callback1<ZoneInfo>> C retrieveZoneInfo(C callback) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -115,7 +115,7 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<AutoplayIncludeLinkedZones>> C getAutoplayLinkedZones(
+	public <C extends Callback1<AutoplayIncludeLinkedZones>> C retrieveAutoplayLinkedZones(
 			C callback) {
 		throw new UnsupportedOperationException();
 	}
@@ -127,7 +127,7 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<AutoplayRoomUUID>> C getAutoplayRoomUUID(
+	public <C extends Callback1<AutoplayRoomUUID>> C retrieveAutoplayRoomUUID(
 			C callback) {
 		throw new UnsupportedOperationException();
 	}
@@ -139,7 +139,7 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<AutoplayVolume>> C getAutoplayVolume(C callback) {
+	public <C extends Callback1<AutoplayVolume>> C retrieveAutoplayVolume(C callback) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -156,7 +156,7 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<SpeakerSize>> C getSpeakerSize(C callback) {
+	public <C extends Callback1<SpeakerSize>> C retrieveSpeakerSize(C callback) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -167,7 +167,7 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<AutoplayUseVolume>> C getUseAutoplayVolume(
+	public <C extends Callback1<AutoplayUseVolume>> C retrieveUseAutoplayVolume(
 			C callback) {
 		throw new UnsupportedOperationException();
 	}

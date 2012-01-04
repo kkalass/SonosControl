@@ -23,10 +23,10 @@ public final class ShowCommand extends SonosDeviceCommand {
 		final DevicePropertiesService propsService = device.getDevicePropertiesService();
 		final RenderingControlService renderingControlService = device.getRenderingControlService();
 		
-		final AsyncValue<ZoneAttributes> attributes = propsService.getZoneAttributes(new AsyncValue<ZoneAttributes>());
+		final AsyncValue<ZoneAttributes> attributes = propsService.retrieveZoneAttributes(new AsyncValue<ZoneAttributes>());
 
-		final AsyncValue<Volume> volume = renderingControlService.getVolume(Channel.MASTER, new AsyncValue<Volume>());
-		final AsyncValue<Mute> mute = renderingControlService.getMute(MuteChannel.MASTER, new AsyncValue<Mute>());
+		final AsyncValue<Volume> volume = renderingControlService.retrieveVolume(Channel.MASTER, new AsyncValue<Volume>());
+		final AsyncValue<Mute> mute = renderingControlService.retrieveMute(MuteChannel.MASTER, new AsyncValue<Mute>());
 
 		String msg = "VOLUME: " + volume.get().asLong() + "\n"  
 				+ "MUTE: " + mute.get().asBoolean() + "\n"  

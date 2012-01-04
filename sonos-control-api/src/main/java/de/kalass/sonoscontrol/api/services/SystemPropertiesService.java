@@ -14,11 +14,11 @@ public interface SystemPropertiesService {
 
     public <C extends Callback0> C setString(VariableName variableName, VariableStringValue stringValue, C callback);
 
-    public <C extends Callback1<VariableStringValue>> C getString(VariableName variableName, C callback);
+    public <C extends Callback1<VariableStringValue>> C retrieveString(VariableName variableName, C callback);
 
     public <C extends Callback0> C remove(VariableName variableName, C callback);
 
-    public <C extends Callback1<VariableStringValue>> C getWebCode(AccountType accountType, C callback);
+    public <C extends Callback1<VariableStringValue>> C retrieveWebCode(AccountType accountType, C callback);
 
     public <C extends Callback0> C provisionTrialAccount(AccountType accountType, C callback);
 

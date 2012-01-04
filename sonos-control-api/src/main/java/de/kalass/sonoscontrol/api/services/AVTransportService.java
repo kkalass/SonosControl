@@ -86,37 +86,37 @@ public interface AVTransportService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<MediaInfo>> C getMediaInfo(C callback);
+    public <C extends Callback1<MediaInfo>> C retrieveMediaInfo(C callback);
 
     /**
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<TransportInfo>> C getTransportInfo(C callback);
+    public <C extends Callback1<TransportInfo>> C retrieveTransportInfo(C callback);
 
     /**
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<PositionInfo>> C getPositionInfo(C callback);
+    public <C extends Callback1<PositionInfo>> C retrievePositionInfo(C callback);
 
     /**
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<DeviceCapabilities>> C getDeviceCapabilities(C callback);
+    public <C extends Callback1<DeviceCapabilities>> C retrieveDeviceCapabilities(C callback);
 
     /**
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<TransportSettings>> C getTransportSettings(C callback);
+    public <C extends Callback1<TransportSettings>> C retrieveTransportSettings(C callback);
 
     /**
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<CurrentCrossfadeMode>> C getCrossfadeMode(C callback);
+    public <C extends Callback1<CurrentCrossfadeMode>> C retrieveCrossfadeMode(C callback);
 
     /**
      *
@@ -195,7 +195,7 @@ public interface AVTransportService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<CurrentTransportActions>> C getCurrentTransportActions(C callback);
+    public <C extends Callback1<CurrentTransportActions>> C retrieveCurrentTransportActions(C callback);
 
     /**
      *
@@ -237,7 +237,7 @@ public interface AVTransportService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<RemainingSleepTimerDuration>> C getRemainingSleepTimerDuration(C callback);
+    public <C extends Callback1<RemainingSleepTimerDuration>> C retrieveRemainingSleepTimerDuration(C callback);
 
     /**
      *
@@ -255,7 +255,7 @@ public interface AVTransportService {
      *
      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p> 
      */
-    public <C extends Callback1<RunningAlarmProperties>> C getRunningAlarmProperties(C callback);
+    public <C extends Callback1<RunningAlarmProperties>> C retrieveRunningAlarmProperties(C callback);
 
     /**
      *

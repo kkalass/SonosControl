@@ -206,6 +206,9 @@ public final class SCDPType {
 		
 		public final String getMethodName() {
 			final String name = _name;
+			if (name.startsWith("Get") || name.startsWith("get")) {
+				return "retrieve"+name.substring("Get".length());
+			}
 			return name.substring(0,1).toLowerCase() + name.substring(1);
 		}
 		

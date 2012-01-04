@@ -8,9 +8,9 @@ import de.kalass.sonoscontrol.api.model.connectionmanager.ProtocolInfo;
 
 public interface ConnectionManagerService {
 
-    public <C extends Callback1<ProtocolInfo>> C getProtocolInfo(C callback);
+    public <C extends Callback1<ProtocolInfo>> C retrieveProtocolInfo(C callback);
 
-    public <C extends Callback1<CurrentConnectionIDs>> C getCurrentConnectionIDs(C callback);
+    public <C extends Callback1<CurrentConnectionIDs>> C retrieveCurrentConnectionIDs(C callback);
 
-    public <C extends Callback1<CurrentConnectionInfo>> C getCurrentConnectionInfo(ConnectionID connectionID, C callback);
+    public <C extends Callback1<CurrentConnectionInfo>> C retrieveCurrentConnectionInfo(ConnectionID connectionID, C callback);
 }

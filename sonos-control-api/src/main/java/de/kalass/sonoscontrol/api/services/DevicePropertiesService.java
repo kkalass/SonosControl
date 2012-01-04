@@ -22,11 +22,11 @@ public interface DevicePropertiesService {
 
     public <C extends Callback0> C setLEDState(LEDState desiredLEDState, C callback);
 
-    public <C extends Callback1<LEDState>> C getLEDState(C callback);
+    public <C extends Callback1<LEDState>> C retrieveLEDState(C callback);
 
     public <C extends Callback0> C setInvisible(Invisible desiredInvisible, C callback);
 
-    public <C extends Callback1<Invisible>> C getInvisible(C callback);
+    public <C extends Callback1<Invisible>> C retrieveInvisible(C callback);
 
     public <C extends Callback0> C addBondedZones(ChannelMapSet channelMapSet, C callback);
 
@@ -38,31 +38,31 @@ public interface DevicePropertiesService {
 
     public <C extends Callback0> C setZoneAttributes(ZoneName desiredZoneName, Icon desiredIcon, C callback);
 
-    public <C extends Callback1<ZoneAttributes>> C getZoneAttributes(C callback);
+    public <C extends Callback1<ZoneAttributes>> C retrieveZoneAttributes(C callback);
 
-    public <C extends Callback1<HouseholdID>> C getHouseholdID(C callback);
+    public <C extends Callback1<HouseholdID>> C retrieveHouseholdID(C callback);
 
-    public <C extends Callback1<ZoneInfo>> C getZoneInfo(C callback);
+    public <C extends Callback1<ZoneInfo>> C retrieveZoneInfo(C callback);
 
     public <C extends Callback0> C setAutoplayLinkedZones(AutoplayIncludeLinkedZones includeLinkedZones, C callback);
 
-    public <C extends Callback1<AutoplayIncludeLinkedZones>> C getAutoplayLinkedZones(C callback);
+    public <C extends Callback1<AutoplayIncludeLinkedZones>> C retrieveAutoplayLinkedZones(C callback);
 
     public <C extends Callback0> C setAutoplayRoomUUID(AutoplayRoomUUID roomUUID, C callback);
 
-    public <C extends Callback1<AutoplayRoomUUID>> C getAutoplayRoomUUID(C callback);
+    public <C extends Callback1<AutoplayRoomUUID>> C retrieveAutoplayRoomUUID(C callback);
 
     public <C extends Callback0> C setAutoplayVolume(AutoplayVolume volume, C callback);
 
-    public <C extends Callback1<AutoplayVolume>> C getAutoplayVolume(C callback);
+    public <C extends Callback1<AutoplayVolume>> C retrieveAutoplayVolume(C callback);
 
     public <C extends Callback0> C importSetting(SettingID settingID, SettingURI settingURI, C callback);
 
     public <C extends Callback0> C setSpeakerSize(SpeakerSize speakerSize, C callback);
 
-    public <C extends Callback1<SpeakerSize>> C getSpeakerSize(C callback);
+    public <C extends Callback1<SpeakerSize>> C retrieveSpeakerSize(C callback);
 
     public <C extends Callback0> C setUseAutoplayVolume(AutoplayUseVolume useVolume, C callback);
 
-    public <C extends Callback1<AutoplayUseVolume>> C getUseAutoplayVolume(C callback);
+    public <C extends Callback1<AutoplayUseVolume>> C retrieveUseAutoplayVolume(C callback);
 }

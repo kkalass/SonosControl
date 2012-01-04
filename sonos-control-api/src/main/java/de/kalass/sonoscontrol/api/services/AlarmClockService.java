@@ -30,25 +30,25 @@ public interface AlarmClockService {
 
     public <C extends Callback0> C setFormat(TimeFormat desiredTimeFormat, DateFormat desiredDateFormat, C callback);
 
-    public <C extends Callback1<Format>> C getFormat(C callback);
+    public <C extends Callback1<Format>> C retrieveFormat(C callback);
 
     public <C extends Callback0> C setTimeZone(TimeZoneIndex index, TimeZoneAutoAdjustDst autoAdjustDst, C callback);
 
-    public <C extends Callback1<TimeZone>> C getTimeZone(C callback);
+    public <C extends Callback1<TimeZone>> C retrieveTimeZone(C callback);
 
-    public <C extends Callback1<TimeZoneAndRule>> C getTimeZoneAndRule(C callback);
+    public <C extends Callback1<TimeZoneAndRule>> C retrieveTimeZoneAndRule(C callback);
 
-    public <C extends Callback1<TimeZone>> C getTimeZoneRule(TimeZoneIndex index, C callback);
+    public <C extends Callback1<TimeZone>> C retrieveTimeZoneRule(TimeZoneIndex index, C callback);
 
     public <C extends Callback0> C setTimeServer(TimeServer desiredTimeServer, C callback);
 
-    public <C extends Callback1<TimeServer>> C getTimeServer(C callback);
+    public <C extends Callback1<TimeServer>> C retrieveTimeServer(C callback);
 
     public <C extends Callback0> C setTimeNow(ISO8601Time desiredTime, TimeZoneInformation timeZoneForDesiredTime, C callback);
 
-    public <C extends Callback1<ISO8601Time>> C getHouseholdTimeAtStamp(TimeStamp timeStamp, C callback);
+    public <C extends Callback1<ISO8601Time>> C retrieveHouseholdTimeAtStamp(TimeStamp timeStamp, C callback);
 
-    public <C extends Callback1<TimeNow>> C getTimeNow(C callback);
+    public <C extends Callback1<TimeNow>> C retrieveTimeNow(C callback);
 
     public <C extends Callback1<AlarmID>> C createAlarm(ISO8601Time startLocalTime, ISO8601Time duration, Recurrence recurrence, AlarmEnabled enabled, AlarmRoomUUID roomUUID, AlarmProgramURI programURI, AlarmProgramMetaData programMetaData, AlarmPlayMode playMode, AlarmVolume volume, AlarmIncludeLinkedZones includeLinkedZones, C callback);
 
@@ -60,5 +60,5 @@ public interface AlarmClockService {
 
     public <C extends Callback0> C setDailyIndexRefreshTime(DailyIndexRefreshTime desiredDailyIndexRefreshTime, C callback);
 
-    public <C extends Callback1<DailyIndexRefreshTime>> C getDailyIndexRefreshTime(C callback);
+    public <C extends Callback1<DailyIndexRefreshTime>> C retrieveDailyIndexRefreshTime(C callback);
 }

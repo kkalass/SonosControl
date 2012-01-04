@@ -46,7 +46,7 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<Volume>> C getVolume(final Channel channel, final C successHandler) {
+	public <C extends Callback1<Volume>> C retrieveVolume(final Channel channel, final C successHandler) {
 		return execute(successHandler, new Call1<Volume>("GetVolume") {
 			@Override
 			public void prepareArguments(ActionInvocation invocation)
@@ -64,7 +64,7 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 	
 	@Override
-	public <C extends Callback1<Mute>> C getMute(final MuteChannel channel,final C successHandler) {
+	public <C extends Callback1<Mute>> C retrieveMute(final MuteChannel channel,final C successHandler) {
 		
 		// FIXME: do something about the hard coded channel and instance params...
 		
@@ -127,7 +127,7 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<VolumeDB>> C getVolumeDB(Channel channel,
+	public <C extends Callback1<VolumeDB>> C retrieveVolumeDB(Channel channel,
 			C callback) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
@@ -141,14 +141,14 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<VolumeDBRange>> C getVolumeDBRange(
+	public <C extends Callback1<VolumeDBRange>> C retrieveVolumeDBRange(
 			Channel channel, C callback) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <C extends Callback1<Bass>> C getBass(C callback) {
+	public <C extends Callback1<Bass>> C retrieveBass(C callback) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
@@ -160,7 +160,7 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<Treble>> C getTreble(C callback) {
+	public <C extends Callback1<Treble>> C retrieveTreble(C callback) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
@@ -172,7 +172,7 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<EQValue>> C getEQ(EQType eQType, C callback) {
+	public <C extends Callback1<EQValue>> C retrieveEQ(EQType eQType, C callback) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
@@ -185,7 +185,7 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<Loudness>> C getLoudness(Channel channel,
+	public <C extends Callback1<Loudness>> C retrieveLoudness(Channel channel,
 			C callback) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
@@ -199,14 +199,14 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<SupportsOutputFixed>> C getSupportsOutputFixed(
+	public <C extends Callback1<SupportsOutputFixed>> C retrieveSupportsOutputFixed(
 			C callback) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <C extends Callback1<OutputFixed>> C getOutputFixed(C callback) {
+	public <C extends Callback1<OutputFixed>> C retrieveOutputFixed(C callback) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
@@ -219,7 +219,7 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public <C extends Callback1<HeadphoneConnected>> C getHeadphoneConnected(
+	public <C extends Callback1<HeadphoneConnected>> C retrieveHeadphoneConnected(
 			C callback) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();

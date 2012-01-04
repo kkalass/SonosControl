@@ -137,34 +137,34 @@ public class AVTransportServiceImpl extends AbstractServiceImpl implements AVTra
 	}
 
 	@Override
-	public <C extends Callback1<MediaInfo>> C getMediaInfo(C callback) {
+	public <C extends Callback1<MediaInfo>> C retrieveMediaInfo(C callback) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <C extends Callback1<TransportInfo>> C getTransportInfo(C callback) {
+	public <C extends Callback1<TransportInfo>> C retrieveTransportInfo(C callback) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <C extends Callback1<PositionInfo>> C getPositionInfo(C callback) {
+	public <C extends Callback1<PositionInfo>> C retrievePositionInfo(C callback) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <C extends Callback1<DeviceCapabilities>> C getDeviceCapabilities(
+	public <C extends Callback1<DeviceCapabilities>> C retrieveDeviceCapabilities(
 			C callback) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <C extends Callback1<TransportSettings>> C getTransportSettings(
+	public <C extends Callback1<TransportSettings>> C retrieveTransportSettings(
 			C callback) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <C extends Callback1<CurrentCrossfadeMode>> C getCrossfadeMode(
+	public <C extends Callback1<CurrentCrossfadeMode>> C retrieveCrossfadeMode(
 			C callback) {
 		throw new UnsupportedOperationException();
 	}
@@ -224,7 +224,7 @@ public class AVTransportServiceImpl extends AbstractServiceImpl implements AVTra
 	}
 
 	@Override
-	public <C extends Callback1<CurrentTransportActions>> C getCurrentTransportActions(
+	public <C extends Callback1<CurrentTransportActions>> C retrieveCurrentTransportActions(
 			C callback) {
 		throw new UnsupportedOperationException();
 	}
@@ -279,7 +279,7 @@ public class AVTransportServiceImpl extends AbstractServiceImpl implements AVTra
 	}
 
 	@Override
-	public <C extends Callback1<RemainingSleepTimerDuration>> C getRemainingSleepTimerDuration(
+	public <C extends Callback1<RemainingSleepTimerDuration>> C retrieveRemainingSleepTimerDuration(
 			C callback) {
 		throw new UnsupportedOperationException();
 	}
@@ -302,7 +302,7 @@ public class AVTransportServiceImpl extends AbstractServiceImpl implements AVTra
 	}
 
 	@Override
-	public <C extends Callback1<RunningAlarmProperties>> C getRunningAlarmProperties(
+	public <C extends Callback1<RunningAlarmProperties>> C retrieveRunningAlarmProperties(
 			C callback) {
 		throw new UnsupportedOperationException();
 	}
@@ -310,5 +310,5 @@ public class AVTransportServiceImpl extends AbstractServiceImpl implements AVTra
 	@Override
 	public <C extends Callback0> C snoozeAlarm(ISO8601Time duration, C callback) {
 		throw new UnsupportedOperationException();
-	};
+	}
 }

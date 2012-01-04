@@ -20,11 +20,11 @@ public interface AudioInService {
 
     public <C extends Callback0> C setAudioInputAttributes(AudioInputName desiredName, Icon desiredIcon, C callback);
 
-    public <C extends Callback1<AudioInputAttributes>> C getAudioInputAttributes(C callback);
+    public <C extends Callback1<AudioInputAttributes>> C retrieveAudioInputAttributes(C callback);
 
     public <C extends Callback0> C setLineInLevel(LeftLineInLevel desiredLeftLineInLevel, RightLineInLevel desiredRightLineInLevel, C callback);
 
-    public <C extends Callback1<LineInLevel>> C getLineInLevel(C callback);
+    public <C extends Callback1<LineInLevel>> C retrieveLineInLevel(C callback);
 
     public <C extends Callback0> C selectAudio(ObjectID objectID, C callback);
 }
