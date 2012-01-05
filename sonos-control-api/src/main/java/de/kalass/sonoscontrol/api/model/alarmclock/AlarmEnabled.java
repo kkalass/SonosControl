@@ -11,11 +11,11 @@ public enum AlarmEnabled {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static AlarmEnabled getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

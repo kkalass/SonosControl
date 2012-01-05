@@ -11,11 +11,11 @@ public enum AlarmRunning {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static AlarmRunning getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

@@ -11,11 +11,11 @@ public enum IsZoneBridge {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static IsZoneBridge getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

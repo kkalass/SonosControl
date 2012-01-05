@@ -11,11 +11,11 @@ public enum GroupCoordinatorIsLocal {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static GroupCoordinatorIsLocal getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

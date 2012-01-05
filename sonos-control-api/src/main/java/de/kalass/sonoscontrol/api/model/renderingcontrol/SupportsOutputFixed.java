@@ -11,11 +11,11 @@ public enum SupportsOutputFixed {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static SupportsOutputFixed getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

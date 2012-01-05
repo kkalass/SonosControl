@@ -11,11 +11,11 @@ public enum Loudness {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static Loudness getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

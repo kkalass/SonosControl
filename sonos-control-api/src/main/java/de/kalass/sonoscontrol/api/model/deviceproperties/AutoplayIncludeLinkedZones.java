@@ -11,11 +11,11 @@ public enum AutoplayIncludeLinkedZones {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static AutoplayIncludeLinkedZones getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

@@ -11,11 +11,11 @@ public enum HeadphoneConnected {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static HeadphoneConnected getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

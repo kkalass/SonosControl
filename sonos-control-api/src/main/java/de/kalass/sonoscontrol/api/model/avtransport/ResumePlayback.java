@@ -11,11 +11,11 @@ public enum ResumePlayback {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static ResumePlayback getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

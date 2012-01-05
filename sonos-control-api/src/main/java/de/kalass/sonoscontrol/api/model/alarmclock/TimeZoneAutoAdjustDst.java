@@ -11,11 +11,11 @@ public enum TimeZoneAutoAdjustDst {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static TimeZoneAutoAdjustDst getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

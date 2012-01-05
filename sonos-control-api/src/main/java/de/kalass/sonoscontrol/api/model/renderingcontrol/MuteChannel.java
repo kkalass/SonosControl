@@ -1,21 +1,21 @@
 package de.kalass.sonoscontrol.api.model.renderingcontrol;
 
 public enum MuteChannel {
-		MASTER("Master"),
-		LF("LF"),
-		RF("RF"),
-		SPEAKER_ONLY("SpeakerOnly");
-	
-	private final String _value;
-	
-	MuteChannel(String value) {
-	    _value = value;
-	} 
-	
+        MASTER("Master"),
+        LF("LF"),
+        RF("RF"),
+        SPEAKER_ONLY("SpeakerOnly");
+
+    private final String _value;
+
+    MuteChannel(String value) {
+        _value = value;
+    } 
+
     public String asString() {
         return _value;
     }
-    
+
     public static MuteChannel getInstance(String value) {
         for (MuteChannel v: values()) {
             if (v._value.equals(value)) {
@@ -24,5 +24,5 @@ public enum MuteChannel {
         }
         throw new IllegalArgumentException("Could not find " + value);   
     }
-    
+
 }

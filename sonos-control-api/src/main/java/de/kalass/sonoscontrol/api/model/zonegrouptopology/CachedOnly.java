@@ -11,11 +11,11 @@ public enum CachedOnly {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static CachedOnly getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

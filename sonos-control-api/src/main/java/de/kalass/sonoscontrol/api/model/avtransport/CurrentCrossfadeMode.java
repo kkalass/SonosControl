@@ -11,11 +11,11 @@ public enum CurrentCrossfadeMode {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static CurrentCrossfadeMode getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

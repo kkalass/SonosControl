@@ -11,11 +11,11 @@ public enum Playing {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static Playing getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

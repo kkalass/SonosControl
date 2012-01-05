@@ -8,5 +8,5 @@ package de.kalass.sonoscontrol.api.core;
  *
  */
 public interface FailableCallback extends Callback {
-	public void fail(String defaultMsg);
+    public void fail(String defaultMsg);
 }

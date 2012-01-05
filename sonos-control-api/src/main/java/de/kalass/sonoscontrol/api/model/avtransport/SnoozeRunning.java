@@ -11,11 +11,11 @@ public enum SnoozeRunning {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static SnoozeRunning getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

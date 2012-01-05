@@ -7,6 +7,5 @@ package de.kalass.sonoscontrol.api.core;
  *
  */
 public interface ErrorStrategy {
-	
-	void onFailure(Callback callback, String message);
+    void onFailure(Callback callback, String message);
 }

@@ -11,11 +11,11 @@ public enum EnqueueAsNext {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static EnqueueAsNext getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

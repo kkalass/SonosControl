@@ -11,11 +11,11 @@ public enum ResetVolumeAfter {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static ResetVolumeAfter getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

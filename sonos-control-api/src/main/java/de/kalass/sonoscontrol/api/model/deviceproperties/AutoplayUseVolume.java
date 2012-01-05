@@ -11,11 +11,11 @@ public enum AutoplayUseVolume {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static AutoplayUseVolume getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

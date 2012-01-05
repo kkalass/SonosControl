@@ -8,20 +8,20 @@ public final class RampTimeSeconds implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
-	private final Long _value;
+    private final Long _value;
 
     private RampTimeSeconds(Long value) {
-		_value = Preconditions.checkNotNull(value);
+        _value = Preconditions.checkNotNull(value);
     } 
 
     public Long asLong() {
         return _value;
-    }  
-    
+    }
+
     public String toString() {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
-    
+
     public int hashCode() {
         return Objects.hashCode(_value);
     }

@@ -10,21 +10,21 @@ public final class NumberOfTracks implements Serializable {
     public static final long MIN = 0;
     public static final long MAX = 65535;
 
-	private final Long _value;
+    private final Long _value;
 
     private NumberOfTracks(Long value) {
-		_value = Preconditions.checkNotNull(value);
-		Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);
+        _value = Preconditions.checkNotNull(value);
+        Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);
     } 
 
     public Long asLong() {
         return _value;
-    }  
-    
+    }
+
     public String toString() {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
-    
+
     public int hashCode() {
         return Objects.hashCode(_value);
     }

@@ -11,11 +11,11 @@ public enum AlarmIncludeLinkedZones {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static AlarmIncludeLinkedZones getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

@@ -11,11 +11,11 @@ public enum Invisible {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static Invisible getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

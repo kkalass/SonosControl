@@ -11,11 +11,11 @@ public enum LineInConnected {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static LineInConnected getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

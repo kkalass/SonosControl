@@ -11,11 +11,11 @@ public enum IsExpired {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static IsExpired getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

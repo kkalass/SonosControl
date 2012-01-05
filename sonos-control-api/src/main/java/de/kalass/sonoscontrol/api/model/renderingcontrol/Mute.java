@@ -11,11 +11,11 @@ public enum Mute {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static Mute getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

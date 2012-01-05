@@ -7,51 +7,51 @@ import java.io.Serializable;
 public final class AddMemberResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	private final TransportSettings _currentTransportSettings;
-	private final LocalGroupUUID _groupUUIDJoined;
-	private final ResetVolumeAfter _resetVolumeAfter;
-	private final VolumeAVTransportURI _volumeAVTransportURI;
+    private final TransportSettings _currentTransportSettings;
+    private final LocalGroupUUID _groupUUIDJoined;
+    private final ResetVolumeAfter _resetVolumeAfter;
+    private final VolumeAVTransportURI _volumeAVTransportURI;
 
     public AddMemberResult(
-		final TransportSettings currentTransportSettings,
-		final LocalGroupUUID groupUUIDJoined,
-		final ResetVolumeAfter resetVolumeAfter,
-		final VolumeAVTransportURI volumeAVTransportURI
+        final TransportSettings currentTransportSettings,
+        final LocalGroupUUID groupUUIDJoined,
+        final ResetVolumeAfter resetVolumeAfter,
+        final VolumeAVTransportURI volumeAVTransportURI
     ) {
-		_currentTransportSettings = currentTransportSettings;
-		_groupUUIDJoined = groupUUIDJoined;
-		_resetVolumeAfter = resetVolumeAfter;
-		_volumeAVTransportURI = volumeAVTransportURI;
+        _currentTransportSettings = currentTransportSettings;
+        _groupUUIDJoined = groupUUIDJoined;
+        _resetVolumeAfter = resetVolumeAfter;
+        _volumeAVTransportURI = volumeAVTransportURI;
     } 
 
-	public TransportSettings getCurrentTransportSettings() {
-	    return _currentTransportSettings;
-	}
-	public LocalGroupUUID getGroupUUIDJoined() {
-	    return _groupUUIDJoined;
-	}
-	public ResetVolumeAfter getResetVolumeAfter() {
-	    return _resetVolumeAfter;
-	}
-	public VolumeAVTransportURI getVolumeAVTransportURI() {
-	    return _volumeAVTransportURI;
-	}
+    public TransportSettings getCurrentTransportSettings() {
+        return _currentTransportSettings;
+    }
+    public LocalGroupUUID getGroupUUIDJoined() {
+        return _groupUUIDJoined;
+    }
+    public ResetVolumeAfter getResetVolumeAfter() {
+        return _resetVolumeAfter;
+    }
+    public VolumeAVTransportURI getVolumeAVTransportURI() {
+        return _volumeAVTransportURI;
+    }
 
     public String toString() {
         return Objects.toStringHelper(this)
-		.add("currentTransportSettings", _currentTransportSettings)
-		.add("groupUUIDJoined", _groupUUIDJoined)
-		.add("resetVolumeAfter", _resetVolumeAfter)
-		.add("volumeAVTransportURI", _volumeAVTransportURI)
+        .add("currentTransportSettings", _currentTransportSettings)
+        .add("groupUUIDJoined", _groupUUIDJoined)
+        .add("resetVolumeAfter", _resetVolumeAfter)
+        .add("volumeAVTransportURI", _volumeAVTransportURI)
         .toString();
     }
-    
+
     public int hashCode() {
         return Objects.hashCode(
-			_currentTransportSettings,
-			_groupUUIDJoined,
-			_resetVolumeAfter,
-			_volumeAVTransportURI
+            _currentTransportSettings,
+            _groupUUIDJoined,
+            _resetVolumeAfter,
+            _volumeAVTransportURI
         );
     }
 
@@ -59,10 +59,10 @@ public final class AddMemberResult implements Serializable {
         if (other instanceof AddMemberResult) {
             AddMemberResult obj = (AddMemberResult)other;
             return 
-					Objects.equal(_currentTransportSettings, obj._currentTransportSettings) &&
-					Objects.equal(_groupUUIDJoined, obj._groupUUIDJoined) &&
-					Objects.equal(_resetVolumeAfter, obj._resetVolumeAfter) &&
-					Objects.equal(_volumeAVTransportURI, obj._volumeAVTransportURI) 
+                    Objects.equal(_currentTransportSettings, obj._currentTransportSettings) &&
+                    Objects.equal(_groupUUIDJoined, obj._groupUUIDJoined) &&
+                    Objects.equal(_resetVolumeAfter, obj._resetVolumeAfter) &&
+                    Objects.equal(_volumeAVTransportURI, obj._volumeAVTransportURI) 
             ;
         }
         return false;

@@ -8,20 +8,20 @@ public final class SerialNumber implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
-	private final String _value;
+    private final String _value;
 
     private SerialNumber(String value) {
-		_value = Preconditions.checkNotNull(value);
+        _value = Preconditions.checkNotNull(value);
     } 
 
     public String asString() {
         return _value;
-    }  
-    
+    }
+
     public String toString() {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
-    
+
     public int hashCode() {
         return Objects.hashCode(_value);
     }

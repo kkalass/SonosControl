@@ -11,11 +11,11 @@ public enum RestartPending {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static RestartPending getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }
