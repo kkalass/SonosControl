@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,7 +19,11 @@ import org.xml.sax.SAXException;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 
@@ -67,18 +74,21 @@ public class Generator {
 		private final JavaPackageName _servicePackageName;
 		private final String _serviceName;
 		private final JavaPackageName _modelPackageName;
+		private final Map<String, Collection<String>> _servicesByTypeName;
 		private final Function<String, JavaClassName> _mapping;
 		
 		private ServiceNameFactoryImpl(
 				JavaPackageName servicePackageName,
 				String serviceName,
 				JavaPackageName modelbasePackageName,
-				Function<String, JavaClassName> mapping
+				Function<String, JavaClassName> mapping,
+				Map<String, Collection<String>> servicesByTypeName
 		) {
 			_serviceName = serviceName;
 			_mapping = Preconditions.checkNotNull(mapping);
 			_servicePackageName = servicePackageName;
 			_modelPackageName = modelbasePackageName.childPackage(serviceName.toLowerCase());
+			_servicesByTypeName = servicesByTypeName;
 		}
 		@Override
 		public JavaClassName getServiceClassName() {
@@ -87,6 +97,12 @@ public class Generator {
 		@Override
 		public JavaClassName getModelClassName(String name) {
 			final JavaClassName javaClassName = _mapping.apply(name);
+			Collection<String> names = _servicesByTypeName.get(name);
+			if (names == null) {
+				names = new HashSet<String>();
+				_servicesByTypeName.put(name, names);
+			}
+			names.add(_serviceName);
 			return javaClassName == null ? _modelPackageName.childClass(name) : javaClassName;
 		}
 	}
@@ -96,6 +112,7 @@ public class Generator {
 		private final JavaPackageName _servicePackageName;
 		private final JavaPackageName _modelBasePackageName;
 		private final Function<String, Function<String, JavaClassName>> _mapping;
+		private final Map<String, Collection<String>> _servicesByTypeName;
 		
  		public NameFactoryImpl(JavaPackageName corePackageName,
 				JavaPackageName servicePackageName,
@@ -107,6 +124,7 @@ public class Generator {
 			_servicePackageName = servicePackageName;
 			_modelBasePackageName = modelBasePackageName;
 			_mapping = Preconditions.checkNotNull(mapping);
+			_servicesByTypeName = Maps.newHashMap();
 		}
 
 		@Override
@@ -116,9 +134,16 @@ public class Generator {
 		
 		@Override
 		public ServiceNameFactory getServiceNameFactory(String serviceName) {
-			return new ServiceNameFactoryImpl(_servicePackageName, serviceName, _modelBasePackageName, _mapping.apply(serviceName));
+			return new ServiceNameFactoryImpl(
+					_servicePackageName, serviceName, _modelBasePackageName,
+					_mapping.apply(serviceName),
+					_servicesByTypeName
+		    );
 		}
 
+		public Map<String, Collection<String>> getServicesByTypeName() {
+			return _servicesByTypeName;
+		}
 		
 	}
 	
@@ -148,7 +173,7 @@ public class Generator {
 		final TypeNameMappings mappings = new TypeNameMappings();
 		mappings.add("MemberID", modelPackageName.childClass("MemberID"));
 		
-		final NameFactory nameFactory = new NameFactoryImpl(corePackageName, servicesPackageName, modelPackageName, mappings.asFkt());
+		final NameFactoryImpl nameFactory = new NameFactoryImpl(corePackageName, servicesPackageName, modelPackageName, mappings.asFkt());
 		
 		for (SCDP scdp : types) {
 			System.out.println("----------------------------");
@@ -191,6 +216,20 @@ public class Generator {
 				System.out.println("");
 			}	
 		}
+		
+		Map<String, Collection<String>> candidatesForCommon = Maps.filterValues(nameFactory.getServicesByTypeName(), new Predicate<Collection<String>>() {
+			@Override
+			public boolean apply(Collection<String> input) {
+				return input.size() > 1;
+			}
+		});
+		
+		System.out.println("Candidates for common implementations: \n\t" + Joiner.on("\n\t").join(Iterables.transform(candidatesForCommon.entrySet(), new Function<Map.Entry<String, Collection<String>>, String> () {
+			@Override
+			public String apply(Entry<String, Collection<String>> input) {
+				return Strings.padEnd(input.getKey() + ":", 25, ' ') +input.getValue();
+			}
+		})));
 	}
 	private static List<SCDP> readTypeDescriptions(final File docDir) throws ParserConfigurationException, SAXException, IOException {
 		final List<SCDP> types = new ArrayList<SCDP>();
