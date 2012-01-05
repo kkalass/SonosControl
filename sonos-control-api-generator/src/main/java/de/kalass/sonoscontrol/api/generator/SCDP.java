@@ -41,7 +41,7 @@ public final class SCDP {
 		@Nonnull 
 		private final String name;
 		@Nonnull 
-		private final String dataType;
+		private final UpnpDatatype dataType;
 		@Nonnull 
 		private final List<String> allowedValueList;
 		@CheckForNull
@@ -49,7 +49,7 @@ public final class SCDP {
 		
 		public StateVariable(
 				@Nonnull String name,
-				@Nonnull String dataType,
+				@Nonnull UpnpDatatype dataType,
 				@Nonnull List<String> allowedValueList,
 				@Nullable
 				AllowedValueRange allowedValueRange
@@ -67,7 +67,7 @@ public final class SCDP {
 		}
 		
 		@Nonnull 
-		public String getDataType() {
+		public UpnpDatatype getDataType() {
 			return dataType;
 		}
 		
@@ -98,16 +98,17 @@ public final class SCDP {
 	}
 	
 	public static final class Action {
-		private final String _name;
+		private final UpnpActionName _name;
 		private final List<SCDP.ActionArgument> _inputParameters;
 		private final List<SCDP.ActionArgument> _outputParameters;
-		public Action(String name, List<SCDP.ActionArgument> inputParameters, List<SCDP.ActionArgument> outputParameters) {
+		
+		public Action(UpnpActionName name, List<SCDP.ActionArgument> inputParameters, List<SCDP.ActionArgument> outputParameters) {
 			_name = name;
 			_inputParameters = inputParameters;
 			_outputParameters = outputParameters;
 		}
 		
-		public String getName() {
+		public UpnpActionName getName() {
 			return _name;
 		}
 
@@ -120,11 +121,18 @@ public final class SCDP {
 		}
 		
 	}
+	
 	private final List<SCDP.StateVariable> _stateVariables;
 	private final List<SCDP.Action> _actions;
-	public SCDP(List<SCDP.StateVariable> stateVariables, List<SCDP.Action> actions) {
+	private final String _name;
+	
+	public SCDP(String name, List<SCDP.StateVariable> stateVariables, List<SCDP.Action> actions) {
+		_name = name;
 		_stateVariables = stateVariables;
 		_actions = actions;
+	}
+	public String getName() {
+		return _name;
 	}
 	public List<SCDP.Action> getActions() {
 		return _actions;

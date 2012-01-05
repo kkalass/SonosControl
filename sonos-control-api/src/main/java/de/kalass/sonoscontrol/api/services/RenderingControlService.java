@@ -2,28 +2,31 @@ package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Bass;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.ChannelMap;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.EQType;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.EQValue;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.HeadphoneConnected;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.InstanceID;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Loudness;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.MuteChannel;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.OutputFixed;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.ProgramURI;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.RampTimeSeconds;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.RampType;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ResetBasicEQResult;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.ResetVolumeAfter;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.SupportsOutputFixed;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Treble;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Volume;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeAdjustment;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeDB;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeDBRange;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.Bass;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.Treble;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.EQValue;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.Loudness;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.SupportsOutputFixed;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.OutputFixed;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.HeadphoneConnected;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.RampTimeSeconds;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.RampType;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeAdjustment;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.RightVolume;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.MuteChannel;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.InstanceID;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.LeftVolume;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.ProgramURI;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.EQType;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.ResetVolumeAfter;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.ChannelMap;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.LastChange;
 
 public interface RenderingControlService {
 

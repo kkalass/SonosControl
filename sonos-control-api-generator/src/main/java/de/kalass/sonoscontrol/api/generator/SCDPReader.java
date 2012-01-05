@@ -25,7 +25,7 @@ public final class SCDPReader {
 		// utility constructor
 	}
 	@CheckForNull
-	private static SCDP parseServiceDocument(Document document) {
+	private static SCDP parseServiceDocument(String sname, Document document) {
 		Node root = document.getChildNodes().item(0);
 		if (!"scpd".equals(root.getNodeName())) {
 			return null;
@@ -86,7 +86,13 @@ public final class SCDPReader {
 						}
 						Preconditions.checkNotNull(name);
 						Preconditions.checkNotNull(dataType);
-						vars.put(name, new StateVariable(name, dataType, ImmutableList.copyOf(allowedValueList), allowedValueRange));
+						vars.put(name, 
+								new StateVariable(
+										name, 
+										UpnpDatatype.valueOf(dataType),
+										ImmutableList.copyOf(allowedValueList), 
+										allowedValueRange
+								));
 					}
 				}
 			}
@@ -149,15 +155,15 @@ public final class SCDPReader {
 							}
 						}
 						
-						final Action action  = new Action(name, ImmutableList.copyOf(inputArguments), ImmutableList.copyOf(outputArguments));
+						final Action action  = new Action(UpnpActionName.valueOf(name), ImmutableList.copyOf(inputArguments), ImmutableList.copyOf(outputArguments));
 						actions.add(action);
 					}
 				}
 			}
 		}
-		return new SCDP(ImmutableList.copyOf(vars.values()), ImmutableList.copyOf(actions));
+		return new SCDP(sname, ImmutableList.copyOf(vars.values()), ImmutableList.copyOf(actions));
 	}
-	public static SCDP read(Document document) {
-		return parseServiceDocument(document);
+	public static SCDP read(String name, Document document) {
+		return parseServiceDocument(name, document);
 	}
 }

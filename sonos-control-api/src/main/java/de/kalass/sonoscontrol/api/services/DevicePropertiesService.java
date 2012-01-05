@@ -2,21 +2,31 @@ package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
+import de.kalass.sonoscontrol.api.model.deviceproperties.LEDState;
+import de.kalass.sonoscontrol.api.model.deviceproperties.Invisible;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.deviceproperties.HouseholdID;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneInfo;
 import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayIncludeLinkedZones;
 import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayRoomUUID;
-import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayUseVolume;
 import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayVolume;
+import de.kalass.sonoscontrol.api.model.deviceproperties.SpeakerSize;
+import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayUseVolume;
+import de.kalass.sonoscontrol.api.model.deviceproperties.SettingsReplicationState;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ExtraInfo;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ChannelMapSet;
-import de.kalass.sonoscontrol.api.model.deviceproperties.HouseholdID;
-import de.kalass.sonoscontrol.api.model.deviceproperties.Icon;
-import de.kalass.sonoscontrol.api.model.deviceproperties.Invisible;
-import de.kalass.sonoscontrol.api.model.deviceproperties.LEDState;
+import de.kalass.sonoscontrol.api.model.deviceproperties.DisplaySoftwareVersion;
+import de.kalass.sonoscontrol.api.model.deviceproperties.MACAddress;
+import de.kalass.sonoscontrol.api.model.deviceproperties.HardwareVersion;
 import de.kalass.sonoscontrol.api.model.deviceproperties.SettingID;
 import de.kalass.sonoscontrol.api.model.deviceproperties.SettingURI;
-import de.kalass.sonoscontrol.api.model.deviceproperties.SpeakerSize;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneInfo;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
+import de.kalass.sonoscontrol.api.model.deviceproperties.SerialNumber;
+import de.kalass.sonoscontrol.api.model.deviceproperties.SoftwareVersion;
+import de.kalass.sonoscontrol.api.model.deviceproperties.IPAddress;
+import de.kalass.sonoscontrol.api.model.deviceproperties.IsZoneBridge;
+import de.kalass.sonoscontrol.api.model.deviceproperties.CopyrightInfo;
+import de.kalass.sonoscontrol.api.model.deviceproperties.Icon;
 
 public interface DevicePropertiesService {
 

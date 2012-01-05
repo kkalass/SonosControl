@@ -1,12 +1,12 @@
-package de.kalass.sonoscontrol.api.model.connectionmanager;
+package de.kalass.sonoscontrol.api.model;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class ProtocolInfo {
+public final class MemberID {
     private final String _value;
 
-    private ProtocolInfo(final String value) {
+    private MemberID(final String value) {
         _value = Preconditions.checkNotNull(value);
     }
 
@@ -21,8 +21,8 @@ public final class ProtocolInfo {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof ProtocolInfo) {
-            return Objects.equal(_value, ((ProtocolInfo)other)._value);
+        if (other instanceof MemberID) {
+            return Objects.equal(_value, ((MemberID)other)._value);
         }
         return false;
     }
@@ -32,7 +32,7 @@ public final class ProtocolInfo {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
 
-    public static ProtocolInfo valueOf(String value) {
-        return value == null ? null : new ProtocolInfo(value);
+    public static MemberID valueOf(String value) {
+        return value == null ? null : new MemberID(value);
     }
 }

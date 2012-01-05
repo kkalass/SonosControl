@@ -29,3 +29,7 @@ If possible, act like the "On" button on start, show a short success (or dont) -
 
 Implement the above with Arduino or similar
 
+=== Development ====
+The actual Java API is partly generated, it is my goal to generate sonos-control-api and sonos-control-api-clingimpl from sonos-control-api-generator
+The reason is, that the Sonos API contains many calls and types, and I think that generating it will lead to a complete Java API a lot faster.
+
