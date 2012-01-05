@@ -95,7 +95,7 @@ public class SonosControlApp {
     		public Void visitHelp(HelpArgs help) {
     			System.out.println("");
     			System.out.println("Usage:");
-    			System.out.println("  java -jar SonosControl.jar <cmd> <cmdoptions>");
+    			System.out.println("  sonos <cmd> <cmdoptions>");
     			System.out.println("where <cmd> is one of:");
     			System.out.println("  help\tPrints this help");
     			System.out.println("  show <zone>\tShow some information about the given zone");
