@@ -17,7 +17,7 @@ public final class NumTracks implements Serializable {
         _value = Preconditions.checkNotNull(value);
     } 
 
-    public Long asLong() {
+    public Long getValue() {
         return _value;
     }
 

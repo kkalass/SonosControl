@@ -17,7 +17,7 @@ public final class AVTransportID implements Serializable {
         _value = Preconditions.checkNotNull(value);
     } 
 
-    public Long asLong() {
+    public Long getValue() {
         return _value;
     }
 

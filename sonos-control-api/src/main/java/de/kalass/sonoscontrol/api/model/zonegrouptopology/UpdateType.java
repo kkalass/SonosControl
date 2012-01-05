@@ -4,8 +4,8 @@
 package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 
 public enum UpdateType {
-        ALL("All"),
-        SOFTWARE("Software");
+    ALL("All"),
+    SOFTWARE("Software");
 
     private final String _value;
 
@@ -13,7 +13,7 @@ public enum UpdateType {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

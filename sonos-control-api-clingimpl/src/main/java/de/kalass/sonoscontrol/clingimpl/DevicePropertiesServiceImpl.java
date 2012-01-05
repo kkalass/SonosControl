@@ -25,6 +25,7 @@ import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneInfo;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
+import de.kalass.sonoscontrol.clingimpl.services.AbstractServiceImpl;
 
 @SuppressWarnings("rawtypes")
 public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements DevicePropertiesService {

@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.api.generator;
+package de.kalass.sonoscontrol.generator;
 
 public class JavaPackageName extends JavaFQNName {
     public static JavaPackageName JAVA_LANG = JavaPackageName.valueOf("java.lang");

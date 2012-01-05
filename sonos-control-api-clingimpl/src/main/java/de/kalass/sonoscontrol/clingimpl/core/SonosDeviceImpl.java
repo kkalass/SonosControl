@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.clingimpl;
+package de.kalass.sonoscontrol.clingimpl.core;
 
 import javax.annotation.Nonnull;
 
@@ -11,6 +11,8 @@ import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.AVTransportService;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 import de.kalass.sonoscontrol.api.services.RenderingControlService;
+import de.kalass.sonoscontrol.clingimpl.AVTransportServiceImpl;
+import de.kalass.sonoscontrol.clingimpl.RenderingControlServiceImpl;
 
 public class SonosDeviceImpl implements SonosDevice {
 

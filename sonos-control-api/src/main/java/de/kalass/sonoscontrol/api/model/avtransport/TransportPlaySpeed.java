@@ -4,15 +4,16 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum TransportPlaySpeed {
-        ONE("1");
+    ONE("1");
 
+    public static final TransportPlaySpeed DEFAULT_VALUE = ONE;
     private final String _value;
 
     TransportPlaySpeed(String value) {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

@@ -4,10 +4,10 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum TransportState {
-        STOPPED("STOPPED"),
-        PLAYING("PLAYING"),
-        PAUSED_PLAYBACK("PAUSED_PLAYBACK"),
-        TRANSITIONING("TRANSITIONING");
+    STOPPED("STOPPED"),
+    PLAYING("PLAYING"),
+    PAUSED_PLAYBACK("PAUSED_PLAYBACK"),
+    TRANSITIONING("TRANSITIONING");
 
     private final String _value;
 
@@ -15,7 +15,7 @@ public enum TransportState {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.api.generator;
+package de.kalass.sonoscontrol.generator;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,16 +19,17 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import de.kalass.sonoscontrol.api.generator.SCDP.Action;
-import de.kalass.sonoscontrol.api.generator.SCDP.ActionArgument;
-import de.kalass.sonoscontrol.api.generator.SCDP.AllowedValueRange;
-import de.kalass.sonoscontrol.api.generator.SCDP.StateVariable;
+import de.kalass.sonoscontrol.generator.SCDP.Action;
+import de.kalass.sonoscontrol.generator.SCDP.ActionArgument;
+import de.kalass.sonoscontrol.generator.SCDP.AllowedValueRange;
+import de.kalass.sonoscontrol.generator.SCDP.StateVariable;
 
-public final class SCDPType {
+public class SCDPType {
     private final JavaClassName _serviceName;
     private final List<SCDPType.ActionType> _actions;
     private final List<SCDPType.StateVariableType> _stateVariables;
     private final JavaPackageName _corePackageName;
+    private String _upnpName;
 
     public static final class ActionArgumentType {
         public static final Predicate<ActionArgumentType> IS_VALUE_HARDCODED = new Predicate<ActionArgumentType>() {
@@ -55,6 +56,10 @@ public final class SCDPType {
         public ActionArgumentType(String name, StateVariableType relatedStateVariable) {
             _name = Preconditions.checkNotNull(name);
             _relatedStateVariable = Preconditions.checkNotNull(relatedStateVariable);
+        }
+
+        public String getUpnpName() {
+            return _name;
         }
 
         public final String getParameterName() {
@@ -173,6 +178,10 @@ public final class SCDPType {
             _in = in;
             _out = out;
             _name = name;
+        }
+
+        public String getUpnpName() {
+            return _name.asString();
         }
 
         public final String getMethodName() {
@@ -321,6 +330,7 @@ public final class SCDPType {
             SCDP scdp,
             final NameFactory nameFactory
             ) {
+        _upnpName = scdp.getName();
         _corePackageName = nameFactory.getCorePackageName();
         final ServiceNameFactory serviceNameFactory = nameFactory.getServiceNameFactory(scdp.getName());
         _serviceName = serviceNameFactory.getServiceClassName();
@@ -351,6 +361,10 @@ public final class SCDPType {
                         );
             }
         }));
+    }
+
+    public String getUpnpName() {
+        return _upnpName;
     }
 
     public List<SCDPType.ActionType> getActions() {

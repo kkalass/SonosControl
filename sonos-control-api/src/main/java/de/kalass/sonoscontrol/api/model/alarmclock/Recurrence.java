@@ -4,10 +4,10 @@
 package de.kalass.sonoscontrol.api.model.alarmclock;
 
 public enum Recurrence {
-        ONCE("ONCE"),
-        WEEKDAYS("WEEKDAYS"),
-        WEEKENDS("WEEKENDS"),
-        DAILY("DAILY");
+    ONCE("ONCE"),
+    WEEKDAYS("WEEKDAYS"),
+    WEEKENDS("WEEKENDS"),
+    DAILY("DAILY");
 
     private final String _value;
 
@@ -15,7 +15,7 @@ public enum Recurrence {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

@@ -4,9 +4,9 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum SeekMode {
-        TRACK_NR("TRACK_NR"),
-        REL_TIME("REL_TIME"),
-        SECTION("SECTION");
+    TRACK_NR("TRACK_NR"),
+    REL_TIME("REL_TIME"),
+    SECTION("SECTION");
 
     private final String _value;
 
@@ -14,7 +14,7 @@ public enum SeekMode {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

@@ -36,7 +36,7 @@ define "sonos-control" do
   manifest["Implementation-Vendor"] = COPYRIGHT
 
   define 'api-generator', :base_dir => 'sonos-control-api-generator' do
-      compile.with LIB_GUAVA,LIB_SLF4J_API,LIB_JSR305, LIB_FREEMARKER
+      compile.with LIB_GUAVA,LIB_SLF4J_API,LIB_JSR305, LIB_FREEMARKER,LIB_CLING_CORE,LIB_TELEAL_COMMON
       package(:jar)
   end
 

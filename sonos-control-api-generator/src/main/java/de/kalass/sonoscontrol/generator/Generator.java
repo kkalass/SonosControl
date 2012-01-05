@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.api.generator;
+package de.kalass.sonoscontrol.generator;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,12 +29,12 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 
-import de.kalass.sonoscontrol.api.generator.SCDPType.ActionOutputType;
-import de.kalass.sonoscontrol.api.generator.SCDPType.ActionType;
-import de.kalass.sonoscontrol.api.generator.SCDPType.CompoundActionOutputType;
-import de.kalass.sonoscontrol.api.generator.SCDPType.NameFactory;
-import de.kalass.sonoscontrol.api.generator.SCDPType.ServiceNameFactory;
-import de.kalass.sonoscontrol.api.generator.SCDPType.StateVariableType;
+import de.kalass.sonoscontrol.generator.SCDPType.ActionOutputType;
+import de.kalass.sonoscontrol.generator.SCDPType.ActionType;
+import de.kalass.sonoscontrol.generator.SCDPType.CompoundActionOutputType;
+import de.kalass.sonoscontrol.generator.SCDPType.NameFactory;
+import de.kalass.sonoscontrol.generator.SCDPType.ServiceNameFactory;
+import de.kalass.sonoscontrol.generator.SCDPType.StateVariableType;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
@@ -155,43 +155,46 @@ public class Generator {
 
 
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-        final File docDir = new File(args.length == 0 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api-generator/doc/sonos/example-device-descriptions" : args[0]);
-        final File outputDir = new File(args.length < 2 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api/src/main/java/" : args[1]);
-        final File templatesInputDir = new File(args.length < 3 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api-generator/src/main/ftl/" : args[2]);
-        final File javaFilesInputDir = new File(args.length < 4 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api-generator/src/main/java/" : args[3]);
+        final String base= "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/";
+        final File docDir = new File(args.length == 0 ? base+"sonos-control-api-generator/doc/sonos/example-device-descriptions" : args[0]);
+        final File outputDir = new File(args.length < 2 ? base+"sonos-control-api/src/main/java/" : args[1]);
+        final File templatesInputDir = new File(args.length < 3 ? base+"sonos-control-api-generator/src/main/ftl/" : args[2]);
+        final File javaFilesInputDir = new File(args.length < 4 ? base+"sonos-control-api-generator/src/main/java/" : args[3]);
+        final File clingImplOutputDir = new File(args.length < 5 ? base+"sonos-control-api-clingimpl/src/main/java/" : args[4]);
         Preconditions.checkArgument(docDir.isDirectory());
 
         final Configuration cfg = new Configuration();
         cfg.setDirectoryForTemplateLoading(templatesInputDir);
         cfg.setObjectWrapper(new DefaultObjectWrapper());
 
-        final JavaPackageName fqPackageName = JavaPackageName.valueOf("de.kalass.sonoscontrol.api");
-        final JavaPackageName corePackageName = fqPackageName.childPackage("core");
-        final JavaPackageName servicesPackageName = fqPackageName.childPackage("services");
-        final JavaPackageName modelPackageName = fqPackageName.childPackage("model");
+        final JavaPackageName apiPackageName = JavaPackageName.valueOf("de.kalass.sonoscontrol.api");
+        final JavaPackageName clingimplServicesPackageName = JavaPackageName.valueOf("de.kalass.sonoscontrol.clingimpl.services");
+        final JavaPackageName corePackageName = apiPackageName.childPackage("core");
+        final JavaPackageName servicesPackageName = apiPackageName.childPackage("services");
+        final JavaPackageName modelPackageName = apiPackageName.childPackage("model");
 
         // make sure to start from a clean state
         delete(corePackageName.asFile(outputDir));
         delete(servicesPackageName.asFile(outputDir));
         delete(modelPackageName.asFile(outputDir));
+        delete(clingimplServicesPackageName.asFile(clingImplOutputDir));
 
         // copy all files that will not be generated
         copyFromTo(corePackageName, javaFilesInputDir, outputDir);
         copyFromTo(servicesPackageName, javaFilesInputDir, outputDir);
         copyFromTo(modelPackageName, javaFilesInputDir, outputDir);
+        copyFromTo(clingimplServicesPackageName, javaFilesInputDir, clingImplOutputDir);
 
         final List<SCDP> types = readTypeDescriptions(docDir);
 
         final TypeNameMappings mappings = new TypeNameMappings();
         mappings.add("MemberID", modelPackageName.childClass("MemberID"));
+        mappings.add("InstanceID", modelPackageName.childClass("InstanceID"));
 
         final NameFactoryImpl nameFactory = new NameFactoryImpl(corePackageName, servicesPackageName, modelPackageName, mappings.asFkt());
 
+        System.out.println("Generating API...");
         for (SCDP scdp : types) {
-            System.out.println("----------------------------");
-            System.out.println(scdp.getName() + ": ");
-            System.out.println("----------------------------");
-
             final SCDPType type = new SCDPType(scdp, nameFactory);
             for (StateVariableType stateVariable : type.getStateVariables()) {
                 final File typeFile = stateVariable.getJavaClassName().asFile(outputDir);
@@ -229,14 +232,28 @@ public class Generator {
             final File serviceFile = type.getJavaClassName().asFile(outputDir);
             if (!serviceFile.exists()) {
                 Files.createParentDirs(serviceFile);
-                //final String serviceFileSourceCode = type.generateServiceInterfaceSourceCode();
                 final String sourceCode = render(cfg, "ServiceInterface.ftl", type);
                 Files.write(sourceCode, serviceFile, UTF8);
-                System.out.println(sourceCode);
+                System.out.println("Service: " + scdp.getName());
                 System.out.println("");
             }
         }
 
+        System.out.println("");
+        System.out.println("Generating Cling Implementation");
+        for (SCDP scdp : types) {
+            final SCDPType type = new SCDPImplType(scdp, nameFactory, clingimplServicesPackageName);
+            final File serviceFile = type.getJavaClassName().asFile(clingImplOutputDir);
+            if (!serviceFile.exists()) {
+                Files.createParentDirs(serviceFile);
+                final String sourceCode = render(cfg, "ServiceClingImpl.ftl", type);
+                Files.write(sourceCode, serviceFile, UTF8);
+                System.out.println("ServiceImpl: " + scdp.getName());
+                System.out.println("");
+            }
+        }
+
+        System.out.println("");
         Map<String, Collection<String>> candidatesForCommon = Maps.filterValues(nameFactory.getServicesByTypeName(), new Predicate<Collection<String>>() {
             @Override
             public boolean apply(Collection<String> input) {

@@ -17,7 +17,7 @@ public final class TimeZoneInformation implements Serializable {
         _value = Preconditions.checkNotNull(value);
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

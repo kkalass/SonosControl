@@ -22,7 +22,7 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.RampType;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeAdjustment;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.RightVolume;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.MuteChannel;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.InstanceID;
+import de.kalass.sonoscontrol.api.model.InstanceID;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.LeftVolume;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ProgramURI;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.EQType;

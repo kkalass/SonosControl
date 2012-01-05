@@ -4,10 +4,10 @@
 package de.kalass.sonoscontrol.api.model.alarmclock;
 
 public enum AlarmPlayMode {
-        NORMAL("NORMAL"),
-        REPEAT_ALL("REPEAT_ALL"),
-        SHUFFLE_NOREPEAT("SHUFFLE_NOREPEAT"),
-        SHUFFLE("SHUFFLE");
+    NORMAL("NORMAL"),
+    REPEAT_ALL("REPEAT_ALL"),
+    SHUFFLE_NOREPEAT("SHUFFLE_NOREPEAT"),
+    SHUFFLE("SHUFFLE");
 
     private final String _value;
 
@@ -15,7 +15,7 @@ public enum AlarmPlayMode {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

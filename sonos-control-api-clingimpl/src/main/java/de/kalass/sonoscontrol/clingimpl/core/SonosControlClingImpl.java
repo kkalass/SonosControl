@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.clingimpl;
+package de.kalass.sonoscontrol.clingimpl.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +18,8 @@ import de.kalass.sonoscontrol.api.core.FailableCallback;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
+import de.kalass.sonoscontrol.clingimpl.DevicePropertiesServiceImpl;
+import de.kalass.sonoscontrol.clingimpl.ZoneGroupTopologyServiceImpl;
 
 /**
  * Implementation of the SonosControl service, using CLING http://teleal.org/projects/cling

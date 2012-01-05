@@ -30,7 +30,7 @@ public final class ${data.javaClassName.name} implements Serializable {
         </#if>
     } 
 
-    public ${data.dataType.javaClass.simpleName} as${data.dataType.javaClass.simpleName}() {
+    public ${data.dataType.javaClass.simpleName} getValue() {
         return _value;
     }
 

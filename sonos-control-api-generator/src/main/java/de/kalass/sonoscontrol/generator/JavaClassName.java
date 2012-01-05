@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.api.generator;
+package de.kalass.sonoscontrol.generator;
 
 import com.google.common.base.Function;
 

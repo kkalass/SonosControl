@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.api.generator;
+package de.kalass.sonoscontrol.generator;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -7,7 +7,7 @@ public class UpnpDatatype {
     public static final Function<UpnpDatatype, String> AS_STRING = new Function<UpnpDatatype, String> () {
         @Override
         public String apply(UpnpDatatype input) {
-            return input.asString();
+            return input.getValue();
         }
     };
 
@@ -28,7 +28,7 @@ public class UpnpDatatype {
         return new UpnpDatatype(value);
     }
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

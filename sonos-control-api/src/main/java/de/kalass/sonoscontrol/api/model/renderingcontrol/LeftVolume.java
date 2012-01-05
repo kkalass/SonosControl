@@ -22,7 +22,7 @@ public final class LeftVolume implements Serializable {
         Preconditions.checkArgument(((value.longValue() -  MIN) % STEP) == 0);
     } 
 
-    public Long asLong() {
+    public Long getValue() {
         return _value;
     }
 

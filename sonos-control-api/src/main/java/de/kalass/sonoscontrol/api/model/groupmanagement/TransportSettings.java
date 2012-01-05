@@ -17,7 +17,7 @@ public final class TransportSettings implements Serializable {
         _value = Preconditions.checkNotNull(value);
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

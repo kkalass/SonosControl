@@ -4,8 +4,8 @@
 package de.kalass.sonoscontrol.api.model.connectionmanager;
 
 public enum Direction {
-        INPUT("Input"),
-        OUTPUT("Output");
+    INPUT("Input"),
+    OUTPUT("Output");
 
     private final String _value;
 
@@ -13,7 +13,7 @@ public enum Direction {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

@@ -5,16 +5,21 @@ package ${data.javaClassName.package.FQN};
 
 public enum ${data.javaClassName.name} {
     <#list data.allowedValues as value>
-        ${value.enumValue}("${value.value}")<#if value_has_next>,<#else>;</#if>
+    ${value.enumValue}("${value.value}")<#if value_has_next>,<#else>;</#if>
     </#list>
 
+    <#if data.singleValueType>
+     <#list data.allowedValues as value>
+    public static final ${data.javaClassName.name} DEFAULT_VALUE = ${value.enumValue};
+     </#list>
+    </#if>
     private final String _value;
 
     ${data.javaClassName.name}(String value) {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

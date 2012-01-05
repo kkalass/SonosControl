@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.clingimpl;
+package de.kalass.sonoscontrol.clingimpl.services;
 
 import javax.annotation.CheckForNull;
 
@@ -14,6 +14,8 @@ import org.teleal.cling.model.meta.Service;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.ServiceId;
 import org.teleal.cling.model.types.UDAServiceId;
+import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.types.UnsignedIntegerTwoBytes;
 
 import de.kalass.sonoscontrol.api.core.Callback;
 import de.kalass.sonoscontrol.api.core.Callback0;
@@ -39,6 +41,23 @@ public abstract class AbstractServiceImpl {
         }
         public String getActionName() {
             return _actionName;
+        }
+        protected void setInput(ActionInvocation invocation, String upnpType, String name, String value) {
+            invocation.setInput(name, value);
+        }
+        protected void setInput(ActionInvocation invocation, String upnpType, String name, boolean value) {
+            invocation.setInput(name, value);
+        }
+        protected void setInput(ActionInvocation invocation, String upnpType, String name, Long value) {
+            final Object upnpValue;
+            if ("ui4".equals(upnpType) || "i4".equals(upnpType)) {
+                upnpValue = new UnsignedIntegerFourBytes(value);
+            } else if ("ui2".equals(upnpType) || "i2".equals(upnpType)) {
+                upnpValue = new UnsignedIntegerTwoBytes(value);
+            } else {
+                throw new IllegalStateException();
+            }
+            invocation.setInput(name, upnpValue);
         }
         public void prepareArguments(ActionInvocation invocation) throws InvalidValueException{}
         public abstract void success(C handler, ActionInvocation invocation);

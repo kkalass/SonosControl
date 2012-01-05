@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.api.generator;
+package de.kalass.sonoscontrol.generator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +14,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 
-import de.kalass.sonoscontrol.api.generator.SCDP.Action;
-import de.kalass.sonoscontrol.api.generator.SCDP.ActionArgument;
-import de.kalass.sonoscontrol.api.generator.SCDP.AllowedValueRange;
-import de.kalass.sonoscontrol.api.generator.SCDP.StateVariable;
+import de.kalass.sonoscontrol.generator.SCDP.Action;
+import de.kalass.sonoscontrol.generator.SCDP.ActionArgument;
+import de.kalass.sonoscontrol.generator.SCDP.AllowedValueRange;
+import de.kalass.sonoscontrol.generator.SCDP.StateVariable;
 
 public final class SCDPReader {
 

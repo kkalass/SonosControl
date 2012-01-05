@@ -5,17 +5,17 @@ package de.kalass.sonoscontrol.api.model.alarmclock;
 
 public enum AlarmEnabled {
     ON() {
-        public boolean asBoolean() {
+        public boolean getValue() {
             return true;
         }
     },
     OFF() {
-        public boolean asBoolean() {
+        public boolean getValue() {
             return false;
         }
     };
 
-    public abstract boolean asBoolean();
+    public abstract boolean getValue();
 
     public static AlarmEnabled getInstance(boolean b) {
         return b ? ON : OFF;

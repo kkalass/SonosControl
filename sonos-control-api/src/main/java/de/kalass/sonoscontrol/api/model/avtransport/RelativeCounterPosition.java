@@ -17,7 +17,7 @@ public final class RelativeCounterPosition implements Serializable {
         _value = Preconditions.checkNotNull(value);
     } 
 
-    public Long asLong() {
+    public Long getValue() {
         return _value;
     }
 

@@ -51,6 +51,7 @@ import de.kalass.sonoscontrol.api.model.avtransport.TransportSettings;
 import de.kalass.sonoscontrol.api.model.avtransport.URI;
 import de.kalass.sonoscontrol.api.model.avtransport.URIMetaData;
 import de.kalass.sonoscontrol.api.services.AVTransportService;
+import de.kalass.sonoscontrol.clingimpl.services.AbstractServiceImpl;
 
 @SuppressWarnings("rawtypes")
 public class AVTransportServiceImpl extends AbstractServiceImpl implements AVTransportService {

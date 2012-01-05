@@ -4,11 +4,11 @@
 package de.kalass.sonoscontrol.api.model.connectionmanager;
 
 public enum ConnectionStatus {
-        OK("OK"),
-        CONTENT_FORMAT_MISMATCH("ContentFormatMismatch"),
-        INSUFFICIENT_BANDWIDTH("InsufficientBandwidth"),
-        UNRELIABLE_CHANNEL("UnreliableChannel"),
-        UNKNOWN("Unknown");
+    OK("OK"),
+    CONTENT_FORMAT_MISMATCH("ContentFormatMismatch"),
+    INSUFFICIENT_BANDWIDTH("InsufficientBandwidth"),
+    UNRELIABLE_CHANNEL("UnreliableChannel"),
+    UNKNOWN("Unknown");
 
     private final String _value;
 
@@ -16,7 +16,7 @@ public enum ConnectionStatus {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

@@ -4,8 +4,8 @@
 package de.kalass.sonoscontrol.api.model.deviceproperties;
 
 public enum LEDState {
-        ON("On"),
-        OFF("Off");
+    ON("On"),
+    OFF("Off");
 
     private final String _value;
 
@@ -13,7 +13,7 @@ public enum LEDState {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

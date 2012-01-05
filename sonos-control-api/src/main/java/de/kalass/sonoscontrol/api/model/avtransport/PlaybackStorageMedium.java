@@ -4,8 +4,8 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum PlaybackStorageMedium {
-        NONE("NONE"),
-        NETWORK("NETWORK");
+    NONE("NONE"),
+    NETWORK("NETWORK");
 
     private final String _value;
 
@@ -13,7 +13,7 @@ public enum PlaybackStorageMedium {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

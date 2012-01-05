@@ -20,7 +20,7 @@ public final class NumberOfTracks implements Serializable {
         Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);
     } 
 
-    public Long asLong() {
+    public Long getValue() {
         return _value;
     }
 

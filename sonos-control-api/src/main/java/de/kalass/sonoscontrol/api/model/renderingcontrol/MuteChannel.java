@@ -4,10 +4,10 @@
 package de.kalass.sonoscontrol.api.model.renderingcontrol;
 
 public enum MuteChannel {
-        MASTER("Master"),
-        LF("LF"),
-        RF("RF"),
-        SPEAKER_ONLY("SpeakerOnly");
+    MASTER("Master"),
+    LF("LF"),
+    RF("RF"),
+    SPEAKER_ONLY("SpeakerOnly");
 
     private final String _value;
 
@@ -15,7 +15,7 @@ public enum MuteChannel {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

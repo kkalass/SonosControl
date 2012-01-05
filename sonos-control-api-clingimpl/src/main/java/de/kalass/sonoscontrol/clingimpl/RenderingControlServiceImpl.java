@@ -34,6 +34,7 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeAdjustment;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeDB;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeDBRange;
 import de.kalass.sonoscontrol.api.services.RenderingControlService;
+import de.kalass.sonoscontrol.clingimpl.services.AbstractServiceImpl;
 
 @SuppressWarnings("rawtypes")
 public class RenderingControlServiceImpl extends AbstractServiceImpl implements RenderingControlService {

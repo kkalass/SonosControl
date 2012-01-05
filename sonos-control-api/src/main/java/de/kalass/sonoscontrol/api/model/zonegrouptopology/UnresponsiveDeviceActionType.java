@@ -4,8 +4,8 @@
 package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 
 public enum UnresponsiveDeviceActionType {
-        REMOVE("Remove"),
-        VERIFY_THEN_REMOVE_SYSTEMWIDE("VerifyThenRemoveSystemwide");
+    REMOVE("Remove"),
+    VERIFY_THEN_REMOVE_SYSTEMWIDE("VerifyThenRemoveSystemwide");
 
     private final String _value;
 
@@ -13,7 +13,7 @@ public enum UnresponsiveDeviceActionType {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

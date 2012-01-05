@@ -4,15 +4,16 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum RecordStorageMedium {
-        NONE("NONE");
+    NONE("NONE");
 
+    public static final RecordStorageMedium DEFAULT_VALUE = NONE;
     private final String _value;
 
     RecordStorageMedium(String value) {
         _value = value;
     } 
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

@@ -48,7 +48,7 @@ import de.kalass.sonoscontrol.api.model.avtransport.PossiblePlaybackStorageMedia
 import de.kalass.sonoscontrol.api.model.avtransport.SleepTimerGeneration;
 import de.kalass.sonoscontrol.api.model.avtransport.SeekTarget;
 import de.kalass.sonoscontrol.api.model.avtransport.AVTransportURIMetaData;
-import de.kalass.sonoscontrol.api.model.avtransport.InstanceID;
+import de.kalass.sonoscontrol.api.model.InstanceID;
 import de.kalass.sonoscontrol.api.model.avtransport.NumberOfTracks;
 import de.kalass.sonoscontrol.api.model.avtransport.CurrentPlayMode;
 import de.kalass.sonoscontrol.api.model.MemberID;

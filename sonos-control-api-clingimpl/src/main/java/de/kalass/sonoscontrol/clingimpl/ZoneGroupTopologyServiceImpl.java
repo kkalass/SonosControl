@@ -26,6 +26,7 @@ import de.kalass.sonoscontrol.api.model.zonegrouptopology.UpdateURL;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.Version;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.ZoneGroupState;
 import de.kalass.sonoscontrol.api.services.ZoneGroupTopologyService;
+import de.kalass.sonoscontrol.clingimpl.services.AbstractServiceImpl;
 
 public class ZoneGroupTopologyServiceImpl extends AbstractServiceImpl implements ZoneGroupTopologyService {
     public ZoneGroupTopologyServiceImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
