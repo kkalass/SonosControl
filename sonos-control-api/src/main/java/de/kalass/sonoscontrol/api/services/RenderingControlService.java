@@ -9,7 +9,7 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ResetBasicEQResult;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Volume;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeDB;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeDBRange;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.GetVolumeDBRangeResult;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Bass;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Treble;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.EQValue;
@@ -85,7 +85,7 @@ public interface RenderingControlService {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    <C extends Callback1<VolumeDBRange>> C retrieveVolumeDBRange(Channel channel, C callback);
+    <C extends Callback1<GetVolumeDBRangeResult>> C retrieveVolumeDBRange(Channel channel, C callback);
 
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>

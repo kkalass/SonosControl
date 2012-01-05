@@ -7,14 +7,14 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class TransportInfo implements Serializable {
+public final class GetTransportInfoResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final TransportState _currentTransportState;
     private final TransportStatus _currentTransportStatus;
     private final TransportPlaySpeed _currentSpeed;
 
-    public TransportInfo(
+    private GetTransportInfoResult(
         final TransportState currentTransportState,
         final TransportStatus currentTransportStatus,
         final TransportPlaySpeed currentSpeed
@@ -24,6 +24,13 @@ public final class TransportInfo implements Serializable {
         _currentSpeed = currentSpeed;
     } 
 
+    public static GetTransportInfoResult getInstance(
+        final TransportState currentTransportState,
+        final TransportStatus currentTransportStatus,
+        final TransportPlaySpeed currentSpeed
+    ) {
+        return new GetTransportInfoResult(currentTransportState, currentTransportStatus, currentSpeed);
+    } 
     public TransportState getCurrentTransportState() {
         return _currentTransportState;
     }
@@ -51,8 +58,8 @@ public final class TransportInfo implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof TransportInfo) {
-            TransportInfo obj = (TransportInfo)other;
+        if (other instanceof GetTransportInfoResult) {
+            GetTransportInfoResult obj = (GetTransportInfoResult)other;
             return 
                     Objects.equal(_currentTransportState, obj._currentTransportState) &&
                     Objects.equal(_currentTransportStatus, obj._currentTransportStatus) &&

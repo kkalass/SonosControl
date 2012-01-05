@@ -7,13 +7,13 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class ZoneAttributes implements Serializable {
+public final class GetZoneAttributesResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final ZoneName _currentZoneName;
     private final Icon _currentIcon;
 
-    public ZoneAttributes(
+    private GetZoneAttributesResult(
         final ZoneName currentZoneName,
         final Icon currentIcon
     ) {
@@ -21,6 +21,12 @@ public final class ZoneAttributes implements Serializable {
         _currentIcon = currentIcon;
     } 
 
+    public static GetZoneAttributesResult getInstance(
+        final ZoneName currentZoneName,
+        final Icon currentIcon
+    ) {
+        return new GetZoneAttributesResult(currentZoneName, currentIcon);
+    } 
     public ZoneName getCurrentZoneName() {
         return _currentZoneName;
     }
@@ -43,8 +49,8 @@ public final class ZoneAttributes implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof ZoneAttributes) {
-            ZoneAttributes obj = (ZoneAttributes)other;
+        if (other instanceof GetZoneAttributesResult) {
+            GetZoneAttributesResult obj = (GetZoneAttributesResult)other;
             return 
                     Objects.equal(_currentZoneName, obj._currentZoneName) &&
                     Objects.equal(_currentIcon, obj._currentIcon) 

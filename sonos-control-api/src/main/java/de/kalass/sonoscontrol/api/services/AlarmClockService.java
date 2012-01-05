@@ -5,12 +5,13 @@ package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
-import de.kalass.sonoscontrol.api.model.alarmclock.Format;
+import de.kalass.sonoscontrol.api.model.alarmclock.GetFormatResult;
+import de.kalass.sonoscontrol.api.model.alarmclock.GetTimeZoneResult;
+import de.kalass.sonoscontrol.api.model.alarmclock.GetTimeZoneAndRuleResult;
 import de.kalass.sonoscontrol.api.model.alarmclock.TimeZone;
-import de.kalass.sonoscontrol.api.model.alarmclock.TimeZoneAndRule;
 import de.kalass.sonoscontrol.api.model.alarmclock.TimeServer;
 import de.kalass.sonoscontrol.api.model.alarmclock.ISO8601Time;
-import de.kalass.sonoscontrol.api.model.alarmclock.TimeNow;
+import de.kalass.sonoscontrol.api.model.alarmclock.GetTimeNowResult;
 import de.kalass.sonoscontrol.api.model.alarmclock.AlarmID;
 import de.kalass.sonoscontrol.api.model.alarmclock.ListAlarmsResult;
 import de.kalass.sonoscontrol.api.model.alarmclock.DailyIndexRefreshTime;
@@ -52,13 +53,13 @@ public interface AlarmClockService {
 
     <C extends Callback0> C setFormat(TimeFormat desiredTimeFormat, DateFormat desiredDateFormat, C callback);
 
-    <C extends Callback1<Format>> C retrieveFormat(C callback);
+    <C extends Callback1<GetFormatResult>> C retrieveFormat(C callback);
 
     <C extends Callback0> C setTimeZone(TimeZoneIndex index, TimeZoneAutoAdjustDst autoAdjustDst, C callback);
 
-    <C extends Callback1<TimeZone>> C retrieveTimeZone(C callback);
+    <C extends Callback1<GetTimeZoneResult>> C retrieveTimeZone(C callback);
 
-    <C extends Callback1<TimeZoneAndRule>> C retrieveTimeZoneAndRule(C callback);
+    <C extends Callback1<GetTimeZoneAndRuleResult>> C retrieveTimeZoneAndRule(C callback);
 
     <C extends Callback1<TimeZone>> C retrieveTimeZoneRule(TimeZoneIndex index, C callback);
 
@@ -70,7 +71,7 @@ public interface AlarmClockService {
 
     <C extends Callback1<ISO8601Time>> C retrieveHouseholdTimeAtStamp(TimeStamp timeStamp, C callback);
 
-    <C extends Callback1<TimeNow>> C retrieveTimeNow(C callback);
+    <C extends Callback1<GetTimeNowResult>> C retrieveTimeNow(C callback);
 
     <C extends Callback1<AlarmID>> C createAlarm(ISO8601Time startLocalTime, ISO8601Time duration, Recurrence recurrence, AlarmEnabled enabled, AlarmRoomUUID roomUUID, AlarmProgramURI programURI, AlarmProgramMetaData programMetaData, AlarmPlayMode playMode, AlarmVolume volume, AlarmIncludeLinkedZones includeLinkedZones, C callback);
 

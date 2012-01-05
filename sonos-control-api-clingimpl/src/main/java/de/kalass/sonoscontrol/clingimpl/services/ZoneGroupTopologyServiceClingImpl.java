@@ -5,6 +5,8 @@
  */
 package de.kalass.sonoscontrol.clingimpl.services;
 
+import de.kalass.sonoscontrol.api.services.ZoneGroupTopologyService;
+import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
@@ -32,9 +34,9 @@ import de.kalass.sonoscontrol.api.model.zonegrouptopology.ThirdPartyMediaServers
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.AlarmRunSequence;
 
 @SuppressWarnings("rawtypes")
-public final class ZoneGroupTopologyClingImpl extends AbstractServiceImpl {
+public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl implements ZoneGroupTopologyService {
 
-    public ZoneGroupTopologyClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public ZoneGroupTopologyServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("ZoneGroupTopology", upnpService, device, errorStrategy);
     }
 
@@ -68,7 +70,10 @@ public final class ZoneGroupTopologyClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final UpdateItem value = UpdateItem.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -84,6 +89,7 @@ public final class ZoneGroupTopologyClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -100,6 +106,7 @@ public final class ZoneGroupTopologyClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -114,6 +121,7 @@ public final class ZoneGroupTopologyClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -128,7 +136,10 @@ public final class ZoneGroupTopologyClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final DiagnosticID value = DiagnosticID.getInstance(getLong("ui4",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }

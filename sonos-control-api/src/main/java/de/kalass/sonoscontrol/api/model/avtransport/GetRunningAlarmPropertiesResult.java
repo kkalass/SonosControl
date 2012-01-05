@@ -7,14 +7,14 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class RunningAlarmProperties implements Serializable {
+public final class GetRunningAlarmPropertiesResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final AlarmIDRunning _alarmID;
     private final GroupID _groupID;
     private final AlarmLoggedStartTime _loggedStartTime;
 
-    public RunningAlarmProperties(
+    private GetRunningAlarmPropertiesResult(
         final AlarmIDRunning alarmID,
         final GroupID groupID,
         final AlarmLoggedStartTime loggedStartTime
@@ -24,6 +24,13 @@ public final class RunningAlarmProperties implements Serializable {
         _loggedStartTime = loggedStartTime;
     } 
 
+    public static GetRunningAlarmPropertiesResult getInstance(
+        final AlarmIDRunning alarmID,
+        final GroupID groupID,
+        final AlarmLoggedStartTime loggedStartTime
+    ) {
+        return new GetRunningAlarmPropertiesResult(alarmID, groupID, loggedStartTime);
+    } 
     public AlarmIDRunning getAlarmID() {
         return _alarmID;
     }
@@ -51,8 +58,8 @@ public final class RunningAlarmProperties implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof RunningAlarmProperties) {
-            RunningAlarmProperties obj = (RunningAlarmProperties)other;
+        if (other instanceof GetRunningAlarmPropertiesResult) {
+            GetRunningAlarmPropertiesResult obj = (GetRunningAlarmPropertiesResult)other;
             return 
                     Objects.equal(_alarmID, obj._alarmID) &&
                     Objects.equal(_groupID, obj._groupID) &&

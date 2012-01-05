@@ -5,6 +5,8 @@
  */
 package de.kalass.sonoscontrol.clingimpl.services;
 
+import de.kalass.sonoscontrol.api.services.MusicServicesService;
+import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
@@ -23,9 +25,9 @@ import de.kalass.sonoscontrol.api.model.musicservices.ServiceTypeList;
 import de.kalass.sonoscontrol.api.model.musicservices.ServiceDescriptorList;
 
 @SuppressWarnings("rawtypes")
-public final class MusicServicesClingImpl extends AbstractServiceImpl {
+public final class MusicServicesServiceClingImpl extends AbstractServiceImpl implements MusicServicesService {
 
-    public MusicServicesClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public MusicServicesServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("MusicServices", upnpService, device, errorStrategy);
     }
 
@@ -44,7 +46,12 @@ public final class MusicServicesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final ServiceDescriptorList value0 = ServiceDescriptorList.getInstance(getString("string",output[0].getValue()));
+                final ServiceTypeList value1 = ServiceTypeList.getInstance(getString("string",output[1].getValue()));
+                final ServiceListVersion value2 = ServiceListVersion.getInstance(getString("string",output[2].getValue()));
+                final ListAvailableServicesResult value = ListAvailableServicesResult.getInstance(value0,value1,value2);
+                handler.success(value);
             }
         });
     }
@@ -58,6 +65,7 @@ public final class MusicServicesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });

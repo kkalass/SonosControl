@@ -9,10 +9,22 @@ import de.kalass.sonoscontrol.api.control.SonosDevice;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.AVTransportService;
+import de.kalass.sonoscontrol.api.services.AlarmClockService;
+import de.kalass.sonoscontrol.api.services.AudioInService;
+import de.kalass.sonoscontrol.api.services.ConnectionManagerService;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
+import de.kalass.sonoscontrol.api.services.GroupManagementService;
+import de.kalass.sonoscontrol.api.services.MusicServicesService;
 import de.kalass.sonoscontrol.api.services.RenderingControlService;
-import de.kalass.sonoscontrol.clingimpl.AVTransportServiceImpl;
-import de.kalass.sonoscontrol.clingimpl.RenderingControlServiceImpl;
+import de.kalass.sonoscontrol.api.services.SystemPropertiesService;
+import de.kalass.sonoscontrol.clingimpl.services.AVTransportServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.AlarmClockServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.AudioInServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.ConnectionManagerServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.GroupManagementServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.MusicServicesServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.RenderingControlServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.SystemPropertiesServiceClingImpl;
 
 public class SonosDeviceImpl implements SonosDevice {
 
@@ -45,10 +57,41 @@ public class SonosDeviceImpl implements SonosDevice {
 
     @Override
     public RenderingControlService getRenderingControlService() {
-        return new RenderingControlServiceImpl(_service, _device, _errorStrategy);
+        return new RenderingControlServiceClingImpl(_service, _device, _errorStrategy);
     }
     @Override
     public AVTransportService getAVTransportService() {
-        return new AVTransportServiceImpl(_service, _device, _errorStrategy);
+        return new AVTransportServiceClingImpl(_service, _device, _errorStrategy);
     }
+
+    @Override
+    public AlarmClockService getAlarmClockService() {
+        return new AlarmClockServiceClingImpl(_service, _device, _errorStrategy);
+    }
+
+    @Override
+    public AudioInService getAudioInService() {
+        return new AudioInServiceClingImpl(_service, _device, _errorStrategy);
+    }
+
+    @Override
+    public ConnectionManagerService getConnectionManagerService() {
+        return new ConnectionManagerServiceClingImpl(_service, _device, _errorStrategy);
+    }
+
+    @Override
+    public GroupManagementService getGroupManagementService() {
+        return new GroupManagementServiceClingImpl(_service, _device, _errorStrategy);
+    }
+
+    @Override
+    public MusicServicesService getMusicServicesService() {
+        return new MusicServicesServiceClingImpl(_service, _device, _errorStrategy);
+    }
+
+    @Override
+    public SystemPropertiesService getSystemPropertiesService() {
+        return new SystemPropertiesServiceClingImpl(_service, _device, _errorStrategy);
+    }
+
 }

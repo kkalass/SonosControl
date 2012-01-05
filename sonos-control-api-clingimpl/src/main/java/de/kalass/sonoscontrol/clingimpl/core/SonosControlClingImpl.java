@@ -15,11 +15,11 @@ import de.kalass.sonoscontrol.api.core.Callback;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 import de.kalass.sonoscontrol.api.core.FailableCallback;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.deviceproperties.GetZoneAttributesResult;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
-import de.kalass.sonoscontrol.clingimpl.DevicePropertiesServiceImpl;
 import de.kalass.sonoscontrol.clingimpl.ZoneGroupTopologyServiceImpl;
+import de.kalass.sonoscontrol.clingimpl.services.DevicePropertiesServiceClingImpl;
 
 /**
  * Implementation of the SonosControl service, using CLING http://teleal.org/projects/cling
@@ -64,10 +64,10 @@ public class SonosControlClingImpl implements SonosControl {
         @SuppressWarnings("rawtypes")
         @Override
         public void deviceAdded(Registry registry, final Device device) {
-            final DevicePropertiesService propsService = new DevicePropertiesServiceImpl(_upnpService, device, _errorStrategy);
-            propsService.retrieveZoneAttributes(new Callback1<ZoneAttributes>() {
+            final DevicePropertiesService propsService = new DevicePropertiesServiceClingImpl(_upnpService, device, _errorStrategy);
+            propsService.retrieveZoneAttributes(new Callback1<GetZoneAttributesResult>() {
                 @Override
-                public void success(ZoneAttributes attributes) {
+                public void success(GetZoneAttributesResult attributes) {
                     if (zoneName.equals(attributes.getCurrentZoneName())) {
                         ZoneGroupTopologyServiceImpl t = new ZoneGroupTopologyServiceImpl(_upnpService, device, _errorStrategy);
 

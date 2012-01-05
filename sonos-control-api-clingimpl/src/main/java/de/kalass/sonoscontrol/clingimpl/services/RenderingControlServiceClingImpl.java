@@ -5,6 +5,8 @@
  */
 package de.kalass.sonoscontrol.clingimpl.services;
 
+import de.kalass.sonoscontrol.api.services.RenderingControlService;
+import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
@@ -21,7 +23,7 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ResetBasicEQResult;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Volume;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeDB;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.VolumeDBRange;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.GetVolumeDBRangeResult;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Bass;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Treble;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.EQValue;
@@ -44,9 +46,9 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.LastChange;
 
 @SuppressWarnings("rawtypes")
-public final class RenderingControlClingImpl extends AbstractServiceImpl {
+public final class RenderingControlServiceClingImpl extends AbstractServiceImpl implements RenderingControlService {
 
-    public RenderingControlClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public RenderingControlServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("RenderingControl", upnpService, device, errorStrategy);
     }
 
@@ -70,7 +72,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final Mute value = Mute.getInstance(getBoolean("boolean",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -90,6 +95,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -108,7 +114,14 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final Bass value0 = Bass.getInstance(getLong("i2",output[0].getValue()));
+                final Treble value1 = Treble.getInstance(getLong("i2",output[1].getValue()));
+                final Loudness value2 = Loudness.getInstance(getBoolean("boolean",output[2].getValue()));
+                final LeftVolume value3 = LeftVolume.getInstance(getLong("ui2",output[3].getValue()));
+                final RightVolume value4 = RightVolume.getInstance(getLong("ui2",output[4].getValue()));
+                final ResetBasicEQResult value = ResetBasicEQResult.getInstance(value0,value1,value2,value3,value4);
+                handler.success(value);
             }
         });
     }
@@ -127,6 +140,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -146,7 +160,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final Volume value = Volume.getInstance(getLong("ui2",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -166,6 +183,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -186,7 +204,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final Volume value = Volume.getInstance(getLong("ui2",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -205,7 +226,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final VolumeDB value = VolumeDB.getInstance(getLong("i2",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -225,6 +249,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -233,7 +258,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    public <C extends Callback1<VolumeDBRange>> C retrieveVolumeDBRange(final Channel channel, final C successHandler) {
+    public <C extends Callback1<GetVolumeDBRangeResult>> C retrieveVolumeDBRange(final Channel channel, final C successHandler) {
         return execute(successHandler, new Call<C>("GetVolumeDBRange") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -244,7 +269,11 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final VolumeDB value0 = VolumeDB.getInstance(getLong("i2",output[0].getValue()));
+                final VolumeDB value1 = VolumeDB.getInstance(getLong("i2",output[1].getValue()));
+                final GetVolumeDBRangeResult value = GetVolumeDBRangeResult.getInstance(value0,value1);
+                handler.success(value);
             }
         });
     }
@@ -262,7 +291,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final Bass value = Bass.getInstance(getLong("i2",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -281,6 +313,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -299,7 +332,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final Treble value = Treble.getInstance(getLong("i2",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -318,6 +354,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -337,7 +374,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final EQValue value = EQValue.getInstance(getLong("i2",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -357,6 +397,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -376,7 +417,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final Loudness value = Loudness.getInstance(getBoolean("boolean",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -396,6 +440,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -414,7 +459,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final SupportsOutputFixed value = SupportsOutputFixed.getInstance(getBoolean("boolean",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -432,7 +480,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final OutputFixed value = OutputFixed.getInstance(getBoolean("boolean",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -451,6 +502,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -469,7 +521,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final HeadphoneConnected value = HeadphoneConnected.getInstance(getBoolean("boolean",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -492,7 +547,10 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final RampTimeSeconds value = RampTimeSeconds.getInstance(getLong("ui4",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -511,6 +569,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -530,6 +589,7 @@ public final class RenderingControlClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });

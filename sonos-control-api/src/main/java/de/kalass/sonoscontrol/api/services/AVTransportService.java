@@ -7,15 +7,15 @@ import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.avtransport.AddURIToQueueResult;
 import de.kalass.sonoscontrol.api.model.avtransport.ObjectID;
-import de.kalass.sonoscontrol.api.model.avtransport.MediaInfo;
-import de.kalass.sonoscontrol.api.model.avtransport.TransportInfo;
-import de.kalass.sonoscontrol.api.model.avtransport.PositionInfo;
-import de.kalass.sonoscontrol.api.model.avtransport.DeviceCapabilities;
-import de.kalass.sonoscontrol.api.model.avtransport.TransportSettings;
+import de.kalass.sonoscontrol.api.model.avtransport.GetMediaInfoResult;
+import de.kalass.sonoscontrol.api.model.avtransport.GetTransportInfoResult;
+import de.kalass.sonoscontrol.api.model.avtransport.GetPositionInfoResult;
+import de.kalass.sonoscontrol.api.model.avtransport.GetDeviceCapabilitiesResult;
+import de.kalass.sonoscontrol.api.model.avtransport.GetTransportSettingsResult;
 import de.kalass.sonoscontrol.api.model.avtransport.CurrentCrossfadeMode;
 import de.kalass.sonoscontrol.api.model.avtransport.CurrentTransportActions;
-import de.kalass.sonoscontrol.api.model.avtransport.RemainingSleepTimerDuration;
-import de.kalass.sonoscontrol.api.model.avtransport.RunningAlarmProperties;
+import de.kalass.sonoscontrol.api.model.avtransport.GetRemainingSleepTimerDurationResult;
+import de.kalass.sonoscontrol.api.model.avtransport.GetRunningAlarmPropertiesResult;
 import de.kalass.sonoscontrol.api.model.avtransport.TransportErrorDescription;
 import de.kalass.sonoscontrol.api.model.avtransport.AbsoluteTimePosition;
 import de.kalass.sonoscontrol.api.model.avtransport.NextAVTransportURI;
@@ -30,6 +30,7 @@ import de.kalass.sonoscontrol.api.model.avtransport.AlarmState;
 import de.kalass.sonoscontrol.api.model.avtransport.URI;
 import de.kalass.sonoscontrol.api.model.avtransport.AlarmLoggedStartTime;
 import de.kalass.sonoscontrol.api.model.avtransport.URIMetaData;
+import de.kalass.sonoscontrol.api.model.avtransport.TransportSettings;
 import de.kalass.sonoscontrol.api.model.avtransport.PlaybackStorageMedium;
 import de.kalass.sonoscontrol.api.model.avtransport.SourceState;
 import de.kalass.sonoscontrol.api.model.avtransport.RelativeTimePosition;
@@ -115,27 +116,27 @@ public interface AVTransportService {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    <C extends Callback1<MediaInfo>> C retrieveMediaInfo(C callback);
+    <C extends Callback1<GetMediaInfoResult>> C retrieveMediaInfo(C callback);
 
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    <C extends Callback1<TransportInfo>> C retrieveTransportInfo(C callback);
+    <C extends Callback1<GetTransportInfoResult>> C retrieveTransportInfo(C callback);
 
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    <C extends Callback1<PositionInfo>> C retrievePositionInfo(C callback);
+    <C extends Callback1<GetPositionInfoResult>> C retrievePositionInfo(C callback);
 
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    <C extends Callback1<DeviceCapabilities>> C retrieveDeviceCapabilities(C callback);
+    <C extends Callback1<GetDeviceCapabilitiesResult>> C retrieveDeviceCapabilities(C callback);
 
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    <C extends Callback1<TransportSettings>> C retrieveTransportSettings(C callback);
+    <C extends Callback1<GetTransportSettingsResult>> C retrieveTransportSettings(C callback);
 
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
@@ -241,7 +242,7 @@ public interface AVTransportService {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    <C extends Callback1<RemainingSleepTimerDuration>> C retrieveRemainingSleepTimerDuration(C callback);
+    <C extends Callback1<GetRemainingSleepTimerDurationResult>> C retrieveRemainingSleepTimerDuration(C callback);
 
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
@@ -256,7 +257,7 @@ public interface AVTransportService {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    <C extends Callback1<RunningAlarmProperties>> C retrieveRunningAlarmProperties(C callback);
+    <C extends Callback1<GetRunningAlarmPropertiesResult>> C retrieveRunningAlarmProperties(C callback);
 
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>

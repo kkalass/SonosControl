@@ -7,7 +7,7 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class CurrentConnectionInfo implements Serializable {
+public final class GetCurrentConnectionInfoResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final RcsID _rcsID;
@@ -18,7 +18,7 @@ public final class CurrentConnectionInfo implements Serializable {
     private final Direction _direction;
     private final ConnectionStatus _status;
 
-    public CurrentConnectionInfo(
+    private GetCurrentConnectionInfoResult(
         final RcsID rcsID,
         final AVTransportID aVTransportID,
         final ProtocolInfo protocolInfo,
@@ -36,6 +36,17 @@ public final class CurrentConnectionInfo implements Serializable {
         _status = status;
     } 
 
+    public static GetCurrentConnectionInfoResult getInstance(
+        final RcsID rcsID,
+        final AVTransportID aVTransportID,
+        final ProtocolInfo protocolInfo,
+        final ConnectionManager peerConnectionManager,
+        final ConnectionID peerConnectionID,
+        final Direction direction,
+        final ConnectionStatus status
+    ) {
+        return new GetCurrentConnectionInfoResult(rcsID, aVTransportID, protocolInfo, peerConnectionManager, peerConnectionID, direction, status);
+    } 
     public RcsID getRcsID() {
         return _rcsID;
     }
@@ -83,8 +94,8 @@ public final class CurrentConnectionInfo implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof CurrentConnectionInfo) {
-            CurrentConnectionInfo obj = (CurrentConnectionInfo)other;
+        if (other instanceof GetCurrentConnectionInfoResult) {
+            GetCurrentConnectionInfoResult obj = (GetCurrentConnectionInfoResult)other;
             return 
                     Objects.equal(_rcsID, obj._rcsID) &&
                     Objects.equal(_aVTransportID, obj._aVTransportID) &&

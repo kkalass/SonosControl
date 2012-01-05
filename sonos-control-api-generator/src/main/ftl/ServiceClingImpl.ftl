@@ -3,8 +3,10 @@
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
-package ${data.javaClassName.package.FQN};
+package ${data.javaImplClassName.package.FQN};
 
+import ${data.javaClassName.FQN};
+import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
@@ -20,9 +22,9 @@ import ${import.FQN};
 </#list>
 
 @SuppressWarnings("rawtypes")
-public final class ${data.javaClassName.name} extends AbstractServiceImpl {
+public final class ${data.javaImplClassName.name} extends AbstractServiceImpl implements ${data.javaClassName.name} {
 
-    public ${data.javaClassName.name}(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public ${data.javaImplClassName.name}(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("${data.upnpName}", upnpService, device, errorStrategy);
     }
 
@@ -59,7 +61,24 @@ public final class ${data.javaClassName.name} extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                <#if action.out.type??>
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final ${action.out.type.relatedStateVariable.javaClassName.name} value = ${action.out.type.relatedStateVariable.javaClassName.name}.getInstance(get${action.out.type.relatedStateVariable.dataType.javaClass.simpleName}("${action.out.type.relatedStateVariable.dataType.value}",output[0].getValue()));
+                 handler.success(value);
+                <#else>
+                <#if action.out.properties??>
+                final ActionArgumentValue[] output = invocation.getOutput();
+                <#list action.out.properties as param>
+                final ${param.relatedStateVariable.javaClassName.name} value${param_index} = ${param.relatedStateVariable.javaClassName.name}.getInstance(get${param.relatedStateVariable.dataType.javaClass.simpleName}("${param.relatedStateVariable.dataType.value}",output[${param_index}].getValue()));
+                </#list>
+                final ${action.out.javaClassName.name} value = ${action.out.javaClassName.name}.getInstance(<#list action.out.properties as param>value${param_index}<#if param_has_next>,</#if></#list>);
+                handler.success(value);
+                <#else>
+                // no return values
                 handler.success();
+                </#if>
+                </#if>
             }
         });
     }

@@ -7,7 +7,7 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class ZoneInfo implements Serializable {
+public final class GetZoneInfoResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final SerialNumber _serialNumber;
@@ -19,7 +19,7 @@ public final class ZoneInfo implements Serializable {
     private final CopyrightInfo _copyrightInfo;
     private final ExtraInfo _extraInfo;
 
-    public ZoneInfo(
+    private GetZoneInfoResult(
         final SerialNumber serialNumber,
         final SoftwareVersion softwareVersion,
         final DisplaySoftwareVersion displaySoftwareVersion,
@@ -39,6 +39,18 @@ public final class ZoneInfo implements Serializable {
         _extraInfo = extraInfo;
     } 
 
+    public static GetZoneInfoResult getInstance(
+        final SerialNumber serialNumber,
+        final SoftwareVersion softwareVersion,
+        final DisplaySoftwareVersion displaySoftwareVersion,
+        final HardwareVersion hardwareVersion,
+        final IPAddress iPAddress,
+        final MACAddress mACAddress,
+        final CopyrightInfo copyrightInfo,
+        final ExtraInfo extraInfo
+    ) {
+        return new GetZoneInfoResult(serialNumber, softwareVersion, displaySoftwareVersion, hardwareVersion, iPAddress, mACAddress, copyrightInfo, extraInfo);
+    } 
     public SerialNumber getSerialNumber() {
         return _serialNumber;
     }
@@ -91,8 +103,8 @@ public final class ZoneInfo implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof ZoneInfo) {
-            ZoneInfo obj = (ZoneInfo)other;
+        if (other instanceof GetZoneInfoResult) {
+            GetZoneInfoResult obj = (GetZoneInfoResult)other;
             return 
                     Objects.equal(_serialNumber, obj._serialNumber) &&
                     Objects.equal(_softwareVersion, obj._softwareVersion) &&

@@ -7,13 +7,13 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class VolumeDBRange implements Serializable {
+public final class GetVolumeDBRangeResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final VolumeDB _minValue;
     private final VolumeDB _maxValue;
 
-    public VolumeDBRange(
+    private GetVolumeDBRangeResult(
         final VolumeDB minValue,
         final VolumeDB maxValue
     ) {
@@ -21,6 +21,12 @@ public final class VolumeDBRange implements Serializable {
         _maxValue = maxValue;
     } 
 
+    public static GetVolumeDBRangeResult getInstance(
+        final VolumeDB minValue,
+        final VolumeDB maxValue
+    ) {
+        return new GetVolumeDBRangeResult(minValue, maxValue);
+    } 
     public VolumeDB getMinValue() {
         return _minValue;
     }
@@ -43,8 +49,8 @@ public final class VolumeDBRange implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof VolumeDBRange) {
-            VolumeDBRange obj = (VolumeDBRange)other;
+        if (other instanceof GetVolumeDBRangeResult) {
+            GetVolumeDBRangeResult obj = (GetVolumeDBRangeResult)other;
             return 
                     Objects.equal(_minValue, obj._minValue) &&
                     Objects.equal(_maxValue, obj._maxValue) 

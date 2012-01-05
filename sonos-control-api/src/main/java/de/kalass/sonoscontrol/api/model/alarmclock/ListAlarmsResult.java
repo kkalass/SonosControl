@@ -13,7 +13,7 @@ public final class ListAlarmsResult implements Serializable {
     private final AlarmList _currentAlarmList;
     private final AlarmListVersion _currentAlarmListVersion;
 
-    public ListAlarmsResult(
+    private ListAlarmsResult(
         final AlarmList currentAlarmList,
         final AlarmListVersion currentAlarmListVersion
     ) {
@@ -21,6 +21,12 @@ public final class ListAlarmsResult implements Serializable {
         _currentAlarmListVersion = currentAlarmListVersion;
     } 
 
+    public static ListAlarmsResult getInstance(
+        final AlarmList currentAlarmList,
+        final AlarmListVersion currentAlarmListVersion
+    ) {
+        return new ListAlarmsResult(currentAlarmList, currentAlarmListVersion);
+    } 
     public AlarmList getCurrentAlarmList() {
         return _currentAlarmList;
     }

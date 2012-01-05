@@ -17,7 +17,7 @@ public final class ${data.javaClassName.name} implements Serializable {
     private final ${prop.relatedStateVariable.javaClassName.name} _${prop.parameterName};
     </#list>
 
-    public ${data.javaClassName.name}(
+    private ${data.javaClassName.name}(
         <#list data.properties as prop>
         final ${prop.relatedStateVariable.javaClassName.name} ${prop.parameterName}<#if prop_has_next>,</#if>
         </#list>
@@ -27,6 +27,13 @@ public final class ${data.javaClassName.name} implements Serializable {
         </#list>
     } 
 
+    public static ${data.javaClassName.name} getInstance(
+        <#list data.properties as prop>
+        final ${prop.relatedStateVariable.javaClassName.name} ${prop.parameterName}<#if prop_has_next>,</#if>
+        </#list>
+    ) {
+        return new ${data.javaClassName.name}(<#list data.properties as prop>${prop.parameterName}<#if prop_has_next>, </#if></#list>);
+    } 
     <#list data.properties as prop>
     public ${prop.relatedStateVariable.javaClassName.name} ${prop.getterName}() {
         return _${prop.parameterName};

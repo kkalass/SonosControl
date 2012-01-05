@@ -7,7 +7,7 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class PositionInfo implements Serializable {
+public final class GetPositionInfoResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final CurrentTrack _track;
@@ -19,7 +19,7 @@ public final class PositionInfo implements Serializable {
     private final RelativeCounterPosition _relCount;
     private final AbsoluteCounterPosition _absCount;
 
-    public PositionInfo(
+    private GetPositionInfoResult(
         final CurrentTrack track,
         final CurrentTrackDuration trackDuration,
         final CurrentTrackMetaData trackMetaData,
@@ -39,6 +39,18 @@ public final class PositionInfo implements Serializable {
         _absCount = absCount;
     } 
 
+    public static GetPositionInfoResult getInstance(
+        final CurrentTrack track,
+        final CurrentTrackDuration trackDuration,
+        final CurrentTrackMetaData trackMetaData,
+        final CurrentTrackURI trackURI,
+        final RelativeTimePosition relTime,
+        final AbsoluteTimePosition absTime,
+        final RelativeCounterPosition relCount,
+        final AbsoluteCounterPosition absCount
+    ) {
+        return new GetPositionInfoResult(track, trackDuration, trackMetaData, trackURI, relTime, absTime, relCount, absCount);
+    } 
     public CurrentTrack getTrack() {
         return _track;
     }
@@ -91,8 +103,8 @@ public final class PositionInfo implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof PositionInfo) {
-            PositionInfo obj = (PositionInfo)other;
+        if (other instanceof GetPositionInfoResult) {
+            GetPositionInfoResult obj = (GetPositionInfoResult)other;
             return 
                     Objects.equal(_track, obj._track) &&
                     Objects.equal(_trackDuration, obj._trackDuration) &&

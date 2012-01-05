@@ -141,9 +141,9 @@ public class SCDPType {
         }
 
         private static String toJavaTypeName(String actionName) {
-            if (actionName.startsWith("Get") || actionName.startsWith("get")) {
+            /*if (actionName.startsWith("Get") || actionName.startsWith("get")) {
                 return actionName.substring("get".length());
-            }
+            }*/
             return actionName.substring(0, 1).toUpperCase() + actionName.substring(1) + "Result";
         }
 

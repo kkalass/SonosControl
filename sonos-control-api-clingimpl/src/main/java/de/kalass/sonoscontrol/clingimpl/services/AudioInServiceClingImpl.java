@@ -5,6 +5,8 @@
  */
 package de.kalass.sonoscontrol.clingimpl.services;
 
+import de.kalass.sonoscontrol.api.services.AudioInService;
+import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
@@ -18,8 +20,8 @@ import de.kalass.sonoscontrol.clingimpl.services.AbstractServiceImpl;
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.audioin.TransportSettings;
-import de.kalass.sonoscontrol.api.model.audioin.AudioInputAttributes;
-import de.kalass.sonoscontrol.api.model.audioin.LineInLevel;
+import de.kalass.sonoscontrol.api.model.audioin.GetAudioInputAttributesResult;
+import de.kalass.sonoscontrol.api.model.audioin.GetLineInLevelResult;
 import de.kalass.sonoscontrol.api.model.audioin.RightLineInLevel;
 import de.kalass.sonoscontrol.api.model.audioin.LeftLineInLevel;
 import de.kalass.sonoscontrol.api.model.MemberID;
@@ -30,9 +32,9 @@ import de.kalass.sonoscontrol.api.model.audioin.Playing;
 import de.kalass.sonoscontrol.api.model.audioin.Icon;
 
 @SuppressWarnings("rawtypes")
-public final class AudioInClingImpl extends AbstractServiceImpl {
+public final class AudioInServiceClingImpl extends AbstractServiceImpl implements AudioInService {
 
-    public AudioInClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public AudioInServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("AudioIn", upnpService, device, errorStrategy);
     }
 
@@ -72,7 +74,10 @@ public final class AudioInClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final TransportSettings value = TransportSettings.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -87,6 +92,7 @@ public final class AudioInClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -103,12 +109,13 @@ public final class AudioInClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
     }
 
-    public <C extends Callback1<AudioInputAttributes>> C retrieveAudioInputAttributes(final C successHandler) {
+    public <C extends Callback1<GetAudioInputAttributesResult>> C retrieveAudioInputAttributes(final C successHandler) {
         return execute(successHandler, new Call<C>("GetAudioInputAttributes") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -117,7 +124,11 @@ public final class AudioInClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final AudioInputName value0 = AudioInputName.getInstance(getString("string",output[0].getValue()));
+                final Icon value1 = Icon.getInstance(getString("string",output[1].getValue()));
+                final GetAudioInputAttributesResult value = GetAudioInputAttributesResult.getInstance(value0,value1);
+                handler.success(value);
             }
         });
     }
@@ -133,12 +144,13 @@ public final class AudioInClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
     }
 
-    public <C extends Callback1<LineInLevel>> C retrieveLineInLevel(final C successHandler) {
+    public <C extends Callback1<GetLineInLevelResult>> C retrieveLineInLevel(final C successHandler) {
         return execute(successHandler, new Call<C>("GetLineInLevel") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -147,7 +159,11 @@ public final class AudioInClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final LeftLineInLevel value0 = LeftLineInLevel.getInstance(getLong("i4",output[0].getValue()));
+                final RightLineInLevel value1 = RightLineInLevel.getInstance(getLong("i4",output[1].getValue()));
+                final GetLineInLevelResult value = GetLineInLevelResult.getInstance(value0,value1);
+                handler.success(value);
             }
         });
     }
@@ -162,6 +178,7 @@ public final class AudioInClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });

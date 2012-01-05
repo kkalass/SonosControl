@@ -5,6 +5,8 @@
  */
 package de.kalass.sonoscontrol.clingimpl.services;
 
+import de.kalass.sonoscontrol.api.services.SystemPropertiesService;
+import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
@@ -27,9 +29,9 @@ import de.kalass.sonoscontrol.api.model.systemproperties.StubsCreated;
 import de.kalass.sonoscontrol.api.model.systemproperties.AccountPassword;
 
 @SuppressWarnings("rawtypes")
-public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
+public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl implements SystemPropertiesService {
 
-    public SystemPropertiesClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public SystemPropertiesServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("SystemProperties", upnpService, device, errorStrategy);
     }
 
@@ -46,6 +48,7 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -61,7 +64,10 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final VariableStringValue value = VariableStringValue.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -76,6 +82,7 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -91,7 +98,10 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final VariableStringValue value = VariableStringValue.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -106,6 +116,7 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -123,7 +134,10 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final IsExpired value = IsExpired.getInstance(getBoolean("boolean",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -140,6 +154,7 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -157,6 +172,7 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -173,6 +189,7 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -190,6 +207,7 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -207,6 +225,7 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -221,6 +240,7 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -235,6 +255,7 @@ public final class SystemPropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });

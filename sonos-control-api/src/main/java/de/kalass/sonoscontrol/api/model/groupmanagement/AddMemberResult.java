@@ -15,7 +15,7 @@ public final class AddMemberResult implements Serializable {
     private final ResetVolumeAfter _resetVolumeAfter;
     private final VolumeAVTransportURI _volumeAVTransportURI;
 
-    public AddMemberResult(
+    private AddMemberResult(
         final TransportSettings currentTransportSettings,
         final LocalGroupUUID groupUUIDJoined,
         final ResetVolumeAfter resetVolumeAfter,
@@ -27,6 +27,14 @@ public final class AddMemberResult implements Serializable {
         _volumeAVTransportURI = volumeAVTransportURI;
     } 
 
+    public static AddMemberResult getInstance(
+        final TransportSettings currentTransportSettings,
+        final LocalGroupUUID groupUUIDJoined,
+        final ResetVolumeAfter resetVolumeAfter,
+        final VolumeAVTransportURI volumeAVTransportURI
+    ) {
+        return new AddMemberResult(currentTransportSettings, groupUUIDJoined, resetVolumeAfter, volumeAVTransportURI);
+    } 
     public TransportSettings getCurrentTransportSettings() {
         return _currentTransportSettings;
     }

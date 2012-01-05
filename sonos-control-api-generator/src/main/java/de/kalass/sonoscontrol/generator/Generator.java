@@ -242,8 +242,8 @@ public class Generator {
         System.out.println("");
         System.out.println("Generating Cling Implementation");
         for (SCDP scdp : types) {
-            final SCDPType type = new SCDPImplType(scdp, nameFactory, clingimplServicesPackageName);
-            final File serviceFile = type.getJavaClassName().asFile(clingImplOutputDir);
+            final SCDPImplType type = new SCDPImplType(scdp, nameFactory, clingimplServicesPackageName);
+            final File serviceFile = type.getJavaImplClassName().asFile(clingImplOutputDir);
             if (!serviceFile.exists()) {
                 Files.createParentDirs(serviceFile);
                 final String sourceCode = render(cfg, "ServiceClingImpl.ftl", type);

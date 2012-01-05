@@ -5,6 +5,8 @@
  */
 package de.kalass.sonoscontrol.clingimpl.services;
 
+import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
+import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
@@ -19,9 +21,9 @@ import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.deviceproperties.LEDState;
 import de.kalass.sonoscontrol.api.model.deviceproperties.Invisible;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.deviceproperties.GetZoneAttributesResult;
 import de.kalass.sonoscontrol.api.model.deviceproperties.HouseholdID;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneInfo;
+import de.kalass.sonoscontrol.api.model.deviceproperties.GetZoneInfoResult;
 import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayIncludeLinkedZones;
 import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayRoomUUID;
 import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayVolume;
@@ -44,9 +46,9 @@ import de.kalass.sonoscontrol.api.model.deviceproperties.CopyrightInfo;
 import de.kalass.sonoscontrol.api.model.deviceproperties.Icon;
 
 @SuppressWarnings("rawtypes")
-public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
+public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl implements DevicePropertiesService {
 
-    public DevicePropertiesClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public DevicePropertiesServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("DeviceProperties", upnpService, device, errorStrategy);
     }
 
@@ -86,6 +88,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -100,7 +103,10 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final LEDState value = LEDState.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -115,6 +121,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -129,7 +136,10 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final Invisible value = Invisible.getInstance(getBoolean("boolean",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -144,6 +154,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -159,6 +170,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -174,6 +186,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -189,6 +202,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -205,12 +219,13 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
     }
 
-    public <C extends Callback1<ZoneAttributes>> C retrieveZoneAttributes(final C successHandler) {
+    public <C extends Callback1<GetZoneAttributesResult>> C retrieveZoneAttributes(final C successHandler) {
         return execute(successHandler, new Call<C>("GetZoneAttributes") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -219,7 +234,11 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final ZoneName value0 = ZoneName.getInstance(getString("string",output[0].getValue()));
+                final Icon value1 = Icon.getInstance(getString("string",output[1].getValue()));
+                final GetZoneAttributesResult value = GetZoneAttributesResult.getInstance(value0,value1);
+                handler.success(value);
             }
         });
     }
@@ -233,12 +252,15 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final HouseholdID value = HouseholdID.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
 
-    public <C extends Callback1<ZoneInfo>> C retrieveZoneInfo(final C successHandler) {
+    public <C extends Callback1<GetZoneInfoResult>> C retrieveZoneInfo(final C successHandler) {
         return execute(successHandler, new Call<C>("GetZoneInfo") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -247,7 +269,17 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final SerialNumber value0 = SerialNumber.getInstance(getString("string",output[0].getValue()));
+                final SoftwareVersion value1 = SoftwareVersion.getInstance(getString("string",output[1].getValue()));
+                final DisplaySoftwareVersion value2 = DisplaySoftwareVersion.getInstance(getString("string",output[2].getValue()));
+                final HardwareVersion value3 = HardwareVersion.getInstance(getString("string",output[3].getValue()));
+                final IPAddress value4 = IPAddress.getInstance(getString("string",output[4].getValue()));
+                final MACAddress value5 = MACAddress.getInstance(getString("string",output[5].getValue()));
+                final CopyrightInfo value6 = CopyrightInfo.getInstance(getString("string",output[6].getValue()));
+                final ExtraInfo value7 = ExtraInfo.getInstance(getString("string",output[7].getValue()));
+                final GetZoneInfoResult value = GetZoneInfoResult.getInstance(value0,value1,value2,value3,value4,value5,value6,value7);
+                handler.success(value);
             }
         });
     }
@@ -262,6 +294,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -276,7 +309,10 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final AutoplayIncludeLinkedZones value = AutoplayIncludeLinkedZones.getInstance(getBoolean("boolean",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -291,6 +327,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -305,7 +342,10 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final AutoplayRoomUUID value = AutoplayRoomUUID.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -320,6 +360,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -334,7 +375,10 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final AutoplayVolume value = AutoplayVolume.getInstance(getLong("ui2",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -350,6 +394,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -365,6 +410,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -379,7 +425,10 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final SpeakerSize value = SpeakerSize.getInstance(getLong("i2",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -394,6 +443,7 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -408,7 +458,10 @@ public final class DevicePropertiesClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final AutoplayUseVolume value = AutoplayUseVolume.getInstance(getBoolean("boolean",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }

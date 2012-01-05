@@ -5,6 +5,8 @@
  */
 package de.kalass.sonoscontrol.clingimpl.services;
 
+import de.kalass.sonoscontrol.api.services.AlarmClockService;
+import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
@@ -17,12 +19,13 @@ import de.kalass.sonoscontrol.clingimpl.services.AbstractServiceImpl;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
-import de.kalass.sonoscontrol.api.model.alarmclock.Format;
+import de.kalass.sonoscontrol.api.model.alarmclock.GetFormatResult;
+import de.kalass.sonoscontrol.api.model.alarmclock.GetTimeZoneResult;
+import de.kalass.sonoscontrol.api.model.alarmclock.GetTimeZoneAndRuleResult;
 import de.kalass.sonoscontrol.api.model.alarmclock.TimeZone;
-import de.kalass.sonoscontrol.api.model.alarmclock.TimeZoneAndRule;
 import de.kalass.sonoscontrol.api.model.alarmclock.TimeServer;
 import de.kalass.sonoscontrol.api.model.alarmclock.ISO8601Time;
-import de.kalass.sonoscontrol.api.model.alarmclock.TimeNow;
+import de.kalass.sonoscontrol.api.model.alarmclock.GetTimeNowResult;
 import de.kalass.sonoscontrol.api.model.alarmclock.AlarmID;
 import de.kalass.sonoscontrol.api.model.alarmclock.ListAlarmsResult;
 import de.kalass.sonoscontrol.api.model.alarmclock.DailyIndexRefreshTime;
@@ -45,9 +48,9 @@ import de.kalass.sonoscontrol.api.model.alarmclock.TimeZoneIndex;
 import de.kalass.sonoscontrol.api.model.alarmclock.TimeFormat;
 
 @SuppressWarnings("rawtypes")
-public final class AlarmClockClingImpl extends AbstractServiceImpl {
+public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implements AlarmClockService {
 
-    public AlarmClockClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public AlarmClockServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("AlarmClock", upnpService, device, errorStrategy);
     }
 
@@ -92,12 +95,13 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
     }
 
-    public <C extends Callback1<Format>> C retrieveFormat(final C successHandler) {
+    public <C extends Callback1<GetFormatResult>> C retrieveFormat(final C successHandler) {
         return execute(successHandler, new Call<C>("GetFormat") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -106,7 +110,11 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final TimeFormat value0 = TimeFormat.getInstance(getString("string",output[0].getValue()));
+                final DateFormat value1 = DateFormat.getInstance(getString("string",output[1].getValue()));
+                final GetFormatResult value = GetFormatResult.getInstance(value0,value1);
+                handler.success(value);
             }
         });
     }
@@ -122,12 +130,13 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
     }
 
-    public <C extends Callback1<TimeZone>> C retrieveTimeZone(final C successHandler) {
+    public <C extends Callback1<GetTimeZoneResult>> C retrieveTimeZone(final C successHandler) {
         return execute(successHandler, new Call<C>("GetTimeZone") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -136,12 +145,16 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final TimeZoneIndex value0 = TimeZoneIndex.getInstance(getLong("i4",output[0].getValue()));
+                final TimeZoneAutoAdjustDst value1 = TimeZoneAutoAdjustDst.getInstance(getBoolean("boolean",output[1].getValue()));
+                final GetTimeZoneResult value = GetTimeZoneResult.getInstance(value0,value1);
+                handler.success(value);
             }
         });
     }
 
-    public <C extends Callback1<TimeZoneAndRule>> C retrieveTimeZoneAndRule(final C successHandler) {
+    public <C extends Callback1<GetTimeZoneAndRuleResult>> C retrieveTimeZoneAndRule(final C successHandler) {
         return execute(successHandler, new Call<C>("GetTimeZoneAndRule") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -150,7 +163,12 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final TimeZoneIndex value0 = TimeZoneIndex.getInstance(getLong("i4",output[0].getValue()));
+                final TimeZoneAutoAdjustDst value1 = TimeZoneAutoAdjustDst.getInstance(getBoolean("boolean",output[1].getValue()));
+                final TimeZone value2 = TimeZone.getInstance(getString("string",output[2].getValue()));
+                final GetTimeZoneAndRuleResult value = GetTimeZoneAndRuleResult.getInstance(value0,value1,value2);
+                handler.success(value);
             }
         });
     }
@@ -165,7 +183,10 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final TimeZone value = TimeZone.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -180,6 +201,7 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -194,7 +216,10 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final TimeServer value = TimeServer.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -210,6 +235,7 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -225,12 +251,15 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final ISO8601Time value = ISO8601Time.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
 
-    public <C extends Callback1<TimeNow>> C retrieveTimeNow(final C successHandler) {
+    public <C extends Callback1<GetTimeNowResult>> C retrieveTimeNow(final C successHandler) {
         return execute(successHandler, new Call<C>("GetTimeNow") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -239,7 +268,13 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final ISO8601Time value0 = ISO8601Time.getInstance(getString("string",output[0].getValue()));
+                final ISO8601Time value1 = ISO8601Time.getInstance(getString("string",output[1].getValue()));
+                final TimeZone value2 = TimeZone.getInstance(getString("string",output[2].getValue()));
+                final TimeGeneration value3 = TimeGeneration.getInstance(getLong("ui4",output[3].getValue()));
+                final GetTimeNowResult value = GetTimeNowResult.getInstance(value0,value1,value2,value3);
+                handler.success(value);
             }
         });
     }
@@ -263,7 +298,10 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final AlarmID value = AlarmID.getInstance(getLong("ui4",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -288,6 +326,7 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -303,6 +342,7 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -317,7 +357,11 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final AlarmList value0 = AlarmList.getInstance(getString("string",output[0].getValue()));
+                final AlarmListVersion value1 = AlarmListVersion.getInstance(getString("string",output[1].getValue()));
+                final ListAlarmsResult value = ListAlarmsResult.getInstance(value0,value1);
+                handler.success(value);
             }
         });
     }
@@ -332,6 +376,7 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -346,7 +391,10 @@ public final class AlarmClockClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final DailyIndexRefreshTime value = DailyIndexRefreshTime.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }

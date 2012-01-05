@@ -7,14 +7,14 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class DeviceCapabilities implements Serializable {
+public final class GetDeviceCapabilitiesResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final PossiblePlaybackStorageMedia _playMedia;
     private final PossibleRecordStorageMedia _recMedia;
     private final PossibleRecordQualityModes _recQualityModes;
 
-    public DeviceCapabilities(
+    private GetDeviceCapabilitiesResult(
         final PossiblePlaybackStorageMedia playMedia,
         final PossibleRecordStorageMedia recMedia,
         final PossibleRecordQualityModes recQualityModes
@@ -24,6 +24,13 @@ public final class DeviceCapabilities implements Serializable {
         _recQualityModes = recQualityModes;
     } 
 
+    public static GetDeviceCapabilitiesResult getInstance(
+        final PossiblePlaybackStorageMedia playMedia,
+        final PossibleRecordStorageMedia recMedia,
+        final PossibleRecordQualityModes recQualityModes
+    ) {
+        return new GetDeviceCapabilitiesResult(playMedia, recMedia, recQualityModes);
+    } 
     public PossiblePlaybackStorageMedia getPlayMedia() {
         return _playMedia;
     }
@@ -51,8 +58,8 @@ public final class DeviceCapabilities implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof DeviceCapabilities) {
-            DeviceCapabilities obj = (DeviceCapabilities)other;
+        if (other instanceof GetDeviceCapabilitiesResult) {
+            GetDeviceCapabilitiesResult obj = (GetDeviceCapabilitiesResult)other;
             return 
                     Objects.equal(_playMedia, obj._playMedia) &&
                     Objects.equal(_recMedia, obj._recMedia) &&

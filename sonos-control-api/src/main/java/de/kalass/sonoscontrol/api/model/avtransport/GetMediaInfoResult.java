@@ -7,7 +7,7 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class MediaInfo implements Serializable {
+public final class GetMediaInfoResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final NumberOfTracks _nrTracks;
@@ -20,7 +20,7 @@ public final class MediaInfo implements Serializable {
     private final RecordStorageMedium _recordMedium;
     private final RecordMediumWriteStatus _writeStatus;
 
-    public MediaInfo(
+    private GetMediaInfoResult(
         final NumberOfTracks nrTracks,
         final CurrentMediaDuration mediaDuration,
         final AVTransportURI currentURI,
@@ -42,6 +42,19 @@ public final class MediaInfo implements Serializable {
         _writeStatus = writeStatus;
     } 
 
+    public static GetMediaInfoResult getInstance(
+        final NumberOfTracks nrTracks,
+        final CurrentMediaDuration mediaDuration,
+        final AVTransportURI currentURI,
+        final AVTransportURIMetaData currentURIMetaData,
+        final NextAVTransportURI nextURI,
+        final NextAVTransportURIMetaData nextURIMetaData,
+        final PlaybackStorageMedium playMedium,
+        final RecordStorageMedium recordMedium,
+        final RecordMediumWriteStatus writeStatus
+    ) {
+        return new GetMediaInfoResult(nrTracks, mediaDuration, currentURI, currentURIMetaData, nextURI, nextURIMetaData, playMedium, recordMedium, writeStatus);
+    } 
     public NumberOfTracks getNrTracks() {
         return _nrTracks;
     }
@@ -99,8 +112,8 @@ public final class MediaInfo implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof MediaInfo) {
-            MediaInfo obj = (MediaInfo)other;
+        if (other instanceof GetMediaInfoResult) {
+            GetMediaInfoResult obj = (GetMediaInfoResult)other;
             return 
                     Objects.equal(_nrTracks, obj._nrTracks) &&
                     Objects.equal(_mediaDuration, obj._mediaDuration) &&

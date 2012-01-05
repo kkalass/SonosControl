@@ -7,13 +7,13 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class AudioInputAttributes implements Serializable {
+public final class GetAudioInputAttributesResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final AudioInputName _currentName;
     private final Icon _currentIcon;
 
-    public AudioInputAttributes(
+    private GetAudioInputAttributesResult(
         final AudioInputName currentName,
         final Icon currentIcon
     ) {
@@ -21,6 +21,12 @@ public final class AudioInputAttributes implements Serializable {
         _currentIcon = currentIcon;
     } 
 
+    public static GetAudioInputAttributesResult getInstance(
+        final AudioInputName currentName,
+        final Icon currentIcon
+    ) {
+        return new GetAudioInputAttributesResult(currentName, currentIcon);
+    } 
     public AudioInputName getCurrentName() {
         return _currentName;
     }
@@ -43,8 +49,8 @@ public final class AudioInputAttributes implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof AudioInputAttributes) {
-            AudioInputAttributes obj = (AudioInputAttributes)other;
+        if (other instanceof GetAudioInputAttributesResult) {
+            GetAudioInputAttributesResult obj = (GetAudioInputAttributesResult)other;
             return 
                     Objects.equal(_currentName, obj._currentName) &&
                     Objects.equal(_currentIcon, obj._currentIcon) 

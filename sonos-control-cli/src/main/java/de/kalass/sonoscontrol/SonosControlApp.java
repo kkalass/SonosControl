@@ -26,7 +26,7 @@ import de.kalass.sonoscontrol.cli.commands.ShowCommand;
 import de.kalass.sonoscontrol.cli.commands.SonosDeviceCommand;
 import de.kalass.sonoscontrol.cli.commands.StartCommand;
 import de.kalass.sonoscontrol.cli.commands.StopCommand;
-import de.kalass.sonoscontrol.clingimpl.SonosControlClingImpl;
+import de.kalass.sonoscontrol.clingimpl.core.SonosControlClingImpl;
 
 public class SonosControlApp {
     private static final Logger LOG = LoggerFactory.getLogger(SonosControlApp.class);

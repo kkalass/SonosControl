@@ -7,13 +7,13 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class Format implements Serializable {
+public final class GetFormatResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final TimeFormat _currentTimeFormat;
     private final DateFormat _currentDateFormat;
 
-    public Format(
+    private GetFormatResult(
         final TimeFormat currentTimeFormat,
         final DateFormat currentDateFormat
     ) {
@@ -21,6 +21,12 @@ public final class Format implements Serializable {
         _currentDateFormat = currentDateFormat;
     } 
 
+    public static GetFormatResult getInstance(
+        final TimeFormat currentTimeFormat,
+        final DateFormat currentDateFormat
+    ) {
+        return new GetFormatResult(currentTimeFormat, currentDateFormat);
+    } 
     public TimeFormat getCurrentTimeFormat() {
         return _currentTimeFormat;
     }
@@ -43,8 +49,8 @@ public final class Format implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof Format) {
-            Format obj = (Format)other;
+        if (other instanceof GetFormatResult) {
+            GetFormatResult obj = (GetFormatResult)other;
             return 
                     Objects.equal(_currentTimeFormat, obj._currentTimeFormat) &&
                     Objects.equal(_currentDateFormat, obj._currentDateFormat) 

@@ -14,7 +14,7 @@ public final class AddURIToQueueResult implements Serializable {
     private final NumTracks _numTracksAdded;
     private final NumTracks _newQueueLength;
 
-    public AddURIToQueueResult(
+    private AddURIToQueueResult(
         final TrackNumber firstTrackNumberEnqueued,
         final NumTracks numTracksAdded,
         final NumTracks newQueueLength
@@ -24,6 +24,13 @@ public final class AddURIToQueueResult implements Serializable {
         _newQueueLength = newQueueLength;
     } 
 
+    public static AddURIToQueueResult getInstance(
+        final TrackNumber firstTrackNumberEnqueued,
+        final NumTracks numTracksAdded,
+        final NumTracks newQueueLength
+    ) {
+        return new AddURIToQueueResult(firstTrackNumberEnqueued, numTracksAdded, newQueueLength);
+    } 
     public TrackNumber getFirstTrackNumberEnqueued() {
         return _firstTrackNumberEnqueued;
     }

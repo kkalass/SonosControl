@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutionException;
 
 import de.kalass.sonoscontrol.api.control.SonosDevice;
 import de.kalass.sonoscontrol.api.core.AsyncValue;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.deviceproperties.GetZoneAttributesResult;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.MuteChannel;
@@ -23,13 +23,13 @@ public final class ShowCommand extends SonosDeviceCommand {
         final DevicePropertiesService propsService = device.getDevicePropertiesService();
         final RenderingControlService renderingControlService = device.getRenderingControlService();
 
-        final AsyncValue<ZoneAttributes> attributes = propsService.retrieveZoneAttributes(new AsyncValue<ZoneAttributes>());
+        final AsyncValue<GetZoneAttributesResult> attributes = propsService.retrieveZoneAttributes(new AsyncValue<GetZoneAttributesResult>());
 
         final AsyncValue<Volume> volume = renderingControlService.retrieveVolume(Channel.MASTER, new AsyncValue<Volume>());
         final AsyncValue<Mute> mute = renderingControlService.retrieveMute(MuteChannel.MASTER, new AsyncValue<Mute>());
 
-        String msg = "VOLUME: " + volume.get().asLong() + "\n"
-                + "MUTE: " + mute.get().asBoolean() + "\n"
+        String msg = "VOLUME: " + volume.get().getValue() + "\n"
+                + "MUTE: " + mute.get().getValue() + "\n"
                 + "ATTRIBUTES: " + attributes.get() +  "\n";
 
         callback.success(msg);

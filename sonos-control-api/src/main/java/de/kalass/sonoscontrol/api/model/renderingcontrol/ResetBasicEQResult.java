@@ -16,7 +16,7 @@ public final class ResetBasicEQResult implements Serializable {
     private final LeftVolume _leftVolume;
     private final RightVolume _rightVolume;
 
-    public ResetBasicEQResult(
+    private ResetBasicEQResult(
         final Bass bass,
         final Treble treble,
         final Loudness loudness,
@@ -30,6 +30,15 @@ public final class ResetBasicEQResult implements Serializable {
         _rightVolume = rightVolume;
     } 
 
+    public static ResetBasicEQResult getInstance(
+        final Bass bass,
+        final Treble treble,
+        final Loudness loudness,
+        final LeftVolume leftVolume,
+        final RightVolume rightVolume
+    ) {
+        return new ResetBasicEQResult(bass, treble, loudness, leftVolume, rightVolume);
+    } 
     public Bass getBass() {
         return _bass;
     }

@@ -7,13 +7,13 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class RemainingSleepTimerDuration implements Serializable {
+public final class GetRemainingSleepTimerDurationResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final ISO8601Time _remainingSleepTimerDuration;
     private final SleepTimerGeneration _currentSleepTimerGeneration;
 
-    public RemainingSleepTimerDuration(
+    private GetRemainingSleepTimerDurationResult(
         final ISO8601Time remainingSleepTimerDuration,
         final SleepTimerGeneration currentSleepTimerGeneration
     ) {
@@ -21,6 +21,12 @@ public final class RemainingSleepTimerDuration implements Serializable {
         _currentSleepTimerGeneration = currentSleepTimerGeneration;
     } 
 
+    public static GetRemainingSleepTimerDurationResult getInstance(
+        final ISO8601Time remainingSleepTimerDuration,
+        final SleepTimerGeneration currentSleepTimerGeneration
+    ) {
+        return new GetRemainingSleepTimerDurationResult(remainingSleepTimerDuration, currentSleepTimerGeneration);
+    } 
     public ISO8601Time getRemainingSleepTimerDuration() {
         return _remainingSleepTimerDuration;
     }
@@ -43,8 +49,8 @@ public final class RemainingSleepTimerDuration implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof RemainingSleepTimerDuration) {
-            RemainingSleepTimerDuration obj = (RemainingSleepTimerDuration)other;
+        if (other instanceof GetRemainingSleepTimerDurationResult) {
+            GetRemainingSleepTimerDurationResult obj = (GetRemainingSleepTimerDurationResult)other;
             return 
                     Objects.equal(_remainingSleepTimerDuration, obj._remainingSleepTimerDuration) &&
                     Objects.equal(_currentSleepTimerGeneration, obj._currentSleepTimerGeneration) 

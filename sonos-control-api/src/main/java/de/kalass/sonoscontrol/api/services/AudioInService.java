@@ -6,8 +6,8 @@ package de.kalass.sonoscontrol.api.services;
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.audioin.TransportSettings;
-import de.kalass.sonoscontrol.api.model.audioin.AudioInputAttributes;
-import de.kalass.sonoscontrol.api.model.audioin.LineInLevel;
+import de.kalass.sonoscontrol.api.model.audioin.GetAudioInputAttributesResult;
+import de.kalass.sonoscontrol.api.model.audioin.GetLineInLevelResult;
 import de.kalass.sonoscontrol.api.model.audioin.RightLineInLevel;
 import de.kalass.sonoscontrol.api.model.audioin.LeftLineInLevel;
 import de.kalass.sonoscontrol.api.model.MemberID;
@@ -39,11 +39,11 @@ public interface AudioInService {
 
     <C extends Callback0> C setAudioInputAttributes(AudioInputName desiredName, Icon desiredIcon, C callback);
 
-    <C extends Callback1<AudioInputAttributes>> C retrieveAudioInputAttributes(C callback);
+    <C extends Callback1<GetAudioInputAttributesResult>> C retrieveAudioInputAttributes(C callback);
 
     <C extends Callback0> C setLineInLevel(LeftLineInLevel desiredLeftLineInLevel, RightLineInLevel desiredRightLineInLevel, C callback);
 
-    <C extends Callback1<LineInLevel>> C retrieveLineInLevel(C callback);
+    <C extends Callback1<GetLineInLevelResult>> C retrieveLineInLevel(C callback);
 
     <C extends Callback0> C selectAudio(ObjectID objectID, C callback);
 

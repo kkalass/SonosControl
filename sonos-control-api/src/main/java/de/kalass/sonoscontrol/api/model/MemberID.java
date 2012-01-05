@@ -10,7 +10,7 @@ public final class MemberID {
         _value = Preconditions.checkNotNull(value);
     }
 
-    public String asString() {
+    public String getValue() {
         return _value;
     }
 

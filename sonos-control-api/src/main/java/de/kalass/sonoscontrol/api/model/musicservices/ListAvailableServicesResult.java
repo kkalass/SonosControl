@@ -14,7 +14,7 @@ public final class ListAvailableServicesResult implements Serializable {
     private final ServiceTypeList _availableServiceTypeList;
     private final ServiceListVersion _availableServiceListVersion;
 
-    public ListAvailableServicesResult(
+    private ListAvailableServicesResult(
         final ServiceDescriptorList availableServiceDescriptorList,
         final ServiceTypeList availableServiceTypeList,
         final ServiceListVersion availableServiceListVersion
@@ -24,6 +24,13 @@ public final class ListAvailableServicesResult implements Serializable {
         _availableServiceListVersion = availableServiceListVersion;
     } 
 
+    public static ListAvailableServicesResult getInstance(
+        final ServiceDescriptorList availableServiceDescriptorList,
+        final ServiceTypeList availableServiceTypeList,
+        final ServiceListVersion availableServiceListVersion
+    ) {
+        return new ListAvailableServicesResult(availableServiceDescriptorList, availableServiceTypeList, availableServiceListVersion);
+    } 
     public ServiceDescriptorList getAvailableServiceDescriptorList() {
         return _availableServiceDescriptorList;
     }

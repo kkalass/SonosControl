@@ -6,11 +6,10 @@ public class SCDPImplType extends SCDPType {
 
     public SCDPImplType(SCDP scdp, NameFactory nameFactory, JavaPackageName implDirName) {
         super(scdp, nameFactory);
-        _javaClassName = implDirName.childClass(scdp.getName() + "ClingImpl");
+        _javaClassName = implDirName.childClass(scdp.getName() + "ServiceClingImpl");
     }
 
-    @Override
-    public JavaClassName getJavaClassName() {
+    public JavaClassName getJavaImplClassName() {
         return _javaClassName;
     }
 

@@ -5,6 +5,8 @@
  */
 package de.kalass.sonoscontrol.clingimpl.services;
 
+import de.kalass.sonoscontrol.api.services.AVTransportService;
+import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
@@ -19,15 +21,15 @@ import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.avtransport.AddURIToQueueResult;
 import de.kalass.sonoscontrol.api.model.avtransport.ObjectID;
-import de.kalass.sonoscontrol.api.model.avtransport.MediaInfo;
-import de.kalass.sonoscontrol.api.model.avtransport.TransportInfo;
-import de.kalass.sonoscontrol.api.model.avtransport.PositionInfo;
-import de.kalass.sonoscontrol.api.model.avtransport.DeviceCapabilities;
-import de.kalass.sonoscontrol.api.model.avtransport.TransportSettings;
+import de.kalass.sonoscontrol.api.model.avtransport.GetMediaInfoResult;
+import de.kalass.sonoscontrol.api.model.avtransport.GetTransportInfoResult;
+import de.kalass.sonoscontrol.api.model.avtransport.GetPositionInfoResult;
+import de.kalass.sonoscontrol.api.model.avtransport.GetDeviceCapabilitiesResult;
+import de.kalass.sonoscontrol.api.model.avtransport.GetTransportSettingsResult;
 import de.kalass.sonoscontrol.api.model.avtransport.CurrentCrossfadeMode;
 import de.kalass.sonoscontrol.api.model.avtransport.CurrentTransportActions;
-import de.kalass.sonoscontrol.api.model.avtransport.RemainingSleepTimerDuration;
-import de.kalass.sonoscontrol.api.model.avtransport.RunningAlarmProperties;
+import de.kalass.sonoscontrol.api.model.avtransport.GetRemainingSleepTimerDurationResult;
+import de.kalass.sonoscontrol.api.model.avtransport.GetRunningAlarmPropertiesResult;
 import de.kalass.sonoscontrol.api.model.avtransport.TransportErrorDescription;
 import de.kalass.sonoscontrol.api.model.avtransport.AbsoluteTimePosition;
 import de.kalass.sonoscontrol.api.model.avtransport.NextAVTransportURI;
@@ -42,6 +44,7 @@ import de.kalass.sonoscontrol.api.model.avtransport.AlarmState;
 import de.kalass.sonoscontrol.api.model.avtransport.URI;
 import de.kalass.sonoscontrol.api.model.avtransport.AlarmLoggedStartTime;
 import de.kalass.sonoscontrol.api.model.avtransport.URIMetaData;
+import de.kalass.sonoscontrol.api.model.avtransport.TransportSettings;
 import de.kalass.sonoscontrol.api.model.avtransport.PlaybackStorageMedium;
 import de.kalass.sonoscontrol.api.model.avtransport.SourceState;
 import de.kalass.sonoscontrol.api.model.avtransport.RelativeTimePosition;
@@ -89,9 +92,9 @@ import de.kalass.sonoscontrol.api.model.avtransport.TrackNumber;
 import de.kalass.sonoscontrol.api.model.avtransport.CurrentRecordQualityMode;
 
 @SuppressWarnings("rawtypes")
-public final class AVTransportClingImpl extends AbstractServiceImpl {
+public final class AVTransportServiceClingImpl extends AbstractServiceImpl implements AVTransportService {
 
-    public AVTransportClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public AVTransportServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("AVTransport", upnpService, device, errorStrategy);
     }
 
@@ -116,6 +119,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -138,7 +142,12 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final TrackNumber value0 = TrackNumber.getInstance(getLong("ui4",output[0].getValue()));
+                final NumTracks value1 = NumTracks.getInstance(getLong("ui4",output[1].getValue()));
+                final NumTracks value2 = NumTracks.getInstance(getLong("ui4",output[2].getValue()));
+                final AddURIToQueueResult value = AddURIToQueueResult.getInstance(value0,value1,value2);
+                handler.success(value);
             }
         });
     }
@@ -160,6 +169,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -180,6 +190,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -198,6 +209,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -218,7 +230,10 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final ObjectID value = ObjectID.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -226,7 +241,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    public <C extends Callback1<MediaInfo>> C retrieveMediaInfo(final C successHandler) {
+    public <C extends Callback1<GetMediaInfoResult>> C retrieveMediaInfo(final C successHandler) {
         return execute(successHandler, new Call<C>("GetMediaInfo") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -236,7 +251,18 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final NumberOfTracks value0 = NumberOfTracks.getInstance(getLong("ui4",output[0].getValue()));
+                final CurrentMediaDuration value1 = CurrentMediaDuration.getInstance(getString("string",output[1].getValue()));
+                final AVTransportURI value2 = AVTransportURI.getInstance(getString("string",output[2].getValue()));
+                final AVTransportURIMetaData value3 = AVTransportURIMetaData.getInstance(getString("string",output[3].getValue()));
+                final NextAVTransportURI value4 = NextAVTransportURI.getInstance(getString("string",output[4].getValue()));
+                final NextAVTransportURIMetaData value5 = NextAVTransportURIMetaData.getInstance(getString("string",output[5].getValue()));
+                final PlaybackStorageMedium value6 = PlaybackStorageMedium.getInstance(getString("string",output[6].getValue()));
+                final RecordStorageMedium value7 = RecordStorageMedium.getInstance(getString("string",output[7].getValue()));
+                final RecordMediumWriteStatus value8 = RecordMediumWriteStatus.getInstance(getString("string",output[8].getValue()));
+                final GetMediaInfoResult value = GetMediaInfoResult.getInstance(value0,value1,value2,value3,value4,value5,value6,value7,value8);
+                handler.success(value);
             }
         });
     }
@@ -244,7 +270,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    public <C extends Callback1<TransportInfo>> C retrieveTransportInfo(final C successHandler) {
+    public <C extends Callback1<GetTransportInfoResult>> C retrieveTransportInfo(final C successHandler) {
         return execute(successHandler, new Call<C>("GetTransportInfo") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -254,7 +280,12 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final TransportState value0 = TransportState.getInstance(getString("string",output[0].getValue()));
+                final TransportStatus value1 = TransportStatus.getInstance(getString("string",output[1].getValue()));
+                final TransportPlaySpeed value2 = TransportPlaySpeed.getInstance(getString("string",output[2].getValue()));
+                final GetTransportInfoResult value = GetTransportInfoResult.getInstance(value0,value1,value2);
+                handler.success(value);
             }
         });
     }
@@ -262,7 +293,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    public <C extends Callback1<PositionInfo>> C retrievePositionInfo(final C successHandler) {
+    public <C extends Callback1<GetPositionInfoResult>> C retrievePositionInfo(final C successHandler) {
         return execute(successHandler, new Call<C>("GetPositionInfo") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -272,7 +303,17 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final CurrentTrack value0 = CurrentTrack.getInstance(getLong("ui4",output[0].getValue()));
+                final CurrentTrackDuration value1 = CurrentTrackDuration.getInstance(getString("string",output[1].getValue()));
+                final CurrentTrackMetaData value2 = CurrentTrackMetaData.getInstance(getString("string",output[2].getValue()));
+                final CurrentTrackURI value3 = CurrentTrackURI.getInstance(getString("string",output[3].getValue()));
+                final RelativeTimePosition value4 = RelativeTimePosition.getInstance(getString("string",output[4].getValue()));
+                final AbsoluteTimePosition value5 = AbsoluteTimePosition.getInstance(getString("string",output[5].getValue()));
+                final RelativeCounterPosition value6 = RelativeCounterPosition.getInstance(getLong("i4",output[6].getValue()));
+                final AbsoluteCounterPosition value7 = AbsoluteCounterPosition.getInstance(getLong("i4",output[7].getValue()));
+                final GetPositionInfoResult value = GetPositionInfoResult.getInstance(value0,value1,value2,value3,value4,value5,value6,value7);
+                handler.success(value);
             }
         });
     }
@@ -280,7 +321,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    public <C extends Callback1<DeviceCapabilities>> C retrieveDeviceCapabilities(final C successHandler) {
+    public <C extends Callback1<GetDeviceCapabilitiesResult>> C retrieveDeviceCapabilities(final C successHandler) {
         return execute(successHandler, new Call<C>("GetDeviceCapabilities") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -290,7 +331,12 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final PossiblePlaybackStorageMedia value0 = PossiblePlaybackStorageMedia.getInstance(getString("string",output[0].getValue()));
+                final PossibleRecordStorageMedia value1 = PossibleRecordStorageMedia.getInstance(getString("string",output[1].getValue()));
+                final PossibleRecordQualityModes value2 = PossibleRecordQualityModes.getInstance(getString("string",output[2].getValue()));
+                final GetDeviceCapabilitiesResult value = GetDeviceCapabilitiesResult.getInstance(value0,value1,value2);
+                handler.success(value);
             }
         });
     }
@@ -298,7 +344,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    public <C extends Callback1<TransportSettings>> C retrieveTransportSettings(final C successHandler) {
+    public <C extends Callback1<GetTransportSettingsResult>> C retrieveTransportSettings(final C successHandler) {
         return execute(successHandler, new Call<C>("GetTransportSettings") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -308,7 +354,11 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final CurrentPlayMode value0 = CurrentPlayMode.getInstance(getString("string",output[0].getValue()));
+                final CurrentRecordQualityMode value1 = CurrentRecordQualityMode.getInstance(getString("string",output[1].getValue()));
+                final GetTransportSettingsResult value = GetTransportSettingsResult.getInstance(value0,value1);
+                handler.success(value);
             }
         });
     }
@@ -326,7 +376,10 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final CurrentCrossfadeMode value = CurrentCrossfadeMode.getInstance(getBoolean("boolean",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -344,6 +397,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -364,6 +418,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -382,6 +437,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -402,6 +458,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -420,6 +477,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -438,6 +496,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -456,6 +515,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -474,6 +534,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -492,6 +553,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -511,6 +573,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -530,6 +593,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -549,6 +613,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -567,7 +632,10 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                 assert invocation.getOutput().length == 1;
+                 final ActionArgumentValue[] output = invocation.getOutput();
+                 final CurrentTransportActions value = CurrentTransportActions.getInstance(getString("string",output[0].getValue()));
+                 handler.success(value);
             }
         });
     }
@@ -585,6 +653,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -613,6 +682,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -643,6 +713,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -664,6 +735,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -684,6 +756,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -703,6 +776,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -711,7 +785,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    public <C extends Callback1<RemainingSleepTimerDuration>> C retrieveRemainingSleepTimerDuration(final C successHandler) {
+    public <C extends Callback1<GetRemainingSleepTimerDurationResult>> C retrieveRemainingSleepTimerDuration(final C successHandler) {
         return execute(successHandler, new Call<C>("GetRemainingSleepTimerDuration") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -721,7 +795,11 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final ISO8601Time value0 = ISO8601Time.getInstance(getString("string",output[0].getValue()));
+                final SleepTimerGeneration value1 = SleepTimerGeneration.getInstance(getLong("ui4",output[1].getValue()));
+                final GetRemainingSleepTimerDurationResult value = GetRemainingSleepTimerDurationResult.getInstance(value0,value1);
+                handler.success(value);
             }
         });
     }
@@ -747,6 +825,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -770,6 +849,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });
@@ -778,7 +858,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
     /**
       * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link InstanceID instanceID} is set to an appropriate default value automatically.</p>
       */
-    public <C extends Callback1<RunningAlarmProperties>> C retrieveRunningAlarmProperties(final C successHandler) {
+    public <C extends Callback1<GetRunningAlarmPropertiesResult>> C retrieveRunningAlarmProperties(final C successHandler) {
         return execute(successHandler, new Call<C>("GetRunningAlarmProperties") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
@@ -788,7 +868,12 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                handler.success();
+                final ActionArgumentValue[] output = invocation.getOutput();
+                final AlarmIDRunning value0 = AlarmIDRunning.getInstance(getLong("ui4",output[0].getValue()));
+                final GroupID value1 = GroupID.getInstance(getString("string",output[1].getValue()));
+                final AlarmLoggedStartTime value2 = AlarmLoggedStartTime.getInstance(getString("string",output[2].getValue()));
+                final GetRunningAlarmPropertiesResult value = GetRunningAlarmPropertiesResult.getInstance(value0,value1,value2);
+                handler.success(value);
             }
         });
     }
@@ -807,6 +892,7 @@ public final class AVTransportClingImpl extends AbstractServiceImpl {
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
+                // no return values
                 handler.success();
             }
         });

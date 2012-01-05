@@ -42,6 +42,24 @@ public abstract class AbstractServiceImpl {
         public String getActionName() {
             return _actionName;
         }
+        public String getString(String upnpType, Object value) {
+            return (String)value;
+        }
+        public boolean getBoolean(String upnpType, Object value) {
+            return ((Boolean)value);
+        }
+        public Long getLong(String upnpType, Object value) {
+            if (value == null) {
+                return null;
+            }
+            if ("ui4".equals(upnpType) || "i4".equals(upnpType)) {
+                return ((UnsignedIntegerFourBytes)value).getValue();
+            } else if ("ui2".equals(upnpType) || "i2".equals(upnpType)) {
+                return ((UnsignedIntegerTwoBytes)value).getValue();
+            } else {
+                throw new IllegalStateException();
+            }
+        }
         protected void setInput(ActionInvocation invocation, String upnpType, String name, String value) {
             invocation.setInput(name, value);
         }

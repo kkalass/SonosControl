@@ -7,7 +7,7 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 
-public final class TimeNow implements Serializable {
+public final class GetTimeNowResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final ISO8601Time _currentUTCTime;
@@ -15,7 +15,7 @@ public final class TimeNow implements Serializable {
     private final TimeZone _currentTimeZone;
     private final TimeGeneration _currentTimeGeneration;
 
-    public TimeNow(
+    private GetTimeNowResult(
         final ISO8601Time currentUTCTime,
         final ISO8601Time currentLocalTime,
         final TimeZone currentTimeZone,
@@ -27,6 +27,14 @@ public final class TimeNow implements Serializable {
         _currentTimeGeneration = currentTimeGeneration;
     } 
 
+    public static GetTimeNowResult getInstance(
+        final ISO8601Time currentUTCTime,
+        final ISO8601Time currentLocalTime,
+        final TimeZone currentTimeZone,
+        final TimeGeneration currentTimeGeneration
+    ) {
+        return new GetTimeNowResult(currentUTCTime, currentLocalTime, currentTimeZone, currentTimeGeneration);
+    } 
     public ISO8601Time getCurrentUTCTime() {
         return _currentUTCTime;
     }
@@ -59,8 +67,8 @@ public final class TimeNow implements Serializable {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof TimeNow) {
-            TimeNow obj = (TimeNow)other;
+        if (other instanceof GetTimeNowResult) {
+            GetTimeNowResult obj = (GetTimeNowResult)other;
             return 
                     Objects.equal(_currentUTCTime, obj._currentUTCTime) &&
                     Objects.equal(_currentLocalTime, obj._currentLocalTime) &&

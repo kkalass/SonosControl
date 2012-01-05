@@ -7,9 +7,9 @@ import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.deviceproperties.LEDState;
 import de.kalass.sonoscontrol.api.model.deviceproperties.Invisible;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
+import de.kalass.sonoscontrol.api.model.deviceproperties.GetZoneAttributesResult;
 import de.kalass.sonoscontrol.api.model.deviceproperties.HouseholdID;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneInfo;
+import de.kalass.sonoscontrol.api.model.deviceproperties.GetZoneInfoResult;
 import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayIncludeLinkedZones;
 import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayRoomUUID;
 import de.kalass.sonoscontrol.api.model.deviceproperties.AutoplayVolume;
@@ -65,11 +65,11 @@ public interface DevicePropertiesService {
 
     <C extends Callback0> C setZoneAttributes(ZoneName desiredZoneName, Icon desiredIcon, C callback);
 
-    <C extends Callback1<ZoneAttributes>> C retrieveZoneAttributes(C callback);
+    <C extends Callback1<GetZoneAttributesResult>> C retrieveZoneAttributes(C callback);
 
     <C extends Callback1<HouseholdID>> C retrieveHouseholdID(C callback);
 
-    <C extends Callback1<ZoneInfo>> C retrieveZoneInfo(C callback);
+    <C extends Callback1<GetZoneInfoResult>> C retrieveZoneInfo(C callback);
 
     <C extends Callback0> C setAutoplayLinkedZones(AutoplayIncludeLinkedZones includeLinkedZones, C callback);
 
