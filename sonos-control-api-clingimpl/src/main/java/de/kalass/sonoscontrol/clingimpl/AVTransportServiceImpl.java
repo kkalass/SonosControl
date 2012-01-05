@@ -26,6 +26,7 @@ import de.kalass.sonoscontrol.api.model.avtransport.DeviceCapabilities;
 import de.kalass.sonoscontrol.api.model.avtransport.EnqueueAsNext;
 import de.kalass.sonoscontrol.api.model.avtransport.GroupID;
 import de.kalass.sonoscontrol.api.model.avtransport.ISO8601Time;
+import de.kalass.sonoscontrol.api.model.avtransport.LastChange;
 import de.kalass.sonoscontrol.api.model.avtransport.MediaInfo;
 import de.kalass.sonoscontrol.api.model.avtransport.MemberList;
 import de.kalass.sonoscontrol.api.model.avtransport.NumTracks;
@@ -309,6 +310,11 @@ public class AVTransportServiceImpl extends AbstractServiceImpl implements AVTra
 
     @Override
     public <C extends Callback0> C snoozeAlarm(ISO8601Time duration, C callback) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public LastChange getLastChange() {
         throw new UnsupportedOperationException();
     }
 }

@@ -1,6 +1,7 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package de.kalass.sonoscontrol.api.services;
-
-import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -31,6 +32,19 @@ import de.kalass.sonoscontrol.api.model.deviceproperties.CopyrightInfo;
 import de.kalass.sonoscontrol.api.model.deviceproperties.Icon;
 
 public interface DevicePropertiesService {
+
+
+    SettingsReplicationState getSettingsReplicationState();
+
+    ZoneName getZoneName();
+
+    ChannelMapSet getChannelMapSet();
+
+    Invisible getInvisible();
+
+    IsZoneBridge getIsZoneBridge();
+
+    Icon getIcon();
 
 
     <C extends Callback0> C setLEDState(LEDState desiredLEDState, C callback);

@@ -1,12 +1,20 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package ${data.javaClassName.package.FQN};
-
-import com.google.common.base.Objects;
 
 <#list data.neededImports as import>
 import ${import.FQN};
 </#list>
 
 public interface ${data.javaClassName.name} {
+
+  <#list data.stateVariables as stateVariable>
+    <#if stateVariable.sendEvents>
+
+    ${stateVariable.javaClassName.name} get${stateVariable.stateVariableName}();
+    </#if>
+  </#list>
 
   <#list data.actions as action>
 

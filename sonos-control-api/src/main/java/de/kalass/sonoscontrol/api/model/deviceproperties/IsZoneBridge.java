@@ -1,3 +1,6 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package de.kalass.sonoscontrol.api.model.deviceproperties;
 
 public enum IsZoneBridge {

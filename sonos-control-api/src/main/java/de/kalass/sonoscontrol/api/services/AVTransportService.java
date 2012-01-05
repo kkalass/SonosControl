@@ -1,6 +1,7 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package de.kalass.sonoscontrol.api.services;
-
-import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -76,6 +77,9 @@ import de.kalass.sonoscontrol.api.model.avtransport.TrackNumber;
 import de.kalass.sonoscontrol.api.model.avtransport.CurrentRecordQualityMode;
 
 public interface AVTransportService {
+
+
+    LastChange getLastChange();
 
 
     /**

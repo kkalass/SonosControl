@@ -17,6 +17,7 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.ChannelMap;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.EQType;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.EQValue;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.HeadphoneConnected;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.LastChange;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Loudness;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.MuteChannel;
@@ -243,6 +244,11 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
     public <C extends Callback0> C setChannelMap(ChannelMap channelMap,
             C callback) {
         // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public LastChange getLastChange() {
         throw new UnsupportedOperationException();
     }
 }

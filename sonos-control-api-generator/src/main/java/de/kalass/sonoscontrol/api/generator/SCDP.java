@@ -46,19 +46,26 @@ public final class SCDP {
         private final List<String> allowedValueList;
         @CheckForNull
         private final AllowedValueRange allowedValueRange;
+        private final boolean _sendEvents;
 
         public StateVariable(
                 @Nonnull String name,
                 @Nonnull UpnpDatatype dataType,
+                boolean sendEvents,
                 @Nonnull List<String> allowedValueList,
                 @Nullable
                 AllowedValueRange allowedValueRange
                 ) {
             super();
+            _sendEvents = sendEvents;
             this.name = Preconditions.checkNotNull(name);
             this.dataType = Preconditions.checkNotNull(dataType);
             this.allowedValueList = Preconditions.checkNotNull(allowedValueList);
             this.allowedValueRange = allowedValueRange;
+        }
+
+        public boolean isSendEvents() {
+            return _sendEvents;
         }
 
         @Nonnull

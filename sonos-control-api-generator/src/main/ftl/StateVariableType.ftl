@@ -1,3 +1,6 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package ${data.javaClassName.package.FQN};
 
 import java.io.Serializable;

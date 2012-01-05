@@ -1,6 +1,7 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package de.kalass.sonoscontrol.api.services;
-
-import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -14,6 +15,7 @@ import de.kalass.sonoscontrol.api.model.systemproperties.StubsCreated;
 import de.kalass.sonoscontrol.api.model.systemproperties.AccountPassword;
 
 public interface SystemPropertiesService {
+
 
 
     <C extends Callback0> C setString(VariableName variableName, VariableStringValue stringValue, C callback);

@@ -248,8 +248,10 @@ public final class SCDPType {
         private final List<AllowedValue> _allowedValueList;
         @CheckForNull
         private final AllowedValueRange _allowedValueRange;
+        private boolean _sendEvents;
 
         public StateVariableType(StateVariable stateVariable, ServiceNameFactory serviceNameFactory) {
+            _sendEvents = stateVariable.isSendEvents();
             _javaTypeName = serviceNameFactory.getModelClassName(createJavaTypeName(stateVariable));
             _dataType = stateVariable.getDataType();
             _allowedValueList = Lists.transform(stateVariable.getAllowedValueList(), new Function<String, AllowedValue>() {
@@ -269,6 +271,14 @@ public final class SCDPType {
         private String createJavaTypeName(StateVariable stateVariable) {
             final String name = stateVariable.getName();
             return name.startsWith("A_ARG_TYPE_") ? name.substring("A_ARG_TYPE_".length()) : name ;
+        }
+
+        public boolean isSendEvents() {
+            return _sendEvents;
+        }
+
+        public String getStateVariableName() {
+            return _javaTypeName.getName();
         }
 
         public JavaClassName getJavaClassName() {

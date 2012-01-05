@@ -1,6 +1,7 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package de.kalass.sonoscontrol.api.services;
-
-import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -32,6 +33,21 @@ import de.kalass.sonoscontrol.api.model.alarmclock.TimeZoneIndex;
 import de.kalass.sonoscontrol.api.model.alarmclock.TimeFormat;
 
 public interface AlarmClockService {
+
+
+    TimeGeneration getTimeGeneration();
+
+    AlarmListVersion getAlarmListVersion();
+
+    DateFormat getDateFormat();
+
+    TimeServer getTimeServer();
+
+    TimeZone getTimeZone();
+
+    TimeFormat getTimeFormat();
+
+    DailyIndexRefreshTime getDailyIndexRefreshTime();
 
 
     <C extends Callback0> C setFormat(TimeFormat desiredTimeFormat, DateFormat desiredDateFormat, C callback);

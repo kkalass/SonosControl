@@ -1,6 +1,7 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package de.kalass.sonoscontrol.api.services;
-
-import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -31,6 +32,9 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.LastChange;
 
 public interface RenderingControlService {
+
+
+    LastChange getLastChange();
 
 
     /**

@@ -1,6 +1,7 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package de.kalass.sonoscontrol.api.services;
-
-import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -17,6 +18,13 @@ import de.kalass.sonoscontrol.api.model.connectionmanager.ConnectionStatus;
 import de.kalass.sonoscontrol.api.model.connectionmanager.AVTransportID;
 
 public interface ConnectionManagerService {
+
+
+    SinkProtocolInfo getSinkProtocolInfo();
+
+    SourceProtocolInfo getSourceProtocolInfo();
+
+    CurrentConnectionIDs getCurrentConnectionIDs();
 
 
     <C extends Callback1<ProtocolInfo>> C retrieveProtocolInfo(C callback);

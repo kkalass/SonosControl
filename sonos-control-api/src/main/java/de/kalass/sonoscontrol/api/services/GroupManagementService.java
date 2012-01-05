@@ -1,6 +1,7 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package de.kalass.sonoscontrol.api.services;
-
-import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -14,6 +15,15 @@ import de.kalass.sonoscontrol.api.model.groupmanagement.BufferingResultCode;
 import de.kalass.sonoscontrol.api.model.groupmanagement.TransportSettings;
 
 public interface GroupManagementService {
+
+
+    LocalGroupUUID getLocalGroupUUID();
+
+    ResetVolumeAfter getResetVolumeAfter();
+
+    GroupCoordinatorIsLocal getGroupCoordinatorIsLocal();
+
+    VolumeAVTransportURI getVolumeAVTransportURI();
 
 
     <C extends Callback1<AddMemberResult>> C addMember(MemberID memberID, C callback);

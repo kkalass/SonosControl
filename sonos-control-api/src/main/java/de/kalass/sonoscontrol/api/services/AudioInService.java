@@ -1,6 +1,7 @@
+/**
+ * AUTOMATICALLY GENERATED - DO NOT MODIFY
+ */
 package de.kalass.sonoscontrol.api.services;
-
-import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -17,6 +18,19 @@ import de.kalass.sonoscontrol.api.model.audioin.Playing;
 import de.kalass.sonoscontrol.api.model.audioin.Icon;
 
 public interface AudioInService {
+
+
+    RightLineInLevel getRightLineInLevel();
+
+    LeftLineInLevel getLeftLineInLevel();
+
+    AudioInputName getAudioInputName();
+
+    LineInConnected getLineInConnected();
+
+    Playing getPlaying();
+
+    Icon getIcon();
 
 
     <C extends Callback1<TransportSettings>> C startTransmissionToGroup(MemberID coordinatorID, C callback);

@@ -86,10 +86,12 @@ public final class SCDPReader {
                         }
                         Preconditions.checkNotNull(name);
                         Preconditions.checkNotNull(dataType);
+                        boolean sendsEvents = "yes".equals(stateVariable.getAttributes().getNamedItem("sendEvents").getTextContent());
                         vars.put(name,
                                 new StateVariable(
                                         name,
                                         UpnpDatatype.valueOf(dataType),
+                                        sendsEvents,
                                         ImmutableList.copyOf(allowedValueList),
                                         allowedValueRange
                                         ));

@@ -15,9 +15,11 @@ import de.kalass.sonoscontrol.api.model.deviceproperties.ChannelMapSet;
 import de.kalass.sonoscontrol.api.model.deviceproperties.HouseholdID;
 import de.kalass.sonoscontrol.api.model.deviceproperties.Icon;
 import de.kalass.sonoscontrol.api.model.deviceproperties.Invisible;
+import de.kalass.sonoscontrol.api.model.deviceproperties.IsZoneBridge;
 import de.kalass.sonoscontrol.api.model.deviceproperties.LEDState;
 import de.kalass.sonoscontrol.api.model.deviceproperties.SettingID;
 import de.kalass.sonoscontrol.api.model.deviceproperties.SettingURI;
+import de.kalass.sonoscontrol.api.model.deviceproperties.SettingsReplicationState;
 import de.kalass.sonoscontrol.api.model.deviceproperties.SpeakerSize;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneAttributes;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneInfo;
@@ -169,6 +171,36 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
     @Override
     public <C extends Callback1<AutoplayUseVolume>> C retrieveUseAutoplayVolume(
             C callback) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public SettingsReplicationState getSettingsReplicationState() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ZoneName getZoneName() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ChannelMapSet getChannelMapSet() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Invisible getInvisible() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public IsZoneBridge getIsZoneBridge() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Icon getIcon() {
         throw new UnsupportedOperationException();
     }
 
