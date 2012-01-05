@@ -21,7 +21,7 @@ public final class StartCommand extends SonosDeviceCommand {
 		
 		// FIXME (KK): replace Hack with proper radio favourites lookup
 		final Callback0 playCallback = new CallbackWrapper(callback, "Started playing ");
-		final AVTransportURI trackUri = _trackUri != null ? ("radio:favourites:NDR2".equals(_trackUri) ? AVTransportURI.valueOf("x-rincon-mp3radio://ndrstream.ic.llnwd.net/stream/ndrstream_ndr2_hi_mp3") : AVTransportURI.valueOf(_trackUri)) : null;
+		final AVTransportURI trackUri = _trackUri != null ? ("radio:favourites:NDR2".equals(_trackUri) ? AVTransportURI.getInstance("x-rincon-mp3radio://ndrstream.ic.llnwd.net/stream/ndrstream_ndr2_hi_mp3") : AVTransportURI.getInstance(_trackUri)) : null;
 		if (trackUri != null) {
 			avTransportService.setAVTransportURI(trackUri, null, new Callback0() {
 				

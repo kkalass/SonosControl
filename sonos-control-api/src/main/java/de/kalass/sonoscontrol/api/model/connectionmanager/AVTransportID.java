@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.connectionmanager;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class AVTransportID {
-    private final Long _value;
+public final class AVTransportID implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private AVTransportID(final Long value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final Long _value;
+
+    private AVTransportID(Long value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public Long asLong() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof AVTransportID) {
-            return Objects.equal(_value, ((AVTransportID)other)._value);
+            AVTransportID obj = (AVTransportID)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static AVTransportID valueOf(Long value) {
+    public static AVTransportID getInstance(Long value) {
         return value == null ? null : new AVTransportID(value);
     }
 }

@@ -1,16 +1,21 @@
 package de.kalass.sonoscontrol.api.model.deviceproperties;
 
 public enum AutoplayIncludeLinkedZones {
-    ON(true),
-    OFF(false);
-    private final boolean _b;
-    AutoplayIncludeLinkedZones(final boolean value) {
-        _b = value;
+    ON() {
+        public boolean asBoolean() {
+            return true;
+        }
+    },
+    OFF() {
+        public boolean asBoolean() {
+            return false;
+        }
+    };
+    
+    public abstract boolean asBoolean();
+    
+    public static AutoplayIncludeLinkedZones getInstance(boolean b) {
+        return b ? ON : OFF;
     }
-    public boolean asBoolean() {
-        return _b;
-    }
-    public static AutoplayIncludeLinkedZones valueOf(boolean b) {
-        return b?ON:OFF;
-    }
+    
 }

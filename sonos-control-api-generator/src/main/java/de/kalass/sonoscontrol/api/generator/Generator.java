@@ -2,6 +2,7 @@ package de.kalass.sonoscontrol.api.generator;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +24,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
@@ -33,6 +35,10 @@ import de.kalass.sonoscontrol.api.generator.SCDPType.CompoundActionOutputType;
 import de.kalass.sonoscontrol.api.generator.SCDPType.NameFactory;
 import de.kalass.sonoscontrol.api.generator.SCDPType.ServiceNameFactory;
 import de.kalass.sonoscontrol.api.generator.SCDPType.StateVariableType;
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 
 public class Generator {
@@ -147,12 +153,18 @@ public class Generator {
 		
 	}
 	
+	
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		final File docDir = new File(args.length == 0 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api-generator/doc/sonos/example-device-descriptions" : args[0]);
 		final File outputDir = new File(args.length < 2 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api/src/main/java/" : args[1]);
-		final File templateInputDir = new File(args.length < 3 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api-generator/src/main/java/" : args[2]);
+		final File templatesInputDir = new File(args.length < 3 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api-generator/src/main/ftl/" : args[2]);
+		final File javaFilesInputDir = new File(args.length < 4 ? "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/sonos-control-api-generator/src/main/java/" : args[3]);
 		Preconditions.checkArgument(docDir.isDirectory());
 
+		final Configuration cfg = new Configuration();
+		cfg.setDirectoryForTemplateLoading(templatesInputDir);
+		cfg.setObjectWrapper(new DefaultObjectWrapper());
+		
 		final JavaPackageName fqPackageName = JavaPackageName.valueOf("de.kalass.sonoscontrol.api");
 		final JavaPackageName corePackageName = fqPackageName.childPackage("core");
 		final JavaPackageName servicesPackageName = fqPackageName.childPackage("services");
@@ -164,9 +176,9 @@ public class Generator {
 		delete(modelPackageName.asFile(outputDir));
 		
 		// copy all files that will not be generated
-		copyFromTo(corePackageName, templateInputDir, outputDir);
-		copyFromTo(servicesPackageName, templateInputDir, outputDir);
-		copyFromTo(modelPackageName, templateInputDir, outputDir);
+		copyFromTo(corePackageName, javaFilesInputDir, outputDir);
+		copyFromTo(servicesPackageName, javaFilesInputDir, outputDir);
+		copyFromTo(modelPackageName, javaFilesInputDir, outputDir);
 		
 		final List<SCDP> types = readTypeDescriptions(docDir);
 		
@@ -186,9 +198,17 @@ public class Generator {
 				if (!typeFile.exists()) {
 
 					Files.createParentDirs(typeFile);
-					final String sourceCode = stateVariable.generateSourceCode();
+					final Class<?> valueType = stateVariable.getDataType().getJavaClass();
+					final String template;
+					if (Boolean.class.equals(valueType)) {
+						template = "BooleanStateVariableType.ftl";
+					} else if (String.class.equals(valueType) && !stateVariable.getAllowedValues().isEmpty()) {
+						template = "EnumStateVariableType.ftl";
+					} else {
+						template = "StateVariableType.ftl";
+					}
+					final String sourceCode = render(cfg, template, stateVariable);
 					Files.write(sourceCode, typeFile, UTF8);
-					//System.out.println(sourceCode);
 					System.out.println("StateVariableType: " + typeFile);
 				}
 			}
@@ -200,19 +220,19 @@ public class Generator {
 					final File typeFile = compound.getJavaClassName().asFile(outputDir);
 					if (!typeFile.exists()) {
 						Files.createParentDirs(typeFile);
-						final String sourceCode = compound.generateSourceCode();
+						final String sourceCode = render(cfg, "CompoundActionOutputType.ftl", compound);
 						Files.write(sourceCode, typeFile, UTF8);
-						//System.out.println(sourceCode);
 						System.out.println("ActionOutputType: " + typeFile);
 					}
 				}
 			}
-			final File serviceFile = type.getServiceName().asFile(outputDir);
+			final File serviceFile = type.getJavaClassName().asFile(outputDir);
 			if (!serviceFile.exists()) {
 				Files.createParentDirs(serviceFile);
-				final String serviceFileSourceCode = type.generateServiceInterfaceSourceCode();
-				Files.write(serviceFileSourceCode, serviceFile, UTF8);
-				System.out.println(serviceFileSourceCode);
+				//final String serviceFileSourceCode = type.generateServiceInterfaceSourceCode();
+				final String sourceCode = render(cfg, "ServiceInterface.ftl", type);
+				Files.write(sourceCode, serviceFile, UTF8);
+				System.out.println(sourceCode);
 				System.out.println("");
 			}	
 		}
@@ -289,5 +309,20 @@ public class Generator {
 			base = "DeviceDescription";
 		}
 		return base;
+	}
+	
+	private static final String render(Configuration cfg, String templateName, Object data) {
+		
+		StringWriter out = new StringWriter();
+		try {
+			Template temp = cfg.getTemplate(templateName);
+			temp.process(ImmutableMap.<Object, Object>of("data", data), out);
+		} catch (TemplateException e) {
+			throw new IllegalStateException(e);
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+		out.flush();
+		return out.toString();
 	}
 }

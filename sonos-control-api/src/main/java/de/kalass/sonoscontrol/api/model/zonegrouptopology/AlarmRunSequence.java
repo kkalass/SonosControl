@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class AlarmRunSequence {
-    private final String _value;
+public final class AlarmRunSequence implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private AlarmRunSequence(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private AlarmRunSequence(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof AlarmRunSequence) {
-            return Objects.equal(_value, ((AlarmRunSequence)other)._value);
+            AlarmRunSequence obj = (AlarmRunSequence)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static AlarmRunSequence valueOf(String value) {
+    public static AlarmRunSequence getInstance(String value) {
         return value == null ? null : new AlarmRunSequence(value);
     }
 }

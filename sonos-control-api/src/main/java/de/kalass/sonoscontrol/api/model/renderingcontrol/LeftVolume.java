@@ -1,45 +1,45 @@
 package de.kalass.sonoscontrol.api.model.renderingcontrol;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class LeftVolume {
+public final class LeftVolume implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public static final long MIN = 0;
     public static final long MAX = 100;
     public static final long STEP = 1;
 
-    private final Long _value;
+	private final Long _value;
 
-    private LeftVolume(final Long value) {
-        _value = Preconditions.checkNotNull(value);
-        Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);
-        Preconditions.checkArgument(((value.longValue() -  MIN) % STEP) == 0);
-    }
+    private LeftVolume(Long value) {
+		_value = Preconditions.checkNotNull(value);
+		Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);
+		Preconditions.checkArgument(((value.longValue() -  MIN) % STEP) == 0);
+    } 
 
     public Long asLong() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof LeftVolume) {
-            return Objects.equal(_value, ((LeftVolume)other)._value);
+            LeftVolume obj = (LeftVolume)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static LeftVolume valueOf(Long value) {
+    public static LeftVolume getInstance(Long value) {
         return value == null ? null : new LeftVolume(value);
     }
 }

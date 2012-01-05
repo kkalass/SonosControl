@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.deviceproperties;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class HardwareVersion {
-    private final String _value;
+public final class HardwareVersion implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private HardwareVersion(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private HardwareVersion(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof HardwareVersion) {
-            return Objects.equal(_value, ((HardwareVersion)other)._value);
+            HardwareVersion obj = (HardwareVersion)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static HardwareVersion valueOf(String value) {
+    public static HardwareVersion getInstance(String value) {
         return value == null ? null : new HardwareVersion(value);
     }
 }

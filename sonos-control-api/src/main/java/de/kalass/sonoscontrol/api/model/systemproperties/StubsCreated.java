@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.systemproperties;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class StubsCreated {
-    private final String _value;
+public final class StubsCreated implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private StubsCreated(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private StubsCreated(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof StubsCreated) {
-            return Objects.equal(_value, ((StubsCreated)other)._value);
+            StubsCreated obj = (StubsCreated)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static StubsCreated valueOf(String value) {
+    public static StubsCreated getInstance(String value) {
         return value == null ? null : new StubsCreated(value);
     }
 }

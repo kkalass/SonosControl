@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class CurrentMediaDuration {
-    private final String _value;
+public final class CurrentMediaDuration implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private CurrentMediaDuration(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private CurrentMediaDuration(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof CurrentMediaDuration) {
-            return Objects.equal(_value, ((CurrentMediaDuration)other)._value);
+            CurrentMediaDuration obj = (CurrentMediaDuration)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static CurrentMediaDuration valueOf(String value) {
+    public static CurrentMediaDuration getInstance(String value) {
         return value == null ? null : new CurrentMediaDuration(value);
     }
 }

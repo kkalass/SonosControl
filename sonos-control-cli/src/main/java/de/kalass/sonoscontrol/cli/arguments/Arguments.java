@@ -23,17 +23,17 @@ public abstract class Arguments {
 			if (groupMembers.length < 2) {
 				throw new IllegalArgumentException("Too few parameters for zone group spec. Example: 'group:Esszimmer,Wohnzimmer'");
 			}
-			final ZoneName coordinator = ZoneName.valueOf(groupMembers[0]);
+			final ZoneName coordinator = ZoneName.getInstance(groupMembers[0]);
 			final ImmutableSet.Builder<ZoneName> otherMembers = ImmutableSet.builder();
 			for (int i = 1 ; i <  groupMembers.length; i++) {
-				final ZoneName name = ZoneName.valueOf(groupMembers[i]);
+				final ZoneName name = ZoneName.getInstance(groupMembers[i]);
 				if (!coordinator.equals(name)) {
 					otherMembers.add(name);
 				}
 			}
 			return GroupZoneSpec.ofGroup(coordinator, otherMembers.build());
 		} else {
-			return SingleZoneSpec.ofZone(ZoneName.valueOf(spec));
+			return SingleZoneSpec.ofZone(ZoneName.getInstance(spec));
 		}
 	}
 	

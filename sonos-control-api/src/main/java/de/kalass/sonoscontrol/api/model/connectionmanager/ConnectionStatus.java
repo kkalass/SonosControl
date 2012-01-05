@@ -1,28 +1,29 @@
 package de.kalass.sonoscontrol.api.model.connectionmanager;
 
 public enum ConnectionStatus {
-    OK("OK"),
-    CONTENT_FORMAT_MISMATCH("ContentFormatMismatch"),
-    INSUFFICIENT_BANDWIDTH("InsufficientBandwidth"),
-    UNRELIABLE_CHANNEL("UnreliableChannel"),
-    UNKNOWN("Unknown");
-
-    private final String _sonosValue;
-
-    ConnectionStatus(final String sonosValue) {
-        _sonosValue = sonosValue;
+		OK("OK"),
+		CONTENT_FORMAT_MISMATCH("ContentFormatMismatch"),
+		INSUFFICIENT_BANDWIDTH("InsufficientBandwidth"),
+		UNRELIABLE_CHANNEL("UnreliableChannel"),
+		UNKNOWN("Unknown");
+	
+	private final String _value;
+	
+	ConnectionStatus(String value) {
+	    _value = value;
+	} 
+	
+    public String asString() {
+        return _value;
     }
-
-    public String getSonosValue() {
-        return _sonosValue;
+    
+    public static ConnectionStatus getInstance(String value) {
+        for (ConnectionStatus v: values()) {
+            if (v._value.equals(value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException("Could not find " + value);   
     }
-
-    public static ConnectionStatus valueOfBySonosValue(String sonosValue) {
-        	for (ConnectionStatus v : values()) {
-    		if (v._sonosValue.equals(sonosValue)) {
-    			return v;
-    		}
-    	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
-    }
+    
 }

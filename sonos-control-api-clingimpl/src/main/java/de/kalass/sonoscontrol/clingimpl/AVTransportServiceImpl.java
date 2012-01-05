@@ -80,7 +80,7 @@ public class AVTransportServiceImpl extends AbstractServiceImpl implements AVTra
 					throws InvalidValueException {
 				// Throws InvalidValueException if the value is of wrong type
 				invocation.setInput("InstanceID", new UnsignedIntegerFourBytes(0l));
-				invocation.setInput("Speed", TransportPlaySpeed.ONE.getSonosValue());
+				invocation.setInput("Speed", TransportPlaySpeed.ONE.asString());
 			}
 			
 		});		

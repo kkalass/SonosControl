@@ -1,45 +1,45 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class CurrentTrack {
+public final class CurrentTrack implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public static final long MIN = 0;
     public static final long MAX = 65535;
     public static final long STEP = 1;
 
-    private final Long _value;
+	private final Long _value;
 
-    private CurrentTrack(final Long value) {
-        _value = Preconditions.checkNotNull(value);
-        Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);
-        Preconditions.checkArgument(((value.longValue() -  MIN) % STEP) == 0);
-    }
+    private CurrentTrack(Long value) {
+		_value = Preconditions.checkNotNull(value);
+		Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);
+		Preconditions.checkArgument(((value.longValue() -  MIN) % STEP) == 0);
+    } 
 
     public Long asLong() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof CurrentTrack) {
-            return Objects.equal(_value, ((CurrentTrack)other)._value);
+            CurrentTrack obj = (CurrentTrack)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static CurrentTrack valueOf(Long value) {
+    public static CurrentTrack getInstance(Long value) {
         return value == null ? null : new CurrentTrack(value);
     }
 }

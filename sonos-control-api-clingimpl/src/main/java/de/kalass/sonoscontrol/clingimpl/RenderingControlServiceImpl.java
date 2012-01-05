@@ -52,13 +52,13 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 			public void prepareArguments(ActionInvocation invocation)
 					throws InvalidValueException {
 				// Throws InvalidValueException if the value is of wrong type
-				invocation.setInput("Channel", channel.getSonosValue());
+				invocation.setInput("Channel", channel.asString());
 				invocation.setInput("InstanceID", INSTANCE_ID);
 			}
 			@Override
 			public void success(Callback1<Volume> handler, ActionArgumentValue p) {
 				final UnsignedIntegerTwoBytes volume = (UnsignedIntegerTwoBytes)p.getValue();
-				successHandler.success(Volume.valueOf(volume.getValue()));
+				successHandler.success(Volume.getInstance(volume.getValue()));
 			}
 		});
 	}
@@ -73,13 +73,13 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 			public void prepareArguments(ActionInvocation invocation)
 					throws InvalidValueException {
 				// Throws InvalidValueException if the value is of wrong type
-				invocation.setInput("Channel", channel.getSonosValue());
+				invocation.setInput("Channel", channel.asString());
 				invocation.setInput("InstanceID", INSTANCE_ID);
 			}
 			@Override
 			public void success(Callback1<Mute> handler, ActionArgumentValue p) {
 				final Boolean mute = (Boolean)p.getValue();
-				successHandler.success(Mute.valueOf(mute));
+				successHandler.success(Mute.getInstance(mute));
 			}
 		});
 	}
@@ -92,7 +92,7 @@ public class RenderingControlServiceImpl extends AbstractServiceImpl implements 
 			public void prepareArguments(ActionInvocation invocation)
 					throws InvalidValueException {
 				// Throws InvalidValueException if the value is of wrong type
-				invocation.setInput("Channel", channel.getSonosValue());
+				invocation.setInput("Channel", channel.asString());
 				invocation.setInput("InstanceID", INSTANCE_ID);
 				invocation.setInput("DesiredMute", Boolean.valueOf(mute.asBoolean()));
 			}

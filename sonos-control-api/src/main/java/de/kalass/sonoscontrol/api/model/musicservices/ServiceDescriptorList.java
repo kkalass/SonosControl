@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.musicservices;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class ServiceDescriptorList {
-    private final String _value;
+public final class ServiceDescriptorList implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private ServiceDescriptorList(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private ServiceDescriptorList(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof ServiceDescriptorList) {
-            return Objects.equal(_value, ((ServiceDescriptorList)other)._value);
+            ServiceDescriptorList obj = (ServiceDescriptorList)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static ServiceDescriptorList valueOf(String value) {
+    public static ServiceDescriptorList getInstance(String value) {
         return value == null ? null : new ServiceDescriptorList(value);
     }
 }

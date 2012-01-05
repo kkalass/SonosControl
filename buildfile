@@ -15,6 +15,7 @@ LIB_CLING_CORE='org.teleal.cling:cling-core:jar:1.0.5'
 LIB_TELEAL_COMMON='org.teleal:teleal-common:jar:1.0.14'
 LIB_SLF4J_IMPL='org.slf4j:slf4j-jdk14:jar:1.6.4'
 
+LIB_FREEMARKER='org.freemarker:freemarker:jar:2.3.18'
 
 # Specify Maven 2.0 remote repositories here, like this:
 repositories.remote << "http://repo1.maven.org/maven2"
@@ -35,7 +36,7 @@ define "sonos-control" do
   manifest["Implementation-Vendor"] = COPYRIGHT
 
   define 'api-generator', :base_dir => 'sonos-control-api-generator' do
-      compile.with LIB_GUAVA,LIB_SLF4J_API,LIB_JSR305
+      compile.with LIB_GUAVA,LIB_SLF4J_API,LIB_JSR305, LIB_FREEMARKER
       package(:jar)
   end
 

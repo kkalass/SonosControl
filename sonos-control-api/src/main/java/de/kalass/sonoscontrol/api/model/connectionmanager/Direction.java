@@ -1,25 +1,26 @@
 package de.kalass.sonoscontrol.api.model.connectionmanager;
 
 public enum Direction {
-    INPUT("Input"),
-    OUTPUT("Output");
-
-    private final String _sonosValue;
-
-    Direction(final String sonosValue) {
-        _sonosValue = sonosValue;
+		INPUT("Input"),
+		OUTPUT("Output");
+	
+	private final String _value;
+	
+	Direction(String value) {
+	    _value = value;
+	} 
+	
+    public String asString() {
+        return _value;
     }
-
-    public String getSonosValue() {
-        return _sonosValue;
+    
+    public static Direction getInstance(String value) {
+        for (Direction v: values()) {
+            if (v._value.equals(value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException("Could not find " + value);   
     }
-
-    public static Direction valueOfBySonosValue(String sonosValue) {
-        	for (Direction v : values()) {
-    		if (v._sonosValue.equals(sonosValue)) {
-    			return v;
-    		}
-    	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
-    }
+    
 }

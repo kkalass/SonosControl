@@ -1,16 +1,21 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum CurrentCrossfadeMode {
-    ON(true),
-    OFF(false);
-    private final boolean _b;
-    CurrentCrossfadeMode(final boolean value) {
-        _b = value;
+    ON() {
+        public boolean asBoolean() {
+            return true;
+        }
+    },
+    OFF() {
+        public boolean asBoolean() {
+            return false;
+        }
+    };
+    
+    public abstract boolean asBoolean();
+    
+    public static CurrentCrossfadeMode getInstance(boolean b) {
+        return b ? ON : OFF;
     }
-    public boolean asBoolean() {
-        return _b;
-    }
-    public static CurrentCrossfadeMode valueOf(boolean b) {
-        return b?ON:OFF;
-    }
+    
 }

@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.deviceproperties;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class IPAddress {
-    private final String _value;
+public final class IPAddress implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private IPAddress(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private IPAddress(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof IPAddress) {
-            return Objects.equal(_value, ((IPAddress)other)._value);
+            IPAddress obj = (IPAddress)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static IPAddress valueOf(String value) {
+    public static IPAddress getInstance(String value) {
         return value == null ? null : new IPAddress(value);
     }
 }

@@ -11,10 +11,10 @@ public class UpnpDatatype {
 		}
 	};
 	
-	public static final Function<UpnpDatatype, Class<?>> AS_JAVA_CLASS = new Function<UpnpDatatype, Class<?>>() {
+	public static final Function<UpnpDatatype, Class<?>> GET_JAVA_CLASS = new Function<UpnpDatatype, Class<?>>() {
 		@Override
 		public Class<?> apply(UpnpDatatype input) {
-			return input.asJavaClass();
+			return input.getJavaClass();
 		}
 	};
 	
@@ -32,7 +32,7 @@ public class UpnpDatatype {
 		return _value;
 	}
 
-	public Class<?> asJavaClass() {
+	public Class<?> getJavaClass() {
 		final String datatype = _value;
 		if ("boolean".equals(datatype)) {
 			return Boolean.class;

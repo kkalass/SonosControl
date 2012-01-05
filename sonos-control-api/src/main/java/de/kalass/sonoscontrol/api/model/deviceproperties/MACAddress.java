@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.deviceproperties;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class MACAddress {
-    private final String _value;
+public final class MACAddress implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private MACAddress(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private MACAddress(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof MACAddress) {
-            return Objects.equal(_value, ((MACAddress)other)._value);
+            MACAddress obj = (MACAddress)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static MACAddress valueOf(String value) {
+    public static MACAddress getInstance(String value) {
         return value == null ? null : new MACAddress(value);
     }
 }

@@ -1,26 +1,27 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum SeekMode {
-    TRACK_NR("TRACK_NR"),
-    REL_TIME("REL_TIME"),
-    SECTION("SECTION");
-
-    private final String _sonosValue;
-
-    SeekMode(final String sonosValue) {
-        _sonosValue = sonosValue;
+		TRACK_NR("TRACK_NR"),
+		REL_TIME("REL_TIME"),
+		SECTION("SECTION");
+	
+	private final String _value;
+	
+	SeekMode(String value) {
+	    _value = value;
+	} 
+	
+    public String asString() {
+        return _value;
     }
-
-    public String getSonosValue() {
-        return _sonosValue;
+    
+    public static SeekMode getInstance(String value) {
+        for (SeekMode v: values()) {
+            if (v._value.equals(value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException("Could not find " + value);   
     }
-
-    public static SeekMode valueOfBySonosValue(String sonosValue) {
-        	for (SeekMode v : values()) {
-    		if (v._sonosValue.equals(sonosValue)) {
-    			return v;
-    		}
-    	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
-    }
+    
 }

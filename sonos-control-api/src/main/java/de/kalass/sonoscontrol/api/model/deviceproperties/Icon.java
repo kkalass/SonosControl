@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.deviceproperties;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class Icon {
-    private final String _value;
+public final class Icon implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private Icon(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private Icon(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof Icon) {
-            return Objects.equal(_value, ((Icon)other)._value);
+            Icon obj = (Icon)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static Icon valueOf(String value) {
+    public static Icon getInstance(String value) {
         return value == null ? null : new Icon(value);
     }
 }

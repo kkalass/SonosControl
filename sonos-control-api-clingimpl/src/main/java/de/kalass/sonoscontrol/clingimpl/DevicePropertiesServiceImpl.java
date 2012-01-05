@@ -39,8 +39,8 @@ public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements 
 			public void success(
 					Callback1<ZoneAttributes> handler,
 					ActionArgumentValue p1, ActionArgumentValue p2) {
-				final ZoneName currentZoneName = ZoneName.valueOf((String)p1.getValue());
-				final Icon currentIcon = Icon.valueOf((String)p2.getValue());
+				final ZoneName currentZoneName = ZoneName.getInstance((String)p1.getValue());
+				final Icon currentIcon = Icon.getInstance((String)p2.getValue());
 				successHandler.success(new ZoneAttributes(currentZoneName, currentIcon));
 			}
 		});

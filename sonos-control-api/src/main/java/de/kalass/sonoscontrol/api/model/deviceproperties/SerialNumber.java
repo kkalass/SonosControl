@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.deviceproperties;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class SerialNumber {
-    private final String _value;
+public final class SerialNumber implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private SerialNumber(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private SerialNumber(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof SerialNumber) {
-            return Objects.equal(_value, ((SerialNumber)other)._value);
+            SerialNumber obj = (SerialNumber)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static SerialNumber valueOf(String value) {
+    public static SerialNumber getInstance(String value) {
         return value == null ? null : new SerialNumber(value);
     }
 }

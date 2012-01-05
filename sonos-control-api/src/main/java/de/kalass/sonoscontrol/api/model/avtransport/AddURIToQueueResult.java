@@ -1,63 +1,62 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 import com.google.common.base.Objects;
+import java.io.Serializable;
 
-public class AddURIToQueueResult {
-    private final TrackNumber _firstTrackNumberEnqueued;
-    private final NumTracks _numTracksAdded;
-    private final NumTracks _newQueueLength;
+
+public final class AddURIToQueueResult implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+	private final TrackNumber _firstTrackNumberEnqueued;
+	private final NumTracks _numTracksAdded;
+	private final NumTracks _newQueueLength;
 
     public AddURIToQueueResult(
-        TrackNumber firstTrackNumberEnqueued,
-        NumTracks numTracksAdded,
-        NumTracks newQueueLength
+		final TrackNumber firstTrackNumberEnqueued,
+		final NumTracks numTracksAdded,
+		final NumTracks newQueueLength
     ) {
-        _firstTrackNumberEnqueued = firstTrackNumberEnqueued;
-        _numTracksAdded = numTracksAdded;
-        _newQueueLength = newQueueLength;
+		_firstTrackNumberEnqueued = firstTrackNumberEnqueued;
+		_numTracksAdded = numTracksAdded;
+		_newQueueLength = newQueueLength;
+    } 
+
+	public TrackNumber getFirstTrackNumberEnqueued() {
+	    return _firstTrackNumberEnqueued;
+	}
+	public NumTracks getNumTracksAdded() {
+	    return _numTracksAdded;
+	}
+	public NumTracks getNewQueueLength() {
+	    return _newQueueLength;
+	}
+
+    public String toString() {
+        return Objects.toStringHelper(this)
+		.add("firstTrackNumberEnqueued", _firstTrackNumberEnqueued)
+		.add("numTracksAdded", _numTracksAdded)
+		.add("newQueueLength", _newQueueLength)
+        .toString();
     }
-
-
-    public TrackNumber getFirstTrackNumberEnqueued() {
-        return _firstTrackNumberEnqueued;
-    }
-
-    public NumTracks getNumTracksAdded() {
-        return _numTracksAdded;
-    }
-
-    public NumTracks getNewQueueLength() {
-        return _newQueueLength;
-    }
-
-    @Override
+    
     public int hashCode() {
         return Objects.hashCode(
-             _firstTrackNumberEnqueued,
-             _numTracksAdded,
-             _newQueueLength
+			_firstTrackNumberEnqueued,
+			_numTracksAdded,
+			_newQueueLength
         );
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof AddURIToQueueResult) {
             AddURIToQueueResult obj = (AddURIToQueueResult)other;
             return 
-             Objects.equal(_firstTrackNumberEnqueued, obj._firstTrackNumberEnqueued) &&
-             Objects.equal(_numTracksAdded, obj._numTracksAdded) &&
-             Objects.equal(_newQueueLength, obj._newQueueLength);
+					Objects.equal(_firstTrackNumberEnqueued, obj._firstTrackNumberEnqueued) &&
+					Objects.equal(_numTracksAdded, obj._numTracksAdded) &&
+					Objects.equal(_newQueueLength, obj._newQueueLength) 
+            ;
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this)
-             .add("firstTrackNumberEnqueued",_firstTrackNumberEnqueued)
-             .add("numTracksAdded",_numTracksAdded)
-             .add("newQueueLength",_newQueueLength)
-             .toString();
     }
 
 }

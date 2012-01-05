@@ -1,24 +1,25 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum RecordStorageMedium {
-    NONE("NONE");
-
-    private final String _sonosValue;
-
-    RecordStorageMedium(final String sonosValue) {
-        _sonosValue = sonosValue;
+		NONE("NONE");
+	
+	private final String _value;
+	
+	RecordStorageMedium(String value) {
+	    _value = value;
+	} 
+	
+    public String asString() {
+        return _value;
     }
-
-    public String getSonosValue() {
-        return _sonosValue;
+    
+    public static RecordStorageMedium getInstance(String value) {
+        for (RecordStorageMedium v: values()) {
+            if (v._value.equals(value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException("Could not find " + value);   
     }
-
-    public static RecordStorageMedium valueOfBySonosValue(String sonosValue) {
-        	for (RecordStorageMedium v : values()) {
-    		if (v._sonosValue.equals(sonosValue)) {
-    			return v;
-    		}
-    	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
-    }
+    
 }

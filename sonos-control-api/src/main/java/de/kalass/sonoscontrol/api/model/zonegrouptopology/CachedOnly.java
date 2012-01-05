@@ -1,16 +1,21 @@
 package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 
 public enum CachedOnly {
-    ON(true),
-    OFF(false);
-    private final boolean _b;
-    CachedOnly(final boolean value) {
-        _b = value;
+    ON() {
+        public boolean asBoolean() {
+            return true;
+        }
+    },
+    OFF() {
+        public boolean asBoolean() {
+            return false;
+        }
+    };
+    
+    public abstract boolean asBoolean();
+    
+    public static CachedOnly getInstance(boolean b) {
+        return b ? ON : OFF;
     }
-    public boolean asBoolean() {
-        return _b;
-    }
-    public static CachedOnly valueOf(boolean b) {
-        return b?ON:OFF;
-    }
+    
 }

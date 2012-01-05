@@ -1,6 +1,6 @@
 package de.kalass.sonoscontrol.api.generator;
 
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +11,8 @@ import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -29,6 +31,12 @@ public final class SCDPType {
 	private final JavaPackageName _corePackageName;
 	
 	public static final class ActionArgumentType {
+		public static final Predicate<ActionArgumentType> IS_VALUE_HARDCODED = new Predicate<ActionArgumentType>() {
+			@Override
+			public boolean apply(ActionArgumentType input) {
+				return input.isValueHardcoded();
+			}
+		};
 		public static final Function<ActionArgumentType, StateVariableType> GET_STATE_VARIABLE = new Function<ActionArgumentType, StateVariableType>() {
 			@Override
 			public StateVariableType apply(ActionArgumentType input) {
@@ -43,16 +51,33 @@ public final class SCDPType {
 		};
 		private final String _name;
 		private final StateVariableType _relatedStateVariable;
+		
 		public ActionArgumentType(String name, StateVariableType relatedStateVariable) {
 			_name = Preconditions.checkNotNull(name);
 			_relatedStateVariable = Preconditions.checkNotNull(relatedStateVariable);
 		}
+		
 		public final String getParameterName() {
 			final String name = _name;
 			return name.substring(0,1).toLowerCase() + name.substring(1);
 		}
+		
+		public final String getGetterName() {
+			return "get" + _name;
+		}
+		
 		public StateVariableType getRelatedStateVariable() {
 			return _relatedStateVariable;
+		}
+
+		public boolean isValueHardcoded() {
+			// TODO: find out if there is any other possible value besides "0" for InstanceID, which would 
+			//       make sense to be exposed in the service interface
+			//
+			//      Also: types like TransportPlaySpeed that have only one valid value by definition are not exposed in the API either
+			//
+			final String javaTypeName = getRelatedStateVariable().getJavaClassName().getName();
+			return "InstanceID".equals(javaTypeName) || getRelatedStateVariable().isSingleValueType();
 		}
 	}
 	
@@ -122,99 +147,14 @@ public final class SCDPType {
 			return _className;
 		}
 		
-		public String generateSourceCode() {
-			final StringBuilder sb = new StringBuilder();
-
-			final JavaPackageName packageName = getJavaClassName().getPackage();
-			sb.append("package ").append(packageName.getFQN()).append(";\n");
-			sb.append("\n");
-			sb.append("import com.google.common.base.Objects;\n");
-			Iterable<JavaClassName> classNames = Iterables.transform(_properties, Functions.compose(StateVariableType.GET_JAVA_TYPE_NAME, ActionArgumentType.GET_STATE_VARIABLE));
-			appendImports(sb, packageName, classNames);
-			sb.append("\n");
-			sb.append("public class ").append(getJavaClassName().getName()).append(" {\n");
-			for (ActionArgumentType prop : _properties) {
-				sb.append("    private final ").append(prop.getRelatedStateVariable().getJavaClassName().getName())
-				.append(" _").append(prop.getParameterName()).append(";\n");
-			}
-			sb.append("\n");
-			sb.append("    public ").append(getJavaClassName().getName()).append("(");
-			final Iterator<ActionArgumentType> pIt = _properties.iterator();
-			while (pIt.hasNext()) {
-				final ActionArgumentType prop = pIt.next();
-				sb.append("\n        ").append(prop.getRelatedStateVariable().getJavaClassName().getName())
-				.append(" ").append(prop.getParameterName());
-				if (pIt.hasNext()) {
-					sb.append(",");
-				}
-			}
-			sb.append("\n    ) {\n");
-			for (ActionArgumentType prop : _properties) {
-				sb.append("        _").append(prop.getParameterName())
-				.append(" = ").append(prop.getParameterName()).append(";\n");
-			}
-			sb.append("    }\n");
-			sb.append("\n");
-			for (ActionArgumentType prop : _properties) {
-				sb.append("\n");
-				String parameterName = prop.getParameterName();
-				String getterName = "get" + parameterName.substring(0, 1).toUpperCase() + parameterName.substring(1);
-				sb.append("    public ").append(prop.getRelatedStateVariable().getJavaClassName().getName()).append(" ").append(getterName).append("() {\n")
-				.append("        return _").append(prop.getParameterName()).append(";\n");
-				sb.append("    }\n");
-			}
-			sb.append("\n");
-			sb.append("    @Override\n");
-			sb.append("    public int hashCode() {\n");
-			sb.append("        return Objects.hashCode(\n");
-			final Iterator<ActionArgumentType> hashIterator = _properties.iterator();
-			while (hashIterator.hasNext()) {
-				ActionArgumentType prop = hashIterator.next();
-				sb.append("             _").append(prop.getParameterName());
-				if (hashIterator.hasNext()) {
-					sb.append(",\n");
-				} else {
-					sb.append("\n");
-				}
-			}
-			
-			sb.append("        );\n");
-			sb.append("    }\n");
-			sb.append("\n");
-			sb.append("    @Override\n");
-			sb.append("    public boolean equals(Object other) {\n");
-			sb.append("        if (other instanceof ").append(getJavaClassName().getName()).append(") {\n");
-			sb.append("            ").append(getJavaClassName().getName()).append(" obj = (").append(getJavaClassName().getName()).append(")other;\n");
-			sb.append("            return \n");
-			final Iterator<ActionArgumentType> equalsIterator = _properties.iterator();
-			while (equalsIterator.hasNext()) {
-				ActionArgumentType prop = equalsIterator.next();
-				sb.append("             Objects.equal(_").append(prop.getParameterName()).append(", obj._").append(prop.getParameterName()).append(")");
-				if (equalsIterator.hasNext()) {
-					sb.append(" &&\n");
-				} else {
-					sb.append(";\n");
-				}
-			}
-			sb.append("        }\n");
-			sb.append("        return false;\n");
-			sb.append("    }\n");
-			sb.append("\n");
-			sb.append("    @Override\n");
-			sb.append("    public String toString() {\n");
-			sb.append("        return Objects.toStringHelper(this)\n");
-			final Iterator<ActionArgumentType> toStringIterator = _properties.iterator();
-			while (toStringIterator.hasNext()) {
-				ActionArgumentType prop = toStringIterator.next();
-				sb.append("             .add(\"").append(prop.getParameterName()).append("\",_").append(prop.getParameterName()).append(")\n");
-			}
-			sb.append("             .toString();\n");
-			sb.append("    }\n");
-			sb.append("\n");
-			sb.append("}\n");
-			return sb.toString();
+		public List<ActionArgumentType> getProperties() {
+			return _properties;
 		}
-
+		
+		public List<JavaClassName> getNeededImports() {
+			final Iterable<JavaClassName> classNames = Iterables.transform(_properties, Functions.compose(StateVariableType.GET_JAVA_TYPE_NAME, ActionArgumentType.GET_STATE_VARIABLE));
+			return SCDPType.getNeededImports(getJavaClassName().getPackage(), classNames);
+		}
 		
 	}
 	
@@ -243,12 +183,46 @@ public final class SCDPType {
 			return name.substring(0,1).toLowerCase() + name.substring(1);
 		}
 		
-		public List<ActionArgumentType> getIn() {
+		public Collection<ActionArgumentType> getIn() {
+			return Collections2.filter(_in, Predicates.not(ActionArgumentType.IS_VALUE_HARDCODED));
+		}
+		public List<ActionArgumentType> getAllIn() {
 			return _in;
 		}
-		
 		public ActionOutputType getOut() {
 			return _out;
+		}
+
+		public boolean isAnyInputArgumentHardcoded() {
+			return Iterables.any(getAllIn(), ActionArgumentType.IS_VALUE_HARDCODED);
+		}
+	}
+	
+	public static final class AllowedValue {
+		private final String _value;
+		public AllowedValue(String value) {
+			_value = value;
+		}
+		public String getValue() {
+			return _value;
+		}
+		public final String getEnumValue() {
+			if ("1".equals(_value)) {
+				// special case needed for TransportPlaySpeed
+				return "ONE";
+			}
+			final StringBuilder sb = new StringBuilder();
+			boolean wasLower = false;
+			for (int i = 0; i < _value.length(); i++) {
+				char c = _value.charAt(i);
+				boolean isLower = Character.isLowerCase(c);
+				if (wasLower && ! isLower) {
+					sb.append("_");
+				}
+				sb.append(Character.toUpperCase(c));
+				wasLower = isLower;
+			}
+			return sb.toString();
 		}
 	}
 	
@@ -271,18 +245,23 @@ public final class SCDPType {
 		@Nonnull
 		private final UpnpDatatype _dataType;
 		@Nonnull
-		private final List<String> _allowedValueList;
+		private final List<AllowedValue> _allowedValueList;
 		@CheckForNull
 		private final AllowedValueRange _allowedValueRange;
 		
 		public StateVariableType(StateVariable stateVariable, ServiceNameFactory serviceNameFactory) {
 			_javaTypeName = serviceNameFactory.getModelClassName(createJavaTypeName(stateVariable));
 			_dataType = stateVariable.getDataType();
-			_allowedValueList = stateVariable.getAllowedValueList();
+			_allowedValueList = Lists.transform(stateVariable.getAllowedValueList(), new Function<String, AllowedValue>() {
+				@Override
+				public AllowedValue apply(String input) {
+					return new AllowedValue(input);
+				}
+			});
 			_allowedValueRange = stateVariable.getAllowedValueRange();
 			if (_allowedValueRange != null) {
-				if (!_dataType.asJavaClass().equals(Long.class)) {
-					throw new IllegalArgumentException("don't know how to implement ranges for " + _dataType.asJavaClass() + ": " + _javaTypeName);
+				if (!_dataType.getJavaClass().equals(Long.class)) {
+					throw new IllegalArgumentException("don't know how to implement ranges for " + _dataType.getJavaClass() + ": " + _javaTypeName);
 				}
 			}
 		}
@@ -303,149 +282,16 @@ public final class SCDPType {
 			return _allowedValueList.size() == 1;
 		}
 		
-		private static final String toEnumValue(String input) {
-			if ("1".equals(input)) {
-				// special case needed for TransportPlaySpeed
-				return "ONE";
-			}
-			final StringBuilder sb = new StringBuilder();
-			boolean wasLower = false;
-			for (int i = 0; i < input.length(); i++) {
-				char c = input.charAt(i);
-				boolean isLower = Character.isLowerCase(c);
-				if (wasLower && ! isLower) {
-					sb.append("_");
-				}
-				sb.append(Character.toUpperCase(c));
-				wasLower = isLower;
-			}
-			return sb.toString();
+		public UpnpDatatype getDataType() {
+			return _dataType;
 		}
 		
-
-		private void generateEnumSourceCode(StringBuilder sb, List<String> allowedValues) {
-			
-			sb.append("public enum " + getJavaClassName().getName() + " {\n");
-			final Iterator<String> it = allowedValues.iterator();
-			while (it.hasNext()) {
-				final String sonosName = it.next();
-				
-				sb.append("    ").append(toEnumValue(sonosName))
-				.append("(\"").append(sonosName).append("\")").append(it.hasNext() ? ",\n" : ";\n");
-			}
-			sb.append("\n");
-			sb.append("    private final String _sonosValue;\n");
-			sb.append("\n");
-			sb.append("    ").append(getJavaClassName().getName()).append("(final String sonosValue) {\n");
-			sb.append("        _sonosValue = sonosValue;\n");
-			sb.append("    }\n");
-			sb.append("\n");
-			sb.append("    public String getSonosValue() {\n");
-			sb.append("        return _sonosValue;\n");
-			sb.append("    }\n");
-			sb.append("\n");
-			sb.append("    public static ").append(getJavaClassName().getName()).append(" valueOfBySonosValue(String sonosValue) {\n");
-			sb.append("        	for (").append(getJavaClassName().getName()).append(" v : values()) {\n");
-			sb.append("    		if (v._sonosValue.equals(sonosValue)) {\n");
-			sb.append("    			return v;\n");
-			sb.append("    		}\n");
-			sb.append("    	}\n");
-			sb.append("    	throw new IllegalArgumentException(\"Unknown sonos name: \" + sonosValue);\n");
-			sb.append("    }\n");
-			sb.append("}\n");
+		public AllowedValueRange getAllowedValueRange() {
+			return _allowedValueRange;
 		}
 		
-		private void generateBooleanSourceCode(StringBuilder sb) {
-			sb.append("public enum ").append(getJavaClassName().getName()).append(" {\n");
-			sb.append("    ON(true),\n");
-			sb.append("    OFF(false);\n");
-			sb.append("");
-			sb.append("    private final boolean _b;\n");
-			sb.append("");
-			sb.append("    ").append(getJavaClassName().getName()).append("(final boolean value) {\n");
-			sb.append("        _b = value;\n");
-			sb.append("    }\n");
-			sb.append("");
-			sb.append("    public boolean asBoolean() {\n");
-			sb.append("        return _b;\n");
-			sb.append("    }\n");
-			sb.append("    public static ").append(getJavaClassName().getName()).append(" valueOf(boolean b) {\n");
-			sb.append("        return b?ON:OFF;\n");
-			sb.append("    }\n");
-			sb.append("}\n");
-		}
-		
-		private void generateValueTypeSourceCode(StringBuilder sb, Class<?> javaType) {
-			sb.append("import com.google.common.base.Objects;\n");
-			sb.append("import com.google.common.base.Preconditions;\n");
-			sb.append("\n");
-			sb.append("public final class ").append(getJavaClassName().getName()).append(" {\n");
-			if (_allowedValueRange != null && javaType.equals(Long.class)) {
-				long min = Long.parseLong(_allowedValueRange.getMinimum(), 10);
-				long max = Long.parseLong(_allowedValueRange.getMaximum(), 10);
-				sb.append("\n");
-				sb.append("    public static final long MIN = ").append(min).append(";\n");
-				sb.append("    public static final long MAX = ").append(max).append(";\n");
-				if (_allowedValueRange.getStep() != null) {
-					long step = Long.parseLong(_allowedValueRange.getStep(), 10);
-					sb.append("    public static final long STEP = ").append(step).append(";\n");	
-				}
-				sb.append("\n");
-			}
-			sb.append("    private final ").append(javaType.getSimpleName()).append(" _value;\n");
-			sb.append("\n");
-			sb.append("    private ").append(getJavaClassName().getName()).append("(final ").append(javaType.getSimpleName()).append(" value) {\n");
-			sb.append("        _value = Preconditions.checkNotNull(value);\n");
-			if (_allowedValueRange != null && javaType.equals(Long.class)) {
-				sb.append("        Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);\n");
-				if (_allowedValueRange.getStep() != null) {
-					sb.append("        Preconditions.checkArgument(((value.longValue() -  MIN) % STEP) == 0);\n");
-				}
-			}
-			sb.append("    }\n");
-			sb.append("\n");
-			sb.append("    public ").append(javaType.getSimpleName()).append(" as").append(javaType.getSimpleName()).append("() {\n");
-			sb.append("        return _value;\n");
-			sb.append("    }\n");
-			sb.append("\n");
-			sb.append("    @Override\n");
-			sb.append("    public int hashCode() {\n");
-			sb.append("        return _value.hashCode();\n");
-			sb.append("    }\n");
-			sb.append("\n");
-			sb.append("    @Override\n");
-			sb.append("    public boolean equals(Object other) {\n");
-			sb.append("        if (other instanceof ").append(getJavaClassName().getName()).append(") {\n");
-			sb.append("            return Objects.equal(_value, ((").append(getJavaClassName().getName()).append(")other)._value);\n");
-			sb.append("        }\n");
-			sb.append("        return false;\n");
-			sb.append("    }\n");
-			sb.append("\n");
-			sb.append("    @Override\n");
-			sb.append("    public String toString() {\n");
-			sb.append("        return Objects.toStringHelper(this).add(\"value\", _value).toString();\n");
-			sb.append("    }\n");
-			sb.append("\n");
-			sb.append("    public static ").append(getJavaClassName().getName()).append(" valueOf(").append(javaType.getSimpleName()).append(" value) {\n");
-			sb.append("        return value == null ? null : new ").append(getJavaClassName().getName()).append("(value);\n");
-			sb.append("    }\n");
-			sb.append("}\n");
-		}
-		
-		public String generateSourceCode() {
-			final StringBuilder sb = new StringBuilder();
-
-			sb.append("package ").append(getJavaClassName().getPackage().getFQN()).append(";\n");
-			sb.append("\n");
-			final Class<?> valueType = _dataType.asJavaClass();
-			if (Boolean.class.equals(valueType)) {
-				generateBooleanSourceCode(sb);
-			} else if (String.class.equals(valueType) && !_allowedValueList.isEmpty()) {
-				generateEnumSourceCode(sb, _allowedValueList);
-			} else {
-				generateValueTypeSourceCode(sb, valueType);
-			}
-			return sb.toString();
+		public List<AllowedValue> getAllowedValues() {
+			return _allowedValueList;
 		}
 		
 	}
@@ -496,6 +342,7 @@ public final class SCDPType {
 			}
 		}));
 	}
+	
 	public List<SCDPType.ActionType> getActions() {
 		return _actions;
 	}
@@ -504,97 +351,35 @@ public final class SCDPType {
 		return _stateVariables;
 	}
 	
-	public JavaClassName getServiceName() {
+	public JavaClassName getJavaClassName() {
 		return _serviceName;
 	}
 	
-	public String generateServiceInterfaceSourceCode() {
-		final StringBuilder sb = new StringBuilder();
-		final JavaPackageName packageName = getServiceName().getPackage();
-		
-		sb.append("package ").append(packageName.getFQN()).append(";\n");
-		sb.append("\n");
-		
-		appendImports(sb, packageName, 
-				ImmutableSet.copyOf(
-						Iterables.<JavaClassName>concat(
-						    ImmutableList.of(
-						    		_corePackageName.childClass("Callback0"),
-						    		_corePackageName.childClass("Callback1")
-						    ),
-							Iterables.transform(getActions(), Functions.compose(ActionOutputType.GET_JAVA_CLASS_NAME, ActionType.GET_OUT)),
-							Iterables.transform(getStateVariables(), StateVariableType.GET_JAVA_TYPE_NAME))
-						)
+	public List<JavaClassName> getNeededImports() {
+		final Iterable<JavaClassName> classNames = ImmutableSet.copyOf(
+				Iterables.<JavaClassName>concat(
+						ImmutableList.of(
+								_corePackageName.childClass("Callback0"),
+								_corePackageName.childClass("Callback1")
+								),
+								Iterables.transform(getActions(), Functions.compose(ActionOutputType.GET_JAVA_CLASS_NAME, ActionType.GET_OUT)),
+								Iterables.transform(getStateVariables(), StateVariableType.GET_JAVA_TYPE_NAME))
 				);
 
-		sb.append("\n");
-		sb.append("public interface " + getServiceName().getName() + " {\n");
-		// each action is a service method 
-		for (final SCDPType.ActionType action : getActions()) {
-			final String methodName = action.getMethodName();
-			
-			final boolean needsDocumentation = Iterables.any(action.getIn(), new Predicate<ActionArgumentType>() {
-				@Override
-				public boolean apply(ActionArgumentType input) {
-					return isValueHardcoded(input);
-				}
-			});
-			sb.append("\n");
-			if (needsDocumentation) {
-				sb.append("    /**\n");
-				sb.append("     *\n");
-				final Iterator<ActionArgumentType> inputArgsDocIt = action.getIn().iterator();
-				while (inputArgsDocIt.hasNext()) {
-					final ActionArgumentType argumentType = inputArgsDocIt.next();
-					if (isValueHardcoded(argumentType)) {
-						sb.append("     * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link ").append(argumentType.getRelatedStateVariable().getJavaClassName().getName()).append(" ").append(argumentType.getParameterName()).append("} is set to an appropriate default value automatically.</p> \n");
-					}
-				}
-				sb.append("     */\n");
-			} 
-
-			final ActionOutputType outputArgs = action.getOut();
-			sb.append("    public <C extends ");
-			final JavaClassName javaClassName = outputArgs.getJavaClassName();
-			if (JavaClassName.JAVA_LANG_VOID.equals(javaClassName)) {
-				sb.append("Callback0");
-			} else {
-				sb.append("Callback1<").append(javaClassName.getName()).append(">");
-			}
-			sb.append("> C ").append(methodName).append("(");
-			final Iterator<ActionArgumentType> inputArgsIt = action.getIn().iterator();
-			while (inputArgsIt.hasNext()) {
-				final ActionArgumentType argumentType = inputArgsIt.next();
-				if (!isValueHardcoded(argumentType)) {
-					JavaClassName className = argumentType.getRelatedStateVariable().getJavaClassName();
-					sb.append(className.getName()).append(" ").append(argumentType.getParameterName()).append(", ");
-				}
-			}
-			sb.append("C callback);\n");
-		}
-		sb.append("}\n");
-		return sb.toString();
+		return SCDPType.getNeededImports(getJavaClassName().getPackage(), classNames);
 	}
 	
-	private boolean isValueHardcoded(ActionArgumentType argumentType) {
-		// TODO: find out if there is any other possible value besides "0" for InstanceID, which would 
-		//       make sense to be exposed in the service interface
-		//
-		//      Also: types like TransportPlaySpeed that have only one valid value by definition are not exposed in the API either
-		//
-		final String javaTypeName = argumentType.getRelatedStateVariable().getJavaClassName().getName();
-		return "InstanceID".equals(javaTypeName) || argumentType.getRelatedStateVariable().isSingleValueType();
-	}
-	
-	private  static void appendImports(final StringBuilder sb,
+	private  static List<JavaClassName> getNeededImports(
 			final JavaPackageName packageName,
-			Iterable<JavaClassName> classNames) {
-		
-		for (JavaClassName className : classNames) {
-			JavaPackageName pkgName = className.getPackage();
-			if (!packageName.equals(pkgName) && !"java.lang".equals(pkgName.getFQN())) {
-				sb.append("import ").append(className.getFQN()).append(";\n");
+			Iterable<JavaClassName> classNames
+   ) {
+		return ImmutableList.copyOf(Iterables.filter(classNames, new Predicate<JavaClassName>() {
+			@Override
+			public boolean apply(JavaClassName className) {
+				JavaPackageName pkgName = className.getPackage();
+				return !packageName.equals(pkgName) && !"java.lang".equals(pkgName.getFQN());
 			}
-		}
+		}));
 	}
+	
 }

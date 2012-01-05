@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.systemproperties;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class AccountID {
-    private final String _value;
+public final class AccountID implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private AccountID(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private AccountID(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof AccountID) {
-            return Objects.equal(_value, ((AccountID)other)._value);
+            AccountID obj = (AccountID)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static AccountID valueOf(String value) {
+    public static AccountID getInstance(String value) {
         return value == null ? null : new AccountID(value);
     }
 }

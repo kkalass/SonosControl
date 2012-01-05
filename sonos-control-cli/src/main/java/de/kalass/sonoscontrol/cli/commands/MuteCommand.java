@@ -17,6 +17,6 @@ public final class MuteCommand extends SonosDeviceCommand {
 	@Override
 	public void call(final SonosDevice device, final CliCommandResultCallback callback) {
 		final RenderingControlService renderingControlService = device.getRenderingControlService();
-		renderingControlService.setMute(MuteChannel.MASTER, Mute.valueOf(_muteCmd.isMute()), new CallbackWrapper(callback, "Mute " + _muteCmd.isMute()));
+		renderingControlService.setMute(MuteChannel.MASTER, Mute.getInstance(_muteCmd.isMute()), new CallbackWrapper(callback, "Mute " + _muteCmd.isMute()));
 	}
 }

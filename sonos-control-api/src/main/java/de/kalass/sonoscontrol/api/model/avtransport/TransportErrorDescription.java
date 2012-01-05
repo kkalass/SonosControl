@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class TransportErrorDescription {
-    private final String _value;
+public final class TransportErrorDescription implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private TransportErrorDescription(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private TransportErrorDescription(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof TransportErrorDescription) {
-            return Objects.equal(_value, ((TransportErrorDescription)other)._value);
+            TransportErrorDescription obj = (TransportErrorDescription)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static TransportErrorDescription valueOf(String value) {
+    public static TransportErrorDescription getInstance(String value) {
         return value == null ? null : new TransportErrorDescription(value);
     }
 }

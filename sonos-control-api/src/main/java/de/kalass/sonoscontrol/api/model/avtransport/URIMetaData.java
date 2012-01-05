@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class URIMetaData {
-    private final String _value;
+public final class URIMetaData implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private URIMetaData(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private URIMetaData(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof URIMetaData) {
-            return Objects.equal(_value, ((URIMetaData)other)._value);
+            URIMetaData obj = (URIMetaData)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static URIMetaData valueOf(String value) {
+    public static URIMetaData getInstance(String value) {
         return value == null ? null : new URIMetaData(value);
     }
 }

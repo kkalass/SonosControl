@@ -1,27 +1,28 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum TransportState {
-    STOPPED("STOPPED"),
-    PLAYING("PLAYING"),
-    PAUSED_PLAYBACK("PAUSED_PLAYBACK"),
-    TRANSITIONING("TRANSITIONING");
-
-    private final String _sonosValue;
-
-    TransportState(final String sonosValue) {
-        _sonosValue = sonosValue;
+		STOPPED("STOPPED"),
+		PLAYING("PLAYING"),
+		PAUSED_PLAYBACK("PAUSED_PLAYBACK"),
+		TRANSITIONING("TRANSITIONING");
+	
+	private final String _value;
+	
+	TransportState(String value) {
+	    _value = value;
+	} 
+	
+    public String asString() {
+        return _value;
     }
-
-    public String getSonosValue() {
-        return _sonosValue;
+    
+    public static TransportState getInstance(String value) {
+        for (TransportState v: values()) {
+            if (v._value.equals(value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException("Could not find " + value);   
     }
-
-    public static TransportState valueOfBySonosValue(String sonosValue) {
-        	for (TransportState v : values()) {
-    		if (v._sonosValue.equals(sonosValue)) {
-    			return v;
-    		}
-    	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
-    }
+    
 }

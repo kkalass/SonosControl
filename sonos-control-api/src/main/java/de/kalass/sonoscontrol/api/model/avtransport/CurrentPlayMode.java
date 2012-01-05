@@ -1,27 +1,28 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum CurrentPlayMode {
-    NORMAL("NORMAL"),
-    REPEAT_ALL("REPEAT_ALL"),
-    SHUFFLE_NOREPEAT("SHUFFLE_NOREPEAT"),
-    SHUFFLE("SHUFFLE");
-
-    private final String _sonosValue;
-
-    CurrentPlayMode(final String sonosValue) {
-        _sonosValue = sonosValue;
+		NORMAL("NORMAL"),
+		REPEAT_ALL("REPEAT_ALL"),
+		SHUFFLE_NOREPEAT("SHUFFLE_NOREPEAT"),
+		SHUFFLE("SHUFFLE");
+	
+	private final String _value;
+	
+	CurrentPlayMode(String value) {
+	    _value = value;
+	} 
+	
+    public String asString() {
+        return _value;
     }
-
-    public String getSonosValue() {
-        return _sonosValue;
+    
+    public static CurrentPlayMode getInstance(String value) {
+        for (CurrentPlayMode v: values()) {
+            if (v._value.equals(value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException("Could not find " + value);   
     }
-
-    public static CurrentPlayMode valueOfBySonosValue(String sonosValue) {
-        	for (CurrentPlayMode v : values()) {
-    		if (v._sonosValue.equals(sonosValue)) {
-    			return v;
-    		}
-    	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
-    }
+    
 }

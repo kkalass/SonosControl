@@ -1,16 +1,21 @@
 package de.kalass.sonoscontrol.api.model.renderingcontrol;
 
 public enum ResetVolumeAfter {
-    ON(true),
-    OFF(false);
-    private final boolean _b;
-    ResetVolumeAfter(final boolean value) {
-        _b = value;
+    ON() {
+        public boolean asBoolean() {
+            return true;
+        }
+    },
+    OFF() {
+        public boolean asBoolean() {
+            return false;
+        }
+    };
+    
+    public abstract boolean asBoolean();
+    
+    public static ResetVolumeAfter getInstance(boolean b) {
+        return b ? ON : OFF;
     }
-    public boolean asBoolean() {
-        return _b;
-    }
-    public static ResetVolumeAfter valueOf(boolean b) {
-        return b?ON:OFF;
-    }
+    
 }

@@ -1,24 +1,25 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum TransportPlaySpeed {
-    ONE("1");
-
-    private final String _sonosValue;
-
-    TransportPlaySpeed(final String sonosValue) {
-        _sonosValue = sonosValue;
+		ONE("1");
+	
+	private final String _value;
+	
+	TransportPlaySpeed(String value) {
+	    _value = value;
+	} 
+	
+    public String asString() {
+        return _value;
     }
-
-    public String getSonosValue() {
-        return _sonosValue;
+    
+    public static TransportPlaySpeed getInstance(String value) {
+        for (TransportPlaySpeed v: values()) {
+            if (v._value.equals(value)) {
+                return v;
+            }
+        }
+        throw new IllegalArgumentException("Could not find " + value);   
     }
-
-    public static TransportPlaySpeed valueOfBySonosValue(String sonosValue) {
-        	for (TransportPlaySpeed v : values()) {
-    		if (v._sonosValue.equals(sonosValue)) {
-    			return v;
-    		}
-    	}
-    	throw new IllegalArgumentException("Unknown sonos name: " + sonosValue);
-    }
+    
 }

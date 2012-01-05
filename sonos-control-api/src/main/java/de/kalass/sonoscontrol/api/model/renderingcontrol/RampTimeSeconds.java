@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.renderingcontrol;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class RampTimeSeconds {
-    private final Long _value;
+public final class RampTimeSeconds implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private RampTimeSeconds(final Long value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final Long _value;
+
+    private RampTimeSeconds(Long value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public Long asLong() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof RampTimeSeconds) {
-            return Objects.equal(_value, ((RampTimeSeconds)other)._value);
+            RampTimeSeconds obj = (RampTimeSeconds)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static RampTimeSeconds valueOf(Long value) {
+    public static RampTimeSeconds getInstance(Long value) {
         return value == null ? null : new RampTimeSeconds(value);
     }
 }

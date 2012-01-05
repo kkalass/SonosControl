@@ -1,16 +1,21 @@
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 public enum SnoozeRunning {
-    ON(true),
-    OFF(false);
-    private final boolean _b;
-    SnoozeRunning(final boolean value) {
-        _b = value;
+    ON() {
+        public boolean asBoolean() {
+            return true;
+        }
+    },
+    OFF() {
+        public boolean asBoolean() {
+            return false;
+        }
+    };
+    
+    public abstract boolean asBoolean();
+    
+    public static SnoozeRunning getInstance(boolean b) {
+        return b ? ON : OFF;
     }
-    public boolean asBoolean() {
-        return _b;
-    }
-    public static SnoozeRunning valueOf(boolean b) {
-        return b?ON:OFF;
-    }
+    
 }

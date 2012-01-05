@@ -1,38 +1,40 @@
 package de.kalass.sonoscontrol.api.model.groupmanagement;
 
+import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class VolumeAVTransportURI {
-    private final String _value;
+public final class VolumeAVTransportURI implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private VolumeAVTransportURI(final String value) {
-        _value = Preconditions.checkNotNull(value);
-    }
+
+	private final String _value;
+
+    private VolumeAVTransportURI(String value) {
+		_value = Preconditions.checkNotNull(value);
+    } 
 
     public String asString() {
         return _value;
+    }  
+    
+    public String toString() {
+        return Objects.toStringHelper(this).add("value", _value).toString();
     }
-
-    @Override
+    
     public int hashCode() {
-        return _value.hashCode();
+        return Objects.hashCode(_value);
     }
 
-    @Override
     public boolean equals(Object other) {
         if (other instanceof VolumeAVTransportURI) {
-            return Objects.equal(_value, ((VolumeAVTransportURI)other)._value);
+            VolumeAVTransportURI obj = (VolumeAVTransportURI)other;
+            return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).add("value", _value).toString();
-    }
-
-    public static VolumeAVTransportURI valueOf(String value) {
+    public static VolumeAVTransportURI getInstance(String value) {
         return value == null ? null : new VolumeAVTransportURI(value);
     }
 }
