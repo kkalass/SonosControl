@@ -15,26 +15,26 @@ public final class ${data.javaClassName.name} implements Serializable {
     </#if>
     </#if>
 
-	private final ${data.dataType.javaClass.simpleName} _value;
+    private final ${data.dataType.javaClass.simpleName} _value;
 
     private ${data.javaClassName.name}(${data.dataType.javaClass.simpleName} value) {
-		_value = Preconditions.checkNotNull(value);
-		<#if data.allowedValueRange??>
-		Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);
+        _value = Preconditions.checkNotNull(value);
+        <#if data.allowedValueRange??>
+        Preconditions.checkArgument(value.longValue() >= MIN && value.longValue() <= MAX);
         <#if data.allowedValueRange.step??>
-		Preconditions.checkArgument(((value.longValue() -  MIN) % STEP) == 0);
-		</#if>
+        Preconditions.checkArgument(((value.longValue() -  MIN) % STEP) == 0);
+        </#if>
         </#if>
     } 
 
     public ${data.dataType.javaClass.simpleName} as${data.dataType.javaClass.simpleName}() {
         return _value;
-    }  
-    
+    }
+
     public String toString() {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
-    
+
     public int hashCode() {
         return Objects.hashCode(_value);
     }

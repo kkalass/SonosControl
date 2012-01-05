@@ -7,16 +7,16 @@ import de.kalass.sonoscontrol.api.services.RenderingControlService;
 import de.kalass.sonoscontrol.cli.arguments.MuteArgs;
 
 public final class MuteCommand extends SonosDeviceCommand {
-	private final MuteArgs _muteCmd;
+    private final MuteArgs _muteCmd;
 
-	public MuteCommand(MuteArgs muteArgs) {
-		super(muteArgs);
-		_muteCmd = muteArgs;
-	}
+    public MuteCommand(MuteArgs muteArgs) {
+        super(muteArgs);
+        _muteCmd = muteArgs;
+    }
 
-	@Override
-	public void call(final SonosDevice device, final CliCommandResultCallback callback) {
-		final RenderingControlService renderingControlService = device.getRenderingControlService();
-		renderingControlService.setMute(MuteChannel.MASTER, Mute.getInstance(_muteCmd.isMute()), new CallbackWrapper(callback, "Mute " + _muteCmd.isMute()));
-	}
+    @Override
+    public void call(final SonosDevice device, final CliCommandResultCallback callback) {
+        final RenderingControlService renderingControlService = device.getRenderingControlService();
+        renderingControlService.setMute(MuteChannel.MASTER, Mute.getInstance(_muteCmd.isMute()), new CallbackWrapper(callback, "Mute " + _muteCmd.isMute()));
+    }
 }

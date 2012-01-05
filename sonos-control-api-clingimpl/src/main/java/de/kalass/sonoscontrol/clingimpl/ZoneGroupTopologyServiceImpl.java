@@ -24,75 +24,75 @@ import de.kalass.sonoscontrol.api.model.zonegrouptopology.Version;
 import de.kalass.sonoscontrol.api.services.ZoneGroupTopologyService;
 
 public class ZoneGroupTopologyServiceImpl extends AbstractServiceImpl implements ZoneGroupTopologyService {
-	public ZoneGroupTopologyServiceImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
-		super("ZoneGroupTopology", upnpService, device, errorStrategy);
-		
-		// TODO KK: the events contain some data I need, but still quite unstructured. 
-		//          I need to structure ZoneGroupState and integrate querying of it into my API.
-		upnpService.getControlPoint().execute(new SubscriptionCallback(Preconditions.checkNotNull(getService())) {
-			
-			@Override
-			protected void failed(GENASubscription subscription,
-					UpnpResponse responseStatus, Exception exception, String defaultMsg) {
-				System.out.println("failed" + defaultMsg);
-			}
-			
-			@Override
-			protected void eventsMissed(GENASubscription subscription,
-					int numberOfMissedEvents) {
-				System.out.println("eventsMissed " + numberOfMissedEvents);
-			}
-			
-			@Override
-			protected void eventReceived(GENASubscription subscription) {
-				System.out.println("eventReceived " + subscription.getCurrentValues());
-			}
-			
-			@Override
-			protected void established(GENASubscription subscription) {
-				System.out.println("established " + subscription.getCurrentValues());				
-			}
-			
-			@Override
-			protected void ended(GENASubscription subscription, CancelReason reason,
-					UpnpResponse responseStatus) {
-				System.out.println("ended " + subscription + subscription.getCurrentValues() + " reason: " + reason);				
-			}
-		});
-	}
-	@Override
-	public <C extends Callback1<UpdateItem>> C checkForUpdate(
-			UpdateType updateType, CachedOnly cachedOnly, Version version,
-			C callback) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public ZoneGroupTopologyServiceImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+        super("ZoneGroupTopology", upnpService, device, errorStrategy);
 
-	@Override
-	public <C extends Callback0> C beginSoftwareUpdate(UpdateURL updateURL,
-			UpdateFlags flags, C callback) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        // TODO KK: the events contain some data I need, but still quite unstructured.
+        //          I need to structure ZoneGroupState and integrate querying of it into my API.
+        upnpService.getControlPoint().execute(new SubscriptionCallback(Preconditions.checkNotNull(getService())) {
 
-	@Override
-	public <C extends Callback0> C reportUnresponsiveDevice(
-			MemberID deviceUUID, UnresponsiveDeviceActionType desiredAction,
-			C callback) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            @Override
+            protected void failed(GENASubscription subscription,
+                    UpnpResponse responseStatus, Exception exception, String defaultMsg) {
+                System.out.println("failed" + defaultMsg);
+            }
 
-	@Override
-	public <C extends Callback0> C reportAlarmStartedRunning(C callback) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            @Override
+            protected void eventsMissed(GENASubscription subscription,
+                    int numberOfMissedEvents) {
+                System.out.println("eventsMissed " + numberOfMissedEvents);
+            }
 
-	@Override
-	public <C extends Callback1<DiagnosticID>> C submitDiagnostics(C callback) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            @Override
+            protected void eventReceived(GENASubscription subscription) {
+                System.out.println("eventReceived " + subscription.getCurrentValues());
+            }
+
+            @Override
+            protected void established(GENASubscription subscription) {
+                System.out.println("established " + subscription.getCurrentValues());
+            }
+
+            @Override
+            protected void ended(GENASubscription subscription, CancelReason reason,
+                    UpnpResponse responseStatus) {
+                System.out.println("ended " + subscription + subscription.getCurrentValues() + " reason: " + reason);
+            }
+        });
+    }
+    @Override
+    public <C extends Callback1<UpdateItem>> C checkForUpdate(
+            UpdateType updateType, CachedOnly cachedOnly, Version version,
+            C callback) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <C extends Callback0> C beginSoftwareUpdate(UpdateURL updateURL,
+            UpdateFlags flags, C callback) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <C extends Callback0> C reportUnresponsiveDevice(
+            MemberID deviceUUID, UnresponsiveDeviceActionType desiredAction,
+            C callback) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <C extends Callback0> C reportAlarmStartedRunning(C callback) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <C extends Callback1<DiagnosticID>> C submitDiagnostics(C callback) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

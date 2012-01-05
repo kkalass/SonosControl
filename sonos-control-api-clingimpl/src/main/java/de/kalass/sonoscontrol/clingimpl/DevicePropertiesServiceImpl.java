@@ -26,151 +26,151 @@ import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 
 @SuppressWarnings("rawtypes")
 public class DevicePropertiesServiceImpl extends AbstractServiceImpl implements DevicePropertiesService {
-	//private static final Logger LOG = LoggerFactory.getLogger(DevicePropertiesServiceImpl.class);
-	
-	public DevicePropertiesServiceImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
-		super("DeviceProperties", upnpService, device, errorStrategy);
-	}
+    //private static final Logger LOG = LoggerFactory.getLogger(DevicePropertiesServiceImpl.class);
 
-	@Override
-	public <C extends Callback1<ZoneAttributes>> C retrieveZoneAttributes(final C successHandler) {
-		return execute(successHandler, new Call2<ZoneAttributes>("GetZoneAttributes") {
-			@Override
-			public void success(
-					Callback1<ZoneAttributes> handler,
-					ActionArgumentValue p1, ActionArgumentValue p2) {
-				final ZoneName currentZoneName = ZoneName.getInstance((String)p1.getValue());
-				final Icon currentIcon = Icon.getInstance((String)p2.getValue());
-				successHandler.success(new ZoneAttributes(currentZoneName, currentIcon));
-			}
-		});
-	}
+    public DevicePropertiesServiceImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+        super("DeviceProperties", upnpService, device, errorStrategy);
+    }
 
-	@Override
-	public <C extends Callback0> C setLEDState(LEDState desiredLEDState,
-			C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<ZoneAttributes>> C retrieveZoneAttributes(final C successHandler) {
+        return execute(successHandler, new Call2<ZoneAttributes>("GetZoneAttributes") {
+            @Override
+            public void success(
+                    Callback1<ZoneAttributes> handler,
+                    ActionArgumentValue p1, ActionArgumentValue p2) {
+                final ZoneName currentZoneName = ZoneName.getInstance((String)p1.getValue());
+                final Icon currentIcon = Icon.getInstance((String)p2.getValue());
+                successHandler.success(new ZoneAttributes(currentZoneName, currentIcon));
+            }
+        });
+    }
 
-	@Override
-	public <C extends Callback1<LEDState>> C retrieveLEDState(C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setLEDState(LEDState desiredLEDState,
+            C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setInvisible(Invisible desiredInvisible,
-			C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<LEDState>> C retrieveLEDState(C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<Invisible>> C retrieveInvisible(C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setInvisible(Invisible desiredInvisible,
+            C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C addBondedZones(ChannelMapSet channelMapSet,
-			C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<Invisible>> C retrieveInvisible(C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C removeBondedZones(
-			ChannelMapSet channelMapSet, C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C addBondedZones(ChannelMapSet channelMapSet,
+            C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C createStereoPair(
-			ChannelMapSet channelMapSet, C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C removeBondedZones(
+            ChannelMapSet channelMapSet, C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C separateStereoPair(
-			ChannelMapSet channelMapSet, C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C createStereoPair(
+            ChannelMapSet channelMapSet, C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setZoneAttributes(ZoneName desiredZoneName,
-			Icon desiredIcon, C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C separateStereoPair(
+            ChannelMapSet channelMapSet, C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<HouseholdID>> C retrieveHouseholdID(C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setZoneAttributes(ZoneName desiredZoneName,
+            Icon desiredIcon, C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<ZoneInfo>> C retrieveZoneInfo(C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<HouseholdID>> C retrieveHouseholdID(C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setAutoplayLinkedZones(
-			AutoplayIncludeLinkedZones includeLinkedZones, C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<ZoneInfo>> C retrieveZoneInfo(C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<AutoplayIncludeLinkedZones>> C retrieveAutoplayLinkedZones(
-			C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setAutoplayLinkedZones(
+            AutoplayIncludeLinkedZones includeLinkedZones, C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setAutoplayRoomUUID(
-			AutoplayRoomUUID roomUUID, C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<AutoplayIncludeLinkedZones>> C retrieveAutoplayLinkedZones(
+            C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<AutoplayRoomUUID>> C retrieveAutoplayRoomUUID(
-			C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setAutoplayRoomUUID(
+            AutoplayRoomUUID roomUUID, C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setAutoplayVolume(AutoplayVolume volume,
-			C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<AutoplayRoomUUID>> C retrieveAutoplayRoomUUID(
+            C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<AutoplayVolume>> C retrieveAutoplayVolume(C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setAutoplayVolume(AutoplayVolume volume,
+            C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C importSetting(SettingID settingID,
-			SettingURI settingURI, C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<AutoplayVolume>> C retrieveAutoplayVolume(C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setSpeakerSize(SpeakerSize speakerSize,
-			C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C importSetting(SettingID settingID,
+            SettingURI settingURI, C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<SpeakerSize>> C retrieveSpeakerSize(C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setSpeakerSize(SpeakerSize speakerSize,
+            C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setUseAutoplayVolume(
-			AutoplayUseVolume useVolume, C callback) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<SpeakerSize>> C retrieveSpeakerSize(C callback) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<AutoplayUseVolume>> C retrieveUseAutoplayVolume(
-			C callback) {
-		throw new UnsupportedOperationException();
-	}
-	
-	
+    @Override
+    public <C extends Callback0> C setUseAutoplayVolume(
+            AutoplayUseVolume useVolume, C callback) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <C extends Callback1<AutoplayUseVolume>> C retrieveUseAutoplayVolume(
+            C callback) {
+        throw new UnsupportedOperationException();
+    }
+
+
 }

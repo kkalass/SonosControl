@@ -11,11 +11,11 @@ public enum ${data.javaClassName.name} {
             return false;
         }
     };
-    
+
     public abstract boolean asBoolean();
-    
+
     public static ${data.javaClassName.name} getInstance(boolean b) {
         return b ? ON : OFF;
     }
-    
+
 }

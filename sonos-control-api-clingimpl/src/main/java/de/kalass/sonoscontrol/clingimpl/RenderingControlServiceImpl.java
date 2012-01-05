@@ -36,214 +36,213 @@ import de.kalass.sonoscontrol.api.services.RenderingControlService;
 
 @SuppressWarnings("rawtypes")
 public class RenderingControlServiceImpl extends AbstractServiceImpl implements RenderingControlService {
-	private static final UnsignedIntegerFourBytes INSTANCE_ID = new UnsignedIntegerFourBytes(0l);
+    private static final UnsignedIntegerFourBytes INSTANCE_ID = new UnsignedIntegerFourBytes(0l);
 
 
-	//private static final Logger LOG = LoggerFactory.getLogger(RenderingControlServiceImpl.class);
-	
-	public RenderingControlServiceImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
-		super("RenderingControl", upnpService, device, errorStrategy);
-	}
+    //private static final Logger LOG = LoggerFactory.getLogger(RenderingControlServiceImpl.class);
 
-	@Override
-	public <C extends Callback1<Volume>> C retrieveVolume(final Channel channel, final C successHandler) {
-		return execute(successHandler, new Call1<Volume>("GetVolume") {
-			@Override
-			public void prepareArguments(ActionInvocation invocation)
-					throws InvalidValueException {
-				// Throws InvalidValueException if the value is of wrong type
-				invocation.setInput("Channel", channel.asString());
-				invocation.setInput("InstanceID", INSTANCE_ID);
-			}
-			@Override
-			public void success(Callback1<Volume> handler, ActionArgumentValue p) {
-				final UnsignedIntegerTwoBytes volume = (UnsignedIntegerTwoBytes)p.getValue();
-				successHandler.success(Volume.getInstance(volume.getValue()));
-			}
-		});
-	}
-	
-	@Override
-	public <C extends Callback1<Mute>> C retrieveMute(final MuteChannel channel,final C successHandler) {
-		
-		// FIXME: do something about the hard coded channel and instance params...
-		
-		return execute(successHandler, new Call1<Mute>("GetMute") {
-			@Override
-			public void prepareArguments(ActionInvocation invocation)
-					throws InvalidValueException {
-				// Throws InvalidValueException if the value is of wrong type
-				invocation.setInput("Channel", channel.asString());
-				invocation.setInput("InstanceID", INSTANCE_ID);
-			}
-			@Override
-			public void success(Callback1<Mute> handler, ActionArgumentValue p) {
-				final Boolean mute = (Boolean)p.getValue();
-				successHandler.success(Mute.getInstance(mute));
-			}
-		});
-	}
-	
-	
-	@Override
-	public <C extends Callback0> C setMute(final MuteChannel channel, final Mute mute, C successHandler) {
-		return execute(successHandler, new Call0("SetMute") {
-			@Override
-			public void prepareArguments(ActionInvocation invocation)
-					throws InvalidValueException {
-				// Throws InvalidValueException if the value is of wrong type
-				invocation.setInput("Channel", channel.asString());
-				invocation.setInput("InstanceID", INSTANCE_ID);
-				invocation.setInput("DesiredMute", Boolean.valueOf(mute.asBoolean()));
-			}
-			
-		});		
-	}
+    public RenderingControlServiceImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+        super("RenderingControl", upnpService, device, errorStrategy);
+    }
 
-	@Override
-	public <C extends Callback1<ResetBasicEQResult>> C resetBasicEQ(C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<Volume>> C retrieveVolume(final Channel channel, final C successHandler) {
+        return execute(successHandler, new Call1<Volume>("GetVolume") {
+            @Override
+            public void prepareArguments(ActionInvocation invocation)
+                    throws InvalidValueException {
+                // Throws InvalidValueException if the value is of wrong type
+                invocation.setInput("Channel", channel.asString());
+                invocation.setInput("InstanceID", INSTANCE_ID);
+            }
+            @Override
+            public void success(Callback1<Volume> handler, ActionArgumentValue p) {
+                final UnsignedIntegerTwoBytes volume = (UnsignedIntegerTwoBytes)p.getValue();
+                successHandler.success(Volume.getInstance(volume.getValue()));
+            }
+        });
+    }
 
-	@Override
-	public <C extends Callback0> C resetExtEQ(EQType eQType, C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<Mute>> C retrieveMute(final MuteChannel channel,final C successHandler) {
 
-	@Override
-	public <C extends Callback0> C setVolume(Channel channel,
-			Volume desiredVolume, C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+        // FIXME: do something about the hard coded channel and instance params...
 
-	@Override
-	public <C extends Callback1<Volume>> C setRelativeVolume(Channel channel,
-			VolumeAdjustment adjustment, C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+        return execute(successHandler, new Call1<Mute>("GetMute") {
+            @Override
+            public void prepareArguments(ActionInvocation invocation)
+                    throws InvalidValueException {
+                // Throws InvalidValueException if the value is of wrong type
+                invocation.setInput("Channel", channel.asString());
+                invocation.setInput("InstanceID", INSTANCE_ID);
+            }
+            @Override
+            public void success(Callback1<Mute> handler, ActionArgumentValue p) {
+                final Boolean mute = (Boolean)p.getValue();
+                successHandler.success(Mute.getInstance(mute));
+            }
+        });
+    }
 
-	@Override
-	public <C extends Callback1<VolumeDB>> C retrieveVolumeDB(Channel channel,
-			C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setMute(final MuteChannel channel, final Mute mute, C successHandler) {
+        return execute(successHandler, new Call0("SetMute") {
+            @Override
+            public void prepareArguments(ActionInvocation invocation)
+                    throws InvalidValueException {
+                // Throws InvalidValueException if the value is of wrong type
+                invocation.setInput("Channel", channel.asString());
+                invocation.setInput("InstanceID", INSTANCE_ID);
+                invocation.setInput("DesiredMute", Boolean.valueOf(mute.asBoolean()));
+            }
 
-	@Override
-	public <C extends Callback0> C setVolumeDB(Channel channel,
-			VolumeDB desiredVolume, C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+        });
+    }
 
-	@Override
-	public <C extends Callback1<VolumeDBRange>> C retrieveVolumeDBRange(
-			Channel channel, C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<ResetBasicEQResult>> C resetBasicEQ(C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<Bass>> C retrieveBass(C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C resetExtEQ(EQType eQType, C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setBass(Bass desiredBass, C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setVolume(Channel channel,
+            Volume desiredVolume, C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<Treble>> C retrieveTreble(C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<Volume>> C setRelativeVolume(Channel channel,
+            VolumeAdjustment adjustment, C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setTreble(Treble desiredTreble, C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<VolumeDB>> C retrieveVolumeDB(Channel channel,
+            C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<EQValue>> C retrieveEQ(EQType eQType, C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setVolumeDB(Channel channel,
+            VolumeDB desiredVolume, C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setEQ(EQType eQType, EQValue desiredValue,
-			C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<VolumeDBRange>> C retrieveVolumeDBRange(
+            Channel channel, C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<Loudness>> C retrieveLoudness(Channel channel,
-			C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<Bass>> C retrieveBass(C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setLoudness(Channel channel,
-			Loudness desiredLoudness, C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setBass(Bass desiredBass, C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<SupportsOutputFixed>> C retrieveSupportsOutputFixed(
-			C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<Treble>> C retrieveTreble(C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<OutputFixed>> C retrieveOutputFixed(C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setTreble(Treble desiredTreble, C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setOutputFixed(OutputFixed desiredFixed,
-			C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<EQValue>> C retrieveEQ(EQType eQType, C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<HeadphoneConnected>> C retrieveHeadphoneConnected(
-			C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setEQ(EQType eQType, EQValue desiredValue,
+            C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback1<RampTimeSeconds>> C rampToVolume(
-			Channel channel, RampType rampType, Volume desiredVolume,
-			ResetVolumeAfter resetVolumeAfter, ProgramURI programURI, C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<Loudness>> C retrieveLoudness(Channel channel,
+            C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C restoreVolumePriorToRamp(Channel channel,
-			C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback0> C setLoudness(Channel channel,
+            Loudness desiredLoudness, C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public <C extends Callback0> C setChannelMap(ChannelMap channelMap,
-			C callback) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public <C extends Callback1<SupportsOutputFixed>> C retrieveSupportsOutputFixed(
+            C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <C extends Callback1<OutputFixed>> C retrieveOutputFixed(C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <C extends Callback0> C setOutputFixed(OutputFixed desiredFixed,
+            C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <C extends Callback1<HeadphoneConnected>> C retrieveHeadphoneConnected(
+            C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <C extends Callback1<RampTimeSeconds>> C rampToVolume(
+            Channel channel, RampType rampType, Volume desiredVolume,
+            ResetVolumeAfter resetVolumeAfter, ProgramURI programURI, C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <C extends Callback0> C restoreVolumePriorToRamp(Channel channel,
+            C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <C extends Callback0> C setChannelMap(ChannelMap channelMap,
+            C callback) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 }

@@ -14,39 +14,39 @@ import de.kalass.sonoscontrol.api.services.RenderingControlService;
 
 public class SonosDeviceImpl implements SonosDevice {
 
-	private final DevicePropertiesService _propsService;
-	private final ZoneName _zoneName;
-	@SuppressWarnings("rawtypes")
-	private final Device _device;
-	private final UpnpService _service;
-	private final ErrorStrategy _errorStrategy;
+    private final DevicePropertiesService _propsService;
+    private final ZoneName _zoneName;
+    @SuppressWarnings("rawtypes")
+    private final Device _device;
+    private final UpnpService _service;
+    private final ErrorStrategy _errorStrategy;
 
-	@SuppressWarnings("rawtypes")
-	SonosDeviceImpl(@Nonnull ZoneName zoneName, @Nonnull DevicePropertiesService propsService,
-			@Nonnull UpnpService service, @Nonnull Device device, @Nonnull ErrorStrategy errorStrategy) {
-		this._zoneName = zoneName;
-		this._propsService = propsService;
-		this._service = service;
-		this._device = device;
-		this._errorStrategy = errorStrategy;
-	}
-	
-	@Override
-	public ZoneName getZoneName() {
-		return _zoneName;
-	}
-	
-	@Override
-	public DevicePropertiesService getDevicePropertiesService() {
-		return _propsService;
-	}
-	
-	@Override
-	public RenderingControlService getRenderingControlService() {
-		return new RenderingControlServiceImpl(_service, _device, _errorStrategy);
-	}
-	@Override
-	public AVTransportService getAVTransportService() {
-		return new AVTransportServiceImpl(_service, _device, _errorStrategy);
-	}
+    @SuppressWarnings("rawtypes")
+    SonosDeviceImpl(@Nonnull ZoneName zoneName, @Nonnull DevicePropertiesService propsService,
+            @Nonnull UpnpService service, @Nonnull Device device, @Nonnull ErrorStrategy errorStrategy) {
+        this._zoneName = zoneName;
+        this._propsService = propsService;
+        this._service = service;
+        this._device = device;
+        this._errorStrategy = errorStrategy;
+    }
+
+    @Override
+    public ZoneName getZoneName() {
+        return _zoneName;
+    }
+
+    @Override
+    public DevicePropertiesService getDevicePropertiesService() {
+        return _propsService;
+    }
+
+    @Override
+    public RenderingControlService getRenderingControlService() {
+        return new RenderingControlServiceImpl(_service, _device, _errorStrategy);
+    }
+    @Override
+    public AVTransportService getAVTransportService() {
+        return new AVTransportServiceImpl(_service, _device, _errorStrategy);
+    }
 }
