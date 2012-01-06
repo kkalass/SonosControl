@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
@@ -104,7 +106,10 @@ import de.kalass.sonoscontrol.api.model.avtransport.CurrentRecordQualityMode;
 
 @SuppressWarnings("rawtypes")
 public final class AVTransportServiceClingImpl extends AbstractServiceImpl implements AVTransportService {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(AVTransportServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
+    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    private final List<EventListener<LastChange>> _changeLastChangeListeners = new ArrayList<EventListener<LastChange>>();
 
     public AVTransportServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("AVTransport", upnpService, device, errorStrategy);
@@ -921,14 +926,22 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
         if (!Objects.equal(oldLastChange, newLastChange)) {
             notifyLastChangeChanged(oldLastChange, newLastChange);
         }
-
+        _eventsReceivedLatch.countDown();
     }
+
+    protected Object getEventedValueOrWait(String key) {
+        try {
+            _eventsReceivedLatch.await();
+        } catch (InterruptedException e) {
+            LOG.warn("waiting for evented value countdown latch was interrupted, will continue");
+        }
+        return _eventedValues.get(key);
+    }
+
 
     public LastChange getLastChange() {
-        return (LastChange)_eventedValues.get("LastChange");
+        return (LastChange)getEventedValueOrWait("LastChange");
     }
-
-    private final List<EventListener<LastChange>> _changeLastChangeListeners = new ArrayList<EventListener<LastChange>>();
 
     public void addLastChangeListener(EventListener<LastChange> listener) {
         synchronized(_changeLastChangeListeners) {

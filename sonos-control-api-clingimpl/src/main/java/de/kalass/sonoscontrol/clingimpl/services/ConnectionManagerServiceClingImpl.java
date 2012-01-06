@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
@@ -45,7 +47,12 @@ import de.kalass.sonoscontrol.api.model.connectionmanager.AVTransportID;
 
 @SuppressWarnings("rawtypes")
 public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl implements ConnectionManagerService {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ConnectionManagerServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
+    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    private final List<EventListener<SinkProtocolInfo>> _changeSinkProtocolInfoListeners = new ArrayList<EventListener<SinkProtocolInfo>>();
+    private final List<EventListener<SourceProtocolInfo>> _changeSourceProtocolInfoListeners = new ArrayList<EventListener<SourceProtocolInfo>>();
+    private final List<EventListener<CurrentConnectionIDs>> _changeCurrentConnectionIDsListeners = new ArrayList<EventListener<CurrentConnectionIDs>>();
 
     public ConnectionManagerServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("ConnectionManager", upnpService, device, errorStrategy);
@@ -147,14 +154,22 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         if (!Objects.equal(oldCurrentConnectionIDs, newCurrentConnectionIDs)) {
             notifyCurrentConnectionIDsChanged(oldCurrentConnectionIDs, newCurrentConnectionIDs);
         }
-
+        _eventsReceivedLatch.countDown();
     }
+
+    protected Object getEventedValueOrWait(String key) {
+        try {
+            _eventsReceivedLatch.await();
+        } catch (InterruptedException e) {
+            LOG.warn("waiting for evented value countdown latch was interrupted, will continue");
+        }
+        return _eventedValues.get(key);
+    }
+
 
     public SinkProtocolInfo getSinkProtocolInfo() {
-        return (SinkProtocolInfo)_eventedValues.get("SinkProtocolInfo");
+        return (SinkProtocolInfo)getEventedValueOrWait("SinkProtocolInfo");
     }
-
-    private final List<EventListener<SinkProtocolInfo>> _changeSinkProtocolInfoListeners = new ArrayList<EventListener<SinkProtocolInfo>>();
 
     public void addSinkProtocolInfoListener(EventListener<SinkProtocolInfo> listener) {
         synchronized(_changeSinkProtocolInfoListeners) {
@@ -181,11 +196,10 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
     protected SinkProtocolInfo convertSinkProtocolInfo(String rawValue) {
         return SinkProtocolInfo.getInstance(rawValue);
     }
-    public SourceProtocolInfo getSourceProtocolInfo() {
-        return (SourceProtocolInfo)_eventedValues.get("SourceProtocolInfo");
-    }
 
-    private final List<EventListener<SourceProtocolInfo>> _changeSourceProtocolInfoListeners = new ArrayList<EventListener<SourceProtocolInfo>>();
+    public SourceProtocolInfo getSourceProtocolInfo() {
+        return (SourceProtocolInfo)getEventedValueOrWait("SourceProtocolInfo");
+    }
 
     public void addSourceProtocolInfoListener(EventListener<SourceProtocolInfo> listener) {
         synchronized(_changeSourceProtocolInfoListeners) {
@@ -212,11 +226,10 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
     protected SourceProtocolInfo convertSourceProtocolInfo(String rawValue) {
         return SourceProtocolInfo.getInstance(rawValue);
     }
-    public CurrentConnectionIDs getCurrentConnectionIDs() {
-        return (CurrentConnectionIDs)_eventedValues.get("CurrentConnectionIDs");
-    }
 
-    private final List<EventListener<CurrentConnectionIDs>> _changeCurrentConnectionIDsListeners = new ArrayList<EventListener<CurrentConnectionIDs>>();
+    public CurrentConnectionIDs getCurrentConnectionIDs() {
+        return (CurrentConnectionIDs)getEventedValueOrWait("CurrentConnectionIDs");
+    }
 
     public void addCurrentConnectionIDsListener(EventListener<CurrentConnectionIDs> listener) {
         synchronized(_changeCurrentConnectionIDsListeners) {

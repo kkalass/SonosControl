@@ -70,8 +70,8 @@ public class Generator {
             });
             return Functions.forMap(m, Functions.forMap(_generalMappings, null));
         }
-
     }
+
     public static final class ServiceNameFactoryImpl implements ServiceNameFactory {
         private final JavaPackageName _servicePackageName;
         private final String _serviceName;

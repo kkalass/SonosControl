@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
@@ -58,7 +60,15 @@ import de.kalass.sonoscontrol.api.model.deviceproperties.Icon;
 
 @SuppressWarnings("rawtypes")
 public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl implements DevicePropertiesService {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(DevicePropertiesServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
+    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    private final List<EventListener<SettingsReplicationState>> _changeSettingsReplicationStateListeners = new ArrayList<EventListener<SettingsReplicationState>>();
+    private final List<EventListener<ZoneName>> _changeZoneNameListeners = new ArrayList<EventListener<ZoneName>>();
+    private final List<EventListener<ChannelMapSet>> _changeChannelMapSetListeners = new ArrayList<EventListener<ChannelMapSet>>();
+    private final List<EventListener<Invisible>> _changeInvisibleListeners = new ArrayList<EventListener<Invisible>>();
+    private final List<EventListener<IsZoneBridge>> _changeIsZoneBridgeListeners = new ArrayList<EventListener<IsZoneBridge>>();
+    private final List<EventListener<Icon>> _changeIconListeners = new ArrayList<EventListener<Icon>>();
 
     public DevicePropertiesServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("DeviceProperties", upnpService, device, errorStrategy);
@@ -519,14 +529,22 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         if (!Objects.equal(oldIcon, newIcon)) {
             notifyIconChanged(oldIcon, newIcon);
         }
-
+        _eventsReceivedLatch.countDown();
     }
+
+    protected Object getEventedValueOrWait(String key) {
+        try {
+            _eventsReceivedLatch.await();
+        } catch (InterruptedException e) {
+            LOG.warn("waiting for evented value countdown latch was interrupted, will continue");
+        }
+        return _eventedValues.get(key);
+    }
+
 
     public SettingsReplicationState getSettingsReplicationState() {
-        return (SettingsReplicationState)_eventedValues.get("SettingsReplicationState");
+        return (SettingsReplicationState)getEventedValueOrWait("SettingsReplicationState");
     }
-
-    private final List<EventListener<SettingsReplicationState>> _changeSettingsReplicationStateListeners = new ArrayList<EventListener<SettingsReplicationState>>();
 
     public void addSettingsReplicationStateListener(EventListener<SettingsReplicationState> listener) {
         synchronized(_changeSettingsReplicationStateListeners) {
@@ -553,11 +571,10 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
     protected SettingsReplicationState convertSettingsReplicationState(String rawValue) {
         return SettingsReplicationState.getInstance(rawValue);
     }
-    public ZoneName getZoneName() {
-        return (ZoneName)_eventedValues.get("ZoneName");
-    }
 
-    private final List<EventListener<ZoneName>> _changeZoneNameListeners = new ArrayList<EventListener<ZoneName>>();
+    public ZoneName getZoneName() {
+        return (ZoneName)getEventedValueOrWait("ZoneName");
+    }
 
     public void addZoneNameListener(EventListener<ZoneName> listener) {
         synchronized(_changeZoneNameListeners) {
@@ -584,11 +601,10 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
     protected ZoneName convertZoneName(String rawValue) {
         return ZoneName.getInstance(rawValue);
     }
-    public ChannelMapSet getChannelMapSet() {
-        return (ChannelMapSet)_eventedValues.get("ChannelMapSet");
-    }
 
-    private final List<EventListener<ChannelMapSet>> _changeChannelMapSetListeners = new ArrayList<EventListener<ChannelMapSet>>();
+    public ChannelMapSet getChannelMapSet() {
+        return (ChannelMapSet)getEventedValueOrWait("ChannelMapSet");
+    }
 
     public void addChannelMapSetListener(EventListener<ChannelMapSet> listener) {
         synchronized(_changeChannelMapSetListeners) {
@@ -615,11 +631,10 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
     protected ChannelMapSet convertChannelMapSet(String rawValue) {
         return ChannelMapSet.getInstance(rawValue);
     }
-    public Invisible getInvisible() {
-        return (Invisible)_eventedValues.get("Invisible");
-    }
 
-    private final List<EventListener<Invisible>> _changeInvisibleListeners = new ArrayList<EventListener<Invisible>>();
+    public Invisible getInvisible() {
+        return (Invisible)getEventedValueOrWait("Invisible");
+    }
 
     public void addInvisibleListener(EventListener<Invisible> listener) {
         synchronized(_changeInvisibleListeners) {
@@ -646,11 +661,10 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
     protected Invisible convertInvisible(Boolean rawValue) {
         return Invisible.getInstance(rawValue);
     }
-    public IsZoneBridge getIsZoneBridge() {
-        return (IsZoneBridge)_eventedValues.get("IsZoneBridge");
-    }
 
-    private final List<EventListener<IsZoneBridge>> _changeIsZoneBridgeListeners = new ArrayList<EventListener<IsZoneBridge>>();
+    public IsZoneBridge getIsZoneBridge() {
+        return (IsZoneBridge)getEventedValueOrWait("IsZoneBridge");
+    }
 
     public void addIsZoneBridgeListener(EventListener<IsZoneBridge> listener) {
         synchronized(_changeIsZoneBridgeListeners) {
@@ -677,11 +691,10 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
     protected IsZoneBridge convertIsZoneBridge(Boolean rawValue) {
         return IsZoneBridge.getInstance(rawValue);
     }
-    public Icon getIcon() {
-        return (Icon)_eventedValues.get("Icon");
-    }
 
-    private final List<EventListener<Icon>> _changeIconListeners = new ArrayList<EventListener<Icon>>();
+    public Icon getIcon() {
+        return (Icon)getEventedValueOrWait("Icon");
+    }
 
     public void addIconListener(EventListener<Icon> listener) {
         synchronized(_changeIconListeners) {

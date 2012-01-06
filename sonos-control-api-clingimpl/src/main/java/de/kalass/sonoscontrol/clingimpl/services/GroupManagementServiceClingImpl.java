@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
@@ -41,7 +43,13 @@ import de.kalass.sonoscontrol.api.model.groupmanagement.TransportSettings;
 
 @SuppressWarnings("rawtypes")
 public final class GroupManagementServiceClingImpl extends AbstractServiceImpl implements GroupManagementService {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(GroupManagementServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
+    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    private final List<EventListener<LocalGroupUUID>> _changeLocalGroupUUIDListeners = new ArrayList<EventListener<LocalGroupUUID>>();
+    private final List<EventListener<ResetVolumeAfter>> _changeResetVolumeAfterListeners = new ArrayList<EventListener<ResetVolumeAfter>>();
+    private final List<EventListener<GroupCoordinatorIsLocal>> _changeGroupCoordinatorIsLocalListeners = new ArrayList<EventListener<GroupCoordinatorIsLocal>>();
+    private final List<EventListener<VolumeAVTransportURI>> _changeVolumeAVTransportURIListeners = new ArrayList<EventListener<VolumeAVTransportURI>>();
 
     public GroupManagementServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("GroupManagement", upnpService, device, errorStrategy);
@@ -148,14 +156,22 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         if (!Objects.equal(oldVolumeAVTransportURI, newVolumeAVTransportURI)) {
             notifyVolumeAVTransportURIChanged(oldVolumeAVTransportURI, newVolumeAVTransportURI);
         }
-
+        _eventsReceivedLatch.countDown();
     }
+
+    protected Object getEventedValueOrWait(String key) {
+        try {
+            _eventsReceivedLatch.await();
+        } catch (InterruptedException e) {
+            LOG.warn("waiting for evented value countdown latch was interrupted, will continue");
+        }
+        return _eventedValues.get(key);
+    }
+
 
     public LocalGroupUUID getLocalGroupUUID() {
-        return (LocalGroupUUID)_eventedValues.get("LocalGroupUUID");
+        return (LocalGroupUUID)getEventedValueOrWait("LocalGroupUUID");
     }
-
-    private final List<EventListener<LocalGroupUUID>> _changeLocalGroupUUIDListeners = new ArrayList<EventListener<LocalGroupUUID>>();
 
     public void addLocalGroupUUIDListener(EventListener<LocalGroupUUID> listener) {
         synchronized(_changeLocalGroupUUIDListeners) {
@@ -182,11 +198,10 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
     protected LocalGroupUUID convertLocalGroupUUID(String rawValue) {
         return LocalGroupUUID.getInstance(rawValue);
     }
-    public ResetVolumeAfter getResetVolumeAfter() {
-        return (ResetVolumeAfter)_eventedValues.get("ResetVolumeAfter");
-    }
 
-    private final List<EventListener<ResetVolumeAfter>> _changeResetVolumeAfterListeners = new ArrayList<EventListener<ResetVolumeAfter>>();
+    public ResetVolumeAfter getResetVolumeAfter() {
+        return (ResetVolumeAfter)getEventedValueOrWait("ResetVolumeAfter");
+    }
 
     public void addResetVolumeAfterListener(EventListener<ResetVolumeAfter> listener) {
         synchronized(_changeResetVolumeAfterListeners) {
@@ -213,11 +228,10 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
     protected ResetVolumeAfter convertResetVolumeAfter(Boolean rawValue) {
         return ResetVolumeAfter.getInstance(rawValue);
     }
-    public GroupCoordinatorIsLocal getGroupCoordinatorIsLocal() {
-        return (GroupCoordinatorIsLocal)_eventedValues.get("GroupCoordinatorIsLocal");
-    }
 
-    private final List<EventListener<GroupCoordinatorIsLocal>> _changeGroupCoordinatorIsLocalListeners = new ArrayList<EventListener<GroupCoordinatorIsLocal>>();
+    public GroupCoordinatorIsLocal getGroupCoordinatorIsLocal() {
+        return (GroupCoordinatorIsLocal)getEventedValueOrWait("GroupCoordinatorIsLocal");
+    }
 
     public void addGroupCoordinatorIsLocalListener(EventListener<GroupCoordinatorIsLocal> listener) {
         synchronized(_changeGroupCoordinatorIsLocalListeners) {
@@ -244,11 +258,10 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
     protected GroupCoordinatorIsLocal convertGroupCoordinatorIsLocal(Boolean rawValue) {
         return GroupCoordinatorIsLocal.getInstance(rawValue);
     }
-    public VolumeAVTransportURI getVolumeAVTransportURI() {
-        return (VolumeAVTransportURI)_eventedValues.get("VolumeAVTransportURI");
-    }
 
-    private final List<EventListener<VolumeAVTransportURI>> _changeVolumeAVTransportURIListeners = new ArrayList<EventListener<VolumeAVTransportURI>>();
+    public VolumeAVTransportURI getVolumeAVTransportURI() {
+        return (VolumeAVTransportURI)getEventedValueOrWait("VolumeAVTransportURI");
+    }
 
     public void addVolumeAVTransportURIListener(EventListener<VolumeAVTransportURI> listener) {
         synchronized(_changeVolumeAVTransportURIListeners) {

@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
@@ -46,7 +48,13 @@ import de.kalass.sonoscontrol.api.model.zonegrouptopology.AlarmRunSequence;
 
 @SuppressWarnings("rawtypes")
 public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl implements ZoneGroupTopologyService {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ZoneGroupTopologyServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
+    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    private final List<EventListener<AvailableSoftwareUpdate>> _changeAvailableSoftwareUpdateListeners = new ArrayList<EventListener<AvailableSoftwareUpdate>>();
+    private final List<EventListener<ZoneGroupState>> _changeZoneGroupStateListeners = new ArrayList<EventListener<ZoneGroupState>>();
+    private final List<EventListener<ThirdPartyMediaServers>> _changeThirdPartyMediaServersListeners = new ArrayList<EventListener<ThirdPartyMediaServers>>();
+    private final List<EventListener<AlarmRunSequence>> _changeAlarmRunSequenceListeners = new ArrayList<EventListener<AlarmRunSequence>>();
 
     public ZoneGroupTopologyServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("ZoneGroupTopology", upnpService, device, errorStrategy);
@@ -185,14 +193,22 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
         if (!Objects.equal(oldAlarmRunSequence, newAlarmRunSequence)) {
             notifyAlarmRunSequenceChanged(oldAlarmRunSequence, newAlarmRunSequence);
         }
-
+        _eventsReceivedLatch.countDown();
     }
+
+    protected Object getEventedValueOrWait(String key) {
+        try {
+            _eventsReceivedLatch.await();
+        } catch (InterruptedException e) {
+            LOG.warn("waiting for evented value countdown latch was interrupted, will continue");
+        }
+        return _eventedValues.get(key);
+    }
+
 
     public AvailableSoftwareUpdate getAvailableSoftwareUpdate() {
-        return (AvailableSoftwareUpdate)_eventedValues.get("AvailableSoftwareUpdate");
+        return (AvailableSoftwareUpdate)getEventedValueOrWait("AvailableSoftwareUpdate");
     }
-
-    private final List<EventListener<AvailableSoftwareUpdate>> _changeAvailableSoftwareUpdateListeners = new ArrayList<EventListener<AvailableSoftwareUpdate>>();
 
     public void addAvailableSoftwareUpdateListener(EventListener<AvailableSoftwareUpdate> listener) {
         synchronized(_changeAvailableSoftwareUpdateListeners) {
@@ -219,11 +235,10 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
     protected AvailableSoftwareUpdate convertAvailableSoftwareUpdate(String rawValue) {
         return AvailableSoftwareUpdate.getInstance(rawValue);
     }
-    public ZoneGroupState getZoneGroupState() {
-        return (ZoneGroupState)_eventedValues.get("ZoneGroupState");
-    }
 
-    private final List<EventListener<ZoneGroupState>> _changeZoneGroupStateListeners = new ArrayList<EventListener<ZoneGroupState>>();
+    public ZoneGroupState getZoneGroupState() {
+        return (ZoneGroupState)getEventedValueOrWait("ZoneGroupState");
+    }
 
     public void addZoneGroupStateListener(EventListener<ZoneGroupState> listener) {
         synchronized(_changeZoneGroupStateListeners) {
@@ -250,11 +265,10 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
     protected ZoneGroupState convertZoneGroupState(String rawValue) {
         return ZoneGroupState.getInstance(rawValue);
     }
-    public ThirdPartyMediaServers getThirdPartyMediaServers() {
-        return (ThirdPartyMediaServers)_eventedValues.get("ThirdPartyMediaServers");
-    }
 
-    private final List<EventListener<ThirdPartyMediaServers>> _changeThirdPartyMediaServersListeners = new ArrayList<EventListener<ThirdPartyMediaServers>>();
+    public ThirdPartyMediaServers getThirdPartyMediaServers() {
+        return (ThirdPartyMediaServers)getEventedValueOrWait("ThirdPartyMediaServers");
+    }
 
     public void addThirdPartyMediaServersListener(EventListener<ThirdPartyMediaServers> listener) {
         synchronized(_changeThirdPartyMediaServersListeners) {
@@ -281,11 +295,10 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
     protected ThirdPartyMediaServers convertThirdPartyMediaServers(String rawValue) {
         return ThirdPartyMediaServers.getInstance(rawValue);
     }
-    public AlarmRunSequence getAlarmRunSequence() {
-        return (AlarmRunSequence)_eventedValues.get("AlarmRunSequence");
-    }
 
-    private final List<EventListener<AlarmRunSequence>> _changeAlarmRunSequenceListeners = new ArrayList<EventListener<AlarmRunSequence>>();
+    public AlarmRunSequence getAlarmRunSequence() {
+        return (AlarmRunSequence)getEventedValueOrWait("AlarmRunSequence");
+    }
 
     public void addAlarmRunSequenceListener(EventListener<AlarmRunSequence> listener) {
         synchronized(_changeAlarmRunSequenceListeners) {

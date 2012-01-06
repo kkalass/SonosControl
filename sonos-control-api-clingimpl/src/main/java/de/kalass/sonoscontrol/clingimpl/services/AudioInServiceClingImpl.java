@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
@@ -44,7 +46,15 @@ import de.kalass.sonoscontrol.api.model.audioin.Icon;
 
 @SuppressWarnings("rawtypes")
 public final class AudioInServiceClingImpl extends AbstractServiceImpl implements AudioInService {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(AudioInServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
+    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    private final List<EventListener<RightLineInLevel>> _changeRightLineInLevelListeners = new ArrayList<EventListener<RightLineInLevel>>();
+    private final List<EventListener<LeftLineInLevel>> _changeLeftLineInLevelListeners = new ArrayList<EventListener<LeftLineInLevel>>();
+    private final List<EventListener<AudioInputName>> _changeAudioInputNameListeners = new ArrayList<EventListener<AudioInputName>>();
+    private final List<EventListener<LineInConnected>> _changeLineInConnectedListeners = new ArrayList<EventListener<LineInConnected>>();
+    private final List<EventListener<Playing>> _changePlayingListeners = new ArrayList<EventListener<Playing>>();
+    private final List<EventListener<Icon>> _changeIconListeners = new ArrayList<EventListener<Icon>>();
 
     public AudioInServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("AudioIn", upnpService, device, errorStrategy);
@@ -237,14 +247,22 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         if (!Objects.equal(oldIcon, newIcon)) {
             notifyIconChanged(oldIcon, newIcon);
         }
-
+        _eventsReceivedLatch.countDown();
     }
+
+    protected Object getEventedValueOrWait(String key) {
+        try {
+            _eventsReceivedLatch.await();
+        } catch (InterruptedException e) {
+            LOG.warn("waiting for evented value countdown latch was interrupted, will continue");
+        }
+        return _eventedValues.get(key);
+    }
+
 
     public RightLineInLevel getRightLineInLevel() {
-        return (RightLineInLevel)_eventedValues.get("RightLineInLevel");
+        return (RightLineInLevel)getEventedValueOrWait("RightLineInLevel");
     }
-
-    private final List<EventListener<RightLineInLevel>> _changeRightLineInLevelListeners = new ArrayList<EventListener<RightLineInLevel>>();
 
     public void addRightLineInLevelListener(EventListener<RightLineInLevel> listener) {
         synchronized(_changeRightLineInLevelListeners) {
@@ -271,11 +289,10 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
     protected RightLineInLevel convertRightLineInLevel(Long rawValue) {
         return RightLineInLevel.getInstance(rawValue);
     }
-    public LeftLineInLevel getLeftLineInLevel() {
-        return (LeftLineInLevel)_eventedValues.get("LeftLineInLevel");
-    }
 
-    private final List<EventListener<LeftLineInLevel>> _changeLeftLineInLevelListeners = new ArrayList<EventListener<LeftLineInLevel>>();
+    public LeftLineInLevel getLeftLineInLevel() {
+        return (LeftLineInLevel)getEventedValueOrWait("LeftLineInLevel");
+    }
 
     public void addLeftLineInLevelListener(EventListener<LeftLineInLevel> listener) {
         synchronized(_changeLeftLineInLevelListeners) {
@@ -302,11 +319,10 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
     protected LeftLineInLevel convertLeftLineInLevel(Long rawValue) {
         return LeftLineInLevel.getInstance(rawValue);
     }
-    public AudioInputName getAudioInputName() {
-        return (AudioInputName)_eventedValues.get("AudioInputName");
-    }
 
-    private final List<EventListener<AudioInputName>> _changeAudioInputNameListeners = new ArrayList<EventListener<AudioInputName>>();
+    public AudioInputName getAudioInputName() {
+        return (AudioInputName)getEventedValueOrWait("AudioInputName");
+    }
 
     public void addAudioInputNameListener(EventListener<AudioInputName> listener) {
         synchronized(_changeAudioInputNameListeners) {
@@ -333,11 +349,10 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
     protected AudioInputName convertAudioInputName(String rawValue) {
         return AudioInputName.getInstance(rawValue);
     }
-    public LineInConnected getLineInConnected() {
-        return (LineInConnected)_eventedValues.get("LineInConnected");
-    }
 
-    private final List<EventListener<LineInConnected>> _changeLineInConnectedListeners = new ArrayList<EventListener<LineInConnected>>();
+    public LineInConnected getLineInConnected() {
+        return (LineInConnected)getEventedValueOrWait("LineInConnected");
+    }
 
     public void addLineInConnectedListener(EventListener<LineInConnected> listener) {
         synchronized(_changeLineInConnectedListeners) {
@@ -364,11 +379,10 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
     protected LineInConnected convertLineInConnected(Boolean rawValue) {
         return LineInConnected.getInstance(rawValue);
     }
-    public Playing getPlaying() {
-        return (Playing)_eventedValues.get("Playing");
-    }
 
-    private final List<EventListener<Playing>> _changePlayingListeners = new ArrayList<EventListener<Playing>>();
+    public Playing getPlaying() {
+        return (Playing)getEventedValueOrWait("Playing");
+    }
 
     public void addPlayingListener(EventListener<Playing> listener) {
         synchronized(_changePlayingListeners) {
@@ -395,11 +409,10 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
     protected Playing convertPlaying(Boolean rawValue) {
         return Playing.getInstance(rawValue);
     }
-    public Icon getIcon() {
-        return (Icon)_eventedValues.get("Icon");
-    }
 
-    private final List<EventListener<Icon>> _changeIconListeners = new ArrayList<EventListener<Icon>>();
+    public Icon getIcon() {
+        return (Icon)getEventedValueOrWait("Icon");
+    }
 
     public void addIconListener(EventListener<Icon> listener) {
         synchronized(_changeIconListeners) {

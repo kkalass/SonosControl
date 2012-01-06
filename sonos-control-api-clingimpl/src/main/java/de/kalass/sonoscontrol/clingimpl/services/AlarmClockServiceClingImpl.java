@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
@@ -60,7 +62,16 @@ import de.kalass.sonoscontrol.api.model.alarmclock.TimeFormat;
 
 @SuppressWarnings("rawtypes")
 public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implements AlarmClockService {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(AlarmClockServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
+    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    private final List<EventListener<TimeGeneration>> _changeTimeGenerationListeners = new ArrayList<EventListener<TimeGeneration>>();
+    private final List<EventListener<AlarmListVersion>> _changeAlarmListVersionListeners = new ArrayList<EventListener<AlarmListVersion>>();
+    private final List<EventListener<DateFormat>> _changeDateFormatListeners = new ArrayList<EventListener<DateFormat>>();
+    private final List<EventListener<TimeServer>> _changeTimeServerListeners = new ArrayList<EventListener<TimeServer>>();
+    private final List<EventListener<TimeZone>> _changeTimeZoneListeners = new ArrayList<EventListener<TimeZone>>();
+    private final List<EventListener<TimeFormat>> _changeTimeFormatListeners = new ArrayList<EventListener<TimeFormat>>();
+    private final List<EventListener<DailyIndexRefreshTime>> _changeDailyIndexRefreshTimeListeners = new ArrayList<EventListener<DailyIndexRefreshTime>>();
 
     public AlarmClockServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("AlarmClock", upnpService, device, errorStrategy);
@@ -458,14 +469,22 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         if (!Objects.equal(oldDailyIndexRefreshTime, newDailyIndexRefreshTime)) {
             notifyDailyIndexRefreshTimeChanged(oldDailyIndexRefreshTime, newDailyIndexRefreshTime);
         }
-
+        _eventsReceivedLatch.countDown();
     }
+
+    protected Object getEventedValueOrWait(String key) {
+        try {
+            _eventsReceivedLatch.await();
+        } catch (InterruptedException e) {
+            LOG.warn("waiting for evented value countdown latch was interrupted, will continue");
+        }
+        return _eventedValues.get(key);
+    }
+
 
     public TimeGeneration getTimeGeneration() {
-        return (TimeGeneration)_eventedValues.get("TimeGeneration");
+        return (TimeGeneration)getEventedValueOrWait("TimeGeneration");
     }
-
-    private final List<EventListener<TimeGeneration>> _changeTimeGenerationListeners = new ArrayList<EventListener<TimeGeneration>>();
 
     public void addTimeGenerationListener(EventListener<TimeGeneration> listener) {
         synchronized(_changeTimeGenerationListeners) {
@@ -492,11 +511,10 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     protected TimeGeneration convertTimeGeneration(Long rawValue) {
         return TimeGeneration.getInstance(rawValue);
     }
-    public AlarmListVersion getAlarmListVersion() {
-        return (AlarmListVersion)_eventedValues.get("AlarmListVersion");
-    }
 
-    private final List<EventListener<AlarmListVersion>> _changeAlarmListVersionListeners = new ArrayList<EventListener<AlarmListVersion>>();
+    public AlarmListVersion getAlarmListVersion() {
+        return (AlarmListVersion)getEventedValueOrWait("AlarmListVersion");
+    }
 
     public void addAlarmListVersionListener(EventListener<AlarmListVersion> listener) {
         synchronized(_changeAlarmListVersionListeners) {
@@ -523,11 +541,10 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     protected AlarmListVersion convertAlarmListVersion(String rawValue) {
         return AlarmListVersion.getInstance(rawValue);
     }
-    public DateFormat getDateFormat() {
-        return (DateFormat)_eventedValues.get("DateFormat");
-    }
 
-    private final List<EventListener<DateFormat>> _changeDateFormatListeners = new ArrayList<EventListener<DateFormat>>();
+    public DateFormat getDateFormat() {
+        return (DateFormat)getEventedValueOrWait("DateFormat");
+    }
 
     public void addDateFormatListener(EventListener<DateFormat> listener) {
         synchronized(_changeDateFormatListeners) {
@@ -554,11 +571,10 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     protected DateFormat convertDateFormat(String rawValue) {
         return DateFormat.getInstance(rawValue);
     }
-    public TimeServer getTimeServer() {
-        return (TimeServer)_eventedValues.get("TimeServer");
-    }
 
-    private final List<EventListener<TimeServer>> _changeTimeServerListeners = new ArrayList<EventListener<TimeServer>>();
+    public TimeServer getTimeServer() {
+        return (TimeServer)getEventedValueOrWait("TimeServer");
+    }
 
     public void addTimeServerListener(EventListener<TimeServer> listener) {
         synchronized(_changeTimeServerListeners) {
@@ -585,11 +601,10 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     protected TimeServer convertTimeServer(String rawValue) {
         return TimeServer.getInstance(rawValue);
     }
-    public TimeZone getTimeZone() {
-        return (TimeZone)_eventedValues.get("TimeZone");
-    }
 
-    private final List<EventListener<TimeZone>> _changeTimeZoneListeners = new ArrayList<EventListener<TimeZone>>();
+    public TimeZone getTimeZone() {
+        return (TimeZone)getEventedValueOrWait("TimeZone");
+    }
 
     public void addTimeZoneListener(EventListener<TimeZone> listener) {
         synchronized(_changeTimeZoneListeners) {
@@ -616,11 +631,10 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     protected TimeZone convertTimeZone(String rawValue) {
         return TimeZone.getInstance(rawValue);
     }
-    public TimeFormat getTimeFormat() {
-        return (TimeFormat)_eventedValues.get("TimeFormat");
-    }
 
-    private final List<EventListener<TimeFormat>> _changeTimeFormatListeners = new ArrayList<EventListener<TimeFormat>>();
+    public TimeFormat getTimeFormat() {
+        return (TimeFormat)getEventedValueOrWait("TimeFormat");
+    }
 
     public void addTimeFormatListener(EventListener<TimeFormat> listener) {
         synchronized(_changeTimeFormatListeners) {
@@ -647,11 +661,10 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     protected TimeFormat convertTimeFormat(String rawValue) {
         return TimeFormat.getInstance(rawValue);
     }
-    public DailyIndexRefreshTime getDailyIndexRefreshTime() {
-        return (DailyIndexRefreshTime)_eventedValues.get("DailyIndexRefreshTime");
-    }
 
-    private final List<EventListener<DailyIndexRefreshTime>> _changeDailyIndexRefreshTimeListeners = new ArrayList<EventListener<DailyIndexRefreshTime>>();
+    public DailyIndexRefreshTime getDailyIndexRefreshTime() {
+        return (DailyIndexRefreshTime)getEventedValueOrWait("DailyIndexRefreshTime");
+    }
 
     public void addDailyIndexRefreshTimeListener(EventListener<DailyIndexRefreshTime> listener) {
         synchronized(_changeDailyIndexRefreshTimeListeners) {

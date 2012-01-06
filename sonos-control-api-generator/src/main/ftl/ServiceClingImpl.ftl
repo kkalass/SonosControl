@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
@@ -34,7 +36,14 @@ import ${import.FQN};
 
 @SuppressWarnings("rawtypes")
 public final class ${data.javaImplClassName.name} extends AbstractServiceImpl implements ${data.javaClassName.name} {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(${data.javaImplClassName.name}.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
+    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    <#list data.stateVariables as stateVariable>
+    <#if stateVariable.sendEvents>
+    private final List<EventListener<${stateVariable.javaClassName.name}>> _change${stateVariable.stateVariableName}Listeners = new ArrayList<EventListener<${stateVariable.javaClassName.name}>>();
+    </#if>
+    </#list>
 
     public ${data.javaImplClassName.name}(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("${data.upnpName}", upnpService, device, errorStrategy);
@@ -111,16 +120,24 @@ public final class ${data.javaImplClassName.name} extends AbstractServiceImpl im
         }
         </#if>
         </#list>
+        _eventsReceivedLatch.countDown();
+    }
 
+    protected Object getEventedValueOrWait(String key) {
+        try {
+            _eventsReceivedLatch.await();
+        } catch (InterruptedException e) {
+            LOG.warn("waiting for evented value countdown latch was interrupted, will continue");
+        }
+        return _eventedValues.get(key);
     }
 
     <#list data.stateVariables as stateVariable>
     <#if stateVariable.sendEvents>
-    public ${stateVariable.javaClassName.name} get${stateVariable.stateVariableName}() {
-        return (${stateVariable.javaClassName.name})_eventedValues.get("${stateVariable.stateVariableName}");
-    }
 
-    private final List<EventListener<${stateVariable.javaClassName.name}>> _change${stateVariable.stateVariableName}Listeners = new ArrayList<EventListener<${stateVariable.javaClassName.name}>>();
+    public ${stateVariable.javaClassName.name} get${stateVariable.stateVariableName}() {
+        return (${stateVariable.javaClassName.name})getEventedValueOrWait("${stateVariable.stateVariableName}");
+    }
 
     public void add${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.javaClassName.name}> listener) {
         synchronized(_change${stateVariable.stateVariableName}Listeners) {
