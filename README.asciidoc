@@ -1,5 +1,10 @@
 == SonosControl ==
 
+=== TODO ===
+
+* Make the Service.getXYZ() implementations block until a value was retrieved
+* Create custom types for the StateVariables which actually send XML sniplets, parse those sniplets and fill the custom types with it 
+
 === About ===
 A Java API and a simple command line client for controlling the SONOS.
 
