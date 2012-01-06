@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -39,7 +41,10 @@ public class QueryEvents {
 
             @Override
             public void deviceAdded(Registry registry, final Device device) {
-                final File deviceOutputDir = new File(outputDir, device.getDisplayString());
+                if (!device.getDisplayString().contains("ZP90")) {
+                    return;
+                }
+                final File deviceOutputDir = outputDir;// new File(outputDir, device.getDisplayString());
                 Service[] services = device.findServices();
                 for (final Service service : services) {
                     final File serviceOutputDir = new File(deviceOutputDir, service.getServiceId().getId());
@@ -65,10 +70,22 @@ public class QueryEvents {
                             Map currentValues = subscription.getCurrentValues();
                             for (Map.Entry e : (Set<Map.Entry>)currentValues.entrySet()) {
                                 Object key = e.getKey();
-                                Object value = e.getValue();
-                                final File outputFile = new File(serviceOutputDir, key + ".xml");
+                                String value = e.getValue().toString();
+                                final File outputFile = new File(serviceOutputDir, key + (value.startsWith("<") ? ".xml" : ".txt"));
                                 try {
-                                    Files.write(value.toString(), outputFile, Charset.forName("UTF-8"));
+                                    // Hide Username/Passwords send in *cleartext*!
+                                    String v = value.toString()
+                                            .replaceAll("Password=\"[^\"]*\"", "Password=\"<pwd>\"")
+                                            .replaceAll("Password0=\"[^\"]*\"", "Password0=\"<pwd>\"")
+                                            ;
+                                    Pattern usernamePattern = Pattern.compile("Username0=\"([^\"]*)\"");
+                                    Matcher usernameMatcher = usernamePattern.matcher(v);
+                                    while (usernameMatcher.find()) {
+                                        String username = usernameMatcher.group(1);
+                                        System.out.println("Found username");
+                                        v = v.replaceAll(Pattern.quote(username), "<username>");
+                                    }
+                                    Files.write(v, outputFile, Charset.forName("UTF-8"));
                                 } catch (IOException e1) {
                                     e1.printStackTrace();
                                 }
