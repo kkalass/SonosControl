@@ -6,12 +6,22 @@
 package de.kalass.sonoscontrol.clingimpl.services;
 
 import de.kalass.sonoscontrol.api.services.RenderingControlService;
+import de.kalass.sonoscontrol.api.core.EventListener;
+
+import org.teleal.cling.model.gena.GENASubscription;
 import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 
@@ -47,14 +57,10 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.LastChange;
 
 @SuppressWarnings("rawtypes")
 public final class RenderingControlServiceClingImpl extends AbstractServiceImpl implements RenderingControlService {
+    private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
 
     public RenderingControlServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("RenderingControl", upnpService, device, errorStrategy);
-    }
-
-
-    public LastChange getLastChange() {
-        throw new UnsupportedOperationException();
     }
 
 
@@ -74,7 +80,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final Mute value = Mute.getInstance(getBoolean("boolean",output[0].getValue()));
+                 final Mute value = Mute.getInstance((Boolean)getValue("boolean",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -115,11 +121,11 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final Bass value0 = Bass.getInstance(getLong("i2",output[0].getValue()));
-                final Treble value1 = Treble.getInstance(getLong("i2",output[1].getValue()));
-                final Loudness value2 = Loudness.getInstance(getBoolean("boolean",output[2].getValue()));
-                final LeftVolume value3 = LeftVolume.getInstance(getLong("ui2",output[3].getValue()));
-                final RightVolume value4 = RightVolume.getInstance(getLong("ui2",output[4].getValue()));
+                final Bass value0 = Bass.getInstance((Long)getValue("i2",output[0].getValue()));
+                final Treble value1 = Treble.getInstance((Long)getValue("i2",output[1].getValue()));
+                final Loudness value2 = Loudness.getInstance((Boolean)getValue("boolean",output[2].getValue()));
+                final LeftVolume value3 = LeftVolume.getInstance((Long)getValue("ui2",output[3].getValue()));
+                final RightVolume value4 = RightVolume.getInstance((Long)getValue("ui2",output[4].getValue()));
                 final ResetBasicEQResult value = ResetBasicEQResult.getInstance(value0,value1,value2,value3,value4);
                 handler.success(value);
             }
@@ -162,7 +168,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final Volume value = Volume.getInstance(getLong("ui2",output[0].getValue()));
+                 final Volume value = Volume.getInstance((Long)getValue("ui2",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -206,7 +212,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final Volume value = Volume.getInstance(getLong("ui2",output[0].getValue()));
+                 final Volume value = Volume.getInstance((Long)getValue("ui2",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -228,7 +234,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final VolumeDB value = VolumeDB.getInstance(getLong("i2",output[0].getValue()));
+                 final VolumeDB value = VolumeDB.getInstance((Long)getValue("i2",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -270,8 +276,8 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final VolumeDB value0 = VolumeDB.getInstance(getLong("i2",output[0].getValue()));
-                final VolumeDB value1 = VolumeDB.getInstance(getLong("i2",output[1].getValue()));
+                final VolumeDB value0 = VolumeDB.getInstance((Long)getValue("i2",output[0].getValue()));
+                final VolumeDB value1 = VolumeDB.getInstance((Long)getValue("i2",output[1].getValue()));
                 final GetVolumeDBRangeResult value = GetVolumeDBRangeResult.getInstance(value0,value1);
                 handler.success(value);
             }
@@ -293,7 +299,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final Bass value = Bass.getInstance(getLong("i2",output[0].getValue()));
+                 final Bass value = Bass.getInstance((Long)getValue("i2",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -334,7 +340,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final Treble value = Treble.getInstance(getLong("i2",output[0].getValue()));
+                 final Treble value = Treble.getInstance((Long)getValue("i2",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -376,7 +382,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final EQValue value = EQValue.getInstance(getLong("i2",output[0].getValue()));
+                 final EQValue value = EQValue.getInstance((Long)getValue("i2",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -419,7 +425,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final Loudness value = Loudness.getInstance(getBoolean("boolean",output[0].getValue()));
+                 final Loudness value = Loudness.getInstance((Boolean)getValue("boolean",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -461,7 +467,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final SupportsOutputFixed value = SupportsOutputFixed.getInstance(getBoolean("boolean",output[0].getValue()));
+                 final SupportsOutputFixed value = SupportsOutputFixed.getInstance((Boolean)getValue("boolean",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -482,7 +488,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final OutputFixed value = OutputFixed.getInstance(getBoolean("boolean",output[0].getValue()));
+                 final OutputFixed value = OutputFixed.getInstance((Boolean)getValue("boolean",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -523,7 +529,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final HeadphoneConnected value = HeadphoneConnected.getInstance(getBoolean("boolean",output[0].getValue()));
+                 final HeadphoneConnected value = HeadphoneConnected.getInstance((Boolean)getValue("boolean",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -549,7 +555,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final RampTimeSeconds value = RampTimeSeconds.getInstance(getLong("ui4",output[0].getValue()));
+                 final RampTimeSeconds value = RampTimeSeconds.getInstance((Long)getValue("ui4",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -595,4 +601,54 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
         });
     }
 
+    protected void eventReceived(GENASubscription subscription) {
+        final Map values = subscription.getCurrentValues();
+        final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
+
+
+        final LastChange newLastChange = convertLastChange((String)getValue("string", values.get("LastChange")));
+        final LastChange oldLastChange = (LastChange)stored.get("LastChange");
+        if (!Objects.equal(oldLastChange, newLastChange)) {
+            _eventedValues.put("LastChange", newLastChange);
+        }
+
+        // after the values were updated, send the change notifications
+
+        if (!Objects.equal(oldLastChange, newLastChange)) {
+            notifyLastChangeChanged(oldLastChange, newLastChange);
+        }
+
+    }
+
+    public LastChange getLastChange() {
+        return (LastChange)_eventedValues.get("LastChange");
+    }
+
+    private final List<EventListener<LastChange>> _changeLastChangeListeners = new ArrayList<EventListener<LastChange>>();
+
+    public void addLastChangeListener(EventListener<LastChange> listener) {
+        synchronized(_changeLastChangeListeners) {
+            _changeLastChangeListeners.add(listener);
+        }
+    }
+
+    public void removeLastChangeListener(EventListener<LastChange> listener) {
+        synchronized(_changeLastChangeListeners) {
+            _changeLastChangeListeners.remove(listener);
+        }
+    }
+
+    protected void notifyLastChangeChanged(LastChange oldValue, LastChange newValue) {
+        final Iterable<EventListener<LastChange>> listeners;
+        synchronized(_changeLastChangeListeners) {
+            listeners = new ArrayList<EventListener<LastChange>>(_changeLastChangeListeners);            
+        }
+        for(EventListener<LastChange> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected LastChange convertLastChange(String rawValue) {
+        return LastChange.getInstance(rawValue);
+    }
 }

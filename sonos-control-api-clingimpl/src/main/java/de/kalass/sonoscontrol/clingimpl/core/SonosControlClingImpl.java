@@ -18,7 +18,6 @@ import de.kalass.sonoscontrol.api.core.FailableCallback;
 import de.kalass.sonoscontrol.api.model.deviceproperties.GetZoneAttributesResult;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
-import de.kalass.sonoscontrol.clingimpl.ZoneGroupTopologyServiceImpl;
 import de.kalass.sonoscontrol.clingimpl.services.DevicePropertiesServiceClingImpl;
 
 /**
@@ -69,14 +68,7 @@ public class SonosControlClingImpl implements SonosControl {
                 @Override
                 public void success(GetZoneAttributesResult attributes) {
                     if (zoneName.equals(attributes.getCurrentZoneName())) {
-                        ZoneGroupTopologyServiceImpl t = new ZoneGroupTopologyServiceImpl(_upnpService, device, _errorStrategy);
 
-                        //						try {
-                        //							Thread.sleep(10000);
-                        //						} catch (InterruptedException e) {
-                        //							// TODO Auto-generated catch block
-                        //							e.printStackTrace();
-                        //						}
                         callback.success(new SonosDeviceImpl(zoneName, propsService, _upnpService, device, _errorStrategy));
 
                         // avoid firing multiple times

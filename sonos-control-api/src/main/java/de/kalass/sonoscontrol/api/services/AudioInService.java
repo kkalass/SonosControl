@@ -3,6 +3,8 @@
  */
 package de.kalass.sonoscontrol.api.services;
 
+import de.kalass.sonoscontrol.api.core.EventListener;
+
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.audioin.TransportSettings;
@@ -22,15 +24,39 @@ public interface AudioInService {
 
     RightLineInLevel getRightLineInLevel();
 
+    void addRightLineInLevelListener(EventListener<RightLineInLevel> listener);
+
+    void removeRightLineInLevelListener(EventListener<RightLineInLevel> listener);
+
     LeftLineInLevel getLeftLineInLevel();
+
+    void addLeftLineInLevelListener(EventListener<LeftLineInLevel> listener);
+
+    void removeLeftLineInLevelListener(EventListener<LeftLineInLevel> listener);
 
     AudioInputName getAudioInputName();
 
+    void addAudioInputNameListener(EventListener<AudioInputName> listener);
+
+    void removeAudioInputNameListener(EventListener<AudioInputName> listener);
+
     LineInConnected getLineInConnected();
+
+    void addLineInConnectedListener(EventListener<LineInConnected> listener);
+
+    void removeLineInConnectedListener(EventListener<LineInConnected> listener);
 
     Playing getPlaying();
 
+    void addPlayingListener(EventListener<Playing> listener);
+
+    void removePlayingListener(EventListener<Playing> listener);
+
     Icon getIcon();
+
+    void addIconListener(EventListener<Icon> listener);
+
+    void removeIconListener(EventListener<Icon> listener);
 
 
     <C extends Callback1<TransportSettings>> C startTransmissionToGroup(MemberID coordinatorID, C callback);

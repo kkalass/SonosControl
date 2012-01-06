@@ -3,6 +3,8 @@
  */
 package de.kalass.sonoscontrol.api.services;
 
+import de.kalass.sonoscontrol.api.core.EventListener;
+
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.groupmanagement.AddMemberResult;
@@ -19,11 +21,27 @@ public interface GroupManagementService {
 
     LocalGroupUUID getLocalGroupUUID();
 
+    void addLocalGroupUUIDListener(EventListener<LocalGroupUUID> listener);
+
+    void removeLocalGroupUUIDListener(EventListener<LocalGroupUUID> listener);
+
     ResetVolumeAfter getResetVolumeAfter();
+
+    void addResetVolumeAfterListener(EventListener<ResetVolumeAfter> listener);
+
+    void removeResetVolumeAfterListener(EventListener<ResetVolumeAfter> listener);
 
     GroupCoordinatorIsLocal getGroupCoordinatorIsLocal();
 
+    void addGroupCoordinatorIsLocalListener(EventListener<GroupCoordinatorIsLocal> listener);
+
+    void removeGroupCoordinatorIsLocalListener(EventListener<GroupCoordinatorIsLocal> listener);
+
     VolumeAVTransportURI getVolumeAVTransportURI();
+
+    void addVolumeAVTransportURIListener(EventListener<VolumeAVTransportURI> listener);
+
+    void removeVolumeAVTransportURIListener(EventListener<VolumeAVTransportURI> listener);
 
 
     <C extends Callback1<AddMemberResult>> C addMember(MemberID memberID, C callback);

@@ -6,12 +6,22 @@
 package de.kalass.sonoscontrol.clingimpl.services;
 
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
+import de.kalass.sonoscontrol.api.core.EventListener;
+
+import org.teleal.cling.model.gena.GENASubscription;
 import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 
@@ -47,34 +57,10 @@ import de.kalass.sonoscontrol.api.model.deviceproperties.Icon;
 
 @SuppressWarnings("rawtypes")
 public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl implements DevicePropertiesService {
+    private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
 
     public DevicePropertiesServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("DeviceProperties", upnpService, device, errorStrategy);
-    }
-
-
-    public SettingsReplicationState getSettingsReplicationState() {
-        throw new UnsupportedOperationException();
-    }
-
-    public ZoneName getZoneName() {
-        throw new UnsupportedOperationException();
-    }
-
-    public ChannelMapSet getChannelMapSet() {
-        throw new UnsupportedOperationException();
-    }
-
-    public Invisible getInvisible() {
-        throw new UnsupportedOperationException();
-    }
-
-    public IsZoneBridge getIsZoneBridge() {
-        throw new UnsupportedOperationException();
-    }
-
-    public Icon getIcon() {
-        throw new UnsupportedOperationException();
     }
 
 
@@ -105,7 +91,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final LEDState value = LEDState.getInstance(getString("string",output[0].getValue()));
+                 final LEDState value = LEDState.getInstance((String)getValue("string",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -138,7 +124,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final Invisible value = Invisible.getInstance(getBoolean("boolean",output[0].getValue()));
+                 final Invisible value = Invisible.getInstance((Boolean)getValue("boolean",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -235,8 +221,8 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final ZoneName value0 = ZoneName.getInstance(getString("string",output[0].getValue()));
-                final Icon value1 = Icon.getInstance(getString("string",output[1].getValue()));
+                final ZoneName value0 = ZoneName.getInstance((String)getValue("string",output[0].getValue()));
+                final Icon value1 = Icon.getInstance((String)getValue("string",output[1].getValue()));
                 final GetZoneAttributesResult value = GetZoneAttributesResult.getInstance(value0,value1);
                 handler.success(value);
             }
@@ -254,7 +240,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final HouseholdID value = HouseholdID.getInstance(getString("string",output[0].getValue()));
+                 final HouseholdID value = HouseholdID.getInstance((String)getValue("string",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -270,14 +256,14 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final SerialNumber value0 = SerialNumber.getInstance(getString("string",output[0].getValue()));
-                final SoftwareVersion value1 = SoftwareVersion.getInstance(getString("string",output[1].getValue()));
-                final DisplaySoftwareVersion value2 = DisplaySoftwareVersion.getInstance(getString("string",output[2].getValue()));
-                final HardwareVersion value3 = HardwareVersion.getInstance(getString("string",output[3].getValue()));
-                final IPAddress value4 = IPAddress.getInstance(getString("string",output[4].getValue()));
-                final MACAddress value5 = MACAddress.getInstance(getString("string",output[5].getValue()));
-                final CopyrightInfo value6 = CopyrightInfo.getInstance(getString("string",output[6].getValue()));
-                final ExtraInfo value7 = ExtraInfo.getInstance(getString("string",output[7].getValue()));
+                final SerialNumber value0 = SerialNumber.getInstance((String)getValue("string",output[0].getValue()));
+                final SoftwareVersion value1 = SoftwareVersion.getInstance((String)getValue("string",output[1].getValue()));
+                final DisplaySoftwareVersion value2 = DisplaySoftwareVersion.getInstance((String)getValue("string",output[2].getValue()));
+                final HardwareVersion value3 = HardwareVersion.getInstance((String)getValue("string",output[3].getValue()));
+                final IPAddress value4 = IPAddress.getInstance((String)getValue("string",output[4].getValue()));
+                final MACAddress value5 = MACAddress.getInstance((String)getValue("string",output[5].getValue()));
+                final CopyrightInfo value6 = CopyrightInfo.getInstance((String)getValue("string",output[6].getValue()));
+                final ExtraInfo value7 = ExtraInfo.getInstance((String)getValue("string",output[7].getValue()));
                 final GetZoneInfoResult value = GetZoneInfoResult.getInstance(value0,value1,value2,value3,value4,value5,value6,value7);
                 handler.success(value);
             }
@@ -311,7 +297,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final AutoplayIncludeLinkedZones value = AutoplayIncludeLinkedZones.getInstance(getBoolean("boolean",output[0].getValue()));
+                 final AutoplayIncludeLinkedZones value = AutoplayIncludeLinkedZones.getInstance((Boolean)getValue("boolean",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -344,7 +330,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final AutoplayRoomUUID value = AutoplayRoomUUID.getInstance(getString("string",output[0].getValue()));
+                 final AutoplayRoomUUID value = AutoplayRoomUUID.getInstance((String)getValue("string",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -377,7 +363,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final AutoplayVolume value = AutoplayVolume.getInstance(getLong("ui2",output[0].getValue()));
+                 final AutoplayVolume value = AutoplayVolume.getInstance((Long)getValue("ui2",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -427,7 +413,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final SpeakerSize value = SpeakerSize.getInstance(getLong("i2",output[0].getValue()));
+                 final SpeakerSize value = SpeakerSize.getInstance((Long)getValue("i2",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -460,10 +446,265 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final AutoplayUseVolume value = AutoplayUseVolume.getInstance(getBoolean("boolean",output[0].getValue()));
+                 final AutoplayUseVolume value = AutoplayUseVolume.getInstance((Boolean)getValue("boolean",output[0].getValue()));
                  handler.success(value);
             }
         });
     }
 
+    protected void eventReceived(GENASubscription subscription) {
+        final Map values = subscription.getCurrentValues();
+        final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
+
+
+        final SettingsReplicationState newSettingsReplicationState = convertSettingsReplicationState((String)getValue("string", values.get("SettingsReplicationState")));
+        final SettingsReplicationState oldSettingsReplicationState = (SettingsReplicationState)stored.get("SettingsReplicationState");
+        if (!Objects.equal(oldSettingsReplicationState, newSettingsReplicationState)) {
+            _eventedValues.put("SettingsReplicationState", newSettingsReplicationState);
+        }
+
+        final ZoneName newZoneName = convertZoneName((String)getValue("string", values.get("ZoneName")));
+        final ZoneName oldZoneName = (ZoneName)stored.get("ZoneName");
+        if (!Objects.equal(oldZoneName, newZoneName)) {
+            _eventedValues.put("ZoneName", newZoneName);
+        }
+
+        final ChannelMapSet newChannelMapSet = convertChannelMapSet((String)getValue("string", values.get("ChannelMapSet")));
+        final ChannelMapSet oldChannelMapSet = (ChannelMapSet)stored.get("ChannelMapSet");
+        if (!Objects.equal(oldChannelMapSet, newChannelMapSet)) {
+            _eventedValues.put("ChannelMapSet", newChannelMapSet);
+        }
+
+        final Invisible newInvisible = convertInvisible((Boolean)getValue("boolean", values.get("Invisible")));
+        final Invisible oldInvisible = (Invisible)stored.get("Invisible");
+        if (!Objects.equal(oldInvisible, newInvisible)) {
+            _eventedValues.put("Invisible", newInvisible);
+        }
+
+        final IsZoneBridge newIsZoneBridge = convertIsZoneBridge((Boolean)getValue("boolean", values.get("IsZoneBridge")));
+        final IsZoneBridge oldIsZoneBridge = (IsZoneBridge)stored.get("IsZoneBridge");
+        if (!Objects.equal(oldIsZoneBridge, newIsZoneBridge)) {
+            _eventedValues.put("IsZoneBridge", newIsZoneBridge);
+        }
+
+        final Icon newIcon = convertIcon((String)getValue("string", values.get("Icon")));
+        final Icon oldIcon = (Icon)stored.get("Icon");
+        if (!Objects.equal(oldIcon, newIcon)) {
+            _eventedValues.put("Icon", newIcon);
+        }
+
+        // after the values were updated, send the change notifications
+
+        if (!Objects.equal(oldSettingsReplicationState, newSettingsReplicationState)) {
+            notifySettingsReplicationStateChanged(oldSettingsReplicationState, newSettingsReplicationState);
+        }
+
+        if (!Objects.equal(oldZoneName, newZoneName)) {
+            notifyZoneNameChanged(oldZoneName, newZoneName);
+        }
+
+        if (!Objects.equal(oldChannelMapSet, newChannelMapSet)) {
+            notifyChannelMapSetChanged(oldChannelMapSet, newChannelMapSet);
+        }
+
+        if (!Objects.equal(oldInvisible, newInvisible)) {
+            notifyInvisibleChanged(oldInvisible, newInvisible);
+        }
+
+        if (!Objects.equal(oldIsZoneBridge, newIsZoneBridge)) {
+            notifyIsZoneBridgeChanged(oldIsZoneBridge, newIsZoneBridge);
+        }
+
+        if (!Objects.equal(oldIcon, newIcon)) {
+            notifyIconChanged(oldIcon, newIcon);
+        }
+
+    }
+
+    public SettingsReplicationState getSettingsReplicationState() {
+        return (SettingsReplicationState)_eventedValues.get("SettingsReplicationState");
+    }
+
+    private final List<EventListener<SettingsReplicationState>> _changeSettingsReplicationStateListeners = new ArrayList<EventListener<SettingsReplicationState>>();
+
+    public void addSettingsReplicationStateListener(EventListener<SettingsReplicationState> listener) {
+        synchronized(_changeSettingsReplicationStateListeners) {
+            _changeSettingsReplicationStateListeners.add(listener);
+        }
+    }
+
+    public void removeSettingsReplicationStateListener(EventListener<SettingsReplicationState> listener) {
+        synchronized(_changeSettingsReplicationStateListeners) {
+            _changeSettingsReplicationStateListeners.remove(listener);
+        }
+    }
+
+    protected void notifySettingsReplicationStateChanged(SettingsReplicationState oldValue, SettingsReplicationState newValue) {
+        final Iterable<EventListener<SettingsReplicationState>> listeners;
+        synchronized(_changeSettingsReplicationStateListeners) {
+            listeners = new ArrayList<EventListener<SettingsReplicationState>>(_changeSettingsReplicationStateListeners);            
+        }
+        for(EventListener<SettingsReplicationState> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected SettingsReplicationState convertSettingsReplicationState(String rawValue) {
+        return SettingsReplicationState.getInstance(rawValue);
+    }
+    public ZoneName getZoneName() {
+        return (ZoneName)_eventedValues.get("ZoneName");
+    }
+
+    private final List<EventListener<ZoneName>> _changeZoneNameListeners = new ArrayList<EventListener<ZoneName>>();
+
+    public void addZoneNameListener(EventListener<ZoneName> listener) {
+        synchronized(_changeZoneNameListeners) {
+            _changeZoneNameListeners.add(listener);
+        }
+    }
+
+    public void removeZoneNameListener(EventListener<ZoneName> listener) {
+        synchronized(_changeZoneNameListeners) {
+            _changeZoneNameListeners.remove(listener);
+        }
+    }
+
+    protected void notifyZoneNameChanged(ZoneName oldValue, ZoneName newValue) {
+        final Iterable<EventListener<ZoneName>> listeners;
+        synchronized(_changeZoneNameListeners) {
+            listeners = new ArrayList<EventListener<ZoneName>>(_changeZoneNameListeners);            
+        }
+        for(EventListener<ZoneName> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected ZoneName convertZoneName(String rawValue) {
+        return ZoneName.getInstance(rawValue);
+    }
+    public ChannelMapSet getChannelMapSet() {
+        return (ChannelMapSet)_eventedValues.get("ChannelMapSet");
+    }
+
+    private final List<EventListener<ChannelMapSet>> _changeChannelMapSetListeners = new ArrayList<EventListener<ChannelMapSet>>();
+
+    public void addChannelMapSetListener(EventListener<ChannelMapSet> listener) {
+        synchronized(_changeChannelMapSetListeners) {
+            _changeChannelMapSetListeners.add(listener);
+        }
+    }
+
+    public void removeChannelMapSetListener(EventListener<ChannelMapSet> listener) {
+        synchronized(_changeChannelMapSetListeners) {
+            _changeChannelMapSetListeners.remove(listener);
+        }
+    }
+
+    protected void notifyChannelMapSetChanged(ChannelMapSet oldValue, ChannelMapSet newValue) {
+        final Iterable<EventListener<ChannelMapSet>> listeners;
+        synchronized(_changeChannelMapSetListeners) {
+            listeners = new ArrayList<EventListener<ChannelMapSet>>(_changeChannelMapSetListeners);            
+        }
+        for(EventListener<ChannelMapSet> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected ChannelMapSet convertChannelMapSet(String rawValue) {
+        return ChannelMapSet.getInstance(rawValue);
+    }
+    public Invisible getInvisible() {
+        return (Invisible)_eventedValues.get("Invisible");
+    }
+
+    private final List<EventListener<Invisible>> _changeInvisibleListeners = new ArrayList<EventListener<Invisible>>();
+
+    public void addInvisibleListener(EventListener<Invisible> listener) {
+        synchronized(_changeInvisibleListeners) {
+            _changeInvisibleListeners.add(listener);
+        }
+    }
+
+    public void removeInvisibleListener(EventListener<Invisible> listener) {
+        synchronized(_changeInvisibleListeners) {
+            _changeInvisibleListeners.remove(listener);
+        }
+    }
+
+    protected void notifyInvisibleChanged(Invisible oldValue, Invisible newValue) {
+        final Iterable<EventListener<Invisible>> listeners;
+        synchronized(_changeInvisibleListeners) {
+            listeners = new ArrayList<EventListener<Invisible>>(_changeInvisibleListeners);            
+        }
+        for(EventListener<Invisible> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected Invisible convertInvisible(Boolean rawValue) {
+        return Invisible.getInstance(rawValue);
+    }
+    public IsZoneBridge getIsZoneBridge() {
+        return (IsZoneBridge)_eventedValues.get("IsZoneBridge");
+    }
+
+    private final List<EventListener<IsZoneBridge>> _changeIsZoneBridgeListeners = new ArrayList<EventListener<IsZoneBridge>>();
+
+    public void addIsZoneBridgeListener(EventListener<IsZoneBridge> listener) {
+        synchronized(_changeIsZoneBridgeListeners) {
+            _changeIsZoneBridgeListeners.add(listener);
+        }
+    }
+
+    public void removeIsZoneBridgeListener(EventListener<IsZoneBridge> listener) {
+        synchronized(_changeIsZoneBridgeListeners) {
+            _changeIsZoneBridgeListeners.remove(listener);
+        }
+    }
+
+    protected void notifyIsZoneBridgeChanged(IsZoneBridge oldValue, IsZoneBridge newValue) {
+        final Iterable<EventListener<IsZoneBridge>> listeners;
+        synchronized(_changeIsZoneBridgeListeners) {
+            listeners = new ArrayList<EventListener<IsZoneBridge>>(_changeIsZoneBridgeListeners);            
+        }
+        for(EventListener<IsZoneBridge> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected IsZoneBridge convertIsZoneBridge(Boolean rawValue) {
+        return IsZoneBridge.getInstance(rawValue);
+    }
+    public Icon getIcon() {
+        return (Icon)_eventedValues.get("Icon");
+    }
+
+    private final List<EventListener<Icon>> _changeIconListeners = new ArrayList<EventListener<Icon>>();
+
+    public void addIconListener(EventListener<Icon> listener) {
+        synchronized(_changeIconListeners) {
+            _changeIconListeners.add(listener);
+        }
+    }
+
+    public void removeIconListener(EventListener<Icon> listener) {
+        synchronized(_changeIconListeners) {
+            _changeIconListeners.remove(listener);
+        }
+    }
+
+    protected void notifyIconChanged(Icon oldValue, Icon newValue) {
+        final Iterable<EventListener<Icon>> listeners;
+        synchronized(_changeIconListeners) {
+            listeners = new ArrayList<EventListener<Icon>>(_changeIconListeners);            
+        }
+        for(EventListener<Icon> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected Icon convertIcon(String rawValue) {
+        return Icon.getInstance(rawValue);
+    }
 }

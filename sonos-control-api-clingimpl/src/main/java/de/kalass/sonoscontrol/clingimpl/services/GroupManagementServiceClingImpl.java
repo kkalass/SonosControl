@@ -6,12 +6,22 @@
 package de.kalass.sonoscontrol.clingimpl.services;
 
 import de.kalass.sonoscontrol.api.services.GroupManagementService;
+import de.kalass.sonoscontrol.api.core.EventListener;
+
+import org.teleal.cling.model.gena.GENASubscription;
 import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 
@@ -30,26 +40,10 @@ import de.kalass.sonoscontrol.api.model.groupmanagement.TransportSettings;
 
 @SuppressWarnings("rawtypes")
 public final class GroupManagementServiceClingImpl extends AbstractServiceImpl implements GroupManagementService {
+    private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
 
     public GroupManagementServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("GroupManagement", upnpService, device, errorStrategy);
-    }
-
-
-    public LocalGroupUUID getLocalGroupUUID() {
-        throw new UnsupportedOperationException();
-    }
-
-    public ResetVolumeAfter getResetVolumeAfter() {
-        throw new UnsupportedOperationException();
-    }
-
-    public GroupCoordinatorIsLocal getGroupCoordinatorIsLocal() {
-        throw new UnsupportedOperationException();
-    }
-
-    public VolumeAVTransportURI getVolumeAVTransportURI() {
-        throw new UnsupportedOperationException();
     }
 
 
@@ -64,10 +58,10 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final TransportSettings value0 = TransportSettings.getInstance(getString("string",output[0].getValue()));
-                final LocalGroupUUID value1 = LocalGroupUUID.getInstance(getString("string",output[1].getValue()));
-                final ResetVolumeAfter value2 = ResetVolumeAfter.getInstance(getBoolean("boolean",output[2].getValue()));
-                final VolumeAVTransportURI value3 = VolumeAVTransportURI.getInstance(getString("string",output[3].getValue()));
+                final TransportSettings value0 = TransportSettings.getInstance((String)getValue("string",output[0].getValue()));
+                final LocalGroupUUID value1 = LocalGroupUUID.getInstance((String)getValue("string",output[1].getValue()));
+                final ResetVolumeAfter value2 = ResetVolumeAfter.getInstance((Boolean)getValue("boolean",output[2].getValue()));
+                final VolumeAVTransportURI value3 = VolumeAVTransportURI.getInstance((String)getValue("string",output[3].getValue()));
                 final AddMemberResult value = AddMemberResult.getInstance(value0,value1,value2,value3);
                 handler.success(value);
             }
@@ -107,4 +101,177 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         });
     }
 
+    protected void eventReceived(GENASubscription subscription) {
+        final Map values = subscription.getCurrentValues();
+        final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
+
+
+        final LocalGroupUUID newLocalGroupUUID = convertLocalGroupUUID((String)getValue("string", values.get("LocalGroupUUID")));
+        final LocalGroupUUID oldLocalGroupUUID = (LocalGroupUUID)stored.get("LocalGroupUUID");
+        if (!Objects.equal(oldLocalGroupUUID, newLocalGroupUUID)) {
+            _eventedValues.put("LocalGroupUUID", newLocalGroupUUID);
+        }
+
+        final ResetVolumeAfter newResetVolumeAfter = convertResetVolumeAfter((Boolean)getValue("boolean", values.get("ResetVolumeAfter")));
+        final ResetVolumeAfter oldResetVolumeAfter = (ResetVolumeAfter)stored.get("ResetVolumeAfter");
+        if (!Objects.equal(oldResetVolumeAfter, newResetVolumeAfter)) {
+            _eventedValues.put("ResetVolumeAfter", newResetVolumeAfter);
+        }
+
+        final GroupCoordinatorIsLocal newGroupCoordinatorIsLocal = convertGroupCoordinatorIsLocal((Boolean)getValue("boolean", values.get("GroupCoordinatorIsLocal")));
+        final GroupCoordinatorIsLocal oldGroupCoordinatorIsLocal = (GroupCoordinatorIsLocal)stored.get("GroupCoordinatorIsLocal");
+        if (!Objects.equal(oldGroupCoordinatorIsLocal, newGroupCoordinatorIsLocal)) {
+            _eventedValues.put("GroupCoordinatorIsLocal", newGroupCoordinatorIsLocal);
+        }
+
+        final VolumeAVTransportURI newVolumeAVTransportURI = convertVolumeAVTransportURI((String)getValue("string", values.get("VolumeAVTransportURI")));
+        final VolumeAVTransportURI oldVolumeAVTransportURI = (VolumeAVTransportURI)stored.get("VolumeAVTransportURI");
+        if (!Objects.equal(oldVolumeAVTransportURI, newVolumeAVTransportURI)) {
+            _eventedValues.put("VolumeAVTransportURI", newVolumeAVTransportURI);
+        }
+
+        // after the values were updated, send the change notifications
+
+        if (!Objects.equal(oldLocalGroupUUID, newLocalGroupUUID)) {
+            notifyLocalGroupUUIDChanged(oldLocalGroupUUID, newLocalGroupUUID);
+        }
+
+        if (!Objects.equal(oldResetVolumeAfter, newResetVolumeAfter)) {
+            notifyResetVolumeAfterChanged(oldResetVolumeAfter, newResetVolumeAfter);
+        }
+
+        if (!Objects.equal(oldGroupCoordinatorIsLocal, newGroupCoordinatorIsLocal)) {
+            notifyGroupCoordinatorIsLocalChanged(oldGroupCoordinatorIsLocal, newGroupCoordinatorIsLocal);
+        }
+
+        if (!Objects.equal(oldVolumeAVTransportURI, newVolumeAVTransportURI)) {
+            notifyVolumeAVTransportURIChanged(oldVolumeAVTransportURI, newVolumeAVTransportURI);
+        }
+
+    }
+
+    public LocalGroupUUID getLocalGroupUUID() {
+        return (LocalGroupUUID)_eventedValues.get("LocalGroupUUID");
+    }
+
+    private final List<EventListener<LocalGroupUUID>> _changeLocalGroupUUIDListeners = new ArrayList<EventListener<LocalGroupUUID>>();
+
+    public void addLocalGroupUUIDListener(EventListener<LocalGroupUUID> listener) {
+        synchronized(_changeLocalGroupUUIDListeners) {
+            _changeLocalGroupUUIDListeners.add(listener);
+        }
+    }
+
+    public void removeLocalGroupUUIDListener(EventListener<LocalGroupUUID> listener) {
+        synchronized(_changeLocalGroupUUIDListeners) {
+            _changeLocalGroupUUIDListeners.remove(listener);
+        }
+    }
+
+    protected void notifyLocalGroupUUIDChanged(LocalGroupUUID oldValue, LocalGroupUUID newValue) {
+        final Iterable<EventListener<LocalGroupUUID>> listeners;
+        synchronized(_changeLocalGroupUUIDListeners) {
+            listeners = new ArrayList<EventListener<LocalGroupUUID>>(_changeLocalGroupUUIDListeners);            
+        }
+        for(EventListener<LocalGroupUUID> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected LocalGroupUUID convertLocalGroupUUID(String rawValue) {
+        return LocalGroupUUID.getInstance(rawValue);
+    }
+    public ResetVolumeAfter getResetVolumeAfter() {
+        return (ResetVolumeAfter)_eventedValues.get("ResetVolumeAfter");
+    }
+
+    private final List<EventListener<ResetVolumeAfter>> _changeResetVolumeAfterListeners = new ArrayList<EventListener<ResetVolumeAfter>>();
+
+    public void addResetVolumeAfterListener(EventListener<ResetVolumeAfter> listener) {
+        synchronized(_changeResetVolumeAfterListeners) {
+            _changeResetVolumeAfterListeners.add(listener);
+        }
+    }
+
+    public void removeResetVolumeAfterListener(EventListener<ResetVolumeAfter> listener) {
+        synchronized(_changeResetVolumeAfterListeners) {
+            _changeResetVolumeAfterListeners.remove(listener);
+        }
+    }
+
+    protected void notifyResetVolumeAfterChanged(ResetVolumeAfter oldValue, ResetVolumeAfter newValue) {
+        final Iterable<EventListener<ResetVolumeAfter>> listeners;
+        synchronized(_changeResetVolumeAfterListeners) {
+            listeners = new ArrayList<EventListener<ResetVolumeAfter>>(_changeResetVolumeAfterListeners);            
+        }
+        for(EventListener<ResetVolumeAfter> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected ResetVolumeAfter convertResetVolumeAfter(Boolean rawValue) {
+        return ResetVolumeAfter.getInstance(rawValue);
+    }
+    public GroupCoordinatorIsLocal getGroupCoordinatorIsLocal() {
+        return (GroupCoordinatorIsLocal)_eventedValues.get("GroupCoordinatorIsLocal");
+    }
+
+    private final List<EventListener<GroupCoordinatorIsLocal>> _changeGroupCoordinatorIsLocalListeners = new ArrayList<EventListener<GroupCoordinatorIsLocal>>();
+
+    public void addGroupCoordinatorIsLocalListener(EventListener<GroupCoordinatorIsLocal> listener) {
+        synchronized(_changeGroupCoordinatorIsLocalListeners) {
+            _changeGroupCoordinatorIsLocalListeners.add(listener);
+        }
+    }
+
+    public void removeGroupCoordinatorIsLocalListener(EventListener<GroupCoordinatorIsLocal> listener) {
+        synchronized(_changeGroupCoordinatorIsLocalListeners) {
+            _changeGroupCoordinatorIsLocalListeners.remove(listener);
+        }
+    }
+
+    protected void notifyGroupCoordinatorIsLocalChanged(GroupCoordinatorIsLocal oldValue, GroupCoordinatorIsLocal newValue) {
+        final Iterable<EventListener<GroupCoordinatorIsLocal>> listeners;
+        synchronized(_changeGroupCoordinatorIsLocalListeners) {
+            listeners = new ArrayList<EventListener<GroupCoordinatorIsLocal>>(_changeGroupCoordinatorIsLocalListeners);            
+        }
+        for(EventListener<GroupCoordinatorIsLocal> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected GroupCoordinatorIsLocal convertGroupCoordinatorIsLocal(Boolean rawValue) {
+        return GroupCoordinatorIsLocal.getInstance(rawValue);
+    }
+    public VolumeAVTransportURI getVolumeAVTransportURI() {
+        return (VolumeAVTransportURI)_eventedValues.get("VolumeAVTransportURI");
+    }
+
+    private final List<EventListener<VolumeAVTransportURI>> _changeVolumeAVTransportURIListeners = new ArrayList<EventListener<VolumeAVTransportURI>>();
+
+    public void addVolumeAVTransportURIListener(EventListener<VolumeAVTransportURI> listener) {
+        synchronized(_changeVolumeAVTransportURIListeners) {
+            _changeVolumeAVTransportURIListeners.add(listener);
+        }
+    }
+
+    public void removeVolumeAVTransportURIListener(EventListener<VolumeAVTransportURI> listener) {
+        synchronized(_changeVolumeAVTransportURIListeners) {
+            _changeVolumeAVTransportURIListeners.remove(listener);
+        }
+    }
+
+    protected void notifyVolumeAVTransportURIChanged(VolumeAVTransportURI oldValue, VolumeAVTransportURI newValue) {
+        final Iterable<EventListener<VolumeAVTransportURI>> listeners;
+        synchronized(_changeVolumeAVTransportURIListeners) {
+            listeners = new ArrayList<EventListener<VolumeAVTransportURI>>(_changeVolumeAVTransportURIListeners);            
+        }
+        for(EventListener<VolumeAVTransportURI> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected VolumeAVTransportURI convertVolumeAVTransportURI(String rawValue) {
+        return VolumeAVTransportURI.getInstance(rawValue);
+    }
 }

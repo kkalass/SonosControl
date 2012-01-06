@@ -3,6 +3,8 @@
  */
 package ${data.javaClassName.package.FQN};
 
+import de.kalass.sonoscontrol.api.core.EventListener;
+
 <#list data.neededImports as import>
 import ${import.FQN};
 </#list>
@@ -13,6 +15,10 @@ public interface ${data.javaClassName.name} {
     <#if stateVariable.sendEvents>
 
     ${stateVariable.javaClassName.name} get${stateVariable.stateVariableName}();
+
+    void add${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.javaClassName.name}> listener);
+
+    void remove${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.javaClassName.name}> listener);
     </#if>
   </#list>
 

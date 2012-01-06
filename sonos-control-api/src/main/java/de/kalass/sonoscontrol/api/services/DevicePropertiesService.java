@@ -3,6 +3,8 @@
  */
 package de.kalass.sonoscontrol.api.services;
 
+import de.kalass.sonoscontrol.api.core.EventListener;
+
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.deviceproperties.LEDState;
@@ -36,15 +38,39 @@ public interface DevicePropertiesService {
 
     SettingsReplicationState getSettingsReplicationState();
 
+    void addSettingsReplicationStateListener(EventListener<SettingsReplicationState> listener);
+
+    void removeSettingsReplicationStateListener(EventListener<SettingsReplicationState> listener);
+
     ZoneName getZoneName();
+
+    void addZoneNameListener(EventListener<ZoneName> listener);
+
+    void removeZoneNameListener(EventListener<ZoneName> listener);
 
     ChannelMapSet getChannelMapSet();
 
+    void addChannelMapSetListener(EventListener<ChannelMapSet> listener);
+
+    void removeChannelMapSetListener(EventListener<ChannelMapSet> listener);
+
     Invisible getInvisible();
+
+    void addInvisibleListener(EventListener<Invisible> listener);
+
+    void removeInvisibleListener(EventListener<Invisible> listener);
 
     IsZoneBridge getIsZoneBridge();
 
+    void addIsZoneBridgeListener(EventListener<IsZoneBridge> listener);
+
+    void removeIsZoneBridgeListener(EventListener<IsZoneBridge> listener);
+
     Icon getIcon();
+
+    void addIconListener(EventListener<Icon> listener);
+
+    void removeIconListener(EventListener<Icon> listener);
 
 
     <C extends Callback0> C setLEDState(LEDState desiredLEDState, C callback);

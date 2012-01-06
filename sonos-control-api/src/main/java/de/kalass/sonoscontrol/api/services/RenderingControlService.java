@@ -3,6 +3,8 @@
  */
 package de.kalass.sonoscontrol.api.services;
 
+import de.kalass.sonoscontrol.api.core.EventListener;
+
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
@@ -35,6 +37,10 @@ public interface RenderingControlService {
 
 
     LastChange getLastChange();
+
+    void addLastChangeListener(EventListener<LastChange> listener);
+
+    void removeLastChangeListener(EventListener<LastChange> listener);
 
 
     /**

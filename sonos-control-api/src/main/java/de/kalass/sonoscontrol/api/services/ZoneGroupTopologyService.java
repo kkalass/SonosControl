@@ -3,6 +3,8 @@
  */
 package de.kalass.sonoscontrol.api.services;
 
+import de.kalass.sonoscontrol.api.core.EventListener;
+
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.UpdateItem;
@@ -24,11 +26,27 @@ public interface ZoneGroupTopologyService {
 
     AvailableSoftwareUpdate getAvailableSoftwareUpdate();
 
+    void addAvailableSoftwareUpdateListener(EventListener<AvailableSoftwareUpdate> listener);
+
+    void removeAvailableSoftwareUpdateListener(EventListener<AvailableSoftwareUpdate> listener);
+
     ZoneGroupState getZoneGroupState();
+
+    void addZoneGroupStateListener(EventListener<ZoneGroupState> listener);
+
+    void removeZoneGroupStateListener(EventListener<ZoneGroupState> listener);
 
     ThirdPartyMediaServers getThirdPartyMediaServers();
 
+    void addThirdPartyMediaServersListener(EventListener<ThirdPartyMediaServers> listener);
+
+    void removeThirdPartyMediaServersListener(EventListener<ThirdPartyMediaServers> listener);
+
     AlarmRunSequence getAlarmRunSequence();
+
+    void addAlarmRunSequenceListener(EventListener<AlarmRunSequence> listener);
+
+    void removeAlarmRunSequenceListener(EventListener<AlarmRunSequence> listener);
 
 
     <C extends Callback1<UpdateItem>> C checkForUpdate(UpdateType updateType, CachedOnly cachedOnly, Version version, C callback);

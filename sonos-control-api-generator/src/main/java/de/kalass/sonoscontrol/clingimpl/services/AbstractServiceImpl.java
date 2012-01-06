@@ -6,8 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.controlpoint.ActionCallback;
-import org.teleal.cling.model.action.ActionArgumentValue;
+import org.teleal.cling.controlpoint.SubscriptionCallback;
 import org.teleal.cling.model.action.ActionInvocation;
+import org.teleal.cling.model.gena.CancelReason;
+import org.teleal.cling.model.gena.GENASubscription;
 import org.teleal.cling.model.message.UpnpResponse;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.meta.Service;
@@ -17,9 +19,9 @@ import org.teleal.cling.model.types.UDAServiceId;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
 import org.teleal.cling.model.types.UnsignedIntegerTwoBytes;
 
+import com.google.common.base.Preconditions;
+
 import de.kalass.sonoscontrol.api.core.Callback;
-import de.kalass.sonoscontrol.api.core.Callback0;
-import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 
 @SuppressWarnings("rawtypes")
@@ -42,24 +44,7 @@ public abstract class AbstractServiceImpl {
         public String getActionName() {
             return _actionName;
         }
-        public String getString(String upnpType, Object value) {
-            return (String)value;
-        }
-        public boolean getBoolean(String upnpType, Object value) {
-            return ((Boolean)value);
-        }
-        public Long getLong(String upnpType, Object value) {
-            if (value == null) {
-                return null;
-            }
-            if ("ui4".equals(upnpType) || "i4".equals(upnpType)) {
-                return ((UnsignedIntegerFourBytes)value).getValue();
-            } else if ("ui2".equals(upnpType) || "i2".equals(upnpType)) {
-                return ((UnsignedIntegerTwoBytes)value).getValue();
-            } else {
-                throw new IllegalStateException();
-            }
-        }
+
         protected void setInput(ActionInvocation invocation, String upnpType, String name, String value) {
             invocation.setInput(name, value);
         }
@@ -81,50 +66,44 @@ public abstract class AbstractServiceImpl {
         public abstract void success(C handler, ActionInvocation invocation);
     }
 
-    public abstract class Call0 extends Call<Callback0> {
-        Call0(String actionName) {
-            super(actionName);
-        }
-        @Override
-        public void success(Callback0 handler, ActionInvocation invocation) {
-            handler.success();
-        }
-    }
-    public abstract class Call1<T> extends Call<Callback1<T>> {
-
-        Call1(String actionName) {
-            super(actionName);
-        }
-        @Override
-        public final void success(Callback1<T> handler, ActionInvocation invocation) {
-            assert invocation.getOutput().length == 1;
-            final ActionArgumentValue[] output = invocation.getOutput();
-            success(handler, output[0]);
-        }
-        public abstract void success(Callback1<T> handler, ActionArgumentValue p1);
-    }
-
-    public abstract class Call2<T> extends Call<Callback1<T>> {
-
-        Call2(String actionName) {
-            super(actionName);
-        }
-        @Override
-        public final void success(Callback1<T> handler, ActionInvocation invocation) {
-            assert invocation.getOutput().length == 2;
-            final ActionArgumentValue[] output = invocation.getOutput();
-            success(handler, output[0], output[1]);
-        }
-        public abstract void success(Callback1<T> handler, ActionArgumentValue p1, ActionArgumentValue p2);
-    }
-
     public AbstractServiceImpl(String serviceIdName, UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         this._serviceId =  new UDAServiceId(serviceIdName);
         this._upnpService = upnpService;
         this._device = device;
         this._errorStrategy = errorStrategy;
-    }
 
+        upnpService.getControlPoint().execute(new SubscriptionCallback(Preconditions.checkNotNull(getService())) {
+
+            @Override
+            protected void failed(GENASubscription subscription,
+                    UpnpResponse responseStatus, Exception exception, String defaultMsg) {
+            }
+
+            @Override
+            protected void eventsMissed(GENASubscription subscription,
+                    int numberOfMissedEvents) {
+            }
+
+            @Override
+            protected void eventReceived(GENASubscription subscription) {
+                AbstractServiceImpl.this.eventReceived(subscription);
+            }
+
+            @Override
+            protected void established(GENASubscription subscription) {
+            }
+
+            @Override
+            protected void ended(GENASubscription subscription, CancelReason reason,
+                    UpnpResponse responseStatus) {
+            }
+        });
+
+
+    }
+    protected void eventReceived(GENASubscription subscription) {
+
+    }
     public <C extends Callback> C execute(final C successHandler, final Call<? super C> handler) {
         Service service;
         if ((service = getService()) != null) {
@@ -156,6 +135,32 @@ public abstract class AbstractServiceImpl {
             LOG.warn("Cannot find the Service " + _serviceId + " for device "+ _device);
         }
         return successHandler;
+    }
+
+    protected Object getValue(String upnpType, Object value) {
+        if (value == null) {
+            return null;
+        }
+        if ("ui4".equals(upnpType) || "i4".equals(upnpType)) {
+            if (value instanceof String) {
+                return Long.valueOf(Long.parseLong((String)value, 10));
+            }
+            return ((UnsignedIntegerFourBytes)value).getValue();
+        } else if ("ui2".equals(upnpType) || "i2".equals(upnpType)) {
+            if (value instanceof String) {
+                return Long.valueOf(Long.parseLong((String)value, 10));
+            }
+            return ((UnsignedIntegerTwoBytes)value).getValue();
+        } else if ("string".equals(upnpType)){
+            return String.class.cast(value);
+        } else if ("boolean".equals(upnpType)){
+            if (value instanceof String) {
+                return Boolean.valueOf("1".equals(value) || "true".equals(((String) value).toLowerCase()));
+            }
+            return Boolean.class.cast(value);
+        } else {
+            throw new IllegalStateException();
+        }
     }
 
     @CheckForNull

@@ -3,6 +3,8 @@
  */
 package de.kalass.sonoscontrol.api.services;
 
+import de.kalass.sonoscontrol.api.core.EventListener;
+
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.musicservices.ListAvailableServicesResult;
@@ -14,6 +16,10 @@ public interface MusicServicesService {
 
 
     ServiceListVersion getServiceListVersion();
+
+    void addServiceListVersionListener(EventListener<ServiceListVersion> listener);
+
+    void removeServiceListVersionListener(EventListener<ServiceListVersion> listener);
 
 
     <C extends Callback1<ListAvailableServicesResult>> C listAvailableServices(C callback);

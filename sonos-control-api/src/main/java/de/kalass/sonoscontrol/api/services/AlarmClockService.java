@@ -3,6 +3,8 @@
  */
 package de.kalass.sonoscontrol.api.services;
 
+import de.kalass.sonoscontrol.api.core.EventListener;
+
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.alarmclock.GetFormatResult;
@@ -38,17 +40,45 @@ public interface AlarmClockService {
 
     TimeGeneration getTimeGeneration();
 
+    void addTimeGenerationListener(EventListener<TimeGeneration> listener);
+
+    void removeTimeGenerationListener(EventListener<TimeGeneration> listener);
+
     AlarmListVersion getAlarmListVersion();
+
+    void addAlarmListVersionListener(EventListener<AlarmListVersion> listener);
+
+    void removeAlarmListVersionListener(EventListener<AlarmListVersion> listener);
 
     DateFormat getDateFormat();
 
+    void addDateFormatListener(EventListener<DateFormat> listener);
+
+    void removeDateFormatListener(EventListener<DateFormat> listener);
+
     TimeServer getTimeServer();
+
+    void addTimeServerListener(EventListener<TimeServer> listener);
+
+    void removeTimeServerListener(EventListener<TimeServer> listener);
 
     TimeZone getTimeZone();
 
+    void addTimeZoneListener(EventListener<TimeZone> listener);
+
+    void removeTimeZoneListener(EventListener<TimeZone> listener);
+
     TimeFormat getTimeFormat();
 
+    void addTimeFormatListener(EventListener<TimeFormat> listener);
+
+    void removeTimeFormatListener(EventListener<TimeFormat> listener);
+
     DailyIndexRefreshTime getDailyIndexRefreshTime();
+
+    void addDailyIndexRefreshTimeListener(EventListener<DailyIndexRefreshTime> listener);
+
+    void removeDailyIndexRefreshTimeListener(EventListener<DailyIndexRefreshTime> listener);
 
 
     <C extends Callback0> C setFormat(TimeFormat desiredTimeFormat, DateFormat desiredDateFormat, C callback);

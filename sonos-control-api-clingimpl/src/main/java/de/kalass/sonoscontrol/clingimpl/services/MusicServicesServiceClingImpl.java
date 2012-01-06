@@ -6,12 +6,22 @@
 package de.kalass.sonoscontrol.clingimpl.services;
 
 import de.kalass.sonoscontrol.api.services.MusicServicesService;
+import de.kalass.sonoscontrol.api.core.EventListener;
+
+import org.teleal.cling.model.gena.GENASubscription;
 import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 
@@ -26,14 +36,10 @@ import de.kalass.sonoscontrol.api.model.musicservices.ServiceDescriptorList;
 
 @SuppressWarnings("rawtypes")
 public final class MusicServicesServiceClingImpl extends AbstractServiceImpl implements MusicServicesService {
+    private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
 
     public MusicServicesServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("MusicServices", upnpService, device, errorStrategy);
-    }
-
-
-    public ServiceListVersion getServiceListVersion() {
-        throw new UnsupportedOperationException();
     }
 
 
@@ -47,9 +53,9 @@ public final class MusicServicesServiceClingImpl extends AbstractServiceImpl imp
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final ServiceDescriptorList value0 = ServiceDescriptorList.getInstance(getString("string",output[0].getValue()));
-                final ServiceTypeList value1 = ServiceTypeList.getInstance(getString("string",output[1].getValue()));
-                final ServiceListVersion value2 = ServiceListVersion.getInstance(getString("string",output[2].getValue()));
+                final ServiceDescriptorList value0 = ServiceDescriptorList.getInstance((String)getValue("string",output[0].getValue()));
+                final ServiceTypeList value1 = ServiceTypeList.getInstance((String)getValue("string",output[1].getValue()));
+                final ServiceListVersion value2 = ServiceListVersion.getInstance((String)getValue("string",output[2].getValue()));
                 final ListAvailableServicesResult value = ListAvailableServicesResult.getInstance(value0,value1,value2);
                 handler.success(value);
             }
@@ -71,4 +77,54 @@ public final class MusicServicesServiceClingImpl extends AbstractServiceImpl imp
         });
     }
 
+    protected void eventReceived(GENASubscription subscription) {
+        final Map values = subscription.getCurrentValues();
+        final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
+
+
+        final ServiceListVersion newServiceListVersion = convertServiceListVersion((String)getValue("string", values.get("ServiceListVersion")));
+        final ServiceListVersion oldServiceListVersion = (ServiceListVersion)stored.get("ServiceListVersion");
+        if (!Objects.equal(oldServiceListVersion, newServiceListVersion)) {
+            _eventedValues.put("ServiceListVersion", newServiceListVersion);
+        }
+
+        // after the values were updated, send the change notifications
+
+        if (!Objects.equal(oldServiceListVersion, newServiceListVersion)) {
+            notifyServiceListVersionChanged(oldServiceListVersion, newServiceListVersion);
+        }
+
+    }
+
+    public ServiceListVersion getServiceListVersion() {
+        return (ServiceListVersion)_eventedValues.get("ServiceListVersion");
+    }
+
+    private final List<EventListener<ServiceListVersion>> _changeServiceListVersionListeners = new ArrayList<EventListener<ServiceListVersion>>();
+
+    public void addServiceListVersionListener(EventListener<ServiceListVersion> listener) {
+        synchronized(_changeServiceListVersionListeners) {
+            _changeServiceListVersionListeners.add(listener);
+        }
+    }
+
+    public void removeServiceListVersionListener(EventListener<ServiceListVersion> listener) {
+        synchronized(_changeServiceListVersionListeners) {
+            _changeServiceListVersionListeners.remove(listener);
+        }
+    }
+
+    protected void notifyServiceListVersionChanged(ServiceListVersion oldValue, ServiceListVersion newValue) {
+        final Iterable<EventListener<ServiceListVersion>> listeners;
+        synchronized(_changeServiceListVersionListeners) {
+            listeners = new ArrayList<EventListener<ServiceListVersion>>(_changeServiceListVersionListeners);            
+        }
+        for(EventListener<ServiceListVersion> listener: listeners) {
+            listener.valueChanged(oldValue, newValue);
+        }
+    }
+
+    protected ServiceListVersion convertServiceListVersion(String rawValue) {
+        return ServiceListVersion.getInstance(rawValue);
+    }
 }

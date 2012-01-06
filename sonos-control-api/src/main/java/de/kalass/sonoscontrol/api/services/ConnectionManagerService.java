@@ -3,6 +3,8 @@
  */
 package de.kalass.sonoscontrol.api.services;
 
+import de.kalass.sonoscontrol.api.core.EventListener;
+
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.model.connectionmanager.GetProtocolInfoResult;
@@ -23,9 +25,21 @@ public interface ConnectionManagerService {
 
     SinkProtocolInfo getSinkProtocolInfo();
 
+    void addSinkProtocolInfoListener(EventListener<SinkProtocolInfo> listener);
+
+    void removeSinkProtocolInfoListener(EventListener<SinkProtocolInfo> listener);
+
     SourceProtocolInfo getSourceProtocolInfo();
 
+    void addSourceProtocolInfoListener(EventListener<SourceProtocolInfo> listener);
+
+    void removeSourceProtocolInfoListener(EventListener<SourceProtocolInfo> listener);
+
     CurrentConnectionIDs getCurrentConnectionIDs();
+
+    void addCurrentConnectionIDsListener(EventListener<CurrentConnectionIDs> listener);
+
+    void removeCurrentConnectionIDsListener(EventListener<CurrentConnectionIDs> listener);
 
 
     <C extends Callback1<GetProtocolInfoResult>> C retrieveProtocolInfo(C callback);

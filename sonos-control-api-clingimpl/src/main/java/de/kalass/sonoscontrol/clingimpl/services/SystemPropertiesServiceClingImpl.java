@@ -6,12 +6,22 @@
 package de.kalass.sonoscontrol.clingimpl.services;
 
 import de.kalass.sonoscontrol.api.services.SystemPropertiesService;
+import de.kalass.sonoscontrol.api.core.EventListener;
+
+import org.teleal.cling.model.gena.GENASubscription;
 import org.teleal.cling.model.action.ActionArgumentValue;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 
@@ -30,11 +40,11 @@ import de.kalass.sonoscontrol.api.model.systemproperties.AccountPassword;
 
 @SuppressWarnings("rawtypes")
 public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl implements SystemPropertiesService {
+    private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
 
     public SystemPropertiesServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("SystemProperties", upnpService, device, errorStrategy);
     }
-
 
 
     public <C extends Callback0> C setString(final VariableName variableName, final VariableStringValue stringValue, final C successHandler) {
@@ -66,7 +76,7 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final VariableStringValue value = VariableStringValue.getInstance(getString("string",output[0].getValue()));
+                 final VariableStringValue value = VariableStringValue.getInstance((String)getValue("string",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -100,7 +110,7 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final VariableStringValue value = VariableStringValue.getInstance(getString("string",output[0].getValue()));
+                 final VariableStringValue value = VariableStringValue.getInstance((String)getValue("string",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -136,7 +146,7 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final IsExpired value = IsExpired.getInstance(getBoolean("boolean",output[0].getValue()));
+                 final IsExpired value = IsExpired.getInstance((Boolean)getValue("boolean",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -259,6 +269,15 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
                 handler.success();
             }
         });
+    }
+
+    protected void eventReceived(GENASubscription subscription) {
+        final Map values = subscription.getCurrentValues();
+        final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
+
+
+        // after the values were updated, send the change notifications
+
     }
 
 }
