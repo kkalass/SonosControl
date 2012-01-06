@@ -1,14 +1,20 @@
 package de.kalass.sonoscontrol.generator;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.CheckForNull;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -169,4 +175,36 @@ public final class SCDPReader {
     public static SCDP read(String name, Document document) {
         return parseServiceDocument(name, document);
     }
+
+    public static List<SCDP> readTypeDescriptions(final File docDir) throws ParserConfigurationException, SAXException, IOException {
+        final List<SCDP> types = new ArrayList<SCDP>();
+        for (final File f : docDir.listFiles()) {
+            if (!f.getName().endsWith(".xml")) {
+                continue;
+            }
+            final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            final Document document = documentBuilder.parse(f);
+            final String name = getName(f);
+
+            final SCDP scdp = SCDPReader.read(name, document);
+            if (scdp != null) {
+
+                types.add(scdp);
+            }
+        }
+        return types;
+    }
+
+    private static String getName(final File f) {
+        String base =  f.getName().substring(0, f.getName().length() - ".xml".length());
+        if (base.endsWith("1")) {
+            base = base.substring(0, base.length() - 1);
+        }
+        if (base.equals("device_description")) {
+            base = "DeviceDescription";
+        }
+        return base;
+    }
+
 }

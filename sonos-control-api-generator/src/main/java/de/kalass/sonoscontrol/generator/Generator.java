@@ -4,18 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.google.common.base.Function;
@@ -185,7 +181,7 @@ public class Generator {
         copyFromTo(modelPackageName, javaFilesInputDir, outputDir);
         copyFromTo(clingimplServicesPackageName, javaFilesInputDir, clingImplOutputDir);
 
-        final List<SCDP> types = readTypeDescriptions(docDir);
+        final List<SCDP> types = SCDPReader.readTypeDescriptions(docDir);
 
         final TypeNameMappings mappings = new TypeNameMappings();
         mappings.add("MemberID", modelPackageName.childClass("MemberID"));
@@ -268,25 +264,7 @@ public class Generator {
             }
         })));
     }
-    private static List<SCDP> readTypeDescriptions(final File docDir) throws ParserConfigurationException, SAXException, IOException {
-        final List<SCDP> types = new ArrayList<SCDP>();
-        for (final File f : docDir.listFiles()) {
-            if (!f.getName().endsWith(".xml")) {
-                continue;
-            }
-            final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            final Document document = documentBuilder.parse(f);
-            final String name = getName(f);
 
-            final SCDP scdp = SCDPReader.read(name, document);
-            if (scdp != null) {
-
-                types.add(scdp);
-            }
-        }
-        return types;
-    }
     private static void copyFromTo(JavaPackageName packageName, File input, File output) {
         File fromDir = packageName.asFile(input);
         File toDir = packageName.asFile(output);
@@ -317,16 +295,6 @@ public class Generator {
         dir.delete();
     }
 
-    private static String getName(final File f) {
-        String base =  f.getName().substring(0, f.getName().length() - ".xml".length());
-        if (base.endsWith("1")) {
-            base = base.substring(0, base.length() - 1);
-        }
-        if (base.equals("device_description")) {
-            base = "DeviceDescription";
-        }
-        return base;
-    }
 
     private static final String render(Configuration cfg, String templateName, Object data) {
 
