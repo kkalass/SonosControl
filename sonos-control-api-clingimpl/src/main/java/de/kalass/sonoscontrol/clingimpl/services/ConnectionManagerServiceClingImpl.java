@@ -69,9 +69,9 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final SourceProtocolInfo value0 = SourceProtocolInfo.getInstance((String)getValue("string",output[0].getValue()));
-                final SinkProtocolInfo value1 = SinkProtocolInfo.getInstance((String)getValue("string",output[1].getValue()));
-                final GetProtocolInfoResult value = GetProtocolInfoResult.getInstance(value0,value1);
+                final SourceProtocolInfo source = SourceProtocolInfo.getInstance((String)getValue("string",output[0].getValue()));
+                final SinkProtocolInfo sink = SinkProtocolInfo.getInstance((String)getValue("string",output[1].getValue()));
+                final GetProtocolInfoResult value = GetProtocolInfoResult.getInstance(source,sink);
                 handler.success(value);
             }
         });
@@ -105,14 +105,14 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final RcsID value0 = RcsID.getInstance((Long)getValue("i4",output[0].getValue()));
-                final AVTransportID value1 = AVTransportID.getInstance((Long)getValue("i4",output[1].getValue()));
-                final ProtocolInfo value2 = ProtocolInfo.getInstance((String)getValue("string",output[2].getValue()));
-                final ConnectionManager value3 = ConnectionManager.getInstance((String)getValue("string",output[3].getValue()));
-                final ConnectionID value4 = ConnectionID.getInstance((Long)getValue("i4",output[4].getValue()));
-                final Direction value5 = Direction.getInstance((String)getValue("string",output[5].getValue()));
-                final ConnectionStatus value6 = ConnectionStatus.getInstance((String)getValue("string",output[6].getValue()));
-                final GetCurrentConnectionInfoResult value = GetCurrentConnectionInfoResult.getInstance(value0,value1,value2,value3,value4,value5,value6);
+                final RcsID rcsID = RcsID.getInstance((Long)getValue("i4",output[0].getValue()));
+                final AVTransportID aVTransportID = AVTransportID.getInstance((Long)getValue("i4",output[1].getValue()));
+                final ProtocolInfo protocolInfo = ProtocolInfo.getInstance((String)getValue("string",output[2].getValue()));
+                final ConnectionManager peerConnectionManager = ConnectionManager.getInstance((String)getValue("string",output[3].getValue()));
+                final ConnectionID peerConnectionID = ConnectionID.getInstance((Long)getValue("i4",output[4].getValue()));
+                final Direction direction = Direction.getInstance((String)getValue("string",output[5].getValue()));
+                final ConnectionStatus status = ConnectionStatus.getInstance((String)getValue("string",output[6].getValue()));
+                final GetCurrentConnectionInfoResult value = GetCurrentConnectionInfoResult.getInstance(rcsID,aVTransportID,protocolInfo,peerConnectionManager,peerConnectionID,direction,status);
                 handler.success(value);
             }
         });

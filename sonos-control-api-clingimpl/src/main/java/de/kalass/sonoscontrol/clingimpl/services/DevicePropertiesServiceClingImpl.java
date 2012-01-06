@@ -232,9 +232,9 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final ZoneName value0 = ZoneName.getInstance((String)getValue("string",output[0].getValue()));
-                final Icon value1 = Icon.getInstance((String)getValue("string",output[1].getValue()));
-                final GetZoneAttributesResult value = GetZoneAttributesResult.getInstance(value0,value1);
+                final ZoneName currentZoneName = ZoneName.getInstance((String)getValue("string",output[0].getValue()));
+                final Icon currentIcon = Icon.getInstance((String)getValue("string",output[1].getValue()));
+                final GetZoneAttributesResult value = GetZoneAttributesResult.getInstance(currentZoneName,currentIcon);
                 handler.success(value);
             }
         });
@@ -267,15 +267,15 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final SerialNumber value0 = SerialNumber.getInstance((String)getValue("string",output[0].getValue()));
-                final SoftwareVersion value1 = SoftwareVersion.getInstance((String)getValue("string",output[1].getValue()));
-                final DisplaySoftwareVersion value2 = DisplaySoftwareVersion.getInstance((String)getValue("string",output[2].getValue()));
-                final HardwareVersion value3 = HardwareVersion.getInstance((String)getValue("string",output[3].getValue()));
-                final IPAddress value4 = IPAddress.getInstance((String)getValue("string",output[4].getValue()));
-                final MACAddress value5 = MACAddress.getInstance((String)getValue("string",output[5].getValue()));
-                final CopyrightInfo value6 = CopyrightInfo.getInstance((String)getValue("string",output[6].getValue()));
-                final ExtraInfo value7 = ExtraInfo.getInstance((String)getValue("string",output[7].getValue()));
-                final GetZoneInfoResult value = GetZoneInfoResult.getInstance(value0,value1,value2,value3,value4,value5,value6,value7);
+                final SerialNumber serialNumber = SerialNumber.getInstance((String)getValue("string",output[0].getValue()));
+                final SoftwareVersion softwareVersion = SoftwareVersion.getInstance((String)getValue("string",output[1].getValue()));
+                final DisplaySoftwareVersion displaySoftwareVersion = DisplaySoftwareVersion.getInstance((String)getValue("string",output[2].getValue()));
+                final HardwareVersion hardwareVersion = HardwareVersion.getInstance((String)getValue("string",output[3].getValue()));
+                final IPAddress iPAddress = IPAddress.getInstance((String)getValue("string",output[4].getValue()));
+                final MACAddress mACAddress = MACAddress.getInstance((String)getValue("string",output[5].getValue()));
+                final CopyrightInfo copyrightInfo = CopyrightInfo.getInstance((String)getValue("string",output[6].getValue()));
+                final ExtraInfo extraInfo = ExtraInfo.getInstance((String)getValue("string",output[7].getValue()));
+                final GetZoneInfoResult value = GetZoneInfoResult.getInstance(serialNumber,softwareVersion,displaySoftwareVersion,hardwareVersion,iPAddress,mACAddress,copyrightInfo,extraInfo);
                 handler.success(value);
             }
         });

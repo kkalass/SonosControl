@@ -122,9 +122,9 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final AudioInputName value0 = AudioInputName.getInstance((String)getValue("string",output[0].getValue()));
-                final Icon value1 = Icon.getInstance((String)getValue("string",output[1].getValue()));
-                final GetAudioInputAttributesResult value = GetAudioInputAttributesResult.getInstance(value0,value1);
+                final AudioInputName currentName = AudioInputName.getInstance((String)getValue("string",output[0].getValue()));
+                final Icon currentIcon = Icon.getInstance((String)getValue("string",output[1].getValue()));
+                final GetAudioInputAttributesResult value = GetAudioInputAttributesResult.getInstance(currentName,currentIcon);
                 handler.success(value);
             }
         });
@@ -157,9 +157,9 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final LeftLineInLevel value0 = LeftLineInLevel.getInstance((Long)getValue("i4",output[0].getValue()));
-                final RightLineInLevel value1 = RightLineInLevel.getInstance((Long)getValue("i4",output[1].getValue()));
-                final GetLineInLevelResult value = GetLineInLevelResult.getInstance(value0,value1);
+                final LeftLineInLevel currentLeftLineInLevel = LeftLineInLevel.getInstance((Long)getValue("i4",output[0].getValue()));
+                final RightLineInLevel currentRightLineInLevel = RightLineInLevel.getInstance((Long)getValue("i4",output[1].getValue()));
+                final GetLineInLevelResult value = GetLineInLevelResult.getInstance(currentLeftLineInLevel,currentRightLineInLevel);
                 handler.success(value);
             }
         });

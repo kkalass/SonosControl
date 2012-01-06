@@ -67,11 +67,11 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final TransportSettings value0 = TransportSettings.getInstance((String)getValue("string",output[0].getValue()));
-                final LocalGroupUUID value1 = LocalGroupUUID.getInstance((String)getValue("string",output[1].getValue()));
-                final ResetVolumeAfter value2 = ResetVolumeAfter.getInstance((Boolean)getValue("boolean",output[2].getValue()));
-                final VolumeAVTransportURI value3 = VolumeAVTransportURI.getInstance((String)getValue("string",output[3].getValue()));
-                final AddMemberResult value = AddMemberResult.getInstance(value0,value1,value2,value3);
+                final TransportSettings currentTransportSettings = TransportSettings.getInstance((String)getValue("string",output[0].getValue()));
+                final LocalGroupUUID groupUUIDJoined = LocalGroupUUID.getInstance((String)getValue("string",output[1].getValue()));
+                final ResetVolumeAfter resetVolumeAfter = ResetVolumeAfter.getInstance((Boolean)getValue("boolean",output[2].getValue()));
+                final VolumeAVTransportURI volumeAVTransportURI = VolumeAVTransportURI.getInstance((String)getValue("string",output[3].getValue()));
+                final AddMemberResult value = AddMemberResult.getInstance(currentTransportSettings,groupUUIDJoined,resetVolumeAfter,volumeAVTransportURI);
                 handler.success(value);
             }
         });

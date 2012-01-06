@@ -59,10 +59,10 @@ public final class MusicServicesServiceClingImpl extends AbstractServiceImpl imp
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final ServiceDescriptorList value0 = ServiceDescriptorList.getInstance((String)getValue("string",output[0].getValue()));
-                final ServiceTypeList value1 = ServiceTypeList.getInstance((String)getValue("string",output[1].getValue()));
-                final ServiceListVersion value2 = ServiceListVersion.getInstance((String)getValue("string",output[2].getValue()));
-                final ListAvailableServicesResult value = ListAvailableServicesResult.getInstance(value0,value1,value2);
+                final ServiceDescriptorList availableServiceDescriptorList = ServiceDescriptorList.getInstance((String)getValue("string",output[0].getValue()));
+                final ServiceTypeList availableServiceTypeList = ServiceTypeList.getInstance((String)getValue("string",output[1].getValue()));
+                final ServiceListVersion availableServiceListVersion = ServiceListVersion.getInstance((String)getValue("string",output[2].getValue()));
+                final ListAvailableServicesResult value = ListAvailableServicesResult.getInstance(availableServiceDescriptorList,availableServiceTypeList,availableServiceListVersion);
                 handler.success(value);
             }
         });

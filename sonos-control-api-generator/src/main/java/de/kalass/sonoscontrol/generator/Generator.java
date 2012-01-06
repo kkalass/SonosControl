@@ -31,6 +31,7 @@ import de.kalass.sonoscontrol.generator.model.action.Action;
 import de.kalass.sonoscontrol.generator.model.action.ActionOutput;
 import de.kalass.sonoscontrol.generator.model.action.ActionOutputCompound;
 import de.kalass.sonoscontrol.generator.model.types.BooleanType;
+import de.kalass.sonoscontrol.generator.model.types.CompoundType;
 import de.kalass.sonoscontrol.generator.model.types.CustomType;
 import de.kalass.sonoscontrol.generator.model.types.EnumType;
 import de.kalass.sonoscontrol.generator.model.types.Type;
@@ -111,10 +112,11 @@ public class Generator {
                 final ActionOutput out = action.getOut();
                 if (out instanceof ActionOutputCompound) {
                     final ActionOutputCompound compound = (ActionOutputCompound)out;
-                    final File typeFile = compound.getJavaClassName().asFile(outputDir);
+                    final CompoundType compoundType = (CompoundType)compound.getType();
+                    final File typeFile = compoundType.getJavaClassName().asFile(outputDir);
                     if (!typeFile.exists()) {
                         Files.createParentDirs(typeFile);
-                        final String sourceCode = render(cfg, "CompoundActionOutputType.ftl", compound);
+                        final String sourceCode = render(cfg, "CompoundType.ftl", compoundType);
                         Files.write(sourceCode, typeFile, UTF8);
                         System.out.println("ActionOutputType: " + typeFile);
                     }

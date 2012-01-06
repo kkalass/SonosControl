@@ -105,9 +105,9 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final TimeFormat value0 = TimeFormat.getInstance((String)getValue("string",output[0].getValue()));
-                final DateFormat value1 = DateFormat.getInstance((String)getValue("string",output[1].getValue()));
-                final GetFormatResult value = GetFormatResult.getInstance(value0,value1);
+                final TimeFormat currentTimeFormat = TimeFormat.getInstance((String)getValue("string",output[0].getValue()));
+                final DateFormat currentDateFormat = DateFormat.getInstance((String)getValue("string",output[1].getValue()));
+                final GetFormatResult value = GetFormatResult.getInstance(currentTimeFormat,currentDateFormat);
                 handler.success(value);
             }
         });
@@ -140,9 +140,9 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final TimeZoneIndex value0 = TimeZoneIndex.getInstance((Long)getValue("i4",output[0].getValue()));
-                final TimeZoneAutoAdjustDst value1 = TimeZoneAutoAdjustDst.getInstance((Boolean)getValue("boolean",output[1].getValue()));
-                final GetTimeZoneResult value = GetTimeZoneResult.getInstance(value0,value1);
+                final TimeZoneIndex index = TimeZoneIndex.getInstance((Long)getValue("i4",output[0].getValue()));
+                final TimeZoneAutoAdjustDst autoAdjustDst = TimeZoneAutoAdjustDst.getInstance((Boolean)getValue("boolean",output[1].getValue()));
+                final GetTimeZoneResult value = GetTimeZoneResult.getInstance(index,autoAdjustDst);
                 handler.success(value);
             }
         });
@@ -158,10 +158,10 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final TimeZoneIndex value0 = TimeZoneIndex.getInstance((Long)getValue("i4",output[0].getValue()));
-                final TimeZoneAutoAdjustDst value1 = TimeZoneAutoAdjustDst.getInstance((Boolean)getValue("boolean",output[1].getValue()));
-                final TimeZone value2 = TimeZone.getInstance((String)getValue("string",output[2].getValue()));
-                final GetTimeZoneAndRuleResult value = GetTimeZoneAndRuleResult.getInstance(value0,value1,value2);
+                final TimeZoneIndex index = TimeZoneIndex.getInstance((Long)getValue("i4",output[0].getValue()));
+                final TimeZoneAutoAdjustDst autoAdjustDst = TimeZoneAutoAdjustDst.getInstance((Boolean)getValue("boolean",output[1].getValue()));
+                final TimeZone currentTimeZone = TimeZone.getInstance((String)getValue("string",output[2].getValue()));
+                final GetTimeZoneAndRuleResult value = GetTimeZoneAndRuleResult.getInstance(index,autoAdjustDst,currentTimeZone);
                 handler.success(value);
             }
         });
@@ -263,11 +263,11 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final ISO8601Time value0 = ISO8601Time.getInstance((String)getValue("string",output[0].getValue()));
-                final ISO8601Time value1 = ISO8601Time.getInstance((String)getValue("string",output[1].getValue()));
-                final TimeZone value2 = TimeZone.getInstance((String)getValue("string",output[2].getValue()));
-                final TimeGeneration value3 = TimeGeneration.getInstance((Long)getValue("ui4",output[3].getValue()));
-                final GetTimeNowResult value = GetTimeNowResult.getInstance(value0,value1,value2,value3);
+                final ISO8601Time currentUTCTime = ISO8601Time.getInstance((String)getValue("string",output[0].getValue()));
+                final ISO8601Time currentLocalTime = ISO8601Time.getInstance((String)getValue("string",output[1].getValue()));
+                final TimeZone currentTimeZone = TimeZone.getInstance((String)getValue("string",output[2].getValue()));
+                final TimeGeneration currentTimeGeneration = TimeGeneration.getInstance((Long)getValue("ui4",output[3].getValue()));
+                final GetTimeNowResult value = GetTimeNowResult.getInstance(currentUTCTime,currentLocalTime,currentTimeZone,currentTimeGeneration);
                 handler.success(value);
             }
         });
@@ -352,9 +352,9 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final AlarmList value0 = AlarmList.getInstance((String)getValue("string",output[0].getValue()));
-                final AlarmListVersion value1 = AlarmListVersion.getInstance((String)getValue("string",output[1].getValue()));
-                final ListAlarmsResult value = ListAlarmsResult.getInstance(value0,value1);
+                final AlarmList currentAlarmList = AlarmList.getInstance((String)getValue("string",output[0].getValue()));
+                final AlarmListVersion currentAlarmListVersion = AlarmListVersion.getInstance((String)getValue("string",output[1].getValue()));
+                final ListAlarmsResult value = ListAlarmsResult.getInstance(currentAlarmList,currentAlarmListVersion);
                 handler.success(value);
             }
         });

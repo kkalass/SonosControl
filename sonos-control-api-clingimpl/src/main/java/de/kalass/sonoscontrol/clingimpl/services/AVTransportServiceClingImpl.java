@@ -155,10 +155,10 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final TrackNumber value0 = TrackNumber.getInstance((Long)getValue("ui4",output[0].getValue()));
-                final NumTracks value1 = NumTracks.getInstance((Long)getValue("ui4",output[1].getValue()));
-                final NumTracks value2 = NumTracks.getInstance((Long)getValue("ui4",output[2].getValue()));
-                final AddURIToQueueResult value = AddURIToQueueResult.getInstance(value0,value1,value2);
+                final TrackNumber firstTrackNumberEnqueued = TrackNumber.getInstance((Long)getValue("ui4",output[0].getValue()));
+                final NumTracks numTracksAdded = NumTracks.getInstance((Long)getValue("ui4",output[1].getValue()));
+                final NumTracks newQueueLength = NumTracks.getInstance((Long)getValue("ui4",output[2].getValue()));
+                final AddURIToQueueResult value = AddURIToQueueResult.getInstance(firstTrackNumberEnqueued,numTracksAdded,newQueueLength);
                 handler.success(value);
             }
         });
@@ -264,16 +264,16 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final NumberOfTracks value0 = NumberOfTracks.getInstance((Long)getValue("ui4",output[0].getValue()));
-                final CurrentMediaDuration value1 = CurrentMediaDuration.getInstance((String)getValue("string",output[1].getValue()));
-                final AVTransportURI value2 = AVTransportURI.getInstance((String)getValue("string",output[2].getValue()));
-                final AVTransportURIMetaData value3 = AVTransportURIMetaData.getInstance((String)getValue("string",output[3].getValue()));
-                final NextAVTransportURI value4 = NextAVTransportURI.getInstance((String)getValue("string",output[4].getValue()));
-                final NextAVTransportURIMetaData value5 = NextAVTransportURIMetaData.getInstance((String)getValue("string",output[5].getValue()));
-                final PlaybackStorageMedium value6 = PlaybackStorageMedium.getInstance((String)getValue("string",output[6].getValue()));
-                final RecordStorageMedium value7 = RecordStorageMedium.getInstance((String)getValue("string",output[7].getValue()));
-                final RecordMediumWriteStatus value8 = RecordMediumWriteStatus.getInstance((String)getValue("string",output[8].getValue()));
-                final GetMediaInfoResult value = GetMediaInfoResult.getInstance(value0,value1,value2,value3,value4,value5,value6,value7,value8);
+                final NumberOfTracks nrTracks = NumberOfTracks.getInstance((Long)getValue("ui4",output[0].getValue()));
+                final CurrentMediaDuration mediaDuration = CurrentMediaDuration.getInstance((String)getValue("string",output[1].getValue()));
+                final AVTransportURI currentURI = AVTransportURI.getInstance((String)getValue("string",output[2].getValue()));
+                final AVTransportURIMetaData currentURIMetaData = AVTransportURIMetaData.getInstance((String)getValue("string",output[3].getValue()));
+                final NextAVTransportURI nextURI = NextAVTransportURI.getInstance((String)getValue("string",output[4].getValue()));
+                final NextAVTransportURIMetaData nextURIMetaData = NextAVTransportURIMetaData.getInstance((String)getValue("string",output[5].getValue()));
+                final PlaybackStorageMedium playMedium = PlaybackStorageMedium.getInstance((String)getValue("string",output[6].getValue()));
+                final RecordStorageMedium recordMedium = RecordStorageMedium.getInstance((String)getValue("string",output[7].getValue()));
+                final RecordMediumWriteStatus writeStatus = RecordMediumWriteStatus.getInstance((String)getValue("string",output[8].getValue()));
+                final GetMediaInfoResult value = GetMediaInfoResult.getInstance(nrTracks,mediaDuration,currentURI,currentURIMetaData,nextURI,nextURIMetaData,playMedium,recordMedium,writeStatus);
                 handler.success(value);
             }
         });
@@ -293,10 +293,10 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final TransportState value0 = TransportState.getInstance((String)getValue("string",output[0].getValue()));
-                final TransportStatus value1 = TransportStatus.getInstance((String)getValue("string",output[1].getValue()));
-                final TransportPlaySpeed value2 = TransportPlaySpeed.getInstance((String)getValue("string",output[2].getValue()));
-                final GetTransportInfoResult value = GetTransportInfoResult.getInstance(value0,value1,value2);
+                final TransportState currentTransportState = TransportState.getInstance((String)getValue("string",output[0].getValue()));
+                final TransportStatus currentTransportStatus = TransportStatus.getInstance((String)getValue("string",output[1].getValue()));
+                final TransportPlaySpeed currentSpeed = TransportPlaySpeed.getInstance((String)getValue("string",output[2].getValue()));
+                final GetTransportInfoResult value = GetTransportInfoResult.getInstance(currentTransportState,currentTransportStatus,currentSpeed);
                 handler.success(value);
             }
         });
@@ -316,15 +316,15 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final CurrentTrack value0 = CurrentTrack.getInstance((Long)getValue("ui4",output[0].getValue()));
-                final CurrentTrackDuration value1 = CurrentTrackDuration.getInstance((String)getValue("string",output[1].getValue()));
-                final CurrentTrackMetaData value2 = CurrentTrackMetaData.getInstance((String)getValue("string",output[2].getValue()));
-                final CurrentTrackURI value3 = CurrentTrackURI.getInstance((String)getValue("string",output[3].getValue()));
-                final RelativeTimePosition value4 = RelativeTimePosition.getInstance((String)getValue("string",output[4].getValue()));
-                final AbsoluteTimePosition value5 = AbsoluteTimePosition.getInstance((String)getValue("string",output[5].getValue()));
-                final RelativeCounterPosition value6 = RelativeCounterPosition.getInstance((Long)getValue("i4",output[6].getValue()));
-                final AbsoluteCounterPosition value7 = AbsoluteCounterPosition.getInstance((Long)getValue("i4",output[7].getValue()));
-                final GetPositionInfoResult value = GetPositionInfoResult.getInstance(value0,value1,value2,value3,value4,value5,value6,value7);
+                final CurrentTrack track = CurrentTrack.getInstance((Long)getValue("ui4",output[0].getValue()));
+                final CurrentTrackDuration trackDuration = CurrentTrackDuration.getInstance((String)getValue("string",output[1].getValue()));
+                final CurrentTrackMetaData trackMetaData = CurrentTrackMetaData.getInstance((String)getValue("string",output[2].getValue()));
+                final CurrentTrackURI trackURI = CurrentTrackURI.getInstance((String)getValue("string",output[3].getValue()));
+                final RelativeTimePosition relTime = RelativeTimePosition.getInstance((String)getValue("string",output[4].getValue()));
+                final AbsoluteTimePosition absTime = AbsoluteTimePosition.getInstance((String)getValue("string",output[5].getValue()));
+                final RelativeCounterPosition relCount = RelativeCounterPosition.getInstance((Long)getValue("i4",output[6].getValue()));
+                final AbsoluteCounterPosition absCount = AbsoluteCounterPosition.getInstance((Long)getValue("i4",output[7].getValue()));
+                final GetPositionInfoResult value = GetPositionInfoResult.getInstance(track,trackDuration,trackMetaData,trackURI,relTime,absTime,relCount,absCount);
                 handler.success(value);
             }
         });
@@ -344,10 +344,10 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final PossiblePlaybackStorageMedia value0 = PossiblePlaybackStorageMedia.getInstance((String)getValue("string",output[0].getValue()));
-                final PossibleRecordStorageMedia value1 = PossibleRecordStorageMedia.getInstance((String)getValue("string",output[1].getValue()));
-                final PossibleRecordQualityModes value2 = PossibleRecordQualityModes.getInstance((String)getValue("string",output[2].getValue()));
-                final GetDeviceCapabilitiesResult value = GetDeviceCapabilitiesResult.getInstance(value0,value1,value2);
+                final PossiblePlaybackStorageMedia playMedia = PossiblePlaybackStorageMedia.getInstance((String)getValue("string",output[0].getValue()));
+                final PossibleRecordStorageMedia recMedia = PossibleRecordStorageMedia.getInstance((String)getValue("string",output[1].getValue()));
+                final PossibleRecordQualityModes recQualityModes = PossibleRecordQualityModes.getInstance((String)getValue("string",output[2].getValue()));
+                final GetDeviceCapabilitiesResult value = GetDeviceCapabilitiesResult.getInstance(playMedia,recMedia,recQualityModes);
                 handler.success(value);
             }
         });
@@ -367,9 +367,9 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final CurrentPlayMode value0 = CurrentPlayMode.getInstance((String)getValue("string",output[0].getValue()));
-                final CurrentRecordQualityMode value1 = CurrentRecordQualityMode.getInstance((String)getValue("string",output[1].getValue()));
-                final GetTransportSettingsResult value = GetTransportSettingsResult.getInstance(value0,value1);
+                final CurrentPlayMode playMode = CurrentPlayMode.getInstance((String)getValue("string",output[0].getValue()));
+                final CurrentRecordQualityMode recQualityMode = CurrentRecordQualityMode.getInstance((String)getValue("string",output[1].getValue()));
+                final GetTransportSettingsResult value = GetTransportSettingsResult.getInstance(playMode,recQualityMode);
                 handler.success(value);
             }
         });
@@ -808,9 +808,9 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final ISO8601Time value0 = ISO8601Time.getInstance((String)getValue("string",output[0].getValue()));
-                final SleepTimerGeneration value1 = SleepTimerGeneration.getInstance((Long)getValue("ui4",output[1].getValue()));
-                final GetRemainingSleepTimerDurationResult value = GetRemainingSleepTimerDurationResult.getInstance(value0,value1);
+                final ISO8601Time remainingSleepTimerDuration = ISO8601Time.getInstance((String)getValue("string",output[0].getValue()));
+                final SleepTimerGeneration currentSleepTimerGeneration = SleepTimerGeneration.getInstance((Long)getValue("ui4",output[1].getValue()));
+                final GetRemainingSleepTimerDurationResult value = GetRemainingSleepTimerDurationResult.getInstance(remainingSleepTimerDuration,currentSleepTimerGeneration);
                 handler.success(value);
             }
         });
@@ -881,10 +881,10 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final AlarmIDRunning value0 = AlarmIDRunning.getInstance((Long)getValue("ui4",output[0].getValue()));
-                final GroupID value1 = GroupID.getInstance((String)getValue("string",output[1].getValue()));
-                final AlarmLoggedStartTime value2 = AlarmLoggedStartTime.getInstance((String)getValue("string",output[2].getValue()));
-                final GetRunningAlarmPropertiesResult value = GetRunningAlarmPropertiesResult.getInstance(value0,value1,value2);
+                final AlarmIDRunning alarmID = AlarmIDRunning.getInstance((Long)getValue("ui4",output[0].getValue()));
+                final GroupID groupID = GroupID.getInstance((String)getValue("string",output[1].getValue()));
+                final AlarmLoggedStartTime loggedStartTime = AlarmLoggedStartTime.getInstance((String)getValue("string",output[2].getValue()));
+                final GetRunningAlarmPropertiesResult value = GetRunningAlarmPropertiesResult.getInstance(alarmID,groupID,loggedStartTime);
                 handler.success(value);
             }
         });

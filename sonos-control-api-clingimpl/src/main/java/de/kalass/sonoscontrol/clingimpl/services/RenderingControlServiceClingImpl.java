@@ -127,12 +127,12 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final Bass value0 = Bass.getInstance((Long)getValue("i2",output[0].getValue()));
-                final Treble value1 = Treble.getInstance((Long)getValue("i2",output[1].getValue()));
-                final Loudness value2 = Loudness.getInstance((Boolean)getValue("boolean",output[2].getValue()));
-                final LeftVolume value3 = LeftVolume.getInstance((Long)getValue("ui2",output[3].getValue()));
-                final RightVolume value4 = RightVolume.getInstance((Long)getValue("ui2",output[4].getValue()));
-                final ResetBasicEQResult value = ResetBasicEQResult.getInstance(value0,value1,value2,value3,value4);
+                final Bass bass = Bass.getInstance((Long)getValue("i2",output[0].getValue()));
+                final Treble treble = Treble.getInstance((Long)getValue("i2",output[1].getValue()));
+                final Loudness loudness = Loudness.getInstance((Boolean)getValue("boolean",output[2].getValue()));
+                final LeftVolume leftVolume = LeftVolume.getInstance((Long)getValue("ui2",output[3].getValue()));
+                final RightVolume rightVolume = RightVolume.getInstance((Long)getValue("ui2",output[4].getValue()));
+                final ResetBasicEQResult value = ResetBasicEQResult.getInstance(bass,treble,loudness,leftVolume,rightVolume);
                 handler.success(value);
             }
         });
@@ -282,9 +282,9 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
             @Override
             public void success(C handler, ActionInvocation invocation) {
                 final ActionArgumentValue[] output = invocation.getOutput();
-                final VolumeDB value0 = VolumeDB.getInstance((Long)getValue("i2",output[0].getValue()));
-                final VolumeDB value1 = VolumeDB.getInstance((Long)getValue("i2",output[1].getValue()));
-                final GetVolumeDBRangeResult value = GetVolumeDBRangeResult.getInstance(value0,value1);
+                final VolumeDB minValue = VolumeDB.getInstance((Long)getValue("i2",output[0].getValue()));
+                final VolumeDB maxValue = VolumeDB.getInstance((Long)getValue("i2",output[1].getValue()));
+                final GetVolumeDBRangeResult value = GetVolumeDBRangeResult.getInstance(minValue,maxValue);
                 handler.success(value);
             }
         });

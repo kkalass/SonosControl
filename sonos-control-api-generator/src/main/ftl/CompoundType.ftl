@@ -14,12 +14,12 @@ public final class ${data.javaClassName.name} implements Serializable {
     private static final long serialVersionUID = 1L;
 
     <#list data.properties as prop>
-    private final ${prop.relatedStateVariable.type.javaClassName.name} _${prop.parameterName};
+    private final ${prop.type.javaClassName.name} _${prop.parameterName};
     </#list>
 
     private ${data.javaClassName.name}(
         <#list data.properties as prop>
-        final ${prop.relatedStateVariable.type.javaClassName.name} ${prop.parameterName}<#if prop_has_next>,</#if>
+        final ${prop.type.javaClassName.name} ${prop.parameterName}<#if prop_has_next>,</#if>
         </#list>
     ) {
         <#list data.properties as prop>
@@ -29,13 +29,13 @@ public final class ${data.javaClassName.name} implements Serializable {
 
     public static ${data.javaClassName.name} getInstance(
         <#list data.properties as prop>
-        final ${prop.relatedStateVariable.type.javaClassName.name} ${prop.parameterName}<#if prop_has_next>,</#if>
+        final ${prop.type.javaClassName.name} ${prop.parameterName}<#if prop_has_next>,</#if>
         </#list>
     ) {
         return new ${data.javaClassName.name}(<#list data.properties as prop>${prop.parameterName}<#if prop_has_next>, </#if></#list>);
     } 
     <#list data.properties as prop>
-    public ${prop.relatedStateVariable.type.javaClassName.name} ${prop.getterName}() {
+    public ${prop.type.javaClassName.name} ${prop.getterName}() {
         return _${prop.parameterName};
     }
     </#list>

@@ -73,18 +73,18 @@ public final class ${data.javaImplClassName.name} extends AbstractServiceImpl im
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
-                <#if action.out.type??>
+                <#if action.out.singleValue??>
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final ${action.out.type.relatedStateVariable.type.javaClassName.name} value = ${action.out.type.relatedStateVariable.type.javaClassName.name}.getInstance((${action.out.type.relatedStateVariable.type.dataType.javaClass.simpleName})getValue("${action.out.type.relatedStateVariable.type.dataType.value}",output[0].getValue()));
+                 final ${action.out.type.javaClassName.name} value = ${action.out.type.javaClassName.name}.getInstance((${action.out.type.dataType.javaClass.simpleName})getValue("${action.out.type.dataType.value}",output[0].getValue()));
                  handler.success(value);
                 <#else>
                 <#if action.out.properties??>
                 final ActionArgumentValue[] output = invocation.getOutput();
                 <#list action.out.properties as param>
-                final ${param.relatedStateVariable.type.javaClassName.name} value${param_index} = ${param.relatedStateVariable.type.javaClassName.name}.getInstance((${param.relatedStateVariable.type.dataType.javaClass.simpleName})getValue("${param.relatedStateVariable.type.dataType.value}",output[${param_index}].getValue()));
+                final ${param.relatedStateVariable.type.javaClassName.name} ${param.parameterName} = ${param.relatedStateVariable.type.javaClassName.name}.getInstance((${param.relatedStateVariable.type.dataType.javaClass.simpleName})getValue("${param.relatedStateVariable.type.dataType.value}",output[${param_index}].getValue()));
                 </#list>
-                final ${action.out.javaClassName.name} value = ${action.out.javaClassName.name}.getInstance(<#list action.out.properties as param>value${param_index}<#if param_has_next>,</#if></#list>);
+                final ${action.out.javaClassName.name} value = ${action.out.javaClassName.name}.getInstance(<#list action.out.properties as param>${param.parameterName}<#if param_has_next>,</#if></#list>);
                 handler.success(value);
                 <#else>
                 // no return values
