@@ -15,6 +15,7 @@ import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.state.StateVariableValue;
 
 import java.util.List;
 import java.util.Map;
@@ -386,43 +387,43 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final TimeGeneration newTimeGeneration = convertTimeGeneration((Long)getValue("ui4", values.get("TimeGeneration")));
+        final TimeGeneration newTimeGeneration = convertTimeGeneration((Long)getValue("ui4", ((StateVariableValue)values.get("TimeGeneration")).getValue()));
         final TimeGeneration oldTimeGeneration = (TimeGeneration)stored.get("TimeGeneration");
         if (!Objects.equal(oldTimeGeneration, newTimeGeneration)) {
             _eventedValues.put("TimeGeneration", newTimeGeneration);
         }
 
-        final AlarmListVersion newAlarmListVersion = convertAlarmListVersion((String)getValue("string", values.get("AlarmListVersion")));
+        final AlarmListVersion newAlarmListVersion = convertAlarmListVersion((String)getValue("string", ((StateVariableValue)values.get("AlarmListVersion")).getValue()));
         final AlarmListVersion oldAlarmListVersion = (AlarmListVersion)stored.get("AlarmListVersion");
         if (!Objects.equal(oldAlarmListVersion, newAlarmListVersion)) {
             _eventedValues.put("AlarmListVersion", newAlarmListVersion);
         }
 
-        final DateFormat newDateFormat = convertDateFormat((String)getValue("string", values.get("DateFormat")));
+        final DateFormat newDateFormat = convertDateFormat((String)getValue("string", ((StateVariableValue)values.get("DateFormat")).getValue()));
         final DateFormat oldDateFormat = (DateFormat)stored.get("DateFormat");
         if (!Objects.equal(oldDateFormat, newDateFormat)) {
             _eventedValues.put("DateFormat", newDateFormat);
         }
 
-        final TimeServer newTimeServer = convertTimeServer((String)getValue("string", values.get("TimeServer")));
+        final TimeServer newTimeServer = convertTimeServer((String)getValue("string", ((StateVariableValue)values.get("TimeServer")).getValue()));
         final TimeServer oldTimeServer = (TimeServer)stored.get("TimeServer");
         if (!Objects.equal(oldTimeServer, newTimeServer)) {
             _eventedValues.put("TimeServer", newTimeServer);
         }
 
-        final TimeZone newTimeZone = convertTimeZone((String)getValue("string", values.get("TimeZone")));
+        final TimeZone newTimeZone = convertTimeZone((String)getValue("string", ((StateVariableValue)values.get("TimeZone")).getValue()));
         final TimeZone oldTimeZone = (TimeZone)stored.get("TimeZone");
         if (!Objects.equal(oldTimeZone, newTimeZone)) {
             _eventedValues.put("TimeZone", newTimeZone);
         }
 
-        final TimeFormat newTimeFormat = convertTimeFormat((String)getValue("string", values.get("TimeFormat")));
+        final TimeFormat newTimeFormat = convertTimeFormat((String)getValue("string", ((StateVariableValue)values.get("TimeFormat")).getValue()));
         final TimeFormat oldTimeFormat = (TimeFormat)stored.get("TimeFormat");
         if (!Objects.equal(oldTimeFormat, newTimeFormat)) {
             _eventedValues.put("TimeFormat", newTimeFormat);
         }
 
-        final DailyIndexRefreshTime newDailyIndexRefreshTime = convertDailyIndexRefreshTime((String)getValue("string", values.get("DailyIndexRefreshTime")));
+        final DailyIndexRefreshTime newDailyIndexRefreshTime = convertDailyIndexRefreshTime((String)getValue("string", ((StateVariableValue)values.get("DailyIndexRefreshTime")).getValue()));
         final DailyIndexRefreshTime oldDailyIndexRefreshTime = (DailyIndexRefreshTime)stored.get("DailyIndexRefreshTime");
         if (!Objects.equal(oldDailyIndexRefreshTime, newDailyIndexRefreshTime)) {
             _eventedValues.put("DailyIndexRefreshTime", newDailyIndexRefreshTime);

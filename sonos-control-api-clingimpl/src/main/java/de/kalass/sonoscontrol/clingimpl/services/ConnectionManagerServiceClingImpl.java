@@ -15,6 +15,7 @@ import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.state.StateVariableValue;
 
 import java.util.List;
 import java.util.Map;
@@ -115,19 +116,19 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final SinkProtocolInfo newSinkProtocolInfo = convertSinkProtocolInfo((String)getValue("string", values.get("SinkProtocolInfo")));
+        final SinkProtocolInfo newSinkProtocolInfo = convertSinkProtocolInfo((String)getValue("string", ((StateVariableValue)values.get("SinkProtocolInfo")).getValue()));
         final SinkProtocolInfo oldSinkProtocolInfo = (SinkProtocolInfo)stored.get("SinkProtocolInfo");
         if (!Objects.equal(oldSinkProtocolInfo, newSinkProtocolInfo)) {
             _eventedValues.put("SinkProtocolInfo", newSinkProtocolInfo);
         }
 
-        final SourceProtocolInfo newSourceProtocolInfo = convertSourceProtocolInfo((String)getValue("string", values.get("SourceProtocolInfo")));
+        final SourceProtocolInfo newSourceProtocolInfo = convertSourceProtocolInfo((String)getValue("string", ((StateVariableValue)values.get("SourceProtocolInfo")).getValue()));
         final SourceProtocolInfo oldSourceProtocolInfo = (SourceProtocolInfo)stored.get("SourceProtocolInfo");
         if (!Objects.equal(oldSourceProtocolInfo, newSourceProtocolInfo)) {
             _eventedValues.put("SourceProtocolInfo", newSourceProtocolInfo);
         }
 
-        final CurrentConnectionIDs newCurrentConnectionIDs = convertCurrentConnectionIDs((String)getValue("string", values.get("CurrentConnectionIDs")));
+        final CurrentConnectionIDs newCurrentConnectionIDs = convertCurrentConnectionIDs((String)getValue("string", ((StateVariableValue)values.get("CurrentConnectionIDs")).getValue()));
         final CurrentConnectionIDs oldCurrentConnectionIDs = (CurrentConnectionIDs)stored.get("CurrentConnectionIDs");
         if (!Objects.equal(oldCurrentConnectionIDs, newCurrentConnectionIDs)) {
             _eventedValues.put("CurrentConnectionIDs", newCurrentConnectionIDs);

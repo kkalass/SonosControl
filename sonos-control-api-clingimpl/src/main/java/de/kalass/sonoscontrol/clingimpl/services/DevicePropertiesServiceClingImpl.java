@@ -15,6 +15,7 @@ import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.state.StateVariableValue;
 
 import java.util.List;
 import java.util.Map;
@@ -457,37 +458,37 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final SettingsReplicationState newSettingsReplicationState = convertSettingsReplicationState((String)getValue("string", values.get("SettingsReplicationState")));
+        final SettingsReplicationState newSettingsReplicationState = convertSettingsReplicationState((String)getValue("string", ((StateVariableValue)values.get("SettingsReplicationState")).getValue()));
         final SettingsReplicationState oldSettingsReplicationState = (SettingsReplicationState)stored.get("SettingsReplicationState");
         if (!Objects.equal(oldSettingsReplicationState, newSettingsReplicationState)) {
             _eventedValues.put("SettingsReplicationState", newSettingsReplicationState);
         }
 
-        final ZoneName newZoneName = convertZoneName((String)getValue("string", values.get("ZoneName")));
+        final ZoneName newZoneName = convertZoneName((String)getValue("string", ((StateVariableValue)values.get("ZoneName")).getValue()));
         final ZoneName oldZoneName = (ZoneName)stored.get("ZoneName");
         if (!Objects.equal(oldZoneName, newZoneName)) {
             _eventedValues.put("ZoneName", newZoneName);
         }
 
-        final ChannelMapSet newChannelMapSet = convertChannelMapSet((String)getValue("string", values.get("ChannelMapSet")));
+        final ChannelMapSet newChannelMapSet = convertChannelMapSet((String)getValue("string", ((StateVariableValue)values.get("ChannelMapSet")).getValue()));
         final ChannelMapSet oldChannelMapSet = (ChannelMapSet)stored.get("ChannelMapSet");
         if (!Objects.equal(oldChannelMapSet, newChannelMapSet)) {
             _eventedValues.put("ChannelMapSet", newChannelMapSet);
         }
 
-        final Invisible newInvisible = convertInvisible((Boolean)getValue("boolean", values.get("Invisible")));
+        final Invisible newInvisible = convertInvisible((Boolean)getValue("boolean", ((StateVariableValue)values.get("Invisible")).getValue()));
         final Invisible oldInvisible = (Invisible)stored.get("Invisible");
         if (!Objects.equal(oldInvisible, newInvisible)) {
             _eventedValues.put("Invisible", newInvisible);
         }
 
-        final IsZoneBridge newIsZoneBridge = convertIsZoneBridge((Boolean)getValue("boolean", values.get("IsZoneBridge")));
+        final IsZoneBridge newIsZoneBridge = convertIsZoneBridge((Boolean)getValue("boolean", ((StateVariableValue)values.get("IsZoneBridge")).getValue()));
         final IsZoneBridge oldIsZoneBridge = (IsZoneBridge)stored.get("IsZoneBridge");
         if (!Objects.equal(oldIsZoneBridge, newIsZoneBridge)) {
             _eventedValues.put("IsZoneBridge", newIsZoneBridge);
         }
 
-        final Icon newIcon = convertIcon((String)getValue("string", values.get("Icon")));
+        final Icon newIcon = convertIcon((String)getValue("string", ((StateVariableValue)values.get("Icon")).getValue()));
         final Icon oldIcon = (Icon)stored.get("Icon");
         if (!Objects.equal(oldIcon, newIcon)) {
             _eventedValues.put("Icon", newIcon);

@@ -15,6 +15,7 @@ import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.state.StateVariableValue;
 
 import java.util.List;
 import java.util.Map;
@@ -106,25 +107,25 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final LocalGroupUUID newLocalGroupUUID = convertLocalGroupUUID((String)getValue("string", values.get("LocalGroupUUID")));
+        final LocalGroupUUID newLocalGroupUUID = convertLocalGroupUUID((String)getValue("string", ((StateVariableValue)values.get("LocalGroupUUID")).getValue()));
         final LocalGroupUUID oldLocalGroupUUID = (LocalGroupUUID)stored.get("LocalGroupUUID");
         if (!Objects.equal(oldLocalGroupUUID, newLocalGroupUUID)) {
             _eventedValues.put("LocalGroupUUID", newLocalGroupUUID);
         }
 
-        final ResetVolumeAfter newResetVolumeAfter = convertResetVolumeAfter((Boolean)getValue("boolean", values.get("ResetVolumeAfter")));
+        final ResetVolumeAfter newResetVolumeAfter = convertResetVolumeAfter((Boolean)getValue("boolean", ((StateVariableValue)values.get("ResetVolumeAfter")).getValue()));
         final ResetVolumeAfter oldResetVolumeAfter = (ResetVolumeAfter)stored.get("ResetVolumeAfter");
         if (!Objects.equal(oldResetVolumeAfter, newResetVolumeAfter)) {
             _eventedValues.put("ResetVolumeAfter", newResetVolumeAfter);
         }
 
-        final GroupCoordinatorIsLocal newGroupCoordinatorIsLocal = convertGroupCoordinatorIsLocal((Boolean)getValue("boolean", values.get("GroupCoordinatorIsLocal")));
+        final GroupCoordinatorIsLocal newGroupCoordinatorIsLocal = convertGroupCoordinatorIsLocal((Boolean)getValue("boolean", ((StateVariableValue)values.get("GroupCoordinatorIsLocal")).getValue()));
         final GroupCoordinatorIsLocal oldGroupCoordinatorIsLocal = (GroupCoordinatorIsLocal)stored.get("GroupCoordinatorIsLocal");
         if (!Objects.equal(oldGroupCoordinatorIsLocal, newGroupCoordinatorIsLocal)) {
             _eventedValues.put("GroupCoordinatorIsLocal", newGroupCoordinatorIsLocal);
         }
 
-        final VolumeAVTransportURI newVolumeAVTransportURI = convertVolumeAVTransportURI((String)getValue("string", values.get("VolumeAVTransportURI")));
+        final VolumeAVTransportURI newVolumeAVTransportURI = convertVolumeAVTransportURI((String)getValue("string", ((StateVariableValue)values.get("VolumeAVTransportURI")).getValue()));
         final VolumeAVTransportURI oldVolumeAVTransportURI = (VolumeAVTransportURI)stored.get("VolumeAVTransportURI");
         if (!Objects.equal(oldVolumeAVTransportURI, newVolumeAVTransportURI)) {
             _eventedValues.put("VolumeAVTransportURI", newVolumeAVTransportURI);

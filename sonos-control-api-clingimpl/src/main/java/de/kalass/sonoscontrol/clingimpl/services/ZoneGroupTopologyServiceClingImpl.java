@@ -15,6 +15,7 @@ import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.state.StateVariableValue;
 
 import java.util.List;
 import java.util.Map;
@@ -143,25 +144,25 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final AvailableSoftwareUpdate newAvailableSoftwareUpdate = convertAvailableSoftwareUpdate((String)getValue("string", values.get("AvailableSoftwareUpdate")));
+        final AvailableSoftwareUpdate newAvailableSoftwareUpdate = convertAvailableSoftwareUpdate((String)getValue("string", ((StateVariableValue)values.get("AvailableSoftwareUpdate")).getValue()));
         final AvailableSoftwareUpdate oldAvailableSoftwareUpdate = (AvailableSoftwareUpdate)stored.get("AvailableSoftwareUpdate");
         if (!Objects.equal(oldAvailableSoftwareUpdate, newAvailableSoftwareUpdate)) {
             _eventedValues.put("AvailableSoftwareUpdate", newAvailableSoftwareUpdate);
         }
 
-        final ZoneGroupState newZoneGroupState = convertZoneGroupState((String)getValue("string", values.get("ZoneGroupState")));
+        final ZoneGroupState newZoneGroupState = convertZoneGroupState((String)getValue("string", ((StateVariableValue)values.get("ZoneGroupState")).getValue()));
         final ZoneGroupState oldZoneGroupState = (ZoneGroupState)stored.get("ZoneGroupState");
         if (!Objects.equal(oldZoneGroupState, newZoneGroupState)) {
             _eventedValues.put("ZoneGroupState", newZoneGroupState);
         }
 
-        final ThirdPartyMediaServers newThirdPartyMediaServers = convertThirdPartyMediaServers((String)getValue("string", values.get("ThirdPartyMediaServers")));
+        final ThirdPartyMediaServers newThirdPartyMediaServers = convertThirdPartyMediaServers((String)getValue("string", ((StateVariableValue)values.get("ThirdPartyMediaServers")).getValue()));
         final ThirdPartyMediaServers oldThirdPartyMediaServers = (ThirdPartyMediaServers)stored.get("ThirdPartyMediaServers");
         if (!Objects.equal(oldThirdPartyMediaServers, newThirdPartyMediaServers)) {
             _eventedValues.put("ThirdPartyMediaServers", newThirdPartyMediaServers);
         }
 
-        final AlarmRunSequence newAlarmRunSequence = convertAlarmRunSequence((String)getValue("string", values.get("AlarmRunSequence")));
+        final AlarmRunSequence newAlarmRunSequence = convertAlarmRunSequence((String)getValue("string", ((StateVariableValue)values.get("AlarmRunSequence")).getValue()));
         final AlarmRunSequence oldAlarmRunSequence = (AlarmRunSequence)stored.get("AlarmRunSequence");
         if (!Objects.equal(oldAlarmRunSequence, newAlarmRunSequence)) {
             _eventedValues.put("AlarmRunSequence", newAlarmRunSequence);

@@ -15,6 +15,7 @@ import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.state.StateVariableValue;
 
 import java.util.List;
 import java.util.Map;
@@ -606,7 +607,7 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final LastChange newLastChange = convertLastChange((String)getValue("string", values.get("LastChange")));
+        final LastChange newLastChange = convertLastChange((String)getValue("string", ((StateVariableValue)values.get("LastChange")).getValue()));
         final LastChange oldLastChange = (LastChange)stored.get("LastChange");
         if (!Objects.equal(oldLastChange, newLastChange)) {
             _eventedValues.put("LastChange", newLastChange);

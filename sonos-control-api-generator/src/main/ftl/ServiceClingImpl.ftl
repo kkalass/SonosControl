@@ -15,6 +15,7 @@ import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.state.StateVariableValue;
 
 import java.util.List;
 import java.util.Map;
@@ -93,7 +94,7 @@ public final class ${data.javaImplClassName.name} extends AbstractServiceImpl im
         <#list data.stateVariables as stateVariable>
         <#if stateVariable.sendEvents>
 
-        final ${stateVariable.javaClassName.name} new${stateVariable.stateVariableName} = convert${stateVariable.stateVariableName}((${stateVariable.dataType.javaClass.simpleName})getValue("${stateVariable.dataType.value}", values.get("${stateVariable.stateVariableName}")));
+        final ${stateVariable.javaClassName.name} new${stateVariable.stateVariableName} = convert${stateVariable.stateVariableName}((${stateVariable.dataType.javaClass.simpleName})getValue("${stateVariable.dataType.value}", ((StateVariableValue)values.get("${stateVariable.stateVariableName}")).getValue()));
         final ${stateVariable.javaClassName.name} old${stateVariable.stateVariableName} = (${stateVariable.javaClassName.name})stored.get("${stateVariable.stateVariableName}");
         if (!Objects.equal(old${stateVariable.stateVariableName}, new${stateVariable.stateVariableName})) {
             _eventedValues.put("${stateVariable.stateVariableName}", new${stateVariable.stateVariableName});

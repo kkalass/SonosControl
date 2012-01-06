@@ -15,6 +15,7 @@ import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.state.StateVariableValue;
 
 import java.util.List;
 import java.util.Map;
@@ -175,37 +176,37 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final RightLineInLevel newRightLineInLevel = convertRightLineInLevel((Long)getValue("i4", values.get("RightLineInLevel")));
+        final RightLineInLevel newRightLineInLevel = convertRightLineInLevel((Long)getValue("i4", ((StateVariableValue)values.get("RightLineInLevel")).getValue()));
         final RightLineInLevel oldRightLineInLevel = (RightLineInLevel)stored.get("RightLineInLevel");
         if (!Objects.equal(oldRightLineInLevel, newRightLineInLevel)) {
             _eventedValues.put("RightLineInLevel", newRightLineInLevel);
         }
 
-        final LeftLineInLevel newLeftLineInLevel = convertLeftLineInLevel((Long)getValue("i4", values.get("LeftLineInLevel")));
+        final LeftLineInLevel newLeftLineInLevel = convertLeftLineInLevel((Long)getValue("i4", ((StateVariableValue)values.get("LeftLineInLevel")).getValue()));
         final LeftLineInLevel oldLeftLineInLevel = (LeftLineInLevel)stored.get("LeftLineInLevel");
         if (!Objects.equal(oldLeftLineInLevel, newLeftLineInLevel)) {
             _eventedValues.put("LeftLineInLevel", newLeftLineInLevel);
         }
 
-        final AudioInputName newAudioInputName = convertAudioInputName((String)getValue("string", values.get("AudioInputName")));
+        final AudioInputName newAudioInputName = convertAudioInputName((String)getValue("string", ((StateVariableValue)values.get("AudioInputName")).getValue()));
         final AudioInputName oldAudioInputName = (AudioInputName)stored.get("AudioInputName");
         if (!Objects.equal(oldAudioInputName, newAudioInputName)) {
             _eventedValues.put("AudioInputName", newAudioInputName);
         }
 
-        final LineInConnected newLineInConnected = convertLineInConnected((Boolean)getValue("boolean", values.get("LineInConnected")));
+        final LineInConnected newLineInConnected = convertLineInConnected((Boolean)getValue("boolean", ((StateVariableValue)values.get("LineInConnected")).getValue()));
         final LineInConnected oldLineInConnected = (LineInConnected)stored.get("LineInConnected");
         if (!Objects.equal(oldLineInConnected, newLineInConnected)) {
             _eventedValues.put("LineInConnected", newLineInConnected);
         }
 
-        final Playing newPlaying = convertPlaying((Boolean)getValue("boolean", values.get("Playing")));
+        final Playing newPlaying = convertPlaying((Boolean)getValue("boolean", ((StateVariableValue)values.get("Playing")).getValue()));
         final Playing oldPlaying = (Playing)stored.get("Playing");
         if (!Objects.equal(oldPlaying, newPlaying)) {
             _eventedValues.put("Playing", newPlaying);
         }
 
-        final Icon newIcon = convertIcon((String)getValue("string", values.get("Icon")));
+        final Icon newIcon = convertIcon((String)getValue("string", ((StateVariableValue)values.get("Icon")).getValue()));
         final Icon oldIcon = (Icon)stored.get("Icon");
         if (!Objects.equal(oldIcon, newIcon)) {
             _eventedValues.put("Icon", newIcon);

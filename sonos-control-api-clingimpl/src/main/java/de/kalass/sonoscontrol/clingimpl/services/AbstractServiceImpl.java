@@ -152,10 +152,16 @@ public abstract class AbstractServiceImpl {
             }
             return ((UnsignedIntegerTwoBytes)value).getValue();
         } else if ("string".equals(upnpType)){
+            if (!(value instanceof String)) {
+                throw new IllegalArgumentException("expected value of type String, but got " + value.getClass().getName());
+            }
             return String.class.cast(value);
         } else if ("boolean".equals(upnpType)){
             if (value instanceof String) {
                 return Boolean.valueOf("1".equals(value) || "true".equals(((String) value).toLowerCase()));
+            }
+            if (!(value instanceof Boolean)) {
+                throw new IllegalArgumentException("expected value of type Boolean, but got " + value.getClass().getName());
             }
             return Boolean.class.cast(value);
         } else {

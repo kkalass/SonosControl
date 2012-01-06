@@ -15,6 +15,7 @@ import org.teleal.cling.model.action.ActionInvocation;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.state.StateVariableValue;
 
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,7 @@ public final class MusicServicesServiceClingImpl extends AbstractServiceImpl imp
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final ServiceListVersion newServiceListVersion = convertServiceListVersion((String)getValue("string", values.get("ServiceListVersion")));
+        final ServiceListVersion newServiceListVersion = convertServiceListVersion((String)getValue("string", ((StateVariableValue)values.get("ServiceListVersion")).getValue()));
         final ServiceListVersion oldServiceListVersion = (ServiceListVersion)stored.get("ServiceListVersion");
         if (!Objects.equal(oldServiceListVersion, newServiceListVersion)) {
             _eventedValues.put("ServiceListVersion", newServiceListVersion);
