@@ -14,11 +14,11 @@ public interface ${data.javaClassName.name} {
   <#list data.stateVariables as stateVariable>
     <#if stateVariable.sendEvents>
 
-    ${stateVariable.javaClassName.name} get${stateVariable.stateVariableName}();
+    ${stateVariable.type.javaClassName.name} get${stateVariable.stateVariableName}();
 
-    void add${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.javaClassName.name}> listener);
+    void add${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.type.javaClassName.name}> listener);
 
-    void remove${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.javaClassName.name}> listener);
+    void remove${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.type.javaClassName.name}> listener);
     </#if>
   </#list>
 
@@ -28,13 +28,13 @@ public interface ${data.javaClassName.name} {
     /**
        <#list action.allIn as param>
        <#if param.valueHardcoded>
-      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link ${param.relatedStateVariable.javaClassName.name} ${param.parameterName}} is set to an appropriate default value automatically.</p>
+      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link ${param.relatedStateVariable.type.javaClassName.name} ${param.parameterName}} is set to an appropriate default value automatically.</p>
        </#if>
        </#list>
       */
     </#if>
     <C extends <#if action.out.javaClassName.FQN == 'java.lang.Void'>Callback0<#else>Callback1<${action.out.javaClassName.name}></#if
-    >> C ${action.methodName}(<#list action.in as param>${param.relatedStateVariable.javaClassName.name} ${param.parameterName}, </#list>C callback);
+    >> C ${action.methodName}(<#list action.in as param>${param.relatedStateVariable.type.javaClassName.name} ${param.parameterName}, </#list>C callback);
   </#list>
 
 }

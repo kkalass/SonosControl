@@ -1,6 +1,7 @@
-package de.kalass.sonoscontrol.generator;
+package de.kalass.sonoscontrol.generator.model;
 
 import com.google.common.base.Function;
+
 
 public class JavaClassName extends JavaFQNName {
     public static JavaClassName JAVA_LANG_STRING = JavaPackageName.JAVA_LANG.childClass("String");

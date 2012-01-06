@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.generator;
+package de.kalass.sonoscontrol.generator.upnp;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,18 +20,14 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 
-import de.kalass.sonoscontrol.generator.SCDP.Action;
-import de.kalass.sonoscontrol.generator.SCDP.ActionArgument;
-import de.kalass.sonoscontrol.generator.SCDP.AllowedValueRange;
-import de.kalass.sonoscontrol.generator.SCDP.StateVariable;
 
-public final class SCDPReader {
+public final class UpnpServiceReader {
 
-    private SCDPReader() {
+    private UpnpServiceReader() {
         // utility constructor
     }
     @CheckForNull
-    private static SCDP parseServiceDocument(String sname, Document document) {
+    private static UpnpService parseServiceDocument(String sname, Document document) {
         Node root = document.getChildNodes().item(0);
         if (!"scpd".equals(root.getNodeName())) {
             return null;
@@ -39,7 +35,7 @@ public final class SCDPReader {
 
         final NodeList childNodes = root.getChildNodes();
         final int length = childNodes.getLength();
-        final Map<String, StateVariable> vars = Maps.newHashMap();
+        final Map<String, UpnpStateVariable> vars = Maps.newHashMap();
         for (int i = 0; i< length; i++) {
             final Node item = childNodes.item(i);
             if ("serviceStateTable".equals(item.getNodeName())) {
@@ -50,7 +46,7 @@ public final class SCDPReader {
                         String name = null;
                         String dataType = null;
                         List<String> allowedValueList = new ArrayList<String>();
-                        AllowedValueRange allowedValueRange = null;
+                        UpnpAllowedValueRange allowedValueRange = null;
                         NodeList svChildren = stateVariable.getChildNodes();
                         for (int i3 = 0; i3 < svChildren.getLength(); i3++) {
                             Node svChild = svChildren.item(i3);
@@ -86,7 +82,7 @@ public final class SCDPReader {
                                 }
                                 Preconditions.checkNotNull(minimum);
                                 Preconditions.checkNotNull(maximum);
-                                allowedValueRange = new AllowedValueRange(minimum, maximum, step);
+                                allowedValueRange = new UpnpAllowedValueRange(minimum, maximum, step);
                             }
 
                         }
@@ -94,7 +90,7 @@ public final class SCDPReader {
                         Preconditions.checkNotNull(dataType);
                         boolean sendsEvents = "yes".equals(stateVariable.getAttributes().getNamedItem("sendEvents").getTextContent());
                         vars.put(name,
-                                new StateVariable(
+                                new UpnpStateVariable(
                                         name,
                                         UpnpDatatype.valueOf(dataType),
                                         sendsEvents,
@@ -105,7 +101,7 @@ public final class SCDPReader {
                 }
             }
         }
-        final List<Action> actions = new ArrayList<Action>();
+        final List<UpnpAction> actions = new ArrayList<UpnpAction>();
         for (int i = 0; i< length; i++) {
             final Node item = childNodes.item(i);
             if ("actionList".equals(item.getNodeName())) {
@@ -115,8 +111,8 @@ public final class SCDPReader {
                     Node actionNode = actionNodes.item(i2);
                     if ("action".equals(actionNode.getNodeName())) {
                         String name = null;
-                        List<ActionArgument> inputArguments = new ArrayList<ActionArgument>();
-                        List<ActionArgument> outputArguments = new ArrayList<ActionArgument>();
+                        List<UpnpActionArgument> inputArguments = new ArrayList<UpnpActionArgument>();
+                        List<UpnpActionArgument> outputArguments = new ArrayList<UpnpActionArgument>();
                         NodeList actionChildNodes = actionNode.getChildNodes();
                         for (int i3=0; i3 < actionChildNodes.getLength(); i3++) {
                             Node actionChildNode = actionChildNodes.item(i3);
@@ -149,9 +145,9 @@ public final class SCDPReader {
                                         Preconditions.checkNotNull(anName);
                                         Preconditions.checkNotNull(anDirection);
                                         Preconditions.checkNotNull(anRelatedStateVariableName);
-                                        StateVariable relatedStateVariable = vars.get(anRelatedStateVariableName);
+                                        UpnpStateVariable relatedStateVariable = vars.get(anRelatedStateVariableName);
                                         Preconditions.checkNotNull(relatedStateVariable);
-                                        ActionArgument argument = new ActionArgument(anName, relatedStateVariable);
+                                        UpnpActionArgument argument = new UpnpActionArgument(anName, relatedStateVariable);
                                         if ("in".equals(anDirection.toLowerCase())) {
                                             inputArguments.add(argument);
                                         } else {
@@ -163,21 +159,21 @@ public final class SCDPReader {
                             }
                         }
 
-                        final Action action  = new Action(UpnpActionName.valueOf(name), ImmutableList.copyOf(inputArguments), ImmutableList.copyOf(outputArguments));
+                        final UpnpAction action  = new UpnpAction(UpnpActionName.valueOf(name), ImmutableList.copyOf(inputArguments), ImmutableList.copyOf(outputArguments));
                         actions.add(action);
                     }
                 }
             }
         }
-        return new SCDP(sname, ImmutableList.copyOf(vars.values()), ImmutableList.copyOf(actions));
+        return new UpnpService(sname, ImmutableList.copyOf(vars.values()), ImmutableList.copyOf(actions));
     }
 
-    public static SCDP read(String name, Document document) {
+    public static UpnpService read(String name, Document document) {
         return parseServiceDocument(name, document);
     }
 
-    public static List<SCDP> readTypeDescriptions(final File docDir) throws ParserConfigurationException, SAXException, IOException {
-        final List<SCDP> types = new ArrayList<SCDP>();
+    public static List<UpnpService> readTypeDescriptions(final File docDir) throws ParserConfigurationException, SAXException, IOException {
+        final List<UpnpService> types = new ArrayList<UpnpService>();
         for (final File f : docDir.listFiles()) {
             if (!f.getName().endsWith(".xml")) {
                 continue;
@@ -187,7 +183,7 @@ public final class SCDPReader {
             final Document document = documentBuilder.parse(f);
             final String name = getName(f);
 
-            final SCDP scdp = SCDPReader.read(name, document);
+            final UpnpService scdp = UpnpServiceReader.read(name, document);
             if (scdp != null) {
 
                 types.add(scdp);

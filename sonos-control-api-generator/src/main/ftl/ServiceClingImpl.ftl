@@ -41,7 +41,7 @@ public final class ${data.javaImplClassName.name} extends AbstractServiceImpl im
     private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
     <#list data.stateVariables as stateVariable>
     <#if stateVariable.sendEvents>
-    private final List<EventListener<${stateVariable.javaClassName.name}>> _change${stateVariable.stateVariableName}Listeners = new ArrayList<EventListener<${stateVariable.javaClassName.name}>>();
+    private final List<EventListener<${stateVariable.type.javaClassName.name}>> _change${stateVariable.stateVariableName}Listeners = new ArrayList<EventListener<${stateVariable.type.javaClassName.name}>>();
     </#if>
     </#list>
 
@@ -55,20 +55,20 @@ public final class ${data.javaImplClassName.name} extends AbstractServiceImpl im
     /**
        <#list action.allIn as param>
        <#if param.valueHardcoded>
-      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link ${param.relatedStateVariable.javaClassName.name} ${param.parameterName}} is set to an appropriate default value automatically.</p>
+      * <p><b>NOTE:</b> Sonos UPnP-Parameter {@link ${param.relatedStateVariable.type.javaClassName.name} ${param.parameterName}} is set to an appropriate default value automatically.</p>
        </#if>
        </#list>
       */
     </#if>
     public <C extends <#if action.out.javaClassName.FQN == 'java.lang.Void'>Callback0<#else>Callback1<${action.out.javaClassName.name}></#if
-    >> C ${action.methodName}(<#list action.in as param>final ${param.relatedStateVariable.javaClassName.name} ${param.parameterName}, </#list>final C successHandler) {
+    >> C ${action.methodName}(<#list action.in as param>final ${param.relatedStateVariable.type.javaClassName.name} ${param.parameterName}, </#list>final C successHandler) {
         return execute(successHandler, new Call<C>("${action.upnpName}") {
             @Override
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 <#list action.allIn as param>
-                setInput(invocation,"${param.relatedStateVariable.dataType.value}", "${param.upnpName}", <#if param.valueHardcoded>${param.relatedStateVariable.javaClassName.name}.DEFAULT_VALUE<#else>${param.parameterName}</#if>.getValue());
+                setInput(invocation,"${param.relatedStateVariable.type.dataType.value}", "${param.upnpName}", <#if param.valueHardcoded>${param.relatedStateVariable.type.javaClassName.name}.DEFAULT_VALUE<#else>${param.parameterName}</#if>.getValue());
                 </#list>
             }
             @Override
@@ -76,13 +76,13 @@ public final class ${data.javaImplClassName.name} extends AbstractServiceImpl im
                 <#if action.out.type??>
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final ${action.out.type.relatedStateVariable.javaClassName.name} value = ${action.out.type.relatedStateVariable.javaClassName.name}.getInstance((${action.out.type.relatedStateVariable.dataType.javaClass.simpleName})getValue("${action.out.type.relatedStateVariable.dataType.value}",output[0].getValue()));
+                 final ${action.out.type.relatedStateVariable.type.javaClassName.name} value = ${action.out.type.relatedStateVariable.type.javaClassName.name}.getInstance((${action.out.type.relatedStateVariable.type.dataType.javaClass.simpleName})getValue("${action.out.type.relatedStateVariable.type.dataType.value}",output[0].getValue()));
                  handler.success(value);
                 <#else>
                 <#if action.out.properties??>
                 final ActionArgumentValue[] output = invocation.getOutput();
                 <#list action.out.properties as param>
-                final ${param.relatedStateVariable.javaClassName.name} value${param_index} = ${param.relatedStateVariable.javaClassName.name}.getInstance((${param.relatedStateVariable.dataType.javaClass.simpleName})getValue("${param.relatedStateVariable.dataType.value}",output[${param_index}].getValue()));
+                final ${param.relatedStateVariable.type.javaClassName.name} value${param_index} = ${param.relatedStateVariable.type.javaClassName.name}.getInstance((${param.relatedStateVariable.type.dataType.javaClass.simpleName})getValue("${param.relatedStateVariable.type.dataType.value}",output[${param_index}].getValue()));
                 </#list>
                 final ${action.out.javaClassName.name} value = ${action.out.javaClassName.name}.getInstance(<#list action.out.properties as param>value${param_index}<#if param_has_next>,</#if></#list>);
                 handler.success(value);
@@ -103,8 +103,8 @@ public final class ${data.javaImplClassName.name} extends AbstractServiceImpl im
         <#list data.stateVariables as stateVariable>
         <#if stateVariable.sendEvents>
 
-        final ${stateVariable.javaClassName.name} new${stateVariable.stateVariableName} = convert${stateVariable.stateVariableName}((${stateVariable.dataType.javaClass.simpleName})getValue("${stateVariable.dataType.value}", ((StateVariableValue)values.get("${stateVariable.stateVariableName}")).getValue()));
-        final ${stateVariable.javaClassName.name} old${stateVariable.stateVariableName} = (${stateVariable.javaClassName.name})stored.get("${stateVariable.stateVariableName}");
+        final ${stateVariable.type.javaClassName.name} new${stateVariable.stateVariableName} = convert${stateVariable.stateVariableName}((${stateVariable.type.dataType.javaClass.simpleName})getValue("${stateVariable.type.dataType.value}", ((StateVariableValue)values.get("${stateVariable.stateVariableName}")).getValue()));
+        final ${stateVariable.type.javaClassName.name} old${stateVariable.stateVariableName} = (${stateVariable.type.javaClassName.name})stored.get("${stateVariable.stateVariableName}");
         if (!Objects.equal(old${stateVariable.stateVariableName}, new${stateVariable.stateVariableName})) {
             _eventedValues.put("${stateVariable.stateVariableName}", new${stateVariable.stateVariableName});
         }
@@ -135,34 +135,34 @@ public final class ${data.javaImplClassName.name} extends AbstractServiceImpl im
     <#list data.stateVariables as stateVariable>
     <#if stateVariable.sendEvents>
 
-    public ${stateVariable.javaClassName.name} get${stateVariable.stateVariableName}() {
-        return (${stateVariable.javaClassName.name})getEventedValueOrWait("${stateVariable.stateVariableName}");
+    public ${stateVariable.type.javaClassName.name} get${stateVariable.stateVariableName}() {
+        return (${stateVariable.type.javaClassName.name})getEventedValueOrWait("${stateVariable.stateVariableName}");
     }
 
-    public void add${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.javaClassName.name}> listener) {
+    public void add${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.type.javaClassName.name}> listener) {
         synchronized(_change${stateVariable.stateVariableName}Listeners) {
             _change${stateVariable.stateVariableName}Listeners.add(listener);
         }
     }
 
-    public void remove${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.javaClassName.name}> listener) {
+    public void remove${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.type.javaClassName.name}> listener) {
         synchronized(_change${stateVariable.stateVariableName}Listeners) {
             _change${stateVariable.stateVariableName}Listeners.remove(listener);
         }
     }
 
-    protected void notify${stateVariable.stateVariableName}Changed(${stateVariable.javaClassName.name} oldValue, ${stateVariable.javaClassName.name} newValue) {
-        final Iterable<EventListener<${stateVariable.javaClassName.name}>> listeners;
+    protected void notify${stateVariable.stateVariableName}Changed(${stateVariable.type.javaClassName.name} oldValue, ${stateVariable.type.javaClassName.name} newValue) {
+        final Iterable<EventListener<${stateVariable.type.javaClassName.name}>> listeners;
         synchronized(_change${stateVariable.stateVariableName}Listeners) {
-            listeners = new ArrayList<EventListener<${stateVariable.javaClassName.name}>>(_change${stateVariable.stateVariableName}Listeners);            
+            listeners = new ArrayList<EventListener<${stateVariable.type.javaClassName.name}>>(_change${stateVariable.stateVariableName}Listeners);            
         }
-        for(EventListener<${stateVariable.javaClassName.name}> listener: listeners) {
+        for(EventListener<${stateVariable.type.javaClassName.name}> listener: listeners) {
             listener.valueChanged(oldValue, newValue);
         }
     }
 
-    protected ${stateVariable.javaClassName.name} convert${stateVariable.stateVariableName}(${stateVariable.dataType.javaClass.simpleName} rawValue) {
-        return ${stateVariable.javaClassName.name}.getInstance(rawValue);
+    protected ${stateVariable.type.javaClassName.name} convert${stateVariable.stateVariableName}(${stateVariable.type.dataType.javaClass.simpleName} rawValue) {
+        return ${stateVariable.type.javaClassName.name}.getInstance(rawValue);
     }
     </#if>
     </#list>

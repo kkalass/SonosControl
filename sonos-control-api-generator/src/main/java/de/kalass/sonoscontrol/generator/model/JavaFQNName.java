@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.generator;
+package de.kalass.sonoscontrol.generator.model;
 
 import java.io.File;
 

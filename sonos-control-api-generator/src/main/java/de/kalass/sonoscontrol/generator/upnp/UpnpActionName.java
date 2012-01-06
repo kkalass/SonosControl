@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.generator;
+package de.kalass.sonoscontrol.generator.upnp;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;

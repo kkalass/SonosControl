@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,7 +14,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.google.common.base.Function;
-import com.google.common.base.Functions;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -25,12 +23,19 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 
-import de.kalass.sonoscontrol.generator.SCDPType.ActionOutputType;
-import de.kalass.sonoscontrol.generator.SCDPType.ActionType;
-import de.kalass.sonoscontrol.generator.SCDPType.CompoundActionOutputType;
-import de.kalass.sonoscontrol.generator.SCDPType.NameFactory;
-import de.kalass.sonoscontrol.generator.SCDPType.ServiceNameFactory;
-import de.kalass.sonoscontrol.generator.SCDPType.StateVariableType;
+import de.kalass.sonoscontrol.generator.model.JavaPackageName;
+import de.kalass.sonoscontrol.generator.model.Service;
+import de.kalass.sonoscontrol.generator.model.ServiceImpl;
+import de.kalass.sonoscontrol.generator.model.StateVariable;
+import de.kalass.sonoscontrol.generator.model.action.Action;
+import de.kalass.sonoscontrol.generator.model.action.ActionOutput;
+import de.kalass.sonoscontrol.generator.model.action.ActionOutputCompound;
+import de.kalass.sonoscontrol.generator.model.types.BooleanType;
+import de.kalass.sonoscontrol.generator.model.types.CustomType;
+import de.kalass.sonoscontrol.generator.model.types.EnumType;
+import de.kalass.sonoscontrol.generator.model.types.Type;
+import de.kalass.sonoscontrol.generator.upnp.UpnpService;
+import de.kalass.sonoscontrol.generator.upnp.UpnpServiceReader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
@@ -39,116 +44,6 @@ import freemarker.template.TemplateException;
 
 public class Generator {
     private static final Charset UTF8 = Charset.forName("UTF-8");
-
-    public static final class TypeNameMappings {
-        private final Map<String, JavaClassName> _generalMappings = Maps.newHashMap();
-        private final Map<String, Map<String, JavaClassName>> _serviceMappings = Maps.newHashMap();
-        private boolean _serviceStage;
-        public void add(String typename, JavaClassName clsname) {
-            if (_serviceStage) {
-                throw new IllegalStateException("first finish all general type mappings, before doing service-specific ones");
-            }
-            _generalMappings.put(typename, clsname);
-        }
-        public void add(String serviceName, String typename, JavaClassName clsname) {
-            _serviceStage = true;
-            Map<String, JavaClassName> map = _serviceMappings.get(serviceName);
-            if (map == null) {
-                map = Maps.newHashMap();
-                map.putAll(_generalMappings);
-                _serviceMappings.put(serviceName, map);
-            }
-            map.put(typename, clsname);
-        }
-        public Function<String, Function<String, JavaClassName>> asFkt() {
-            Map<String, Function<String, JavaClassName>> m = Maps.transformValues(_serviceMappings, new Function<Map<String, JavaClassName>, Function<String, JavaClassName>>() {
-                @Override
-                public Function<String, JavaClassName> apply(
-                        Map<String, JavaClassName> input) {
-                    return Functions.forMap(input, null);
-                }
-            });
-            return Functions.forMap(m, Functions.forMap(_generalMappings, null));
-        }
-    }
-
-    public static final class ServiceNameFactoryImpl implements ServiceNameFactory {
-        private final JavaPackageName _servicePackageName;
-        private final String _serviceName;
-        private final JavaPackageName _modelPackageName;
-        private final Map<String, Collection<String>> _servicesByTypeName;
-        private final Function<String, JavaClassName> _mapping;
-
-        private ServiceNameFactoryImpl(
-                JavaPackageName servicePackageName,
-                String serviceName,
-                JavaPackageName modelbasePackageName,
-                Function<String, JavaClassName> mapping,
-                Map<String, Collection<String>> servicesByTypeName
-                ) {
-            _serviceName = serviceName;
-            _mapping = Preconditions.checkNotNull(mapping);
-            _servicePackageName = servicePackageName;
-            _modelPackageName = modelbasePackageName.childPackage(serviceName.toLowerCase());
-            _servicesByTypeName = servicesByTypeName;
-        }
-        @Override
-        public JavaClassName getServiceClassName() {
-            return _servicePackageName.childClass(_serviceName + "Service");
-        }
-        @Override
-        public JavaClassName getModelClassName(String name) {
-            final JavaClassName javaClassName = _mapping.apply(name);
-            Collection<String> names = _servicesByTypeName.get(name);
-            if (names == null) {
-                names = new HashSet<String>();
-                _servicesByTypeName.put(name, names);
-            }
-            names.add(_serviceName);
-            return javaClassName == null ? _modelPackageName.childClass(name) : javaClassName;
-        }
-    }
-
-    public static final class NameFactoryImpl implements NameFactory {
-        private final JavaPackageName _corePackageName;
-        private final JavaPackageName _servicePackageName;
-        private final JavaPackageName _modelBasePackageName;
-        private final Function<String, Function<String, JavaClassName>> _mapping;
-        private final Map<String, Collection<String>> _servicesByTypeName;
-
-        public NameFactoryImpl(JavaPackageName corePackageName,
-                JavaPackageName servicePackageName,
-                JavaPackageName modelBasePackageName,
-                Function<String, Function<String, JavaClassName>> mapping
-                ) {
-            super();
-            _corePackageName = corePackageName;
-            _servicePackageName = servicePackageName;
-            _modelBasePackageName = modelBasePackageName;
-            _mapping = Preconditions.checkNotNull(mapping);
-            _servicesByTypeName = Maps.newHashMap();
-        }
-
-        @Override
-        public JavaPackageName getCorePackageName() {
-            return _corePackageName;
-        }
-
-        @Override
-        public ServiceNameFactory getServiceNameFactory(String serviceName) {
-            return new ServiceNameFactoryImpl(
-                    _servicePackageName, serviceName, _modelBasePackageName,
-                    _mapping.apply(serviceName),
-                    _servicesByTypeName
-                    );
-        }
-
-        public Map<String, Collection<String>> getServicesByTypeName() {
-            return _servicesByTypeName;
-        }
-
-    }
-
 
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
         final String base= "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/";
@@ -181,7 +76,7 @@ public class Generator {
         copyFromTo(modelPackageName, javaFilesInputDir, outputDir);
         copyFromTo(clingimplServicesPackageName, javaFilesInputDir, clingImplOutputDir);
 
-        final List<SCDP> types = SCDPReader.readTypeDescriptions(docDir);
+        final List<UpnpService> types = UpnpServiceReader.readTypeDescriptions(docDir);
 
         final TypeNameMappings mappings = new TypeNameMappings();
         mappings.add("MemberID", modelPackageName.childClass("MemberID"));
@@ -190,32 +85,32 @@ public class Generator {
         final NameFactoryImpl nameFactory = new NameFactoryImpl(corePackageName, servicesPackageName, modelPackageName, mappings.asFkt());
 
         System.out.println("Generating API...");
-        for (SCDP scdp : types) {
-            final SCDPType type = new SCDPType(scdp, nameFactory);
-            for (StateVariableType stateVariable : type.getStateVariables()) {
-                final File typeFile = stateVariable.getJavaClassName().asFile(outputDir);
-                if (!typeFile.exists()) {
+        for (UpnpService scdp : types) {
+            final Service type = new Service(scdp, nameFactory);
+            for (StateVariable stateVariable : type.getStateVariables()) {
+                final Type stateVariableType = stateVariable.getType();
+                final File typeFile = stateVariableType.getJavaClassName().asFile(outputDir);
+                if (!typeFile.exists() && stateVariableType instanceof CustomType) {
 
                     Files.createParentDirs(typeFile);
-                    final Class<?> valueType = stateVariable.getDataType().getJavaClass();
                     final String template;
-                    if (Boolean.class.equals(valueType)) {
+                    if (stateVariableType instanceof BooleanType) {
                         template = "BooleanStateVariableType.ftl";
-                    } else if (String.class.equals(valueType) && !stateVariable.getAllowedValues().isEmpty()) {
+                    } else if (stateVariableType instanceof EnumType) {
                         template = "EnumStateVariableType.ftl";
                     } else {
                         template = "StateVariableType.ftl";
                     }
-                    final String sourceCode = render(cfg, template, stateVariable);
+                    final String sourceCode = render(cfg, template, stateVariableType);
                     Files.write(sourceCode, typeFile, UTF8);
                     System.out.println("StateVariableType: " + typeFile);
                 }
             }
 
-            for (ActionType action : type.getActions()) {
-                final ActionOutputType out = action.getOut();
-                if (out instanceof CompoundActionOutputType) {
-                    final CompoundActionOutputType compound = (CompoundActionOutputType)out;
+            for (Action action : type.getActions()) {
+                final ActionOutput out = action.getOut();
+                if (out instanceof ActionOutputCompound) {
+                    final ActionOutputCompound compound = (ActionOutputCompound)out;
                     final File typeFile = compound.getJavaClassName().asFile(outputDir);
                     if (!typeFile.exists()) {
                         Files.createParentDirs(typeFile);
@@ -237,8 +132,8 @@ public class Generator {
 
         System.out.println("");
         System.out.println("Generating Cling Implementation");
-        for (SCDP scdp : types) {
-            final SCDPImplType type = new SCDPImplType(scdp, nameFactory, clingimplServicesPackageName);
+        for (UpnpService scdp : types) {
+            final ServiceImpl type = new ServiceImpl(scdp, nameFactory, clingimplServicesPackageName);
             final File serviceFile = type.getJavaImplClassName().asFile(clingImplOutputDir);
             if (!serviceFile.exists()) {
                 Files.createParentDirs(serviceFile);

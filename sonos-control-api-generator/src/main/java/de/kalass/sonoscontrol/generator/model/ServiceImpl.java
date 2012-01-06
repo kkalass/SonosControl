@@ -1,10 +1,12 @@
-package de.kalass.sonoscontrol.generator;
+package de.kalass.sonoscontrol.generator.model;
 
-public class SCDPImplType extends SCDPType {
+import de.kalass.sonoscontrol.generator.upnp.UpnpService;
+
+public class ServiceImpl extends Service {
 
     private final JavaClassName _javaClassName;
 
-    public SCDPImplType(SCDP scdp, NameFactory nameFactory, JavaPackageName implDirName) {
+    public ServiceImpl(UpnpService scdp, NameFactory nameFactory, JavaPackageName implDirName) {
         super(scdp, nameFactory);
         _javaClassName = implDirName.childClass(scdp.getName() + "ServiceClingImpl");
     }

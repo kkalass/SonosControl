@@ -8,7 +8,7 @@ public enum ${data.javaClassName.name} {
     ${value.enumValue}("${value.value}")<#if value_has_next>,<#else>;</#if>
     </#list>
 
-    <#if data.singleValueType>
+    <#if data.singleInstanceType>
      <#list data.allowedValues as value>
     public static final ${data.javaClassName.name} DEFAULT_VALUE = ${value.enumValue};
      </#list>
