@@ -24,7 +24,7 @@ public class ${data.javaClassName.name}Test extends AbstractSonosServiceTest<${d
     <#list data.stateVariables as stateVariable>
     <#if stateVariable.sendEvents>
     @Test
-    public void test${stateVariable.stateVariableName}() {
+    public void testGet${stateVariable.stateVariableName}() {
         final ${stateVariable.type.javaClassName.name} value = getService().get${stateVariable.stateVariableName}();
         Assert.assertNotNull(value);
         System.out.println("Got ${stateVariable.stateVariableName}: " + value);
