@@ -38,6 +38,10 @@ public final class ServiceTypeList implements Serializable {
     }
 
     public static ServiceTypeList getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new ServiceTypeList(value);
     }
 }

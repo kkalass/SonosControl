@@ -41,6 +41,10 @@ public final class NumberOfTracks implements Serializable {
     }
 
     public static NumberOfTracks getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new NumberOfTracks(value);
     }
 }

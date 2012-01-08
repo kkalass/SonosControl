@@ -42,6 +42,9 @@ public final class Action {
     public Collection<ActionArgument> getIn() {
         return Collections2.filter(_in, Predicates.not(ActionArgument.IS_VALUE_HARDCODED));
     }
+    public boolean isNoArguments() {
+        return getIn().isEmpty();
+    }
     public List<ActionArgument> getAllIn() {
         return _in;
     }

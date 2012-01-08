@@ -38,6 +38,10 @@ public final class AlarmRoomUUID implements Serializable {
     }
 
     public static AlarmRoomUUID getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AlarmRoomUUID(value);
     }
 }

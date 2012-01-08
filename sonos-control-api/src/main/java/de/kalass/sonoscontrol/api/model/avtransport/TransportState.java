@@ -20,6 +20,9 @@ public enum TransportState {
     }
 
     public static TransportState getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (TransportState v: values()) {
             if (v._value.equals(value)) {
                 return v;

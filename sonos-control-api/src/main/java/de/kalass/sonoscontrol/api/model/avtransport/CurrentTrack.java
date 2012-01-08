@@ -43,6 +43,10 @@ public final class CurrentTrack implements Serializable {
     }
 
     public static CurrentTrack getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new CurrentTrack(value);
     }
 }

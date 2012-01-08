@@ -38,6 +38,10 @@ public final class AlarmVolume implements Serializable {
     }
 
     public static AlarmVolume getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AlarmVolume(value);
     }
 }

@@ -18,6 +18,9 @@ public enum RecordStorageMedium {
     }
 
     public static RecordStorageMedium getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (RecordStorageMedium v: values()) {
             if (v._value.equals(value)) {
                 return v;

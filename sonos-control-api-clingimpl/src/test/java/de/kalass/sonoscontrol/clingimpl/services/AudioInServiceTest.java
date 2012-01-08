@@ -73,5 +73,24 @@ public class AudioInServiceTest extends AbstractSonosServiceTest<AudioInService>
         System.out.println("Got Icon: " + value);
     }
 
+
+
+
+
+    @Test
+    public void retrieveAudioInputAttributesTest() throws Exception{
+        final GetAudioInputAttributesResult value = getService().retrieveAudioInputAttributes(new de.kalass.sonoscontrol.api.core.AsyncValue<GetAudioInputAttributesResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveAudioInputAttributes: " + value);
+    }
+
+
+    @Test
+    public void retrieveLineInLevelTest() throws Exception{
+        final GetLineInLevelResult value = getService().retrieveLineInLevel(new de.kalass.sonoscontrol.api.core.AsyncValue<GetLineInLevelResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveLineInLevel: " + value);
+    }
+
 }
 

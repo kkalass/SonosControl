@@ -38,6 +38,10 @@ public final class ExtraInfo implements Serializable {
     }
 
     public static ExtraInfo getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new ExtraInfo(value);
     }
 }

@@ -38,6 +38,10 @@ public final class AccountType implements Serializable {
     }
 
     public static AccountType getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AccountType(value);
     }
 }

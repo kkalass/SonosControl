@@ -38,6 +38,10 @@ public final class RcsID implements Serializable {
     }
 
     public static RcsID getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new RcsID(value);
     }
 }

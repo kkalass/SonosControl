@@ -38,6 +38,10 @@ public final class GroupID implements Serializable {
     }
 
     public static GroupID getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new GroupID(value);
     }
 }

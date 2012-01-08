@@ -43,6 +43,10 @@ public final class Volume implements Serializable {
     }
 
     public static Volume getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new Volume(value);
     }
 }

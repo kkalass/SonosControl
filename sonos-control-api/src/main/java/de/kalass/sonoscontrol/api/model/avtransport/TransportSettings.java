@@ -38,6 +38,10 @@ public final class TransportSettings implements Serializable {
     }
 
     public static TransportSettings getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new TransportSettings(value);
     }
 }

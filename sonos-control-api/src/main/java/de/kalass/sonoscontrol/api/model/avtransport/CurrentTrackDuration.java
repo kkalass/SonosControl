@@ -38,6 +38,10 @@ public final class CurrentTrackDuration implements Serializable {
     }
 
     public static CurrentTrackDuration getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new CurrentTrackDuration(value);
     }
 }

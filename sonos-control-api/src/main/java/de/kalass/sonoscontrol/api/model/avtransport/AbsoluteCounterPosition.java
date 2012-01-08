@@ -38,6 +38,10 @@ public final class AbsoluteCounterPosition implements Serializable {
     }
 
     public static AbsoluteCounterPosition getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AbsoluteCounterPosition(value);
     }
 }

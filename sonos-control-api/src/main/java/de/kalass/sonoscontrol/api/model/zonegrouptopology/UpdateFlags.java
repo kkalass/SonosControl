@@ -38,6 +38,10 @@ public final class UpdateFlags implements Serializable {
     }
 
     public static UpdateFlags getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new UpdateFlags(value);
     }
 }

@@ -38,6 +38,10 @@ public final class ChannelMapSet implements Serializable {
     }
 
     public static ChannelMapSet getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new ChannelMapSet(value);
     }
 }

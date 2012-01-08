@@ -38,6 +38,10 @@ public final class LeftLineInLevel implements Serializable {
     }
 
     public static LeftLineInLevel getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new LeftLineInLevel(value);
     }
 }

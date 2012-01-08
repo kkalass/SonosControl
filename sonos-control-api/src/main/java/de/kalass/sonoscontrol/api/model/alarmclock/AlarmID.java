@@ -38,6 +38,10 @@ public final class AlarmID implements Serializable {
     }
 
     public static AlarmID getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AlarmID(value);
     }
 }

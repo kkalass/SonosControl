@@ -38,6 +38,10 @@ public final class AlarmProgramMetaData implements Serializable {
     }
 
     public static AlarmProgramMetaData getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AlarmProgramMetaData(value);
     }
 }

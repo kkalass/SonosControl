@@ -38,6 +38,10 @@ public final class CurrentConnectionIDs implements Serializable {
     }
 
     public static CurrentConnectionIDs getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new CurrentConnectionIDs(value);
     }
 }

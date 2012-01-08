@@ -38,6 +38,10 @@ public final class ISO8601Time implements Serializable {
     }
 
     public static ISO8601Time getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new ISO8601Time(value);
     }
 }

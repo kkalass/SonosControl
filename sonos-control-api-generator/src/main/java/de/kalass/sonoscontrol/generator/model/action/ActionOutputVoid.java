@@ -8,4 +8,8 @@ public final class ActionOutputVoid extends ActionOutput {
     public ActionOutputVoid() {
         super(new Type(JavaClassName.JAVA_LANG_VOID));
     }
+
+    public boolean isVoid() {
+        return true;
+    }
 }

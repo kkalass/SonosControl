@@ -87,5 +87,88 @@ public class DevicePropertiesServiceTest extends AbstractSonosServiceTest<Device
         System.out.println("Got Icon: " + value);
     }
 
+
+
+    @Test
+    public void retrieveLEDStateTest() throws Exception{
+        final LEDState value = getService().retrieveLEDState(new de.kalass.sonoscontrol.api.core.AsyncValue<LEDState>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveLEDState: " + value);
+    }
+
+
+    @Test
+    public void retrieveInvisibleTest() throws Exception{
+        final Invisible value = getService().retrieveInvisible(new de.kalass.sonoscontrol.api.core.AsyncValue<Invisible>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveInvisible: " + value);
+    }
+
+
+
+
+
+
+    @Test
+    public void retrieveZoneAttributesTest() throws Exception{
+        final GetZoneAttributesResult value = getService().retrieveZoneAttributes(new de.kalass.sonoscontrol.api.core.AsyncValue<GetZoneAttributesResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveZoneAttributes: " + value);
+    }
+
+    @Test
+    public void retrieveHouseholdIDTest() throws Exception{
+        final HouseholdID value = getService().retrieveHouseholdID(new de.kalass.sonoscontrol.api.core.AsyncValue<HouseholdID>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveHouseholdID: " + value);
+    }
+
+    @Test
+    public void retrieveZoneInfoTest() throws Exception{
+        final GetZoneInfoResult value = getService().retrieveZoneInfo(new de.kalass.sonoscontrol.api.core.AsyncValue<GetZoneInfoResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveZoneInfo: " + value);
+    }
+
+
+    @Test
+    public void retrieveAutoplayLinkedZonesTest() throws Exception{
+        final AutoplayIncludeLinkedZones value = getService().retrieveAutoplayLinkedZones(new de.kalass.sonoscontrol.api.core.AsyncValue<AutoplayIncludeLinkedZones>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveAutoplayLinkedZones: " + value);
+    }
+
+
+    @Test
+    public void retrieveAutoplayRoomUUIDTest() throws Exception{
+        final AutoplayRoomUUID value = getService().retrieveAutoplayRoomUUID(new de.kalass.sonoscontrol.api.core.AsyncValue<AutoplayRoomUUID>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveAutoplayRoomUUID: " + value);
+    }
+
+
+    @Test
+    public void retrieveAutoplayVolumeTest() throws Exception{
+        final AutoplayVolume value = getService().retrieveAutoplayVolume(new de.kalass.sonoscontrol.api.core.AsyncValue<AutoplayVolume>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveAutoplayVolume: " + value);
+    }
+
+
+
+    @Test
+    public void retrieveSpeakerSizeTest() throws Exception{
+        final SpeakerSize value = getService().retrieveSpeakerSize(new de.kalass.sonoscontrol.api.core.AsyncValue<SpeakerSize>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveSpeakerSize: " + value);
+    }
+
+
+    @Test
+    public void retrieveUseAutoplayVolumeTest() throws Exception{
+        final AutoplayUseVolume value = getService().retrieveUseAutoplayVolume(new de.kalass.sonoscontrol.api.core.AsyncValue<AutoplayUseVolume>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveUseAutoplayVolume: " + value);
+    }
 }
 

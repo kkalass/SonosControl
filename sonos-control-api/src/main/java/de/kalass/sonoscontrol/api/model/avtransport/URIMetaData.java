@@ -38,6 +38,10 @@ public final class URIMetaData implements Serializable {
     }
 
     public static URIMetaData getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new URIMetaData(value);
     }
 }

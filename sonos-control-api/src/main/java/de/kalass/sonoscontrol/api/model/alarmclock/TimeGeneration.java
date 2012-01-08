@@ -38,6 +38,10 @@ public final class TimeGeneration implements Serializable {
     }
 
     public static TimeGeneration getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new TimeGeneration(value);
     }
 }

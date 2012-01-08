@@ -20,6 +20,9 @@ public enum MuteChannel {
     }
 
     public static MuteChannel getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (MuteChannel v: values()) {
             if (v._value.equals(value)) {
                 return v;

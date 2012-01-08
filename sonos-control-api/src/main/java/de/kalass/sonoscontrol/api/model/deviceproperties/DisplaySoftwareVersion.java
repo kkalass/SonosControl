@@ -38,6 +38,10 @@ public final class DisplaySoftwareVersion implements Serializable {
     }
 
     public static DisplaySoftwareVersion getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new DisplaySoftwareVersion(value);
     }
 }

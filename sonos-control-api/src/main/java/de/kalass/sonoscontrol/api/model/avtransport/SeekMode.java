@@ -19,6 +19,9 @@ public enum SeekMode {
     }
 
     public static SeekMode getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (SeekMode v: values()) {
             if (v._value.equals(value)) {
                 return v;

@@ -38,6 +38,10 @@ public final class CurrentMediaDuration implements Serializable {
     }
 
     public static CurrentMediaDuration getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new CurrentMediaDuration(value);
     }
 }

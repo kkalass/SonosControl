@@ -38,6 +38,10 @@ public final class AbsoluteTimePosition implements Serializable {
     }
 
     public static AbsoluteTimePosition getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AbsoluteTimePosition(value);
     }
 }

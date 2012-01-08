@@ -38,6 +38,10 @@ public final class NumTracks implements Serializable {
     }
 
     public static NumTracks getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new NumTracks(value);
     }
 }

@@ -38,6 +38,10 @@ public final class AVTransportURI implements Serializable {
     }
 
     public static AVTransportURI getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AVTransportURI(value);
     }
 }

@@ -38,6 +38,10 @@ public final class SoftwareVersion implements Serializable {
     }
 
     public static SoftwareVersion getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new SoftwareVersion(value);
     }
 }

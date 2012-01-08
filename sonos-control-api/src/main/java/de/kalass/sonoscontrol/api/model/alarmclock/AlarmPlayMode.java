@@ -20,6 +20,9 @@ public enum AlarmPlayMode {
     }
 
     public static AlarmPlayMode getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (AlarmPlayMode v: values()) {
             if (v._value.equals(value)) {
                 return v;

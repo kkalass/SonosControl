@@ -38,6 +38,10 @@ public final class AccountID implements Serializable {
     }
 
     public static AccountID getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AccountID(value);
     }
 }

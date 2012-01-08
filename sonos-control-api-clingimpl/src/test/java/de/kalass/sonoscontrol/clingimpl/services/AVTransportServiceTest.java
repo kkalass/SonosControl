@@ -103,5 +103,165 @@ public class AVTransportServiceTest extends AbstractSonosServiceTest<AVTransport
         System.out.println("Got LastChange: " + value);
     }
 
+
+
+
+
+
+    /*
+    @Test
+    public void removeAllTracksFromQueueTest() throws Exception{
+        getService().removeAllTracksFromQueue(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished removeAllTracksFromQueue");
+    }
+    */
+
+
+    @Test
+    public void retrieveMediaInfoTest() throws Exception{
+        final GetMediaInfoResult value = getService().retrieveMediaInfo(new de.kalass.sonoscontrol.api.core.AsyncValue<GetMediaInfoResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveMediaInfo: " + value);
+    }
+
+    @Test
+    public void retrieveTransportInfoTest() throws Exception{
+        final GetTransportInfoResult value = getService().retrieveTransportInfo(new de.kalass.sonoscontrol.api.core.AsyncValue<GetTransportInfoResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveTransportInfo: " + value);
+    }
+
+    @Test
+    public void retrievePositionInfoTest() throws Exception{
+        final GetPositionInfoResult value = getService().retrievePositionInfo(new de.kalass.sonoscontrol.api.core.AsyncValue<GetPositionInfoResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrievePositionInfo: " + value);
+    }
+
+    @Test
+    public void retrieveDeviceCapabilitiesTest() throws Exception{
+        final GetDeviceCapabilitiesResult value = getService().retrieveDeviceCapabilities(new de.kalass.sonoscontrol.api.core.AsyncValue<GetDeviceCapabilitiesResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveDeviceCapabilities: " + value);
+    }
+
+    @Test
+    public void retrieveTransportSettingsTest() throws Exception{
+        final GetTransportSettingsResult value = getService().retrieveTransportSettings(new de.kalass.sonoscontrol.api.core.AsyncValue<GetTransportSettingsResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveTransportSettings: " + value);
+    }
+
+    @Test
+    public void retrieveCrossfadeModeTest() throws Exception{
+        final CurrentCrossfadeMode value = getService().retrieveCrossfadeMode(new de.kalass.sonoscontrol.api.core.AsyncValue<CurrentCrossfadeMode>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveCrossfadeMode: " + value);
+    }
+
+    /*
+    @Test
+    public void stopTest() throws Exception{
+        getService().stop(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished stop");
+    }
+    */
+
+    /*
+    @Test
+    public void playTest() throws Exception{
+        getService().play(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished play");
+    }
+    */
+
+    /*
+    @Test
+    public void pauseTest() throws Exception{
+        getService().pause(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished pause");
+    }
+    */
+
+
+    /*
+    @Test
+    public void nextTest() throws Exception{
+        getService().next(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished next");
+    }
+    */
+
+    /*
+    @Test
+    public void nextProgrammedRadioTracksTest() throws Exception{
+        getService().nextProgrammedRadioTracks(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished nextProgrammedRadioTracks");
+    }
+    */
+
+    /*
+    @Test
+    public void previousTest() throws Exception{
+        getService().previous(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished previous");
+    }
+    */
+
+    /*
+    @Test
+    public void nextSectionTest() throws Exception{
+        getService().nextSection(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished nextSection");
+    }
+    */
+
+    /*
+    @Test
+    public void previousSectionTest() throws Exception{
+        getService().previousSection(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished previousSection");
+    }
+    */
+
+
+
+
+    @Test
+    public void retrieveCurrentTransportActionsTest() throws Exception{
+        final CurrentTransportActions value = getService().retrieveCurrentTransportActions(new de.kalass.sonoscontrol.api.core.AsyncValue<CurrentTransportActions>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveCurrentTransportActions: " + value);
+    }
+
+    /*
+    @Test
+    public void becomeCoordinatorOfStandaloneGroupTest() throws Exception{
+        getService().becomeCoordinatorOfStandaloneGroup(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished becomeCoordinatorOfStandaloneGroup");
+    }
+    */
+
+
+
+
+
+
+    @Test
+    public void retrieveRemainingSleepTimerDurationTest() throws Exception{
+        final GetRemainingSleepTimerDurationResult value = getService().retrieveRemainingSleepTimerDuration(new de.kalass.sonoscontrol.api.core.AsyncValue<GetRemainingSleepTimerDurationResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveRemainingSleepTimerDuration: " + value);
+    }
+
+
+
+    @Test
+    public void retrieveRunningAlarmPropertiesTest() throws Exception{
+        final GetRunningAlarmPropertiesResult value = getService().retrieveRunningAlarmProperties(new de.kalass.sonoscontrol.api.core.AsyncValue<GetRunningAlarmPropertiesResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveRunningAlarmProperties: " + value);
+    }
+
 }
 

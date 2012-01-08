@@ -38,6 +38,10 @@ public final class CurrentTrackURI implements Serializable {
     }
 
     public static CurrentTrackURI getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new CurrentTrackURI(value);
     }
 }

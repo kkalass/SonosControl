@@ -38,6 +38,10 @@ public final class VolumeAdjustment implements Serializable {
     }
 
     public static VolumeAdjustment getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new VolumeAdjustment(value);
     }
 }

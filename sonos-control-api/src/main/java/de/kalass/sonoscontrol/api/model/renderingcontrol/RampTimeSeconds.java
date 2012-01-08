@@ -38,6 +38,10 @@ public final class RampTimeSeconds implements Serializable {
     }
 
     public static RampTimeSeconds getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new RampTimeSeconds(value);
     }
 }

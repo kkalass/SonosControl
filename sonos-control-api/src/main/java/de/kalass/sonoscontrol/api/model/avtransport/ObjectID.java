@@ -38,6 +38,10 @@ public final class ObjectID implements Serializable {
     }
 
     public static ObjectID getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new ObjectID(value);
     }
 }

@@ -34,5 +34,32 @@ public class SystemPropertiesServiceTest extends AbstractSonosServiceTest<System
     }
     
 
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    @Test
+    public void doPostUpdateTasksTest() throws Exception{
+        getService().doPostUpdateTasks(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished doPostUpdateTasks");
+    }
+    */
+
+    /*
+    @Test
+    public void resetThirdPartyCredentialsTest() throws Exception{
+        getService().resetThirdPartyCredentials(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished resetThirdPartyCredentials");
+    }
+    */
 }
 

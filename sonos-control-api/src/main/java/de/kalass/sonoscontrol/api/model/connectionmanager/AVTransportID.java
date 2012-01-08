@@ -38,6 +38,10 @@ public final class AVTransportID implements Serializable {
     }
 
     public static AVTransportID getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AVTransportID(value);
     }
 }

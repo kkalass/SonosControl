@@ -38,6 +38,10 @@ public final class TimeStamp implements Serializable {
     }
 
     public static TimeStamp getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new TimeStamp(value);
     }
 }

@@ -38,6 +38,10 @@ public final class SourceProtocolInfo implements Serializable {
     }
 
     public static SourceProtocolInfo getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new SourceProtocolInfo(value);
     }
 }

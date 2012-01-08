@@ -38,6 +38,10 @@ public final class SavedQueueTitle implements Serializable {
     }
 
     public static SavedQueueTitle getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new SavedQueueTitle(value);
     }
 }

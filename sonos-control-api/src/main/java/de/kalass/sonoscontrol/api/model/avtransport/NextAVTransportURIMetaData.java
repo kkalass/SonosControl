@@ -38,6 +38,10 @@ public final class NextAVTransportURIMetaData implements Serializable {
     }
 
     public static NextAVTransportURIMetaData getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new NextAVTransportURIMetaData(value);
     }
 }

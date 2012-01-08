@@ -38,6 +38,10 @@ public final class AlarmListVersion implements Serializable {
     }
 
     public static AlarmListVersion getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AlarmListVersion(value);
     }
 }

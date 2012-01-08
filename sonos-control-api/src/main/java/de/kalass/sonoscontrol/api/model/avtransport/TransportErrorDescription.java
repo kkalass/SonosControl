@@ -38,6 +38,10 @@ public final class TransportErrorDescription implements Serializable {
     }
 
     public static TransportErrorDescription getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new TransportErrorDescription(value);
     }
 }

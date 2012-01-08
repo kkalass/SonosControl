@@ -38,6 +38,10 @@ public final class AlarmIDRunning implements Serializable {
     }
 
     public static AlarmIDRunning getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AlarmIDRunning(value);
     }
 }

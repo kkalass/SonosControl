@@ -38,6 +38,10 @@ public final class PossibleRecordStorageMedia implements Serializable {
     }
 
     public static PossibleRecordStorageMedia getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new PossibleRecordStorageMedia(value);
     }
 }

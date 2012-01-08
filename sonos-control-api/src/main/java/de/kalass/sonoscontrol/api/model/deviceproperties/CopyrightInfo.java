@@ -38,6 +38,10 @@ public final class CopyrightInfo implements Serializable {
     }
 
     public static CopyrightInfo getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new CopyrightInfo(value);
     }
 }

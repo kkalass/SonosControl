@@ -18,6 +18,9 @@ public enum Direction {
     }
 
     public static Direction getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (Direction v: values()) {
             if (v._value.equals(value)) {
                 return v;

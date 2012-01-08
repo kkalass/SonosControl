@@ -95,5 +95,64 @@ public class AlarmClockServiceTest extends AbstractSonosServiceTest<AlarmClockSe
         System.out.println("Got DailyIndexRefreshTime: " + value);
     }
 
+
+
+    @Test
+    public void retrieveFormatTest() throws Exception{
+        final GetFormatResult value = getService().retrieveFormat(new de.kalass.sonoscontrol.api.core.AsyncValue<GetFormatResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveFormat: " + value);
+    }
+
+
+    @Test
+    public void retrieveTimeZoneTest() throws Exception{
+        final GetTimeZoneResult value = getService().retrieveTimeZone(new de.kalass.sonoscontrol.api.core.AsyncValue<GetTimeZoneResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveTimeZone: " + value);
+    }
+
+    @Test
+    public void retrieveTimeZoneAndRuleTest() throws Exception{
+        final GetTimeZoneAndRuleResult value = getService().retrieveTimeZoneAndRule(new de.kalass.sonoscontrol.api.core.AsyncValue<GetTimeZoneAndRuleResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveTimeZoneAndRule: " + value);
+    }
+
+
+
+    @Test
+    public void retrieveTimeServerTest() throws Exception{
+        final TimeServer value = getService().retrieveTimeServer(new de.kalass.sonoscontrol.api.core.AsyncValue<TimeServer>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveTimeServer: " + value);
+    }
+
+
+
+    @Test
+    public void retrieveTimeNowTest() throws Exception{
+        final GetTimeNowResult value = getService().retrieveTimeNow(new de.kalass.sonoscontrol.api.core.AsyncValue<GetTimeNowResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveTimeNow: " + value);
+    }
+
+
+
+
+    @Test
+    public void listAlarmsTest() throws Exception{
+        final ListAlarmsResult value = getService().listAlarms(new de.kalass.sonoscontrol.api.core.AsyncValue<ListAlarmsResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got listAlarms: " + value);
+    }
+
+
+    @Test
+    public void retrieveDailyIndexRefreshTimeTest() throws Exception{
+        final DailyIndexRefreshTime value = getService().retrieveDailyIndexRefreshTime(new de.kalass.sonoscontrol.api.core.AsyncValue<DailyIndexRefreshTime>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveDailyIndexRefreshTime: " + value);
+    }
 }
 

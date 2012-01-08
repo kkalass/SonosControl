@@ -43,6 +43,10 @@ public final class SpeakerSize implements Serializable {
     }
 
     public static SpeakerSize getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new SpeakerSize(value);
     }
 }

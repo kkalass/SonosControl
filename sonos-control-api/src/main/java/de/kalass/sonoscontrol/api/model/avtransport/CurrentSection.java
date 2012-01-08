@@ -43,6 +43,10 @@ public final class CurrentSection implements Serializable {
     }
 
     public static CurrentSection getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new CurrentSection(value);
     }
 }

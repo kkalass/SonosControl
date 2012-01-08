@@ -38,6 +38,10 @@ public final class PossibleRecordQualityModes implements Serializable {
     }
 
     public static PossibleRecordQualityModes getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new PossibleRecordQualityModes(value);
     }
 }

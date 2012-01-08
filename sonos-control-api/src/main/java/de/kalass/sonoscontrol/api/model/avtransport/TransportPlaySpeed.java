@@ -18,6 +18,9 @@ public enum TransportPlaySpeed {
     }
 
     public static TransportPlaySpeed getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (TransportPlaySpeed v: values()) {
             if (v._value.equals(value)) {
                 return v;

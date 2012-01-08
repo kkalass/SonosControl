@@ -38,6 +38,10 @@ public final class DiagnosticID implements Serializable {
     }
 
     public static DiagnosticID getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new DiagnosticID(value);
     }
 }

@@ -38,6 +38,10 @@ public final class TimeZoneInformation implements Serializable {
     }
 
     public static TimeZoneInformation getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new TimeZoneInformation(value);
     }
 }

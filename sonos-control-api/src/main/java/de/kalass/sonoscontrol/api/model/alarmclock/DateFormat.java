@@ -38,6 +38,10 @@ public final class DateFormat implements Serializable {
     }
 
     public static DateFormat getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new DateFormat(value);
     }
 }

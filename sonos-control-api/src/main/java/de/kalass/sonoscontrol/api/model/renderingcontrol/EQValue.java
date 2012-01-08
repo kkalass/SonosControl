@@ -38,6 +38,10 @@ public final class EQValue implements Serializable {
     }
 
     public static EQValue getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new EQValue(value);
     }
 }

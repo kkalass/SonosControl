@@ -37,5 +37,26 @@ public class ${data.javaClassName.name}Test extends AbstractSonosServiceTest<${d
     </#if> 
     </#list>
 
+<#list data.actions as action>
+
+    <#if action.noArguments>
+    <#if action.out.void??>
+    /*
+    @Test
+    public void ${action.methodName}Test() throws Exception{
+        getService().${action.methodName}(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished ${action.methodName}");
+    }
+    */
+    <#else>
+    @Test
+    public void ${action.methodName}Test() throws Exception{
+        final ${action.out.javaClassName.name} value = getService().${action.methodName}(new de.kalass.sonoscontrol.api.core.AsyncValue<${action.out.javaClassName.name}>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got ${action.methodName}: " + value);
+    }
+    </#if>
+    </#if>
+  </#list>
 }
 

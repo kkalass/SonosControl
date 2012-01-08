@@ -38,6 +38,10 @@ public final class CurrentTransportActions implements Serializable {
     }
 
     public static CurrentTransportActions getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new CurrentTransportActions(value);
     }
 }

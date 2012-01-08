@@ -38,6 +38,10 @@ public final class BufferingResultCode implements Serializable {
     }
 
     public static BufferingResultCode getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new BufferingResultCode(value);
     }
 }

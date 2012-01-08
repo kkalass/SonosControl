@@ -21,6 +21,9 @@ public enum ConnectionStatus {
     }
 
     public static ConnectionStatus getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (ConnectionStatus v: values()) {
             if (v._value.equals(value)) {
                 return v;

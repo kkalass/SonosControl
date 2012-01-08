@@ -38,6 +38,10 @@ public final class SleepTimerGeneration implements Serializable {
     }
 
     public static SleepTimerGeneration getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new SleepTimerGeneration(value);
     }
 }

@@ -38,6 +38,10 @@ public final class TimeServer implements Serializable {
     }
 
     public static TimeServer getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new TimeServer(value);
     }
 }

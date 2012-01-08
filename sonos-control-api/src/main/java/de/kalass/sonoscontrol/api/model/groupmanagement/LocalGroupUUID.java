@@ -38,6 +38,10 @@ public final class LocalGroupUUID implements Serializable {
     }
 
     public static LocalGroupUUID getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new LocalGroupUUID(value);
     }
 }

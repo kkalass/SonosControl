@@ -56,5 +56,20 @@ public class ConnectionManagerServiceTest extends AbstractSonosServiceTest<Conne
         System.out.println("Got CurrentConnectionIDs: " + value);
     }
 
+
+    @Test
+    public void retrieveProtocolInfoTest() throws Exception{
+        final GetProtocolInfoResult value = getService().retrieveProtocolInfo(new de.kalass.sonoscontrol.api.core.AsyncValue<GetProtocolInfoResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveProtocolInfo: " + value);
+    }
+
+    @Test
+    public void retrieveCurrentConnectionIDsTest() throws Exception{
+        final CurrentConnectionIDs value = getService().retrieveCurrentConnectionIDs(new de.kalass.sonoscontrol.api.core.AsyncValue<CurrentConnectionIDs>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveCurrentConnectionIDs: " + value);
+    }
+
 }
 

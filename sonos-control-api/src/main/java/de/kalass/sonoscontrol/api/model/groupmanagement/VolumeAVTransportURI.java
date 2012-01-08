@@ -38,6 +38,10 @@ public final class VolumeAVTransportURI implements Serializable {
     }
 
     public static VolumeAVTransportURI getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new VolumeAVTransportURI(value);
     }
 }

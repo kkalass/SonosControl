@@ -38,6 +38,10 @@ public final class HouseholdID implements Serializable {
     }
 
     public static HouseholdID getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new HouseholdID(value);
     }
 }

@@ -43,6 +43,10 @@ public final class LeftVolume implements Serializable {
     }
 
     public static LeftVolume getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new LeftVolume(value);
     }
 }

@@ -38,6 +38,10 @@ public final class AlarmLoggedStartTime implements Serializable {
     }
 
     public static AlarmLoggedStartTime getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AlarmLoggedStartTime(value);
     }
 }

@@ -38,6 +38,10 @@ public final class Version implements Serializable {
     }
 
     public static Version getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new Version(value);
     }
 }

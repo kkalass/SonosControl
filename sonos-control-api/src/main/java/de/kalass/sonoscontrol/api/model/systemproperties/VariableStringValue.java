@@ -38,6 +38,10 @@ public final class VariableStringValue implements Serializable {
     }
 
     public static VariableStringValue getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new VariableStringValue(value);
     }
 }

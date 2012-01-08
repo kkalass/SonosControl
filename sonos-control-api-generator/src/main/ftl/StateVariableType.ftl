@@ -51,6 +51,10 @@ public final class ${data.javaClassName.name} implements Serializable {
     }
 
     public static ${data.javaClassName.name} getInstance(${data.dataType.javaClass.simpleName} value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new ${data.javaClassName.name}(value);
     }
 }

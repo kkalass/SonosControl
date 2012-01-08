@@ -24,6 +24,9 @@ public enum ${data.javaClassName.name} {
     }
 
     public static ${data.javaClassName.name} getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (${data.javaClassName.name} v: values()) {
             if (v._value.equals(value)) {
                 return v;

@@ -47,6 +47,10 @@ import freemarker.template.TemplateException;
 
 
 public class Generator {
+    /*
+     * The tests need to be adjusted by hand, do not generally generate them
+     */
+    private static final boolean GENERATE_TESTS = false;
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
@@ -75,15 +79,19 @@ public class Generator {
         delete(corePackageName.asFile(outputDir));
         delete(servicesPackageName.asFile(outputDir));
         delete(modelPackageName.asFile(outputDir));
-        delete(clingimplServicesPackageName.asFile(testsOutputDir));
         delete(clingimplServicesPackageName.asFile(clingImplOutputDir));
+        if (GENERATE_TESTS) {
+            delete(clingimplServicesPackageName.asFile(testsOutputDir));
+        }
 
         // copy all files that will not be generated
         copyFromTo(corePackageName, javaFilesInputDir, outputDir);
         copyFromTo(servicesPackageName, javaFilesInputDir, outputDir);
         copyFromTo(modelPackageName, javaFilesInputDir, outputDir);
         copyFromTo(clingimplServicesPackageName, javaFilesInputDir, clingImplOutputDir);
-        copyFromTo(clingimplServicesPackageName, clingTestFilesInputDir, testsOutputDir);
+        if (GENERATE_TESTS) {
+            copyFromTo(clingimplServicesPackageName, clingTestFilesInputDir, testsOutputDir);
+        }
 
         final List<UpnpService> types = UpnpServiceReader.readTypeDescriptions(docDir);
 
@@ -153,7 +161,7 @@ public class Generator {
         }
 
         System.out.println("");
-        System.out.println("Generating Cling Implementation and tests");
+        System.out.println("Generating Cling Implementation");
         for (IService service : serviceTypes) {
             final ServiceImpl type = new ServiceImpl(service, clingimplServicesPackageName);
             final File serviceFile = type.getJavaImplClassName().asFile(clingImplOutputDir);
@@ -165,13 +173,15 @@ public class Generator {
                 System.out.println("ServiceImpl: " + service.getUpnpName());
                 System.out.println("");
             }
-            final File serviceTestFile = type.getJavaImplClassName().getPackage()
-                    .childClass(type.getJavaClassName().getName() + "Test").asFile(testsOutputDir);
+            if (GENERATE_TESTS) {
+                final File serviceTestFile = type.getJavaImplClassName().getPackage()
+                        .childClass(type.getJavaClassName().getName() + "Test").asFile(testsOutputDir);
 
-            if (!serviceTestFile.exists()) {
-                Files.createParentDirs(serviceTestFile);
-                final String testSourceCode = render(cfg, "ServiceClingImplTest.ftl", type);
-                Files.write(testSourceCode, serviceTestFile, UTF8);
+                if (!serviceTestFile.exists()) {
+                    Files.createParentDirs(serviceTestFile);
+                    final String testSourceCode = render(cfg, "ServiceClingImplTest.ftl", type);
+                    Files.write(testSourceCode, serviceTestFile, UTF8);
+                }
             }
         }
 

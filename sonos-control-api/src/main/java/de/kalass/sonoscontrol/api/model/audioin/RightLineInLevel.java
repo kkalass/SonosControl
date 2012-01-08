@@ -38,6 +38,10 @@ public final class RightLineInLevel implements Serializable {
     }
 
     public static RightLineInLevel getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new RightLineInLevel(value);
     }
 }

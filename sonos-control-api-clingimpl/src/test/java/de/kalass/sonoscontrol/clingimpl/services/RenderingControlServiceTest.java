@@ -57,5 +57,66 @@ public class RenderingControlServiceTest extends AbstractSonosServiceTest<Render
         System.out.println("Got LastChange: " + value);
     }
 
+
+
+
+    @Test
+    public void resetBasicEQTest() throws Exception{
+        final ResetBasicEQResult value = getService().resetBasicEQ(new de.kalass.sonoscontrol.api.core.AsyncValue<ResetBasicEQResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got resetBasicEQ: " + value);
+    }
+
+
+
+
+
+
+
+
+    @Test
+    public void retrieveBassTest() throws Exception{
+        final Bass value = getService().retrieveBass(new de.kalass.sonoscontrol.api.core.AsyncValue<Bass>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveBass: " + value);
+    }
+
+
+    @Test
+    public void retrieveTrebleTest() throws Exception{
+        final Treble value = getService().retrieveTreble(new de.kalass.sonoscontrol.api.core.AsyncValue<Treble>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveTreble: " + value);
+    }
+
+
+
+
+
+
+    @Test
+    public void retrieveSupportsOutputFixedTest() throws Exception{
+        final SupportsOutputFixed value = getService().retrieveSupportsOutputFixed(new de.kalass.sonoscontrol.api.core.AsyncValue<SupportsOutputFixed>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveSupportsOutputFixed: " + value);
+    }
+
+    @Test
+    public void retrieveOutputFixedTest() throws Exception{
+        final OutputFixed value = getService().retrieveOutputFixed(new de.kalass.sonoscontrol.api.core.AsyncValue<OutputFixed>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveOutputFixed: " + value);
+    }
+
+
+    @Test
+    public void retrieveHeadphoneConnectedTest() throws Exception{
+        final HeadphoneConnected value = getService().retrieveHeadphoneConnected(new de.kalass.sonoscontrol.api.core.AsyncValue<HeadphoneConnected>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got retrieveHeadphoneConnected: " + value);
+    }
+
+
+
 }
 

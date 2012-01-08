@@ -18,6 +18,9 @@ public enum UpdateType {
     }
 
     public static UpdateType getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (UpdateType v: values()) {
             if (v._value.equals(value)) {
                 return v;

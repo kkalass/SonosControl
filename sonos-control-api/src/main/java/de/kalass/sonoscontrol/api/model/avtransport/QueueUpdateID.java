@@ -38,6 +38,10 @@ public final class QueueUpdateID implements Serializable {
     }
 
     public static QueueUpdateID getInstance(Long value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new QueueUpdateID(value);
     }
 }

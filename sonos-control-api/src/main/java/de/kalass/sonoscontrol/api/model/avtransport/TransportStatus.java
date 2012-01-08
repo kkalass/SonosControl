@@ -38,6 +38,10 @@ public final class TransportStatus implements Serializable {
     }
 
     public static TransportStatus getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new TransportStatus(value);
     }
 }

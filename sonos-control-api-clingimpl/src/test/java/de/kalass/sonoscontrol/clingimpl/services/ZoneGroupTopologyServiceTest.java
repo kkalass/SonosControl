@@ -63,5 +63,23 @@ public class ZoneGroupTopologyServiceTest extends AbstractSonosServiceTest<ZoneG
         System.out.println("Got AlarmRunSequence: " + value);
     }
 
+
+
+
+
+    /*
+    @Test
+    public void reportAlarmStartedRunningTest() throws Exception{
+        getService().reportAlarmStartedRunning(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished reportAlarmStartedRunning");
+    }
+    */
+
+    @Test
+    public void submitDiagnosticsTest() throws Exception{
+        final DiagnosticID value = getService().submitDiagnostics(new de.kalass.sonoscontrol.api.core.AsyncValue<DiagnosticID>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got submitDiagnostics: " + value);
+    }
 }
 

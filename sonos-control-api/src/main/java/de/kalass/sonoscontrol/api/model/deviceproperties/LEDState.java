@@ -18,6 +18,9 @@ public enum LEDState {
     }
 
     public static LEDState getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (LEDState v: values()) {
             if (v._value.equals(value)) {
                 return v;

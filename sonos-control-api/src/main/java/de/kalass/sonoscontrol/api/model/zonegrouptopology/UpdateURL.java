@@ -38,6 +38,10 @@ public final class UpdateURL implements Serializable {
     }
 
     public static UpdateURL getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new UpdateURL(value);
     }
 }

@@ -36,5 +36,20 @@ public class MusicServicesServiceTest extends AbstractSonosServiceTest<MusicServ
         System.out.println("Got ServiceListVersion: " + value);
     }
 
+
+    @Test
+    public void listAvailableServicesTest() throws Exception{
+        final ListAvailableServicesResult value = getService().listAvailableServices(new de.kalass.sonoscontrol.api.core.AsyncValue<ListAvailableServicesResult>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got listAvailableServices: " + value);
+    }
+
+    /*
+    @Test
+    public void updateAvailableServicesTest() throws Exception{
+        getService().updateAvailableServices(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        System.out.println("Finished updateAvailableServices");
+    }
+    */
 }
 

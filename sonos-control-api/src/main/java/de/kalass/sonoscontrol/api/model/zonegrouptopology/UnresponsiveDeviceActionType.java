@@ -18,6 +18,9 @@ public enum UnresponsiveDeviceActionType {
     }
 
     public static UnresponsiveDeviceActionType getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (UnresponsiveDeviceActionType v: values()) {
             if (v._value.equals(value)) {
                 return v;

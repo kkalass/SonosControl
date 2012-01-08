@@ -38,6 +38,10 @@ public final class AudioInputName implements Serializable {
     }
 
     public static AudioInputName getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AudioInputName(value);
     }
 }

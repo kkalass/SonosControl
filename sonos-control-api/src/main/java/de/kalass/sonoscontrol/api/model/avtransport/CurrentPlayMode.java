@@ -20,6 +20,9 @@ public enum CurrentPlayMode {
     }
 
     public static CurrentPlayMode getInstance(String value) {
+        if ("NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
         for (CurrentPlayMode v: values()) {
             if (v._value.equals(value)) {
                 return v;

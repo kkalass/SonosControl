@@ -38,6 +38,10 @@ public final class AccountPassword implements Serializable {
     }
 
     public static AccountPassword getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AccountPassword(value);
     }
 }

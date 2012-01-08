@@ -38,6 +38,10 @@ public final class AlarmProgramURI implements Serializable {
     }
 
     public static AlarmProgramURI getInstance(String value) {
+        if (value != null && "NOT_IMPLEMENTED".equals(value)) {
+            return null;
+        }
+        
         return value == null ? null : new AlarmProgramURI(value);
     }
 }
