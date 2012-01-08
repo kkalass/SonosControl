@@ -17,8 +17,8 @@ public enum EnqueueAsNext {
 
     public abstract boolean getValue();
 
-    public static EnqueueAsNext getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static EnqueueAsNext getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

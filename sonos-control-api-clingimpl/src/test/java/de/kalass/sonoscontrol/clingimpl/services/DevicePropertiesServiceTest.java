@@ -45,39 +45,44 @@ public class DevicePropertiesServiceTest extends AbstractSonosServiceTest<Device
         return device.getDevicePropertiesService();
     }
 
+  @Override
+    protected String getServiceName() {
+        return "DevicePropertiesService";
+    }
+    
     @Test
     public void testGetSettingsReplicationState() {
-        final SettingsReplicationState value = getService().getSettingsReplicationState();
+        final SettingsReplicationState value = getService().getLastValueForSettingsReplicationState();
         Assert.assertNotNull(value);
         System.out.println("Got SettingsReplicationState: " + value);
     }
     @Test
     public void testGetZoneName() {
-        final ZoneName value = getService().getZoneName();
+        final ZoneName value = getService().getLastValueForZoneName();
         Assert.assertNotNull(value);
         System.out.println("Got ZoneName: " + value);
     }
     @Test
     public void testGetChannelMapSet() {
-        final ChannelMapSet value = getService().getChannelMapSet();
+        final ChannelMapSet value = getService().getLastValueForChannelMapSet();
         Assert.assertNotNull(value);
         System.out.println("Got ChannelMapSet: " + value);
     }
     @Test
     public void testGetInvisible() {
-        final Invisible value = getService().getInvisible();
+        final Invisible value = getService().getLastValueForInvisible();
         Assert.assertNotNull(value);
         System.out.println("Got Invisible: " + value);
     }
     @Test
     public void testGetIsZoneBridge() {
-        final IsZoneBridge value = getService().getIsZoneBridge();
+        final IsZoneBridge value = getService().getLastValueForIsZoneBridge();
         Assert.assertNotNull(value);
         System.out.println("Got IsZoneBridge: " + value);
     }
     @Test
     public void testGetIcon() {
-        final Icon value = getService().getIcon();
+        final Icon value = getService().getLastValueForIcon();
         Assert.assertNotNull(value);
         System.out.println("Got Icon: " + value);
     }

@@ -17,8 +17,8 @@ public enum SnoozeRunning {
 
     public abstract boolean getValue();
 
-    public static SnoozeRunning getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static SnoozeRunning getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

@@ -4,6 +4,7 @@
 package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.EventListener;
+import javax.annotation.CheckForNull;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -38,43 +39,50 @@ import de.kalass.sonoscontrol.api.model.alarmclock.TimeFormat;
 public interface AlarmClockService {
 
 
-    TimeGeneration getTimeGeneration();
+    @CheckForNull
+    TimeGeneration getLastValueForTimeGeneration();
 
     void addTimeGenerationListener(EventListener<TimeGeneration> listener);
 
     void removeTimeGenerationListener(EventListener<TimeGeneration> listener);
 
-    AlarmListVersion getAlarmListVersion();
+    @CheckForNull
+    AlarmListVersion getLastValueForAlarmListVersion();
 
     void addAlarmListVersionListener(EventListener<AlarmListVersion> listener);
 
     void removeAlarmListVersionListener(EventListener<AlarmListVersion> listener);
 
-    DateFormat getDateFormat();
+    @CheckForNull
+    DateFormat getLastValueForDateFormat();
 
     void addDateFormatListener(EventListener<DateFormat> listener);
 
     void removeDateFormatListener(EventListener<DateFormat> listener);
 
-    TimeServer getTimeServer();
+    @CheckForNull
+    TimeServer getLastValueForTimeServer();
 
     void addTimeServerListener(EventListener<TimeServer> listener);
 
     void removeTimeServerListener(EventListener<TimeServer> listener);
 
-    TimeZone getTimeZone();
+    @CheckForNull
+    TimeZone getLastValueForTimeZone();
 
     void addTimeZoneListener(EventListener<TimeZone> listener);
 
     void removeTimeZoneListener(EventListener<TimeZone> listener);
 
-    TimeFormat getTimeFormat();
+    @CheckForNull
+    TimeFormat getLastValueForTimeFormat();
 
     void addTimeFormatListener(EventListener<TimeFormat> listener);
 
     void removeTimeFormatListener(EventListener<TimeFormat> listener);
 
-    DailyIndexRefreshTime getDailyIndexRefreshTime();
+    @CheckForNull
+    DailyIndexRefreshTime getLastValueForDailyIndexRefreshTime();
 
     void addDailyIndexRefreshTimeListener(EventListener<DailyIndexRefreshTime> listener);
 

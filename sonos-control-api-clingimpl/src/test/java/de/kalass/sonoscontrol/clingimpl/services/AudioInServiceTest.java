@@ -31,39 +31,44 @@ public class AudioInServiceTest extends AbstractSonosServiceTest<AudioInService>
         return device.getAudioInService();
     }
 
+  @Override
+    protected String getServiceName() {
+        return "AudioInService";
+    }
+    
     @Test
     public void testGetRightLineInLevel() {
-        final RightLineInLevel value = getService().getRightLineInLevel();
+        final RightLineInLevel value = getService().getLastValueForRightLineInLevel();
         Assert.assertNotNull(value);
         System.out.println("Got RightLineInLevel: " + value);
     }
     @Test
     public void testGetLeftLineInLevel() {
-        final LeftLineInLevel value = getService().getLeftLineInLevel();
+        final LeftLineInLevel value = getService().getLastValueForLeftLineInLevel();
         Assert.assertNotNull(value);
         System.out.println("Got LeftLineInLevel: " + value);
     }
     @Test
     public void testGetAudioInputName() {
-        final AudioInputName value = getService().getAudioInputName();
+        final AudioInputName value = getService().getLastValueForAudioInputName();
         Assert.assertNotNull(value);
         System.out.println("Got AudioInputName: " + value);
     }
     @Test
     public void testGetLineInConnected() {
-        final LineInConnected value = getService().getLineInConnected();
+        final LineInConnected value = getService().getLastValueForLineInConnected();
         Assert.assertNotNull(value);
         System.out.println("Got LineInConnected: " + value);
     }
     @Test
     public void testGetPlaying() {
-        final Playing value = getService().getPlaying();
+        final Playing value = getService().getLastValueForPlaying();
         Assert.assertNotNull(value);
         System.out.println("Got Playing: " + value);
     }
     @Test
     public void testGetIcon() {
-        final Icon value = getService().getIcon();
+        final Icon value = getService().getLastValueForIcon();
         Assert.assertNotNull(value);
         System.out.println("Got Icon: " + value);
     }

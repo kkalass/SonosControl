@@ -17,8 +17,8 @@ public enum AutoplayIncludeLinkedZones {
 
     public abstract boolean getValue();
 
-    public static AutoplayIncludeLinkedZones getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static AutoplayIncludeLinkedZones getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

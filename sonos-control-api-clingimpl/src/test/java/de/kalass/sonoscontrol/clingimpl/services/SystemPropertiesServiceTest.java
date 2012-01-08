@@ -28,6 +28,11 @@ public class SystemPropertiesServiceTest extends AbstractSonosServiceTest<System
         return device.getSystemPropertiesService();
     }
 
+  @Override
+    protected String getServiceName() {
+        return "SystemPropertiesService";
+    }
+    
 
 }
 

@@ -613,7 +613,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
         LastRenderingControlChange newLastChange = null;
         LastRenderingControlChange oldLastChange = (LastRenderingControlChange)stored.get("LastChange");
         try {
-        newLastChange = convertLastChange((String)getValue("string", ((StateVariableValue)values.get("LastChange")).getValue()));
+            newLastChange = convertLastChange((String)getValue("string", values.get("LastChange")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for LastChange, will ignore", e);
             // make sure the value is not changed/overridden
@@ -663,7 +663,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
     
     
 
-    public LastRenderingControlChange getLastChange() {
+    public LastRenderingControlChange getLastValueForLastChange() {
         return (LastRenderingControlChange)getEventedValueOrWait("LastChange");
     }
 

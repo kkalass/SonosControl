@@ -187,7 +187,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         RightLineInLevel newRightLineInLevel = null;
         RightLineInLevel oldRightLineInLevel = (RightLineInLevel)stored.get("RightLineInLevel");
         try {
-        newRightLineInLevel = convertRightLineInLevel((Long)getValue("i4", ((StateVariableValue)values.get("RightLineInLevel")).getValue()));
+            newRightLineInLevel = convertRightLineInLevel((Long)getValue("i4", values.get("RightLineInLevel")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for RightLineInLevel, will ignore", e);
             // make sure the value is not changed/overridden
@@ -201,7 +201,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         LeftLineInLevel newLeftLineInLevel = null;
         LeftLineInLevel oldLeftLineInLevel = (LeftLineInLevel)stored.get("LeftLineInLevel");
         try {
-        newLeftLineInLevel = convertLeftLineInLevel((Long)getValue("i4", ((StateVariableValue)values.get("LeftLineInLevel")).getValue()));
+            newLeftLineInLevel = convertLeftLineInLevel((Long)getValue("i4", values.get("LeftLineInLevel")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for LeftLineInLevel, will ignore", e);
             // make sure the value is not changed/overridden
@@ -215,7 +215,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         AudioInputName newAudioInputName = null;
         AudioInputName oldAudioInputName = (AudioInputName)stored.get("AudioInputName");
         try {
-        newAudioInputName = convertAudioInputName((String)getValue("string", ((StateVariableValue)values.get("AudioInputName")).getValue()));
+            newAudioInputName = convertAudioInputName((String)getValue("string", values.get("AudioInputName")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for AudioInputName, will ignore", e);
             // make sure the value is not changed/overridden
@@ -229,7 +229,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         LineInConnected newLineInConnected = null;
         LineInConnected oldLineInConnected = (LineInConnected)stored.get("LineInConnected");
         try {
-        newLineInConnected = convertLineInConnected((Boolean)getValue("boolean", ((StateVariableValue)values.get("LineInConnected")).getValue()));
+            newLineInConnected = convertLineInConnected((Boolean)getValue("boolean", values.get("LineInConnected")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for LineInConnected, will ignore", e);
             // make sure the value is not changed/overridden
@@ -243,7 +243,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         Playing newPlaying = null;
         Playing oldPlaying = (Playing)stored.get("Playing");
         try {
-        newPlaying = convertPlaying((Boolean)getValue("boolean", ((StateVariableValue)values.get("Playing")).getValue()));
+            newPlaying = convertPlaying((Boolean)getValue("boolean", values.get("Playing")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for Playing, will ignore", e);
             // make sure the value is not changed/overridden
@@ -257,7 +257,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         Icon newIcon = null;
         Icon oldIcon = (Icon)stored.get("Icon");
         try {
-        newIcon = convertIcon((String)getValue("string", ((StateVariableValue)values.get("Icon")).getValue()));
+            newIcon = convertIcon((String)getValue("string", values.get("Icon")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for Icon, will ignore", e);
             // make sure the value is not changed/overridden
@@ -305,7 +305,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
     }
 
 
-    public RightLineInLevel getRightLineInLevel() {
+    public RightLineInLevel getLastValueForRightLineInLevel() {
         return (RightLineInLevel)getEventedValueOrWait("RightLineInLevel");
     }
 
@@ -335,7 +335,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         return RightLineInLevel.getInstance(rawValue);
     }
 
-    public LeftLineInLevel getLeftLineInLevel() {
+    public LeftLineInLevel getLastValueForLeftLineInLevel() {
         return (LeftLineInLevel)getEventedValueOrWait("LeftLineInLevel");
     }
 
@@ -366,7 +366,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
     }
     
 
-    public AudioInputName getAudioInputName() {
+    public AudioInputName getLastValueForAudioInputName() {
         return (AudioInputName)getEventedValueOrWait("AudioInputName");
     }
 
@@ -398,7 +398,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
     
     
 
-    public LineInConnected getLineInConnected() {
+    public LineInConnected getLastValueForLineInConnected() {
         return (LineInConnected)getEventedValueOrWait("LineInConnected");
     }
 
@@ -428,7 +428,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         return LineInConnected.getInstance(rawValue);
     }
 
-    public Playing getPlaying() {
+    public Playing getLastValueForPlaying() {
         return (Playing)getEventedValueOrWait("Playing");
     }
 
@@ -458,7 +458,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         return Playing.getInstance(rawValue);
     }
 
-    public Icon getIcon() {
+    public Icon getLastValueForIcon() {
         return (Icon)getEventedValueOrWait("Icon");
     }
 

@@ -17,8 +17,8 @@ public enum ResetVolumeAfter {
 
     public abstract boolean getValue();
 
-    public static ResetVolumeAfter getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static ResetVolumeAfter getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

@@ -36,6 +36,69 @@ import de.kalass.sonoscontrol.clingimpl.services.SystemPropertiesServiceClingImp
 
 public class SonosDeviceImpl implements SonosDevice {
 
+    private static final class ZoneGroupTopologyServiceClingImpl extends
+    AbstractZoneGroupTopologyServiceClingImpl {
+        private ZoneGroupTopologyServiceClingImpl(UpnpService upnpService,
+                Device device, ErrorStrategy errorStrategy) {
+            super(upnpService, device, errorStrategy);
+        }
+
+        @Override
+        protected ZoneGroupState convertZoneGroupState(String rawValue) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        protected UpdateItem convertUpdateItem(String rawValue) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        protected ThirdPartyMediaServers convertThirdPartyMediaServers(
+                String rawValue) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        protected AvailableSoftwareUpdate convertAvailableSoftwareUpdate(
+                String rawValue) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    private static final class AVTransportServiceClingImpl extends
+    AbstractAVTransportServiceClingImpl {
+        private AVTransportServiceClingImpl(UpnpService upnpService,
+                Device device, ErrorStrategy errorStrategy) {
+            super(upnpService, device, errorStrategy);
+        }
+
+        @Override
+        protected LastAVTransportChange convertLastChange(String rawValue) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    private static final class RenderingControlServiceClingImpl extends
+    AbstractRenderingControlServiceClingImpl {
+        private RenderingControlServiceClingImpl(UpnpService upnpService,
+                Device device, ErrorStrategy errorStrategy) {
+            super(upnpService, device, errorStrategy);
+        }
+
+        @Override
+        protected LastRenderingControlChange convertLastChange(
+                String rawValue) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException();
+        }
+    }
+
     private final DevicePropertiesService _propsService;
     private final ZoneName _zoneName;
     @SuppressWarnings("rawtypes")
@@ -65,87 +128,54 @@ public class SonosDeviceImpl implements SonosDevice {
 
     @Override
     public RenderingControlService getRenderingControlService() {
-        return new AbstractRenderingControlServiceClingImpl(_service, _device, _errorStrategy) {
-
-            @Override
-            protected LastRenderingControlChange convertLastChange(
-                    String rawValue) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException();
-            }
-
-        };
+        final RenderingControlServiceClingImpl service = new RenderingControlServiceClingImpl(_service, _device, _errorStrategy);
+        return service.isAvailable() ? service : null;
     }
     @Override
     public AVTransportService getAVTransportService() {
-        return new AbstractAVTransportServiceClingImpl(_service, _device, _errorStrategy) {
-
-            @Override
-            protected LastAVTransportChange convertLastChange(String rawValue) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException();
-            }};
+        final AVTransportServiceClingImpl service = new AVTransportServiceClingImpl(_service, _device, _errorStrategy);
+        return service.isAvailable() ? service : null;
     }
 
     @Override
     public AlarmClockService getAlarmClockService() {
-        return new AlarmClockServiceClingImpl(_service, _device, _errorStrategy);
+        final AlarmClockServiceClingImpl service = new AlarmClockServiceClingImpl(_service, _device, _errorStrategy);
+        return service.isAvailable() ? service : null;
     }
 
     @Override
     public AudioInService getAudioInService() {
-        return new AudioInServiceClingImpl(_service, _device, _errorStrategy);
+        final AudioInServiceClingImpl service = new AudioInServiceClingImpl(_service, _device, _errorStrategy);
+        return service.isAvailable() ? service : null;
     }
 
     @Override
     public ConnectionManagerService getConnectionManagerService() {
-        return new ConnectionManagerServiceClingImpl(_service, _device, _errorStrategy);
+        final ConnectionManagerServiceClingImpl service = new ConnectionManagerServiceClingImpl(_service, _device, _errorStrategy);
+        return service.isAvailable() ? service : null;
     }
 
     @Override
     public GroupManagementService getGroupManagementService() {
-        return new GroupManagementServiceClingImpl(_service, _device, _errorStrategy);
+        final GroupManagementServiceClingImpl service = new GroupManagementServiceClingImpl(_service, _device, _errorStrategy);
+        return service.isAvailable() ? service : null;
     }
 
     @Override
     public MusicServicesService getMusicServicesService() {
-        return new MusicServicesServiceClingImpl(_service, _device, _errorStrategy);
+        final MusicServicesServiceClingImpl service = new MusicServicesServiceClingImpl(_service, _device, _errorStrategy);
+        return service.isAvailable() ? service : null;
     }
 
     @Override
     public SystemPropertiesService getSystemPropertiesService() {
-        return new SystemPropertiesServiceClingImpl(_service, _device, _errorStrategy);
+        final SystemPropertiesServiceClingImpl service = new SystemPropertiesServiceClingImpl(_service, _device, _errorStrategy);
+        return service.isAvailable() ? service : null;
     }
 
     @Override
     public ZoneGroupTopologyService getZoneGroupTopologyService() {
-        return new AbstractZoneGroupTopologyServiceClingImpl(_service, _device, _errorStrategy) {
-
-            @Override
-            protected ZoneGroupState convertZoneGroupState(String rawValue) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            protected UpdateItem convertUpdateItem(String rawValue) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            protected ThirdPartyMediaServers convertThirdPartyMediaServers(
-                    String rawValue) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            protected AvailableSoftwareUpdate convertAvailableSoftwareUpdate(
-                    String rawValue) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException();
-            }
-        };
+        final ZoneGroupTopologyServiceClingImpl service = new ZoneGroupTopologyServiceClingImpl(_service, _device, _errorStrategy);
+        return service.isAvailable() ? service : null;
     }
 }

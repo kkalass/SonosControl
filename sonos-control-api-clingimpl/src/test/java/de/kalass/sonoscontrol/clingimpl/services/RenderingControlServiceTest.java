@@ -45,9 +45,14 @@ public class RenderingControlServiceTest extends AbstractSonosServiceTest<Render
         return device.getRenderingControlService();
     }
 
+  @Override
+    protected String getServiceName() {
+        return "RenderingControlService";
+    }
+    
     @Test
     public void testGetLastChange() {
-        final LastRenderingControlChange value = getService().getLastChange();
+        final LastRenderingControlChange value = getService().getLastValueForLastChange();
         Assert.assertNotNull(value);
         System.out.println("Got LastChange: " + value);
     }

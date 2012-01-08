@@ -1,5 +1,6 @@
 package de.kalass.sonoscontrol.api.control;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
@@ -22,13 +23,13 @@ public interface SonosDevice {
     @Nonnull
     AlarmClockService getAlarmClockService();
 
-    @Nonnull
+    @CheckForNull
     AudioInService getAudioInService();
 
     @Nonnull
     AVTransportService getAVTransportService();
 
-    @Nonnull
+    @CheckForNull
     ConnectionManagerService getConnectionManagerService();
 
     @Nonnull

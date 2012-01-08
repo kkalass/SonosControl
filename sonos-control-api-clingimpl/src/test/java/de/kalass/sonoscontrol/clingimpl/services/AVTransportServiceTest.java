@@ -91,9 +91,14 @@ public class AVTransportServiceTest extends AbstractSonosServiceTest<AVTransport
         return device.getAVTransportService();
     }
 
+  @Override
+    protected String getServiceName() {
+        return "AVTransportService";
+    }
+    
     @Test
     public void testGetLastChange() {
-        final LastAVTransportChange value = getService().getLastChange();
+        final LastAVTransportChange value = getService().getLastValueForLastChange();
         Assert.assertNotNull(value);
         System.out.println("Got LastChange: " + value);
     }

@@ -17,8 +17,8 @@ public enum Playing {
 
     public abstract boolean getValue();
 
-    public static Playing getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static Playing getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

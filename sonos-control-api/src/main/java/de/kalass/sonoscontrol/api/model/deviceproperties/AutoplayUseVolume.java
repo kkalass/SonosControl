@@ -17,8 +17,8 @@ public enum AutoplayUseVolume {
 
     public abstract boolean getValue();
 
-    public static AutoplayUseVolume getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static AutoplayUseVolume getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

@@ -4,6 +4,7 @@
 package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.EventListener;
+import javax.annotation.CheckForNull;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -19,25 +20,29 @@ import de.kalass.sonoscontrol.api.model.groupmanagement.TransportSettings;
 public interface GroupManagementService {
 
 
-    LocalGroupUUID getLocalGroupUUID();
+    @CheckForNull
+    LocalGroupUUID getLastValueForLocalGroupUUID();
 
     void addLocalGroupUUIDListener(EventListener<LocalGroupUUID> listener);
 
     void removeLocalGroupUUIDListener(EventListener<LocalGroupUUID> listener);
 
-    ResetVolumeAfter getResetVolumeAfter();
+    @CheckForNull
+    ResetVolumeAfter getLastValueForResetVolumeAfter();
 
     void addResetVolumeAfterListener(EventListener<ResetVolumeAfter> listener);
 
     void removeResetVolumeAfterListener(EventListener<ResetVolumeAfter> listener);
 
-    GroupCoordinatorIsLocal getGroupCoordinatorIsLocal();
+    @CheckForNull
+    GroupCoordinatorIsLocal getLastValueForGroupCoordinatorIsLocal();
 
     void addGroupCoordinatorIsLocalListener(EventListener<GroupCoordinatorIsLocal> listener);
 
     void removeGroupCoordinatorIsLocalListener(EventListener<GroupCoordinatorIsLocal> listener);
 
-    VolumeAVTransportURI getVolumeAVTransportURI();
+    @CheckForNull
+    VolumeAVTransportURI getLastValueForVolumeAVTransportURI();
 
     void addVolumeAVTransportURIListener(EventListener<VolumeAVTransportURI> listener);
 

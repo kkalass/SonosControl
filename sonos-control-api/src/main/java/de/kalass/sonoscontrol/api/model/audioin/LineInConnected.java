@@ -17,8 +17,8 @@ public enum LineInConnected {
 
     public abstract boolean getValue();
 
-    public static LineInConnected getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static LineInConnected getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

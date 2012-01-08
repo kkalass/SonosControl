@@ -28,27 +28,32 @@ public class GroupManagementServiceTest extends AbstractSonosServiceTest<GroupMa
         return device.getGroupManagementService();
     }
 
+  @Override
+    protected String getServiceName() {
+        return "GroupManagementService";
+    }
+    
     @Test
     public void testGetLocalGroupUUID() {
-        final LocalGroupUUID value = getService().getLocalGroupUUID();
+        final LocalGroupUUID value = getService().getLastValueForLocalGroupUUID();
         Assert.assertNotNull(value);
         System.out.println("Got LocalGroupUUID: " + value);
     }
     @Test
     public void testGetResetVolumeAfter() {
-        final ResetVolumeAfter value = getService().getResetVolumeAfter();
+        final ResetVolumeAfter value = getService().getLastValueForResetVolumeAfter();
         Assert.assertNotNull(value);
         System.out.println("Got ResetVolumeAfter: " + value);
     }
     @Test
     public void testGetGroupCoordinatorIsLocal() {
-        final GroupCoordinatorIsLocal value = getService().getGroupCoordinatorIsLocal();
+        final GroupCoordinatorIsLocal value = getService().getLastValueForGroupCoordinatorIsLocal();
         Assert.assertNotNull(value);
         System.out.println("Got GroupCoordinatorIsLocal: " + value);
     }
     @Test
     public void testGetVolumeAVTransportURI() {
-        final VolumeAVTransportURI value = getService().getVolumeAVTransportURI();
+        final VolumeAVTransportURI value = getService().getLastValueForVolumeAVTransportURI();
         Assert.assertNotNull(value);
         System.out.println("Got VolumeAVTransportURI: " + value);
     }

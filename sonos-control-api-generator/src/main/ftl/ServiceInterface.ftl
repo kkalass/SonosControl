@@ -4,6 +4,7 @@
 package ${data.javaClassName.package.FQN};
 
 import de.kalass.sonoscontrol.api.core.EventListener;
+import javax.annotation.CheckForNull;
 
 <#list data.neededImports as import>
 import ${import.FQN};
@@ -14,7 +15,8 @@ public interface ${data.javaClassName.name} {
   <#list data.stateVariables as stateVariable>
     <#if stateVariable.sendEvents>
 
-    ${stateVariable.type.javaClassName.name} get${stateVariable.stateVariableName}();
+    @CheckForNull
+    ${stateVariable.type.javaClassName.name} getLastValueFor${stateVariable.stateVariableName}();
 
     void add${stateVariable.stateVariableName}Listener(EventListener<${stateVariable.type.javaClassName.name}> listener);
 

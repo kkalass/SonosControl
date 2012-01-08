@@ -469,7 +469,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         SettingsReplicationState newSettingsReplicationState = null;
         SettingsReplicationState oldSettingsReplicationState = (SettingsReplicationState)stored.get("SettingsReplicationState");
         try {
-        newSettingsReplicationState = convertSettingsReplicationState((String)getValue("string", ((StateVariableValue)values.get("SettingsReplicationState")).getValue()));
+            newSettingsReplicationState = convertSettingsReplicationState((String)getValue("string", values.get("SettingsReplicationState")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for SettingsReplicationState, will ignore", e);
             // make sure the value is not changed/overridden
@@ -483,7 +483,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         ZoneName newZoneName = null;
         ZoneName oldZoneName = (ZoneName)stored.get("ZoneName");
         try {
-        newZoneName = convertZoneName((String)getValue("string", ((StateVariableValue)values.get("ZoneName")).getValue()));
+            newZoneName = convertZoneName((String)getValue("string", values.get("ZoneName")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for ZoneName, will ignore", e);
             // make sure the value is not changed/overridden
@@ -497,7 +497,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         ChannelMapSet newChannelMapSet = null;
         ChannelMapSet oldChannelMapSet = (ChannelMapSet)stored.get("ChannelMapSet");
         try {
-        newChannelMapSet = convertChannelMapSet((String)getValue("string", ((StateVariableValue)values.get("ChannelMapSet")).getValue()));
+            newChannelMapSet = convertChannelMapSet((String)getValue("string", values.get("ChannelMapSet")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for ChannelMapSet, will ignore", e);
             // make sure the value is not changed/overridden
@@ -511,7 +511,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         Invisible newInvisible = null;
         Invisible oldInvisible = (Invisible)stored.get("Invisible");
         try {
-        newInvisible = convertInvisible((Boolean)getValue("boolean", ((StateVariableValue)values.get("Invisible")).getValue()));
+            newInvisible = convertInvisible((Boolean)getValue("boolean", values.get("Invisible")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for Invisible, will ignore", e);
             // make sure the value is not changed/overridden
@@ -525,7 +525,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         IsZoneBridge newIsZoneBridge = null;
         IsZoneBridge oldIsZoneBridge = (IsZoneBridge)stored.get("IsZoneBridge");
         try {
-        newIsZoneBridge = convertIsZoneBridge((Boolean)getValue("boolean", ((StateVariableValue)values.get("IsZoneBridge")).getValue()));
+            newIsZoneBridge = convertIsZoneBridge((Boolean)getValue("boolean", values.get("IsZoneBridge")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for IsZoneBridge, will ignore", e);
             // make sure the value is not changed/overridden
@@ -539,7 +539,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         Icon newIcon = null;
         Icon oldIcon = (Icon)stored.get("Icon");
         try {
-        newIcon = convertIcon((String)getValue("string", ((StateVariableValue)values.get("Icon")).getValue()));
+            newIcon = convertIcon((String)getValue("string", values.get("Icon")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for Icon, will ignore", e);
             // make sure the value is not changed/overridden
@@ -587,7 +587,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
     }
 
 
-    public SettingsReplicationState getSettingsReplicationState() {
+    public SettingsReplicationState getLastValueForSettingsReplicationState() {
         return (SettingsReplicationState)getEventedValueOrWait("SettingsReplicationState");
     }
 
@@ -617,7 +617,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         return SettingsReplicationState.getInstance(rawValue);
     }
 
-    public ZoneName getZoneName() {
+    public ZoneName getLastValueForZoneName() {
         return (ZoneName)getEventedValueOrWait("ZoneName");
     }
 
@@ -648,7 +648,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
     }
     
 
-    public ChannelMapSet getChannelMapSet() {
+    public ChannelMapSet getLastValueForChannelMapSet() {
         return (ChannelMapSet)getEventedValueOrWait("ChannelMapSet");
     }
 
@@ -690,7 +690,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
     
     
 
-    public Invisible getInvisible() {
+    public Invisible getLastValueForInvisible() {
         return (Invisible)getEventedValueOrWait("Invisible");
     }
 
@@ -721,7 +721,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
     }
     
 
-    public IsZoneBridge getIsZoneBridge() {
+    public IsZoneBridge getLastValueForIsZoneBridge() {
         return (IsZoneBridge)getEventedValueOrWait("IsZoneBridge");
     }
 
@@ -753,7 +753,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
     
     
 
-    public Icon getIcon() {
+    public Icon getLastValueForIcon() {
         return (Icon)getEventedValueOrWait("Icon");
     }
 

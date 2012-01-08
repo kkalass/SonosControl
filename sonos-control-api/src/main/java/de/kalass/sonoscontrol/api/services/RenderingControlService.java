@@ -4,6 +4,7 @@
 package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.EventListener;
+import javax.annotation.CheckForNull;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -36,7 +37,8 @@ import de.kalass.sonoscontrol.api.eventmodels.renderingcontrol.LastRenderingCont
 public interface RenderingControlService {
 
 
-    LastRenderingControlChange getLastChange();
+    @CheckForNull
+    LastRenderingControlChange getLastValueForLastChange();
 
     void addLastChangeListener(EventListener<LastRenderingControlChange> listener);
 

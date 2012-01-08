@@ -17,8 +17,8 @@ public enum ${data.javaClassName.name} {
 
     public abstract boolean getValue();
 
-    public static ${data.javaClassName.name} getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static ${data.javaClassName.name} getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

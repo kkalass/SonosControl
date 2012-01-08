@@ -4,6 +4,7 @@
 package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.EventListener;
+import javax.annotation.CheckForNull;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -22,37 +23,43 @@ import de.kalass.sonoscontrol.api.model.audioin.Icon;
 public interface AudioInService {
 
 
-    RightLineInLevel getRightLineInLevel();
+    @CheckForNull
+    RightLineInLevel getLastValueForRightLineInLevel();
 
     void addRightLineInLevelListener(EventListener<RightLineInLevel> listener);
 
     void removeRightLineInLevelListener(EventListener<RightLineInLevel> listener);
 
-    LeftLineInLevel getLeftLineInLevel();
+    @CheckForNull
+    LeftLineInLevel getLastValueForLeftLineInLevel();
 
     void addLeftLineInLevelListener(EventListener<LeftLineInLevel> listener);
 
     void removeLeftLineInLevelListener(EventListener<LeftLineInLevel> listener);
 
-    AudioInputName getAudioInputName();
+    @CheckForNull
+    AudioInputName getLastValueForAudioInputName();
 
     void addAudioInputNameListener(EventListener<AudioInputName> listener);
 
     void removeAudioInputNameListener(EventListener<AudioInputName> listener);
 
-    LineInConnected getLineInConnected();
+    @CheckForNull
+    LineInConnected getLastValueForLineInConnected();
 
     void addLineInConnectedListener(EventListener<LineInConnected> listener);
 
     void removeLineInConnectedListener(EventListener<LineInConnected> listener);
 
-    Playing getPlaying();
+    @CheckForNull
+    Playing getLastValueForPlaying();
 
     void addPlayingListener(EventListener<Playing> listener);
 
     void removePlayingListener(EventListener<Playing> listener);
 
-    Icon getIcon();
+    @CheckForNull
+    Icon getLastValueForIcon();
 
     void addIconListener(EventListener<Icon> listener);
 

@@ -21,11 +21,16 @@ public class ${data.javaClassName.name}Test extends AbstractSonosServiceTest<${d
         return device.get${data.javaClassName.name}();
     }
 
+  @Override
+    protected String getServiceName() {
+        return "${data.javaClassName.name}";
+    }
+    
     <#list data.stateVariables as stateVariable>
     <#if stateVariable.sendEvents>
     @Test
     public void testGet${stateVariable.stateVariableName}() {
-        final ${stateVariable.type.javaClassName.name} value = getService().get${stateVariable.stateVariableName}();
+        final ${stateVariable.type.javaClassName.name} value = getService().getLastValueFor${stateVariable.stateVariableName}();
         Assert.assertNotNull(value);
         System.out.println("Got ${stateVariable.stateVariableName}: " + value);
     }

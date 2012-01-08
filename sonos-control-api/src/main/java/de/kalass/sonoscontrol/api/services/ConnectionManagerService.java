@@ -4,6 +4,7 @@
 package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.EventListener;
+import javax.annotation.CheckForNull;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -23,19 +24,22 @@ import de.kalass.sonoscontrol.api.model.connectionmanager.AVTransportID;
 public interface ConnectionManagerService {
 
 
-    SinkProtocolInfo getSinkProtocolInfo();
+    @CheckForNull
+    SinkProtocolInfo getLastValueForSinkProtocolInfo();
 
     void addSinkProtocolInfoListener(EventListener<SinkProtocolInfo> listener);
 
     void removeSinkProtocolInfoListener(EventListener<SinkProtocolInfo> listener);
 
-    SourceProtocolInfo getSourceProtocolInfo();
+    @CheckForNull
+    SourceProtocolInfo getLastValueForSourceProtocolInfo();
 
     void addSourceProtocolInfoListener(EventListener<SourceProtocolInfo> listener);
 
     void removeSourceProtocolInfoListener(EventListener<SourceProtocolInfo> listener);
 
-    CurrentConnectionIDs getCurrentConnectionIDs();
+    @CheckForNull
+    CurrentConnectionIDs getLastValueForCurrentConnectionIDs();
 
     void addCurrentConnectionIDsListener(EventListener<CurrentConnectionIDs> listener);
 

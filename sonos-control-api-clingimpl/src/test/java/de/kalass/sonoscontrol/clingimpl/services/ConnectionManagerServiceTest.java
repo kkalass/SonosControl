@@ -32,21 +32,26 @@ public class ConnectionManagerServiceTest extends AbstractSonosServiceTest<Conne
         return device.getConnectionManagerService();
     }
 
+  @Override
+    protected String getServiceName() {
+        return "ConnectionManagerService";
+    }
+    
     @Test
     public void testGetSinkProtocolInfo() {
-        final SinkProtocolInfo value = getService().getSinkProtocolInfo();
+        final SinkProtocolInfo value = getService().getLastValueForSinkProtocolInfo();
         Assert.assertNotNull(value);
         System.out.println("Got SinkProtocolInfo: " + value);
     }
     @Test
     public void testGetSourceProtocolInfo() {
-        final SourceProtocolInfo value = getService().getSourceProtocolInfo();
+        final SourceProtocolInfo value = getService().getLastValueForSourceProtocolInfo();
         Assert.assertNotNull(value);
         System.out.println("Got SourceProtocolInfo: " + value);
     }
     @Test
     public void testGetCurrentConnectionIDs() {
-        final CurrentConnectionIDs value = getService().getCurrentConnectionIDs();
+        final CurrentConnectionIDs value = getService().getLastValueForCurrentConnectionIDs();
         Assert.assertNotNull(value);
         System.out.println("Got CurrentConnectionIDs: " + value);
     }

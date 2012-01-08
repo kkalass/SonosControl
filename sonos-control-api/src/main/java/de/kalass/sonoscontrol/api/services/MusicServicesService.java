@@ -4,6 +4,7 @@
 package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.EventListener;
+import javax.annotation.CheckForNull;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -15,7 +16,8 @@ import de.kalass.sonoscontrol.api.model.musicservices.ServiceDescriptorList;
 public interface MusicServicesService {
 
 
-    ServiceListVersion getServiceListVersion();
+    @CheckForNull
+    ServiceListVersion getLastValueForServiceListVersion();
 
     void addServiceListVersionListener(EventListener<ServiceListVersion> listener);
 

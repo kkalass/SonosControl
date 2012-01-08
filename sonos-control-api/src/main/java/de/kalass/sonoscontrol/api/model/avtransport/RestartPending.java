@@ -17,8 +17,8 @@ public enum RestartPending {
 
     public abstract boolean getValue();
 
-    public static RestartPending getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static RestartPending getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

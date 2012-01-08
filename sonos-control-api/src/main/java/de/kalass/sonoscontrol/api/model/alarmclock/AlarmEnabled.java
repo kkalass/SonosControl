@@ -17,8 +17,8 @@ public enum AlarmEnabled {
 
     public abstract boolean getValue();
 
-    public static AlarmEnabled getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static AlarmEnabled getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

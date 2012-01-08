@@ -153,7 +153,7 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
         AvailableSoftwareUpdate newAvailableSoftwareUpdate = null;
         AvailableSoftwareUpdate oldAvailableSoftwareUpdate = (AvailableSoftwareUpdate)stored.get("AvailableSoftwareUpdate");
         try {
-        newAvailableSoftwareUpdate = convertAvailableSoftwareUpdate((String)getValue("string", ((StateVariableValue)values.get("AvailableSoftwareUpdate")).getValue()));
+            newAvailableSoftwareUpdate = convertAvailableSoftwareUpdate((String)getValue("string", values.get("AvailableSoftwareUpdate")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for AvailableSoftwareUpdate, will ignore", e);
             // make sure the value is not changed/overridden
@@ -167,7 +167,7 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
         ZoneGroupState newZoneGroupState = null;
         ZoneGroupState oldZoneGroupState = (ZoneGroupState)stored.get("ZoneGroupState");
         try {
-        newZoneGroupState = convertZoneGroupState((String)getValue("string", ((StateVariableValue)values.get("ZoneGroupState")).getValue()));
+            newZoneGroupState = convertZoneGroupState((String)getValue("string", values.get("ZoneGroupState")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for ZoneGroupState, will ignore", e);
             // make sure the value is not changed/overridden
@@ -181,7 +181,7 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
         ThirdPartyMediaServers newThirdPartyMediaServers = null;
         ThirdPartyMediaServers oldThirdPartyMediaServers = (ThirdPartyMediaServers)stored.get("ThirdPartyMediaServers");
         try {
-        newThirdPartyMediaServers = convertThirdPartyMediaServers((String)getValue("string", ((StateVariableValue)values.get("ThirdPartyMediaServers")).getValue()));
+            newThirdPartyMediaServers = convertThirdPartyMediaServers((String)getValue("string", values.get("ThirdPartyMediaServers")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for ThirdPartyMediaServers, will ignore", e);
             // make sure the value is not changed/overridden
@@ -195,7 +195,7 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
         AlarmRunSequence newAlarmRunSequence = null;
         AlarmRunSequence oldAlarmRunSequence = (AlarmRunSequence)stored.get("AlarmRunSequence");
         try {
-        newAlarmRunSequence = convertAlarmRunSequence((String)getValue("string", ((StateVariableValue)values.get("AlarmRunSequence")).getValue()));
+            newAlarmRunSequence = convertAlarmRunSequence((String)getValue("string", values.get("AlarmRunSequence")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for AlarmRunSequence, will ignore", e);
             // make sure the value is not changed/overridden
@@ -236,7 +236,7 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
 
     
 
-    public AvailableSoftwareUpdate getAvailableSoftwareUpdate() {
+    public AvailableSoftwareUpdate getLastValueForAvailableSoftwareUpdate() {
         return (AvailableSoftwareUpdate)getEventedValueOrWait("AvailableSoftwareUpdate");
     }
 
@@ -267,7 +267,7 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
     protected abstract UpdateItem convertUpdateItem(String rawValue);
     
 
-    public ZoneGroupState getZoneGroupState() {
+    public ZoneGroupState getLastValueForZoneGroupState() {
         return (ZoneGroupState)getEventedValueOrWait("ZoneGroupState");
     }
 
@@ -300,7 +300,7 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
     
     
 
-    public ThirdPartyMediaServers getThirdPartyMediaServers() {
+    public ThirdPartyMediaServers getLastValueForThirdPartyMediaServers() {
         return (ThirdPartyMediaServers)getEventedValueOrWait("ThirdPartyMediaServers");
     }
 
@@ -328,7 +328,7 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
 
     protected abstract ThirdPartyMediaServers convertThirdPartyMediaServers(String rawValue);
 
-    public AlarmRunSequence getAlarmRunSequence() {
+    public AlarmRunSequence getLastValueForAlarmRunSequence() {
         return (AlarmRunSequence)getEventedValueOrWait("AlarmRunSequence");
     }
 

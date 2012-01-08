@@ -17,8 +17,8 @@ public enum GroupCoordinatorIsLocal {
 
     public abstract boolean getValue();
 
-    public static GroupCoordinatorIsLocal getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static GroupCoordinatorIsLocal getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

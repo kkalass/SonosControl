@@ -47,45 +47,50 @@ public class AlarmClockServiceTest extends AbstractSonosServiceTest<AlarmClockSe
         return device.getAlarmClockService();
     }
 
+  @Override
+    protected String getServiceName() {
+        return "AlarmClockService";
+    }
+    
     @Test
     public void testGetTimeGeneration() {
-        final TimeGeneration value = getService().getTimeGeneration();
+        final TimeGeneration value = getService().getLastValueForTimeGeneration();
         Assert.assertNotNull(value);
         System.out.println("Got TimeGeneration: " + value);
     }
     @Test
     public void testGetAlarmListVersion() {
-        final AlarmListVersion value = getService().getAlarmListVersion();
+        final AlarmListVersion value = getService().getLastValueForAlarmListVersion();
         Assert.assertNotNull(value);
         System.out.println("Got AlarmListVersion: " + value);
     }
     @Test
     public void testGetDateFormat() {
-        final DateFormat value = getService().getDateFormat();
+        final DateFormat value = getService().getLastValueForDateFormat();
         Assert.assertNotNull(value);
         System.out.println("Got DateFormat: " + value);
     }
     @Test
     public void testGetTimeServer() {
-        final TimeServer value = getService().getTimeServer();
+        final TimeServer value = getService().getLastValueForTimeServer();
         Assert.assertNotNull(value);
         System.out.println("Got TimeServer: " + value);
     }
     @Test
     public void testGetTimeZone() {
-        final TimeZone value = getService().getTimeZone();
+        final TimeZone value = getService().getLastValueForTimeZone();
         Assert.assertNotNull(value);
         System.out.println("Got TimeZone: " + value);
     }
     @Test
     public void testGetTimeFormat() {
-        final TimeFormat value = getService().getTimeFormat();
+        final TimeFormat value = getService().getLastValueForTimeFormat();
         Assert.assertNotNull(value);
         System.out.println("Got TimeFormat: " + value);
     }
     @Test
     public void testGetDailyIndexRefreshTime() {
-        final DailyIndexRefreshTime value = getService().getDailyIndexRefreshTime();
+        final DailyIndexRefreshTime value = getService().getLastValueForDailyIndexRefreshTime();
         Assert.assertNotNull(value);
         System.out.println("Got DailyIndexRefreshTime: " + value);
     }

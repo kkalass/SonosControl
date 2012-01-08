@@ -4,6 +4,7 @@
 package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.EventListener;
+import javax.annotation.CheckForNull;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -24,25 +25,29 @@ import de.kalass.sonoscontrol.api.model.zonegrouptopology.AlarmRunSequence;
 public interface ZoneGroupTopologyService {
 
 
-    AvailableSoftwareUpdate getAvailableSoftwareUpdate();
+    @CheckForNull
+    AvailableSoftwareUpdate getLastValueForAvailableSoftwareUpdate();
 
     void addAvailableSoftwareUpdateListener(EventListener<AvailableSoftwareUpdate> listener);
 
     void removeAvailableSoftwareUpdateListener(EventListener<AvailableSoftwareUpdate> listener);
 
-    ZoneGroupState getZoneGroupState();
+    @CheckForNull
+    ZoneGroupState getLastValueForZoneGroupState();
 
     void addZoneGroupStateListener(EventListener<ZoneGroupState> listener);
 
     void removeZoneGroupStateListener(EventListener<ZoneGroupState> listener);
 
-    ThirdPartyMediaServers getThirdPartyMediaServers();
+    @CheckForNull
+    ThirdPartyMediaServers getLastValueForThirdPartyMediaServers();
 
     void addThirdPartyMediaServersListener(EventListener<ThirdPartyMediaServers> listener);
 
     void removeThirdPartyMediaServersListener(EventListener<ThirdPartyMediaServers> listener);
 
-    AlarmRunSequence getAlarmRunSequence();
+    @CheckForNull
+    AlarmRunSequence getLastValueForAlarmRunSequence();
 
     void addAlarmRunSequenceListener(EventListener<AlarmRunSequence> listener);
 

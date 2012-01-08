@@ -4,6 +4,7 @@
 package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.EventListener;
+import javax.annotation.CheckForNull;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -82,7 +83,8 @@ import de.kalass.sonoscontrol.api.model.avtransport.CurrentRecordQualityMode;
 public interface AVTransportService {
 
 
-    LastAVTransportChange getLastChange();
+    @CheckForNull
+    LastAVTransportChange getLastValueForLastChange();
 
     void addLastChangeListener(EventListener<LastAVTransportChange> listener);
 

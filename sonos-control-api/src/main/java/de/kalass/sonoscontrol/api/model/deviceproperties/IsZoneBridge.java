@@ -17,8 +17,8 @@ public enum IsZoneBridge {
 
     public abstract boolean getValue();
 
-    public static IsZoneBridge getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static IsZoneBridge getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

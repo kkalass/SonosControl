@@ -108,7 +108,7 @@ public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${da
         ${stateVariable.type.javaClassName.name} new${stateVariable.stateVariableName} = null;
         ${stateVariable.type.javaClassName.name} old${stateVariable.stateVariableName} = (${stateVariable.type.javaClassName.name})stored.get("${stateVariable.stateVariableName}");
         try {
-        new${stateVariable.stateVariableName} = convert${stateVariable.stateVariableName}((${stateVariable.type.dataType.javaClass.simpleName})getValue("${stateVariable.type.dataType.value}", ((StateVariableValue)values.get("${stateVariable.stateVariableName}")).getValue()));
+            new${stateVariable.stateVariableName} = convert${stateVariable.stateVariableName}((${stateVariable.type.dataType.javaClass.simpleName})getValue("${stateVariable.type.dataType.value}", values.get("${stateVariable.stateVariableName}")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for ${stateVariable.stateVariableName}, will ignore", e);
             // make sure the value is not changed/overridden
@@ -144,7 +144,7 @@ public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${da
     <#list data.stateVariables as stateVariable>
     <#if stateVariable.sendEvents>
 
-    public ${stateVariable.type.javaClassName.name} get${stateVariable.stateVariableName}() {
+    public ${stateVariable.type.javaClassName.name} getLastValueFor${stateVariable.stateVariableName}() {
         return (${stateVariable.type.javaClassName.name})getEventedValueOrWait("${stateVariable.stateVariableName}");
     }
 

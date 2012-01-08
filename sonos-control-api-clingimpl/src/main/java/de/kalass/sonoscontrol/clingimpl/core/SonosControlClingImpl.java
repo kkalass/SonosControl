@@ -1,5 +1,9 @@
 package de.kalass.sonoscontrol.clingimpl.core;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.teleal.cling.UpnpService;
@@ -52,11 +56,14 @@ public class SonosControlClingImpl implements SonosControl {
     }
     private final class ExecuteOnZoneListener extends
     DefaultRegistryListener {
+        @Nonnull
         private final SonosDeviceCallback callback;
+        @CheckForNull
         private final ZoneName zoneName;
 
-        private ExecuteOnZoneListener(SonosDeviceCallback callback,
-                ZoneName zoneName) {
+        private ExecuteOnZoneListener(
+                @Nonnull SonosDeviceCallback callback,
+                @Nullable ZoneName zoneName) {
             this.callback = callback;
             this.zoneName = zoneName;
         }
@@ -105,9 +112,9 @@ public class SonosControlClingImpl implements SonosControl {
             propsService.retrieveZoneAttributes(new Callback1<GetZoneAttributesResult>() {
                 @Override
                 public void success(GetZoneAttributesResult attributes) {
-                    if (zoneName.equals(attributes.getCurrentZoneName())) {
+                    if (zoneName == null || zoneName.equals(attributes.getCurrentZoneName())) {
 
-                        callback.success(new SonosDeviceImpl(zoneName, propsService, _upnpService, device, _errorStrategy));
+                        callback.success(new SonosDeviceImpl(attributes.getCurrentZoneName(), propsService, _upnpService, device, _errorStrategy));
 
                         // avoid firing multiple times
                         _upnpService.getRegistry().removeListener(ExecuteOnZoneListener.this);
@@ -155,5 +162,10 @@ public class SonosControlClingImpl implements SonosControl {
     @Override
     public void executeOnZone(final ZoneName zoneName, final SonosDeviceCallback callback) {
         execute(new ExecuteOnZoneListener(callback, zoneName), _millis);
+    }
+
+    @Override
+    public void executeOnAllZones(SonosDeviceCallback callback) {
+        execute(new ExecuteOnZoneListener(callback, null), _millis);
     }
 }

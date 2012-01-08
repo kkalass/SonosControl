@@ -24,9 +24,14 @@ public class MusicServicesServiceTest extends AbstractSonosServiceTest<MusicServ
         return device.getMusicServicesService();
     }
 
+  @Override
+    protected String getServiceName() {
+        return "MusicServicesService";
+    }
+    
     @Test
     public void testGetServiceListVersion() {
-        final ServiceListVersion value = getService().getServiceListVersion();
+        final ServiceListVersion value = getService().getLastValueForServiceListVersion();
         Assert.assertNotNull(value);
         System.out.println("Got ServiceListVersion: " + value);
     }

@@ -4,6 +4,7 @@
 package de.kalass.sonoscontrol.api.services;
 
 import de.kalass.sonoscontrol.api.core.EventListener;
+import javax.annotation.CheckForNull;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
@@ -36,37 +37,43 @@ import de.kalass.sonoscontrol.api.model.deviceproperties.Icon;
 public interface DevicePropertiesService {
 
 
-    SettingsReplicationState getSettingsReplicationState();
+    @CheckForNull
+    SettingsReplicationState getLastValueForSettingsReplicationState();
 
     void addSettingsReplicationStateListener(EventListener<SettingsReplicationState> listener);
 
     void removeSettingsReplicationStateListener(EventListener<SettingsReplicationState> listener);
 
-    ZoneName getZoneName();
+    @CheckForNull
+    ZoneName getLastValueForZoneName();
 
     void addZoneNameListener(EventListener<ZoneName> listener);
 
     void removeZoneNameListener(EventListener<ZoneName> listener);
 
-    ChannelMapSet getChannelMapSet();
+    @CheckForNull
+    ChannelMapSet getLastValueForChannelMapSet();
 
     void addChannelMapSetListener(EventListener<ChannelMapSet> listener);
 
     void removeChannelMapSetListener(EventListener<ChannelMapSet> listener);
 
-    Invisible getInvisible();
+    @CheckForNull
+    Invisible getLastValueForInvisible();
 
     void addInvisibleListener(EventListener<Invisible> listener);
 
     void removeInvisibleListener(EventListener<Invisible> listener);
 
-    IsZoneBridge getIsZoneBridge();
+    @CheckForNull
+    IsZoneBridge getLastValueForIsZoneBridge();
 
     void addIsZoneBridgeListener(EventListener<IsZoneBridge> listener);
 
     void removeIsZoneBridgeListener(EventListener<IsZoneBridge> listener);
 
-    Icon getIcon();
+    @CheckForNull
+    Icon getLastValueForIcon();
 
     void addIconListener(EventListener<Icon> listener);
 

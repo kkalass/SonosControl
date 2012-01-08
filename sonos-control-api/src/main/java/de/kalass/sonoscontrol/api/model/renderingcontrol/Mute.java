@@ -17,8 +17,8 @@ public enum Mute {
 
     public abstract boolean getValue();
 
-    public static Mute getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static Mute getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

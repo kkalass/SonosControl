@@ -124,7 +124,7 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         SinkProtocolInfo newSinkProtocolInfo = null;
         SinkProtocolInfo oldSinkProtocolInfo = (SinkProtocolInfo)stored.get("SinkProtocolInfo");
         try {
-        newSinkProtocolInfo = convertSinkProtocolInfo((String)getValue("string", ((StateVariableValue)values.get("SinkProtocolInfo")).getValue()));
+            newSinkProtocolInfo = convertSinkProtocolInfo((String)getValue("string", values.get("SinkProtocolInfo")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for SinkProtocolInfo, will ignore", e);
             // make sure the value is not changed/overridden
@@ -138,7 +138,7 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         SourceProtocolInfo newSourceProtocolInfo = null;
         SourceProtocolInfo oldSourceProtocolInfo = (SourceProtocolInfo)stored.get("SourceProtocolInfo");
         try {
-        newSourceProtocolInfo = convertSourceProtocolInfo((String)getValue("string", ((StateVariableValue)values.get("SourceProtocolInfo")).getValue()));
+            newSourceProtocolInfo = convertSourceProtocolInfo((String)getValue("string", values.get("SourceProtocolInfo")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for SourceProtocolInfo, will ignore", e);
             // make sure the value is not changed/overridden
@@ -152,7 +152,7 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         CurrentConnectionIDs newCurrentConnectionIDs = null;
         CurrentConnectionIDs oldCurrentConnectionIDs = (CurrentConnectionIDs)stored.get("CurrentConnectionIDs");
         try {
-        newCurrentConnectionIDs = convertCurrentConnectionIDs((String)getValue("string", ((StateVariableValue)values.get("CurrentConnectionIDs")).getValue()));
+            newCurrentConnectionIDs = convertCurrentConnectionIDs((String)getValue("string", values.get("CurrentConnectionIDs")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for CurrentConnectionIDs, will ignore", e);
             // make sure the value is not changed/overridden
@@ -189,7 +189,7 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
 
     
 
-    public SinkProtocolInfo getSinkProtocolInfo() {
+    public SinkProtocolInfo getLastValueForSinkProtocolInfo() {
         return (SinkProtocolInfo)getEventedValueOrWait("SinkProtocolInfo");
     }
 
@@ -222,7 +222,7 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
     
     
 
-    public SourceProtocolInfo getSourceProtocolInfo() {
+    public SourceProtocolInfo getLastValueForSourceProtocolInfo() {
         return (SourceProtocolInfo)getEventedValueOrWait("SourceProtocolInfo");
     }
 
@@ -254,7 +254,7 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
     
     
 
-    public CurrentConnectionIDs getCurrentConnectionIDs() {
+    public CurrentConnectionIDs getLastValueForCurrentConnectionIDs() {
         return (CurrentConnectionIDs)getEventedValueOrWait("CurrentConnectionIDs");
     }
 

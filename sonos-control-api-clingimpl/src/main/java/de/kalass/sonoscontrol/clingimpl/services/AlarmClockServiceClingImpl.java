@@ -399,7 +399,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         TimeGeneration newTimeGeneration = null;
         TimeGeneration oldTimeGeneration = (TimeGeneration)stored.get("TimeGeneration");
         try {
-        newTimeGeneration = convertTimeGeneration((Long)getValue("ui4", ((StateVariableValue)values.get("TimeGeneration")).getValue()));
+            newTimeGeneration = convertTimeGeneration((Long)getValue("ui4", values.get("TimeGeneration")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for TimeGeneration, will ignore", e);
             // make sure the value is not changed/overridden
@@ -413,7 +413,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         AlarmListVersion newAlarmListVersion = null;
         AlarmListVersion oldAlarmListVersion = (AlarmListVersion)stored.get("AlarmListVersion");
         try {
-        newAlarmListVersion = convertAlarmListVersion((String)getValue("string", ((StateVariableValue)values.get("AlarmListVersion")).getValue()));
+            newAlarmListVersion = convertAlarmListVersion((String)getValue("string", values.get("AlarmListVersion")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for AlarmListVersion, will ignore", e);
             // make sure the value is not changed/overridden
@@ -427,7 +427,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         DateFormat newDateFormat = null;
         DateFormat oldDateFormat = (DateFormat)stored.get("DateFormat");
         try {
-        newDateFormat = convertDateFormat((String)getValue("string", ((StateVariableValue)values.get("DateFormat")).getValue()));
+            newDateFormat = convertDateFormat((String)getValue("string", values.get("DateFormat")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for DateFormat, will ignore", e);
             // make sure the value is not changed/overridden
@@ -441,7 +441,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         TimeServer newTimeServer = null;
         TimeServer oldTimeServer = (TimeServer)stored.get("TimeServer");
         try {
-        newTimeServer = convertTimeServer((String)getValue("string", ((StateVariableValue)values.get("TimeServer")).getValue()));
+            newTimeServer = convertTimeServer((String)getValue("string", values.get("TimeServer")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for TimeServer, will ignore", e);
             // make sure the value is not changed/overridden
@@ -455,7 +455,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         TimeZone newTimeZone = null;
         TimeZone oldTimeZone = (TimeZone)stored.get("TimeZone");
         try {
-        newTimeZone = convertTimeZone((String)getValue("string", ((StateVariableValue)values.get("TimeZone")).getValue()));
+            newTimeZone = convertTimeZone((String)getValue("string", values.get("TimeZone")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for TimeZone, will ignore", e);
             // make sure the value is not changed/overridden
@@ -469,7 +469,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         TimeFormat newTimeFormat = null;
         TimeFormat oldTimeFormat = (TimeFormat)stored.get("TimeFormat");
         try {
-        newTimeFormat = convertTimeFormat((String)getValue("string", ((StateVariableValue)values.get("TimeFormat")).getValue()));
+            newTimeFormat = convertTimeFormat((String)getValue("string", values.get("TimeFormat")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for TimeFormat, will ignore", e);
             // make sure the value is not changed/overridden
@@ -483,7 +483,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         DailyIndexRefreshTime newDailyIndexRefreshTime = null;
         DailyIndexRefreshTime oldDailyIndexRefreshTime = (DailyIndexRefreshTime)stored.get("DailyIndexRefreshTime");
         try {
-        newDailyIndexRefreshTime = convertDailyIndexRefreshTime((String)getValue("string", ((StateVariableValue)values.get("DailyIndexRefreshTime")).getValue()));
+            newDailyIndexRefreshTime = convertDailyIndexRefreshTime((String)getValue("string", values.get("DailyIndexRefreshTime")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for DailyIndexRefreshTime, will ignore", e);
             // make sure the value is not changed/overridden
@@ -539,7 +539,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     
     
 
-    public TimeGeneration getTimeGeneration() {
+    public TimeGeneration getLastValueForTimeGeneration() {
         return (TimeGeneration)getEventedValueOrWait("TimeGeneration");
     }
 
@@ -571,7 +571,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     
     
 
-    public AlarmListVersion getAlarmListVersion() {
+    public AlarmListVersion getLastValueForAlarmListVersion() {
         return (AlarmListVersion)getEventedValueOrWait("AlarmListVersion");
     }
 
@@ -605,7 +605,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     
     
 
-    public DateFormat getDateFormat() {
+    public DateFormat getLastValueForDateFormat() {
         return (DateFormat)getEventedValueOrWait("DateFormat");
     }
 
@@ -637,7 +637,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     
     
 
-    public TimeServer getTimeServer() {
+    public TimeServer getLastValueForTimeServer() {
         return (TimeServer)getEventedValueOrWait("TimeServer");
     }
 
@@ -668,7 +668,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     }
     
 
-    public TimeZone getTimeZone() {
+    public TimeZone getLastValueForTimeZone() {
         return (TimeZone)getEventedValueOrWait("TimeZone");
     }
 
@@ -700,7 +700,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
     
     
 
-    public TimeFormat getTimeFormat() {
+    public TimeFormat getLastValueForTimeFormat() {
         return (TimeFormat)getEventedValueOrWait("TimeFormat");
     }
 
@@ -730,7 +730,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         return TimeFormat.getInstance(rawValue);
     }
 
-    public DailyIndexRefreshTime getDailyIndexRefreshTime() {
+    public DailyIndexRefreshTime getLastValueForDailyIndexRefreshTime() {
         return (DailyIndexRefreshTime)getEventedValueOrWait("DailyIndexRefreshTime");
     }
 

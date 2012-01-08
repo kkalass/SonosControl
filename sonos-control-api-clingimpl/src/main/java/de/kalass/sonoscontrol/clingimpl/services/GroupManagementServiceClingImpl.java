@@ -116,7 +116,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         LocalGroupUUID newLocalGroupUUID = null;
         LocalGroupUUID oldLocalGroupUUID = (LocalGroupUUID)stored.get("LocalGroupUUID");
         try {
-        newLocalGroupUUID = convertLocalGroupUUID((String)getValue("string", ((StateVariableValue)values.get("LocalGroupUUID")).getValue()));
+            newLocalGroupUUID = convertLocalGroupUUID((String)getValue("string", values.get("LocalGroupUUID")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for LocalGroupUUID, will ignore", e);
             // make sure the value is not changed/overridden
@@ -130,7 +130,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         ResetVolumeAfter newResetVolumeAfter = null;
         ResetVolumeAfter oldResetVolumeAfter = (ResetVolumeAfter)stored.get("ResetVolumeAfter");
         try {
-        newResetVolumeAfter = convertResetVolumeAfter((Boolean)getValue("boolean", ((StateVariableValue)values.get("ResetVolumeAfter")).getValue()));
+            newResetVolumeAfter = convertResetVolumeAfter((Boolean)getValue("boolean", values.get("ResetVolumeAfter")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for ResetVolumeAfter, will ignore", e);
             // make sure the value is not changed/overridden
@@ -144,7 +144,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         GroupCoordinatorIsLocal newGroupCoordinatorIsLocal = null;
         GroupCoordinatorIsLocal oldGroupCoordinatorIsLocal = (GroupCoordinatorIsLocal)stored.get("GroupCoordinatorIsLocal");
         try {
-        newGroupCoordinatorIsLocal = convertGroupCoordinatorIsLocal((Boolean)getValue("boolean", ((StateVariableValue)values.get("GroupCoordinatorIsLocal")).getValue()));
+            newGroupCoordinatorIsLocal = convertGroupCoordinatorIsLocal((Boolean)getValue("boolean", values.get("GroupCoordinatorIsLocal")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for GroupCoordinatorIsLocal, will ignore", e);
             // make sure the value is not changed/overridden
@@ -158,7 +158,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         VolumeAVTransportURI newVolumeAVTransportURI = null;
         VolumeAVTransportURI oldVolumeAVTransportURI = (VolumeAVTransportURI)stored.get("VolumeAVTransportURI");
         try {
-        newVolumeAVTransportURI = convertVolumeAVTransportURI((String)getValue("string", ((StateVariableValue)values.get("VolumeAVTransportURI")).getValue()));
+            newVolumeAVTransportURI = convertVolumeAVTransportURI((String)getValue("string", values.get("VolumeAVTransportURI")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for VolumeAVTransportURI, will ignore", e);
             // make sure the value is not changed/overridden
@@ -198,7 +198,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
     }
 
 
-    public LocalGroupUUID getLocalGroupUUID() {
+    public LocalGroupUUID getLastValueForLocalGroupUUID() {
         return (LocalGroupUUID)getEventedValueOrWait("LocalGroupUUID");
     }
 
@@ -228,7 +228,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         return LocalGroupUUID.getInstance(rawValue);
     }
 
-    public ResetVolumeAfter getResetVolumeAfter() {
+    public ResetVolumeAfter getLastValueForResetVolumeAfter() {
         return (ResetVolumeAfter)getEventedValueOrWait("ResetVolumeAfter");
     }
 
@@ -259,7 +259,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
     }
     
 
-    public GroupCoordinatorIsLocal getGroupCoordinatorIsLocal() {
+    public GroupCoordinatorIsLocal getLastValueForGroupCoordinatorIsLocal() {
         return (GroupCoordinatorIsLocal)getEventedValueOrWait("GroupCoordinatorIsLocal");
     }
 
@@ -289,7 +289,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         return GroupCoordinatorIsLocal.getInstance(rawValue);
     }
 
-    public VolumeAVTransportURI getVolumeAVTransportURI() {
+    public VolumeAVTransportURI getLastValueForVolumeAVTransportURI() {
         return (VolumeAVTransportURI)getEventedValueOrWait("VolumeAVTransportURI");
     }
 

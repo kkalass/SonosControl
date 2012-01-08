@@ -17,8 +17,8 @@ public enum AlarmIncludeLinkedZones {
 
     public abstract boolean getValue();
 
-    public static AlarmIncludeLinkedZones getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static AlarmIncludeLinkedZones getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

@@ -17,8 +17,8 @@ public enum IsExpired {
 
     public abstract boolean getValue();
 
-    public static IsExpired getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static IsExpired getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

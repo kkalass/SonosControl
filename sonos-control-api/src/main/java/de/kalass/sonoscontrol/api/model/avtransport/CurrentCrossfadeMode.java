@@ -17,8 +17,8 @@ public enum CurrentCrossfadeMode {
 
     public abstract boolean getValue();
 
-    public static CurrentCrossfadeMode getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static CurrentCrossfadeMode getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

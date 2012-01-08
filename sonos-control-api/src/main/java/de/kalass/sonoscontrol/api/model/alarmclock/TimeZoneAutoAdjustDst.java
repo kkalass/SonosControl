@@ -17,8 +17,8 @@ public enum TimeZoneAutoAdjustDst {
 
     public abstract boolean getValue();
 
-    public static TimeZoneAutoAdjustDst getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static TimeZoneAutoAdjustDst getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

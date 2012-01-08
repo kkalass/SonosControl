@@ -17,8 +17,8 @@ public enum SupportsOutputFixed {
 
     public abstract boolean getValue();
 
-    public static SupportsOutputFixed getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static SupportsOutputFixed getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

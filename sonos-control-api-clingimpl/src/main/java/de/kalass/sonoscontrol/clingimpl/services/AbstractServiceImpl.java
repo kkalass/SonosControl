@@ -15,13 +15,12 @@ import org.teleal.cling.model.gena.GENASubscription;
 import org.teleal.cling.model.message.UpnpResponse;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.meta.Service;
+import org.teleal.cling.model.state.StateVariableValue;
 import org.teleal.cling.model.types.InvalidValueException;
 import org.teleal.cling.model.types.ServiceId;
 import org.teleal.cling.model.types.UDAServiceId;
 import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
 import org.teleal.cling.model.types.UnsignedIntegerTwoBytes;
-
-import com.google.common.base.Preconditions;
 
 import de.kalass.sonoscontrol.api.core.Callback;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
@@ -37,6 +36,8 @@ public abstract class AbstractServiceImpl {
 
     private final ErrorStrategy _errorStrategy;
     protected final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+
+    private boolean _available;
 
     public abstract class Call<C extends Callback> {
         private final String _actionName;
@@ -74,8 +75,13 @@ public abstract class AbstractServiceImpl {
         this._upnpService = upnpService;
         this._device = device;
         this._errorStrategy = errorStrategy;
-
-        upnpService.getControlPoint().execute(new SubscriptionCallback(Preconditions.checkNotNull(getService(), "Cannot listen for events on Service " + _serviceId + " because the service is not found")) {
+        final Service service = getService();
+        if (service == null) {
+            _available = false;
+            return;
+        }
+        _available = true;
+        upnpService.getControlPoint().execute(new SubscriptionCallback(service) {
 
             @Override
             protected void failed(GENASubscription subscription,
@@ -107,8 +113,12 @@ public abstract class AbstractServiceImpl {
             }
         });
 
-
     }
+
+    public boolean isAvailable() {
+        return _available;
+    }
+
     protected void eventReceived(GENASubscription subscription) {
 
     }
@@ -148,6 +158,9 @@ public abstract class AbstractServiceImpl {
     protected Object getValue(String upnpType, Object value) {
         if (value == null) {
             return null;
+        }
+        if (value instanceof StateVariableValue) {
+            return getValue(upnpType, ((StateVariableValue)value).getValue());
         }
         if ("ui4".equals(upnpType) || "i4".equals(upnpType)) {
             if (value instanceof String) {
@@ -189,7 +202,7 @@ public abstract class AbstractServiceImpl {
         }
     }
 
-    private static final int MAX_RETRIES = 10;
+    private static final int MAX_RETRIES = 6;
     private static final int RETRY_MILLIS = 200;
 
     @CheckForNull

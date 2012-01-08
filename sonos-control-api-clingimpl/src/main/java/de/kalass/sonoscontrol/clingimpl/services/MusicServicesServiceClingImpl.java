@@ -89,7 +89,7 @@ public final class MusicServicesServiceClingImpl extends AbstractServiceImpl imp
         ServiceListVersion newServiceListVersion = null;
         ServiceListVersion oldServiceListVersion = (ServiceListVersion)stored.get("ServiceListVersion");
         try {
-        newServiceListVersion = convertServiceListVersion((String)getValue("string", ((StateVariableValue)values.get("ServiceListVersion")).getValue()));
+            newServiceListVersion = convertServiceListVersion((String)getValue("string", values.get("ServiceListVersion")));
         } catch(RuntimeException e) {
             LOG.error("failed to read new value for ServiceListVersion, will ignore", e);
             // make sure the value is not changed/overridden
@@ -117,7 +117,7 @@ public final class MusicServicesServiceClingImpl extends AbstractServiceImpl imp
     }
 
 
-    public ServiceListVersion getServiceListVersion() {
+    public ServiceListVersion getLastValueForServiceListVersion() {
         return (ServiceListVersion)getEventedValueOrWait("ServiceListVersion");
     }
 

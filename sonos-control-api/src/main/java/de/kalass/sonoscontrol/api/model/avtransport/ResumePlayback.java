@@ -17,8 +17,8 @@ public enum ResumePlayback {
 
     public abstract boolean getValue();
 
-    public static ResumePlayback getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static ResumePlayback getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }

@@ -17,8 +17,8 @@ public enum Invisible {
 
     public abstract boolean getValue();
 
-    public static Invisible getInstance(boolean b) {
-        return b ? ON : OFF;
+    public static Invisible getInstance(Boolean b) {
+        return b == null ? null : (b.booleanValue() ? ON : OFF);
     }
 
 }
