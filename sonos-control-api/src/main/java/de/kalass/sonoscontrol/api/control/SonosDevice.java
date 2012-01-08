@@ -23,12 +23,19 @@ public interface SonosDevice {
     @Nonnull
     AlarmClockService getAlarmClockService();
 
+    /**
+     * Some Sonos Player devices do not have this service (I believe the Play:3 does not have it).
+     * @return
+     */
     @CheckForNull
     AudioInService getAudioInService();
 
     @Nonnull
     AVTransportService getAVTransportService();
 
+    /**
+     * Please note: ConnectionManager is announced, but not actually available at least on my Sonos Systems (Play:3, ZP-90 and ZP-120) (KK, 07.01.2012).
+     */
     @CheckForNull
     ConnectionManagerService getConnectionManagerService();
 

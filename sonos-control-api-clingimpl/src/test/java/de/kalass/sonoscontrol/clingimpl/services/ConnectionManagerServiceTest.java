@@ -3,27 +3,9 @@
  */
 package de.kalass.sonoscontrol.clingimpl.services;
 
-import de.kalass.sonoscontrol.api.services.ConnectionManagerService;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import de.kalass.sonoscontrol.api.control.SonosDevice;
+import de.kalass.sonoscontrol.api.services.ConnectionManagerService;
 import de.kalass.sonoscontrol.clingimpl.AbstractSonosServiceTest;
-
-import de.kalass.sonoscontrol.api.core.Callback0;
-import de.kalass.sonoscontrol.api.core.Callback1;
-import de.kalass.sonoscontrol.api.model.connectionmanager.GetProtocolInfoResult;
-import de.kalass.sonoscontrol.api.model.connectionmanager.CurrentConnectionIDs;
-import de.kalass.sonoscontrol.api.model.connectionmanager.GetCurrentConnectionInfoResult;
-import de.kalass.sonoscontrol.api.model.connectionmanager.Direction;
-import de.kalass.sonoscontrol.api.model.connectionmanager.SinkProtocolInfo;
-import de.kalass.sonoscontrol.api.model.connectionmanager.RcsID;
-import de.kalass.sonoscontrol.api.model.connectionmanager.ConnectionManager;
-import de.kalass.sonoscontrol.api.model.connectionmanager.ProtocolInfo;
-import de.kalass.sonoscontrol.api.model.connectionmanager.SourceProtocolInfo;
-import de.kalass.sonoscontrol.api.model.connectionmanager.ConnectionID;
-import de.kalass.sonoscontrol.api.model.connectionmanager.ConnectionStatus;
-import de.kalass.sonoscontrol.api.model.connectionmanager.AVTransportID;
 
 public class ConnectionManagerServiceTest extends AbstractSonosServiceTest<ConnectionManagerService> {
 
@@ -32,11 +14,14 @@ public class ConnectionManagerServiceTest extends AbstractSonosServiceTest<Conne
         return device.getConnectionManagerService();
     }
 
-  @Override
+    @Override
     protected String getServiceName() {
         return "ConnectionManagerService";
     }
-    
+    /**
+     * ConnectionManager is announced, but not actually available on my Sonos Systems (KK, 07.01.2012).
+     */
+    /*
     @Test
     public void testGetSinkProtocolInfo() {
         final SinkProtocolInfo value = getService().getLastValueForSinkProtocolInfo();
@@ -70,6 +55,6 @@ public class ConnectionManagerServiceTest extends AbstractSonosServiceTest<Conne
         Assert.assertNotNull(value);
         System.out.println("Got retrieveCurrentConnectionIDs: " + value);
     }
-
+     */
 }
 
