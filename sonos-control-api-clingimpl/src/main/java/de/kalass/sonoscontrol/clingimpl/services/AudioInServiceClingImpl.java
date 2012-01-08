@@ -184,38 +184,86 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final RightLineInLevel newRightLineInLevel = convertRightLineInLevel((Long)getValue("i4", ((StateVariableValue)values.get("RightLineInLevel")).getValue()));
-        final RightLineInLevel oldRightLineInLevel = (RightLineInLevel)stored.get("RightLineInLevel");
+        RightLineInLevel newRightLineInLevel = null;
+        RightLineInLevel oldRightLineInLevel = (RightLineInLevel)stored.get("RightLineInLevel");
+        try {
+        newRightLineInLevel = convertRightLineInLevel((Long)getValue("i4", ((StateVariableValue)values.get("RightLineInLevel")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for RightLineInLevel, will ignore", e);
+            // make sure the value is not changed/overridden
+            newRightLineInLevel = null;
+            oldRightLineInLevel = null;
+        }
         if (!Objects.equal(oldRightLineInLevel, newRightLineInLevel)) {
             _eventedValues.put("RightLineInLevel", newRightLineInLevel);
         }
 
-        final LeftLineInLevel newLeftLineInLevel = convertLeftLineInLevel((Long)getValue("i4", ((StateVariableValue)values.get("LeftLineInLevel")).getValue()));
-        final LeftLineInLevel oldLeftLineInLevel = (LeftLineInLevel)stored.get("LeftLineInLevel");
+        LeftLineInLevel newLeftLineInLevel = null;
+        LeftLineInLevel oldLeftLineInLevel = (LeftLineInLevel)stored.get("LeftLineInLevel");
+        try {
+        newLeftLineInLevel = convertLeftLineInLevel((Long)getValue("i4", ((StateVariableValue)values.get("LeftLineInLevel")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for LeftLineInLevel, will ignore", e);
+            // make sure the value is not changed/overridden
+            newLeftLineInLevel = null;
+            oldLeftLineInLevel = null;
+        }
         if (!Objects.equal(oldLeftLineInLevel, newLeftLineInLevel)) {
             _eventedValues.put("LeftLineInLevel", newLeftLineInLevel);
         }
 
-        final AudioInputName newAudioInputName = convertAudioInputName((String)getValue("string", ((StateVariableValue)values.get("AudioInputName")).getValue()));
-        final AudioInputName oldAudioInputName = (AudioInputName)stored.get("AudioInputName");
+        AudioInputName newAudioInputName = null;
+        AudioInputName oldAudioInputName = (AudioInputName)stored.get("AudioInputName");
+        try {
+        newAudioInputName = convertAudioInputName((String)getValue("string", ((StateVariableValue)values.get("AudioInputName")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for AudioInputName, will ignore", e);
+            // make sure the value is not changed/overridden
+            newAudioInputName = null;
+            oldAudioInputName = null;
+        }
         if (!Objects.equal(oldAudioInputName, newAudioInputName)) {
             _eventedValues.put("AudioInputName", newAudioInputName);
         }
 
-        final LineInConnected newLineInConnected = convertLineInConnected((Boolean)getValue("boolean", ((StateVariableValue)values.get("LineInConnected")).getValue()));
-        final LineInConnected oldLineInConnected = (LineInConnected)stored.get("LineInConnected");
+        LineInConnected newLineInConnected = null;
+        LineInConnected oldLineInConnected = (LineInConnected)stored.get("LineInConnected");
+        try {
+        newLineInConnected = convertLineInConnected((Boolean)getValue("boolean", ((StateVariableValue)values.get("LineInConnected")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for LineInConnected, will ignore", e);
+            // make sure the value is not changed/overridden
+            newLineInConnected = null;
+            oldLineInConnected = null;
+        }
         if (!Objects.equal(oldLineInConnected, newLineInConnected)) {
             _eventedValues.put("LineInConnected", newLineInConnected);
         }
 
-        final Playing newPlaying = convertPlaying((Boolean)getValue("boolean", ((StateVariableValue)values.get("Playing")).getValue()));
-        final Playing oldPlaying = (Playing)stored.get("Playing");
+        Playing newPlaying = null;
+        Playing oldPlaying = (Playing)stored.get("Playing");
+        try {
+        newPlaying = convertPlaying((Boolean)getValue("boolean", ((StateVariableValue)values.get("Playing")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for Playing, will ignore", e);
+            // make sure the value is not changed/overridden
+            newPlaying = null;
+            oldPlaying = null;
+        }
         if (!Objects.equal(oldPlaying, newPlaying)) {
             _eventedValues.put("Playing", newPlaying);
         }
 
-        final Icon newIcon = convertIcon((String)getValue("string", ((StateVariableValue)values.get("Icon")).getValue()));
-        final Icon oldIcon = (Icon)stored.get("Icon");
+        Icon newIcon = null;
+        Icon oldIcon = (Icon)stored.get("Icon");
+        try {
+        newIcon = convertIcon((String)getValue("string", ((StateVariableValue)values.get("Icon")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for Icon, will ignore", e);
+            // make sure the value is not changed/overridden
+            newIcon = null;
+            oldIcon = null;
+        }
         if (!Objects.equal(oldIcon, newIcon)) {
             _eventedValues.put("Icon", newIcon);
         }

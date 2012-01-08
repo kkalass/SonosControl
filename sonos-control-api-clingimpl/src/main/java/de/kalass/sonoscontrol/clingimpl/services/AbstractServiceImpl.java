@@ -153,10 +153,22 @@ public abstract class AbstractServiceImpl {
             if (value instanceof String) {
                 return Long.valueOf(Long.parseLong((String)value, 10));
             }
+            if (value instanceof Integer) {
+                return Long.valueOf(((Integer)value).longValue());
+            }
+            if (value instanceof Long) {
+                return value;
+            }
             return ((UnsignedIntegerFourBytes)value).getValue();
         } else if ("ui2".equals(upnpType) || "i2".equals(upnpType)) {
             if (value instanceof String) {
                 return Long.valueOf(Long.parseLong((String)value, 10));
+            }
+            if (value instanceof Integer) {
+                return Long.valueOf(((Integer)value).longValue());
+            }
+            if (value instanceof Long) {
+                return value;
             }
             return ((UnsignedIntegerTwoBytes)value).getValue();
         } else if ("string".equals(upnpType)){

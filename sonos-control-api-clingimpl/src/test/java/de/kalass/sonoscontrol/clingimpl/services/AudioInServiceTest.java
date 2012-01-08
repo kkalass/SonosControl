@@ -32,37 +32,37 @@ public class AudioInServiceTest extends AbstractSonosServiceTest<AudioInService>
     }
 
     @Test
-    public void testRightLineInLevel() {
+    public void testGetRightLineInLevel() {
         final RightLineInLevel value = getService().getRightLineInLevel();
         Assert.assertNotNull(value);
         System.out.println("Got RightLineInLevel: " + value);
     }
     @Test
-    public void testLeftLineInLevel() {
+    public void testGetLeftLineInLevel() {
         final LeftLineInLevel value = getService().getLeftLineInLevel();
         Assert.assertNotNull(value);
         System.out.println("Got LeftLineInLevel: " + value);
     }
     @Test
-    public void testAudioInputName() {
+    public void testGetAudioInputName() {
         final AudioInputName value = getService().getAudioInputName();
         Assert.assertNotNull(value);
         System.out.println("Got AudioInputName: " + value);
     }
     @Test
-    public void testLineInConnected() {
+    public void testGetLineInConnected() {
         final LineInConnected value = getService().getLineInConnected();
         Assert.assertNotNull(value);
         System.out.println("Got LineInConnected: " + value);
     }
     @Test
-    public void testPlaying() {
+    public void testGetPlaying() {
         final Playing value = getService().getPlaying();
         Assert.assertNotNull(value);
         System.out.println("Got Playing: " + value);
     }
     @Test
-    public void testIcon() {
+    public void testGetIcon() {
         final Icon value = getService().getIcon();
         Assert.assertNotNull(value);
         System.out.println("Got Icon: " + value);

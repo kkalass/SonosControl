@@ -105,8 +105,16 @@ public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${da
         <#list data.stateVariables as stateVariable>
         <#if stateVariable.sendEvents>
 
-        final ${stateVariable.type.javaClassName.name} new${stateVariable.stateVariableName} = convert${stateVariable.stateVariableName}((${stateVariable.type.dataType.javaClass.simpleName})getValue("${stateVariable.type.dataType.value}", ((StateVariableValue)values.get("${stateVariable.stateVariableName}")).getValue()));
-        final ${stateVariable.type.javaClassName.name} old${stateVariable.stateVariableName} = (${stateVariable.type.javaClassName.name})stored.get("${stateVariable.stateVariableName}");
+        ${stateVariable.type.javaClassName.name} new${stateVariable.stateVariableName} = null;
+        ${stateVariable.type.javaClassName.name} old${stateVariable.stateVariableName} = (${stateVariable.type.javaClassName.name})stored.get("${stateVariable.stateVariableName}");
+        try {
+        new${stateVariable.stateVariableName} = convert${stateVariable.stateVariableName}((${stateVariable.type.dataType.javaClass.simpleName})getValue("${stateVariable.type.dataType.value}", ((StateVariableValue)values.get("${stateVariable.stateVariableName}")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for ${stateVariable.stateVariableName}, will ignore", e);
+            // make sure the value is not changed/overridden
+            new${stateVariable.stateVariableName} = null;
+            old${stateVariable.stateVariableName} = null;
+        }
         if (!Objects.equal(old${stateVariable.stateVariableName}, new${stateVariable.stateVariableName})) {
             _eventedValues.put("${stateVariable.stateVariableName}", new${stateVariable.stateVariableName});
         }

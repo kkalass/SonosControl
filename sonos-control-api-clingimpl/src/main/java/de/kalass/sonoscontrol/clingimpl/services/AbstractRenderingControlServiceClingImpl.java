@@ -610,8 +610,16 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final LastRenderingControlChange newLastChange = convertLastChange((String)getValue("string", ((StateVariableValue)values.get("LastChange")).getValue()));
-        final LastRenderingControlChange oldLastChange = (LastRenderingControlChange)stored.get("LastChange");
+        LastRenderingControlChange newLastChange = null;
+        LastRenderingControlChange oldLastChange = (LastRenderingControlChange)stored.get("LastChange");
+        try {
+        newLastChange = convertLastChange((String)getValue("string", ((StateVariableValue)values.get("LastChange")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for LastChange, will ignore", e);
+            // make sure the value is not changed/overridden
+            newLastChange = null;
+            oldLastChange = null;
+        }
         if (!Objects.equal(oldLastChange, newLastChange)) {
             _eventedValues.put("LastChange", newLastChange);
         }

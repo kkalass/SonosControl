@@ -48,43 +48,43 @@ public class AlarmClockServiceTest extends AbstractSonosServiceTest<AlarmClockSe
     }
 
     @Test
-    public void testTimeGeneration() {
+    public void testGetTimeGeneration() {
         final TimeGeneration value = getService().getTimeGeneration();
         Assert.assertNotNull(value);
         System.out.println("Got TimeGeneration: " + value);
     }
     @Test
-    public void testAlarmListVersion() {
+    public void testGetAlarmListVersion() {
         final AlarmListVersion value = getService().getAlarmListVersion();
         Assert.assertNotNull(value);
         System.out.println("Got AlarmListVersion: " + value);
     }
     @Test
-    public void testDateFormat() {
+    public void testGetDateFormat() {
         final DateFormat value = getService().getDateFormat();
         Assert.assertNotNull(value);
         System.out.println("Got DateFormat: " + value);
     }
     @Test
-    public void testTimeServer() {
+    public void testGetTimeServer() {
         final TimeServer value = getService().getTimeServer();
         Assert.assertNotNull(value);
         System.out.println("Got TimeServer: " + value);
     }
     @Test
-    public void testTimeZone() {
+    public void testGetTimeZone() {
         final TimeZone value = getService().getTimeZone();
         Assert.assertNotNull(value);
         System.out.println("Got TimeZone: " + value);
     }
     @Test
-    public void testTimeFormat() {
+    public void testGetTimeFormat() {
         final TimeFormat value = getService().getTimeFormat();
         Assert.assertNotNull(value);
         System.out.println("Got TimeFormat: " + value);
     }
     @Test
-    public void testDailyIndexRefreshTime() {
+    public void testGetDailyIndexRefreshTime() {
         final DailyIndexRefreshTime value = getService().getDailyIndexRefreshTime();
         Assert.assertNotNull(value);
         System.out.println("Got DailyIndexRefreshTime: " + value);

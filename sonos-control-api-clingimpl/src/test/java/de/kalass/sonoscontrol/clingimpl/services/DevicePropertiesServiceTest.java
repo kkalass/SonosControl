@@ -46,37 +46,37 @@ public class DevicePropertiesServiceTest extends AbstractSonosServiceTest<Device
     }
 
     @Test
-    public void testSettingsReplicationState() {
+    public void testGetSettingsReplicationState() {
         final SettingsReplicationState value = getService().getSettingsReplicationState();
         Assert.assertNotNull(value);
         System.out.println("Got SettingsReplicationState: " + value);
     }
     @Test
-    public void testZoneName() {
+    public void testGetZoneName() {
         final ZoneName value = getService().getZoneName();
         Assert.assertNotNull(value);
         System.out.println("Got ZoneName: " + value);
     }
     @Test
-    public void testChannelMapSet() {
+    public void testGetChannelMapSet() {
         final ChannelMapSet value = getService().getChannelMapSet();
         Assert.assertNotNull(value);
         System.out.println("Got ChannelMapSet: " + value);
     }
     @Test
-    public void testInvisible() {
+    public void testGetInvisible() {
         final Invisible value = getService().getInvisible();
         Assert.assertNotNull(value);
         System.out.println("Got Invisible: " + value);
     }
     @Test
-    public void testIsZoneBridge() {
+    public void testGetIsZoneBridge() {
         final IsZoneBridge value = getService().getIsZoneBridge();
         Assert.assertNotNull(value);
         System.out.println("Got IsZoneBridge: " + value);
     }
     @Test
-    public void testIcon() {
+    public void testGetIcon() {
         final Icon value = getService().getIcon();
         Assert.assertNotNull(value);
         System.out.println("Got Icon: " + value);

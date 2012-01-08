@@ -34,25 +34,25 @@ public class ZoneGroupTopologyServiceTest extends AbstractSonosServiceTest<ZoneG
     }
 
     @Test
-    public void testAvailableSoftwareUpdate() {
+    public void testGetAvailableSoftwareUpdate() {
         final AvailableSoftwareUpdate value = getService().getAvailableSoftwareUpdate();
         Assert.assertNotNull(value);
         System.out.println("Got AvailableSoftwareUpdate: " + value);
     }
     @Test
-    public void testZoneGroupState() {
+    public void testGetZoneGroupState() {
         final ZoneGroupState value = getService().getZoneGroupState();
         Assert.assertNotNull(value);
         System.out.println("Got ZoneGroupState: " + value);
     }
     @Test
-    public void testThirdPartyMediaServers() {
+    public void testGetThirdPartyMediaServers() {
         final ThirdPartyMediaServers value = getService().getThirdPartyMediaServers();
         Assert.assertNotNull(value);
         System.out.println("Got ThirdPartyMediaServers: " + value);
     }
     @Test
-    public void testAlarmRunSequence() {
+    public void testGetAlarmRunSequence() {
         final AlarmRunSequence value = getService().getAlarmRunSequence();
         Assert.assertNotNull(value);
         System.out.println("Got AlarmRunSequence: " + value);

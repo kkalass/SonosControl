@@ -121,20 +121,44 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final SinkProtocolInfo newSinkProtocolInfo = convertSinkProtocolInfo((String)getValue("string", ((StateVariableValue)values.get("SinkProtocolInfo")).getValue()));
-        final SinkProtocolInfo oldSinkProtocolInfo = (SinkProtocolInfo)stored.get("SinkProtocolInfo");
+        SinkProtocolInfo newSinkProtocolInfo = null;
+        SinkProtocolInfo oldSinkProtocolInfo = (SinkProtocolInfo)stored.get("SinkProtocolInfo");
+        try {
+        newSinkProtocolInfo = convertSinkProtocolInfo((String)getValue("string", ((StateVariableValue)values.get("SinkProtocolInfo")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for SinkProtocolInfo, will ignore", e);
+            // make sure the value is not changed/overridden
+            newSinkProtocolInfo = null;
+            oldSinkProtocolInfo = null;
+        }
         if (!Objects.equal(oldSinkProtocolInfo, newSinkProtocolInfo)) {
             _eventedValues.put("SinkProtocolInfo", newSinkProtocolInfo);
         }
 
-        final SourceProtocolInfo newSourceProtocolInfo = convertSourceProtocolInfo((String)getValue("string", ((StateVariableValue)values.get("SourceProtocolInfo")).getValue()));
-        final SourceProtocolInfo oldSourceProtocolInfo = (SourceProtocolInfo)stored.get("SourceProtocolInfo");
+        SourceProtocolInfo newSourceProtocolInfo = null;
+        SourceProtocolInfo oldSourceProtocolInfo = (SourceProtocolInfo)stored.get("SourceProtocolInfo");
+        try {
+        newSourceProtocolInfo = convertSourceProtocolInfo((String)getValue("string", ((StateVariableValue)values.get("SourceProtocolInfo")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for SourceProtocolInfo, will ignore", e);
+            // make sure the value is not changed/overridden
+            newSourceProtocolInfo = null;
+            oldSourceProtocolInfo = null;
+        }
         if (!Objects.equal(oldSourceProtocolInfo, newSourceProtocolInfo)) {
             _eventedValues.put("SourceProtocolInfo", newSourceProtocolInfo);
         }
 
-        final CurrentConnectionIDs newCurrentConnectionIDs = convertCurrentConnectionIDs((String)getValue("string", ((StateVariableValue)values.get("CurrentConnectionIDs")).getValue()));
-        final CurrentConnectionIDs oldCurrentConnectionIDs = (CurrentConnectionIDs)stored.get("CurrentConnectionIDs");
+        CurrentConnectionIDs newCurrentConnectionIDs = null;
+        CurrentConnectionIDs oldCurrentConnectionIDs = (CurrentConnectionIDs)stored.get("CurrentConnectionIDs");
+        try {
+        newCurrentConnectionIDs = convertCurrentConnectionIDs((String)getValue("string", ((StateVariableValue)values.get("CurrentConnectionIDs")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for CurrentConnectionIDs, will ignore", e);
+            // make sure the value is not changed/overridden
+            newCurrentConnectionIDs = null;
+            oldCurrentConnectionIDs = null;
+        }
         if (!Objects.equal(oldCurrentConnectionIDs, newCurrentConnectionIDs)) {
             _eventedValues.put("CurrentConnectionIDs", newCurrentConnectionIDs);
         }

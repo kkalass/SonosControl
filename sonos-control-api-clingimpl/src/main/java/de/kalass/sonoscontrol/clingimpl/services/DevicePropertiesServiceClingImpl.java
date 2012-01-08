@@ -466,38 +466,86 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final SettingsReplicationState newSettingsReplicationState = convertSettingsReplicationState((String)getValue("string", ((StateVariableValue)values.get("SettingsReplicationState")).getValue()));
-        final SettingsReplicationState oldSettingsReplicationState = (SettingsReplicationState)stored.get("SettingsReplicationState");
+        SettingsReplicationState newSettingsReplicationState = null;
+        SettingsReplicationState oldSettingsReplicationState = (SettingsReplicationState)stored.get("SettingsReplicationState");
+        try {
+        newSettingsReplicationState = convertSettingsReplicationState((String)getValue("string", ((StateVariableValue)values.get("SettingsReplicationState")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for SettingsReplicationState, will ignore", e);
+            // make sure the value is not changed/overridden
+            newSettingsReplicationState = null;
+            oldSettingsReplicationState = null;
+        }
         if (!Objects.equal(oldSettingsReplicationState, newSettingsReplicationState)) {
             _eventedValues.put("SettingsReplicationState", newSettingsReplicationState);
         }
 
-        final ZoneName newZoneName = convertZoneName((String)getValue("string", ((StateVariableValue)values.get("ZoneName")).getValue()));
-        final ZoneName oldZoneName = (ZoneName)stored.get("ZoneName");
+        ZoneName newZoneName = null;
+        ZoneName oldZoneName = (ZoneName)stored.get("ZoneName");
+        try {
+        newZoneName = convertZoneName((String)getValue("string", ((StateVariableValue)values.get("ZoneName")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for ZoneName, will ignore", e);
+            // make sure the value is not changed/overridden
+            newZoneName = null;
+            oldZoneName = null;
+        }
         if (!Objects.equal(oldZoneName, newZoneName)) {
             _eventedValues.put("ZoneName", newZoneName);
         }
 
-        final ChannelMapSet newChannelMapSet = convertChannelMapSet((String)getValue("string", ((StateVariableValue)values.get("ChannelMapSet")).getValue()));
-        final ChannelMapSet oldChannelMapSet = (ChannelMapSet)stored.get("ChannelMapSet");
+        ChannelMapSet newChannelMapSet = null;
+        ChannelMapSet oldChannelMapSet = (ChannelMapSet)stored.get("ChannelMapSet");
+        try {
+        newChannelMapSet = convertChannelMapSet((String)getValue("string", ((StateVariableValue)values.get("ChannelMapSet")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for ChannelMapSet, will ignore", e);
+            // make sure the value is not changed/overridden
+            newChannelMapSet = null;
+            oldChannelMapSet = null;
+        }
         if (!Objects.equal(oldChannelMapSet, newChannelMapSet)) {
             _eventedValues.put("ChannelMapSet", newChannelMapSet);
         }
 
-        final Invisible newInvisible = convertInvisible((Boolean)getValue("boolean", ((StateVariableValue)values.get("Invisible")).getValue()));
-        final Invisible oldInvisible = (Invisible)stored.get("Invisible");
+        Invisible newInvisible = null;
+        Invisible oldInvisible = (Invisible)stored.get("Invisible");
+        try {
+        newInvisible = convertInvisible((Boolean)getValue("boolean", ((StateVariableValue)values.get("Invisible")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for Invisible, will ignore", e);
+            // make sure the value is not changed/overridden
+            newInvisible = null;
+            oldInvisible = null;
+        }
         if (!Objects.equal(oldInvisible, newInvisible)) {
             _eventedValues.put("Invisible", newInvisible);
         }
 
-        final IsZoneBridge newIsZoneBridge = convertIsZoneBridge((Boolean)getValue("boolean", ((StateVariableValue)values.get("IsZoneBridge")).getValue()));
-        final IsZoneBridge oldIsZoneBridge = (IsZoneBridge)stored.get("IsZoneBridge");
+        IsZoneBridge newIsZoneBridge = null;
+        IsZoneBridge oldIsZoneBridge = (IsZoneBridge)stored.get("IsZoneBridge");
+        try {
+        newIsZoneBridge = convertIsZoneBridge((Boolean)getValue("boolean", ((StateVariableValue)values.get("IsZoneBridge")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for IsZoneBridge, will ignore", e);
+            // make sure the value is not changed/overridden
+            newIsZoneBridge = null;
+            oldIsZoneBridge = null;
+        }
         if (!Objects.equal(oldIsZoneBridge, newIsZoneBridge)) {
             _eventedValues.put("IsZoneBridge", newIsZoneBridge);
         }
 
-        final Icon newIcon = convertIcon((String)getValue("string", ((StateVariableValue)values.get("Icon")).getValue()));
-        final Icon oldIcon = (Icon)stored.get("Icon");
+        Icon newIcon = null;
+        Icon oldIcon = (Icon)stored.get("Icon");
+        try {
+        newIcon = convertIcon((String)getValue("string", ((StateVariableValue)values.get("Icon")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for Icon, will ignore", e);
+            // make sure the value is not changed/overridden
+            newIcon = null;
+            oldIcon = null;
+        }
         if (!Objects.equal(oldIcon, newIcon)) {
             _eventedValues.put("Icon", newIcon);
         }

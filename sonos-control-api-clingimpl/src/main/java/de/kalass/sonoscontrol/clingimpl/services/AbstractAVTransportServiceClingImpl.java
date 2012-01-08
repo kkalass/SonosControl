@@ -913,8 +913,16 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final LastAVTransportChange newLastChange = convertLastChange((String)getValue("string", ((StateVariableValue)values.get("LastChange")).getValue()));
-        final LastAVTransportChange oldLastChange = (LastAVTransportChange)stored.get("LastChange");
+        LastAVTransportChange newLastChange = null;
+        LastAVTransportChange oldLastChange = (LastAVTransportChange)stored.get("LastChange");
+        try {
+        newLastChange = convertLastChange((String)getValue("string", ((StateVariableValue)values.get("LastChange")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for LastChange, will ignore", e);
+            // make sure the value is not changed/overridden
+            newLastChange = null;
+            oldLastChange = null;
+        }
         if (!Objects.equal(oldLastChange, newLastChange)) {
             _eventedValues.put("LastChange", newLastChange);
         }

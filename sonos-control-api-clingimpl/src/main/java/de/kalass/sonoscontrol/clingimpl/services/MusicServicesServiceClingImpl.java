@@ -86,8 +86,16 @@ public final class MusicServicesServiceClingImpl extends AbstractServiceImpl imp
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final ServiceListVersion newServiceListVersion = convertServiceListVersion((String)getValue("string", ((StateVariableValue)values.get("ServiceListVersion")).getValue()));
-        final ServiceListVersion oldServiceListVersion = (ServiceListVersion)stored.get("ServiceListVersion");
+        ServiceListVersion newServiceListVersion = null;
+        ServiceListVersion oldServiceListVersion = (ServiceListVersion)stored.get("ServiceListVersion");
+        try {
+        newServiceListVersion = convertServiceListVersion((String)getValue("string", ((StateVariableValue)values.get("ServiceListVersion")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for ServiceListVersion, will ignore", e);
+            // make sure the value is not changed/overridden
+            newServiceListVersion = null;
+            oldServiceListVersion = null;
+        }
         if (!Objects.equal(oldServiceListVersion, newServiceListVersion)) {
             _eventedValues.put("ServiceListVersion", newServiceListVersion);
         }

@@ -396,44 +396,100 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final TimeGeneration newTimeGeneration = convertTimeGeneration((Long)getValue("ui4", ((StateVariableValue)values.get("TimeGeneration")).getValue()));
-        final TimeGeneration oldTimeGeneration = (TimeGeneration)stored.get("TimeGeneration");
+        TimeGeneration newTimeGeneration = null;
+        TimeGeneration oldTimeGeneration = (TimeGeneration)stored.get("TimeGeneration");
+        try {
+        newTimeGeneration = convertTimeGeneration((Long)getValue("ui4", ((StateVariableValue)values.get("TimeGeneration")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for TimeGeneration, will ignore", e);
+            // make sure the value is not changed/overridden
+            newTimeGeneration = null;
+            oldTimeGeneration = null;
+        }
         if (!Objects.equal(oldTimeGeneration, newTimeGeneration)) {
             _eventedValues.put("TimeGeneration", newTimeGeneration);
         }
 
-        final AlarmListVersion newAlarmListVersion = convertAlarmListVersion((String)getValue("string", ((StateVariableValue)values.get("AlarmListVersion")).getValue()));
-        final AlarmListVersion oldAlarmListVersion = (AlarmListVersion)stored.get("AlarmListVersion");
+        AlarmListVersion newAlarmListVersion = null;
+        AlarmListVersion oldAlarmListVersion = (AlarmListVersion)stored.get("AlarmListVersion");
+        try {
+        newAlarmListVersion = convertAlarmListVersion((String)getValue("string", ((StateVariableValue)values.get("AlarmListVersion")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for AlarmListVersion, will ignore", e);
+            // make sure the value is not changed/overridden
+            newAlarmListVersion = null;
+            oldAlarmListVersion = null;
+        }
         if (!Objects.equal(oldAlarmListVersion, newAlarmListVersion)) {
             _eventedValues.put("AlarmListVersion", newAlarmListVersion);
         }
 
-        final DateFormat newDateFormat = convertDateFormat((String)getValue("string", ((StateVariableValue)values.get("DateFormat")).getValue()));
-        final DateFormat oldDateFormat = (DateFormat)stored.get("DateFormat");
+        DateFormat newDateFormat = null;
+        DateFormat oldDateFormat = (DateFormat)stored.get("DateFormat");
+        try {
+        newDateFormat = convertDateFormat((String)getValue("string", ((StateVariableValue)values.get("DateFormat")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for DateFormat, will ignore", e);
+            // make sure the value is not changed/overridden
+            newDateFormat = null;
+            oldDateFormat = null;
+        }
         if (!Objects.equal(oldDateFormat, newDateFormat)) {
             _eventedValues.put("DateFormat", newDateFormat);
         }
 
-        final TimeServer newTimeServer = convertTimeServer((String)getValue("string", ((StateVariableValue)values.get("TimeServer")).getValue()));
-        final TimeServer oldTimeServer = (TimeServer)stored.get("TimeServer");
+        TimeServer newTimeServer = null;
+        TimeServer oldTimeServer = (TimeServer)stored.get("TimeServer");
+        try {
+        newTimeServer = convertTimeServer((String)getValue("string", ((StateVariableValue)values.get("TimeServer")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for TimeServer, will ignore", e);
+            // make sure the value is not changed/overridden
+            newTimeServer = null;
+            oldTimeServer = null;
+        }
         if (!Objects.equal(oldTimeServer, newTimeServer)) {
             _eventedValues.put("TimeServer", newTimeServer);
         }
 
-        final TimeZone newTimeZone = convertTimeZone((String)getValue("string", ((StateVariableValue)values.get("TimeZone")).getValue()));
-        final TimeZone oldTimeZone = (TimeZone)stored.get("TimeZone");
+        TimeZone newTimeZone = null;
+        TimeZone oldTimeZone = (TimeZone)stored.get("TimeZone");
+        try {
+        newTimeZone = convertTimeZone((String)getValue("string", ((StateVariableValue)values.get("TimeZone")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for TimeZone, will ignore", e);
+            // make sure the value is not changed/overridden
+            newTimeZone = null;
+            oldTimeZone = null;
+        }
         if (!Objects.equal(oldTimeZone, newTimeZone)) {
             _eventedValues.put("TimeZone", newTimeZone);
         }
 
-        final TimeFormat newTimeFormat = convertTimeFormat((String)getValue("string", ((StateVariableValue)values.get("TimeFormat")).getValue()));
-        final TimeFormat oldTimeFormat = (TimeFormat)stored.get("TimeFormat");
+        TimeFormat newTimeFormat = null;
+        TimeFormat oldTimeFormat = (TimeFormat)stored.get("TimeFormat");
+        try {
+        newTimeFormat = convertTimeFormat((String)getValue("string", ((StateVariableValue)values.get("TimeFormat")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for TimeFormat, will ignore", e);
+            // make sure the value is not changed/overridden
+            newTimeFormat = null;
+            oldTimeFormat = null;
+        }
         if (!Objects.equal(oldTimeFormat, newTimeFormat)) {
             _eventedValues.put("TimeFormat", newTimeFormat);
         }
 
-        final DailyIndexRefreshTime newDailyIndexRefreshTime = convertDailyIndexRefreshTime((String)getValue("string", ((StateVariableValue)values.get("DailyIndexRefreshTime")).getValue()));
-        final DailyIndexRefreshTime oldDailyIndexRefreshTime = (DailyIndexRefreshTime)stored.get("DailyIndexRefreshTime");
+        DailyIndexRefreshTime newDailyIndexRefreshTime = null;
+        DailyIndexRefreshTime oldDailyIndexRefreshTime = (DailyIndexRefreshTime)stored.get("DailyIndexRefreshTime");
+        try {
+        newDailyIndexRefreshTime = convertDailyIndexRefreshTime((String)getValue("string", ((StateVariableValue)values.get("DailyIndexRefreshTime")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for DailyIndexRefreshTime, will ignore", e);
+            // make sure the value is not changed/overridden
+            newDailyIndexRefreshTime = null;
+            oldDailyIndexRefreshTime = null;
+        }
         if (!Objects.equal(oldDailyIndexRefreshTime, newDailyIndexRefreshTime)) {
             _eventedValues.put("DailyIndexRefreshTime", newDailyIndexRefreshTime);
         }

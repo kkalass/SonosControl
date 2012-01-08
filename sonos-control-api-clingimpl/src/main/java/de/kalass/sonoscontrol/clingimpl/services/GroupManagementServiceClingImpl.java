@@ -113,26 +113,58 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final LocalGroupUUID newLocalGroupUUID = convertLocalGroupUUID((String)getValue("string", ((StateVariableValue)values.get("LocalGroupUUID")).getValue()));
-        final LocalGroupUUID oldLocalGroupUUID = (LocalGroupUUID)stored.get("LocalGroupUUID");
+        LocalGroupUUID newLocalGroupUUID = null;
+        LocalGroupUUID oldLocalGroupUUID = (LocalGroupUUID)stored.get("LocalGroupUUID");
+        try {
+        newLocalGroupUUID = convertLocalGroupUUID((String)getValue("string", ((StateVariableValue)values.get("LocalGroupUUID")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for LocalGroupUUID, will ignore", e);
+            // make sure the value is not changed/overridden
+            newLocalGroupUUID = null;
+            oldLocalGroupUUID = null;
+        }
         if (!Objects.equal(oldLocalGroupUUID, newLocalGroupUUID)) {
             _eventedValues.put("LocalGroupUUID", newLocalGroupUUID);
         }
 
-        final ResetVolumeAfter newResetVolumeAfter = convertResetVolumeAfter((Boolean)getValue("boolean", ((StateVariableValue)values.get("ResetVolumeAfter")).getValue()));
-        final ResetVolumeAfter oldResetVolumeAfter = (ResetVolumeAfter)stored.get("ResetVolumeAfter");
+        ResetVolumeAfter newResetVolumeAfter = null;
+        ResetVolumeAfter oldResetVolumeAfter = (ResetVolumeAfter)stored.get("ResetVolumeAfter");
+        try {
+        newResetVolumeAfter = convertResetVolumeAfter((Boolean)getValue("boolean", ((StateVariableValue)values.get("ResetVolumeAfter")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for ResetVolumeAfter, will ignore", e);
+            // make sure the value is not changed/overridden
+            newResetVolumeAfter = null;
+            oldResetVolumeAfter = null;
+        }
         if (!Objects.equal(oldResetVolumeAfter, newResetVolumeAfter)) {
             _eventedValues.put("ResetVolumeAfter", newResetVolumeAfter);
         }
 
-        final GroupCoordinatorIsLocal newGroupCoordinatorIsLocal = convertGroupCoordinatorIsLocal((Boolean)getValue("boolean", ((StateVariableValue)values.get("GroupCoordinatorIsLocal")).getValue()));
-        final GroupCoordinatorIsLocal oldGroupCoordinatorIsLocal = (GroupCoordinatorIsLocal)stored.get("GroupCoordinatorIsLocal");
+        GroupCoordinatorIsLocal newGroupCoordinatorIsLocal = null;
+        GroupCoordinatorIsLocal oldGroupCoordinatorIsLocal = (GroupCoordinatorIsLocal)stored.get("GroupCoordinatorIsLocal");
+        try {
+        newGroupCoordinatorIsLocal = convertGroupCoordinatorIsLocal((Boolean)getValue("boolean", ((StateVariableValue)values.get("GroupCoordinatorIsLocal")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for GroupCoordinatorIsLocal, will ignore", e);
+            // make sure the value is not changed/overridden
+            newGroupCoordinatorIsLocal = null;
+            oldGroupCoordinatorIsLocal = null;
+        }
         if (!Objects.equal(oldGroupCoordinatorIsLocal, newGroupCoordinatorIsLocal)) {
             _eventedValues.put("GroupCoordinatorIsLocal", newGroupCoordinatorIsLocal);
         }
 
-        final VolumeAVTransportURI newVolumeAVTransportURI = convertVolumeAVTransportURI((String)getValue("string", ((StateVariableValue)values.get("VolumeAVTransportURI")).getValue()));
-        final VolumeAVTransportURI oldVolumeAVTransportURI = (VolumeAVTransportURI)stored.get("VolumeAVTransportURI");
+        VolumeAVTransportURI newVolumeAVTransportURI = null;
+        VolumeAVTransportURI oldVolumeAVTransportURI = (VolumeAVTransportURI)stored.get("VolumeAVTransportURI");
+        try {
+        newVolumeAVTransportURI = convertVolumeAVTransportURI((String)getValue("string", ((StateVariableValue)values.get("VolumeAVTransportURI")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for VolumeAVTransportURI, will ignore", e);
+            // make sure the value is not changed/overridden
+            newVolumeAVTransportURI = null;
+            oldVolumeAVTransportURI = null;
+        }
         if (!Objects.equal(oldVolumeAVTransportURI, newVolumeAVTransportURI)) {
             _eventedValues.put("VolumeAVTransportURI", newVolumeAVTransportURI);
         }

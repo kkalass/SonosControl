@@ -150,26 +150,58 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final AvailableSoftwareUpdate newAvailableSoftwareUpdate = convertAvailableSoftwareUpdate((String)getValue("string", ((StateVariableValue)values.get("AvailableSoftwareUpdate")).getValue()));
-        final AvailableSoftwareUpdate oldAvailableSoftwareUpdate = (AvailableSoftwareUpdate)stored.get("AvailableSoftwareUpdate");
+        AvailableSoftwareUpdate newAvailableSoftwareUpdate = null;
+        AvailableSoftwareUpdate oldAvailableSoftwareUpdate = (AvailableSoftwareUpdate)stored.get("AvailableSoftwareUpdate");
+        try {
+        newAvailableSoftwareUpdate = convertAvailableSoftwareUpdate((String)getValue("string", ((StateVariableValue)values.get("AvailableSoftwareUpdate")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for AvailableSoftwareUpdate, will ignore", e);
+            // make sure the value is not changed/overridden
+            newAvailableSoftwareUpdate = null;
+            oldAvailableSoftwareUpdate = null;
+        }
         if (!Objects.equal(oldAvailableSoftwareUpdate, newAvailableSoftwareUpdate)) {
             _eventedValues.put("AvailableSoftwareUpdate", newAvailableSoftwareUpdate);
         }
 
-        final ZoneGroupState newZoneGroupState = convertZoneGroupState((String)getValue("string", ((StateVariableValue)values.get("ZoneGroupState")).getValue()));
-        final ZoneGroupState oldZoneGroupState = (ZoneGroupState)stored.get("ZoneGroupState");
+        ZoneGroupState newZoneGroupState = null;
+        ZoneGroupState oldZoneGroupState = (ZoneGroupState)stored.get("ZoneGroupState");
+        try {
+        newZoneGroupState = convertZoneGroupState((String)getValue("string", ((StateVariableValue)values.get("ZoneGroupState")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for ZoneGroupState, will ignore", e);
+            // make sure the value is not changed/overridden
+            newZoneGroupState = null;
+            oldZoneGroupState = null;
+        }
         if (!Objects.equal(oldZoneGroupState, newZoneGroupState)) {
             _eventedValues.put("ZoneGroupState", newZoneGroupState);
         }
 
-        final ThirdPartyMediaServers newThirdPartyMediaServers = convertThirdPartyMediaServers((String)getValue("string", ((StateVariableValue)values.get("ThirdPartyMediaServers")).getValue()));
-        final ThirdPartyMediaServers oldThirdPartyMediaServers = (ThirdPartyMediaServers)stored.get("ThirdPartyMediaServers");
+        ThirdPartyMediaServers newThirdPartyMediaServers = null;
+        ThirdPartyMediaServers oldThirdPartyMediaServers = (ThirdPartyMediaServers)stored.get("ThirdPartyMediaServers");
+        try {
+        newThirdPartyMediaServers = convertThirdPartyMediaServers((String)getValue("string", ((StateVariableValue)values.get("ThirdPartyMediaServers")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for ThirdPartyMediaServers, will ignore", e);
+            // make sure the value is not changed/overridden
+            newThirdPartyMediaServers = null;
+            oldThirdPartyMediaServers = null;
+        }
         if (!Objects.equal(oldThirdPartyMediaServers, newThirdPartyMediaServers)) {
             _eventedValues.put("ThirdPartyMediaServers", newThirdPartyMediaServers);
         }
 
-        final AlarmRunSequence newAlarmRunSequence = convertAlarmRunSequence((String)getValue("string", ((StateVariableValue)values.get("AlarmRunSequence")).getValue()));
-        final AlarmRunSequence oldAlarmRunSequence = (AlarmRunSequence)stored.get("AlarmRunSequence");
+        AlarmRunSequence newAlarmRunSequence = null;
+        AlarmRunSequence oldAlarmRunSequence = (AlarmRunSequence)stored.get("AlarmRunSequence");
+        try {
+        newAlarmRunSequence = convertAlarmRunSequence((String)getValue("string", ((StateVariableValue)values.get("AlarmRunSequence")).getValue()));
+        } catch(RuntimeException e) {
+            LOG.error("failed to read new value for AlarmRunSequence, will ignore", e);
+            // make sure the value is not changed/overridden
+            newAlarmRunSequence = null;
+            oldAlarmRunSequence = null;
+        }
         if (!Objects.equal(oldAlarmRunSequence, newAlarmRunSequence)) {
             _eventedValues.put("AlarmRunSequence", newAlarmRunSequence);
         }

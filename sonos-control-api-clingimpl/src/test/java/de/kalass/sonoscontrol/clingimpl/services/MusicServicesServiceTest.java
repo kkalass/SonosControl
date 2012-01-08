@@ -25,7 +25,7 @@ public class MusicServicesServiceTest extends AbstractSonosServiceTest<MusicServ
     }
 
     @Test
-    public void testServiceListVersion() {
+    public void testGetServiceListVersion() {
         final ServiceListVersion value = getService().getServiceListVersion();
         Assert.assertNotNull(value);
         System.out.println("Got ServiceListVersion: " + value);
