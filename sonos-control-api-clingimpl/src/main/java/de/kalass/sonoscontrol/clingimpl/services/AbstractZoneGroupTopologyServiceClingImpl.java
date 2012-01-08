@@ -65,9 +65,9 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "UpdateType", updateType.getValue());
-                setInput(invocation,"boolean", "CachedOnly", cachedOnly.getValue());
-                setInput(invocation,"string", "Version", version.getValue());
+                setInput(invocation,"string", "UpdateType", updateType == null ? null : updateType.getValue());
+                setInput(invocation,"boolean", "CachedOnly", cachedOnly == null ? null : cachedOnly.getValue());
+                setInput(invocation,"string", "Version", version == null ? null : version.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -85,8 +85,8 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "UpdateURL", updateURL.getValue());
-                setInput(invocation,"ui4", "Flags", flags.getValue());
+                setInput(invocation,"string", "UpdateURL", updateURL == null ? null : updateURL.getValue());
+                setInput(invocation,"ui4", "Flags", flags == null ? null : flags.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -102,8 +102,8 @@ public abstract class AbstractZoneGroupTopologyServiceClingImpl extends Abstract
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "DeviceUUID", deviceUUID.getValue());
-                setInput(invocation,"string", "DesiredAction", desiredAction.getValue());
+                setInput(invocation,"string", "DeviceUUID", deviceUUID == null ? null : deviceUUID.getValue());
+                setInput(invocation,"string", "DesiredAction", desiredAction == null ? null : desiredAction.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {

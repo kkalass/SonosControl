@@ -98,7 +98,7 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"i4", "ConnectionID", connectionID.getValue());
+                setInput(invocation,"i4", "ConnectionID", connectionID == null ? null : connectionID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {

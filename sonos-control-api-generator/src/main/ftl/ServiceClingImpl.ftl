@@ -66,7 +66,7 @@ public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${da
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 <#list action.allIn as param>
-                setInput(invocation,"${param.relatedStateVariable.type.dataType.value}", "${param.upnpName}", <#if param.valueHardcoded>${param.relatedStateVariable.type.javaClassName.name}.DEFAULT_VALUE<#else>${param.parameterName}</#if>.getValue());
+                setInput(invocation,"${param.relatedStateVariable.type.dataType.value}", "${param.upnpName}", <#if param.valueHardcoded>${param.relatedStateVariable.type.javaClassName.name}.DEFAULT_VALUE.getValue()<#else>${param.parameterName} == null ? null : ${param.parameterName}.getValue()</#if>);
                 </#list>
             }
             @Override

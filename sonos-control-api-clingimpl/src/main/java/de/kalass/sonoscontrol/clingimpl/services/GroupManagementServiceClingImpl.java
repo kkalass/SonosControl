@@ -60,7 +60,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "MemberID", memberID.getValue());
+                setInput(invocation,"string", "MemberID", memberID == null ? null : memberID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -81,7 +81,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "MemberID", memberID.getValue());
+                setInput(invocation,"string", "MemberID", memberID == null ? null : memberID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -97,8 +97,8 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "MemberID", memberID.getValue());
-                setInput(invocation,"i4", "ResultCode", resultCode.getValue());
+                setInput(invocation,"string", "MemberID", memberID == null ? null : memberID.getValue());
+                setInput(invocation,"i4", "ResultCode", resultCode == null ? null : resultCode.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {

@@ -65,7 +65,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "CoordinatorID", coordinatorID.getValue());
+                setInput(invocation,"string", "CoordinatorID", coordinatorID == null ? null : coordinatorID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -83,7 +83,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "CoordinatorID", coordinatorID.getValue());
+                setInput(invocation,"string", "CoordinatorID", coordinatorID == null ? null : coordinatorID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -99,8 +99,8 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "DesiredName", desiredName.getValue());
-                setInput(invocation,"string", "DesiredIcon", desiredIcon.getValue());
+                setInput(invocation,"string", "DesiredName", desiredName == null ? null : desiredName.getValue());
+                setInput(invocation,"string", "DesiredIcon", desiredIcon == null ? null : desiredIcon.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -134,8 +134,8 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"i4", "DesiredLeftLineInLevel", desiredLeftLineInLevel.getValue());
-                setInput(invocation,"i4", "DesiredRightLineInLevel", desiredRightLineInLevel.getValue());
+                setInput(invocation,"i4", "DesiredLeftLineInLevel", desiredLeftLineInLevel == null ? null : desiredLeftLineInLevel.getValue());
+                setInput(invocation,"i4", "DesiredRightLineInLevel", desiredRightLineInLevel == null ? null : desiredRightLineInLevel.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -169,7 +169,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "ObjectID", objectID.getValue());
+                setInput(invocation,"string", "ObjectID", objectID == null ? null : objectID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {

@@ -82,8 +82,8 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "DesiredTimeFormat", desiredTimeFormat.getValue());
-                setInput(invocation,"string", "DesiredDateFormat", desiredDateFormat.getValue());
+                setInput(invocation,"string", "DesiredTimeFormat", desiredTimeFormat == null ? null : desiredTimeFormat.getValue());
+                setInput(invocation,"string", "DesiredDateFormat", desiredDateFormat == null ? null : desiredDateFormat.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -117,8 +117,8 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"i4", "Index", index.getValue());
-                setInput(invocation,"boolean", "AutoAdjustDst", autoAdjustDst.getValue());
+                setInput(invocation,"i4", "Index", index == null ? null : index.getValue());
+                setInput(invocation,"boolean", "AutoAdjustDst", autoAdjustDst == null ? null : autoAdjustDst.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -171,7 +171,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"i4", "Index", index.getValue());
+                setInput(invocation,"i4", "Index", index == null ? null : index.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -189,7 +189,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "DesiredTimeServer", desiredTimeServer.getValue());
+                setInput(invocation,"string", "DesiredTimeServer", desiredTimeServer == null ? null : desiredTimeServer.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -222,8 +222,8 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "DesiredTime", desiredTime.getValue());
-                setInput(invocation,"string", "TimeZoneForDesiredTime", timeZoneForDesiredTime.getValue());
+                setInput(invocation,"string", "DesiredTime", desiredTime == null ? null : desiredTime.getValue());
+                setInput(invocation,"string", "TimeZoneForDesiredTime", timeZoneForDesiredTime == null ? null : timeZoneForDesiredTime.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -239,7 +239,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "TimeStamp", timeStamp.getValue());
+                setInput(invocation,"string", "TimeStamp", timeStamp == null ? null : timeStamp.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -277,16 +277,16 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "StartLocalTime", startLocalTime.getValue());
-                setInput(invocation,"string", "Duration", duration.getValue());
-                setInput(invocation,"string", "Recurrence", recurrence.getValue());
-                setInput(invocation,"boolean", "Enabled", enabled.getValue());
-                setInput(invocation,"string", "RoomUUID", roomUUID.getValue());
-                setInput(invocation,"string", "ProgramURI", programURI.getValue());
-                setInput(invocation,"string", "ProgramMetaData", programMetaData.getValue());
-                setInput(invocation,"string", "PlayMode", playMode.getValue());
-                setInput(invocation,"ui2", "Volume", volume.getValue());
-                setInput(invocation,"boolean", "IncludeLinkedZones", includeLinkedZones.getValue());
+                setInput(invocation,"string", "StartLocalTime", startLocalTime == null ? null : startLocalTime.getValue());
+                setInput(invocation,"string", "Duration", duration == null ? null : duration.getValue());
+                setInput(invocation,"string", "Recurrence", recurrence == null ? null : recurrence.getValue());
+                setInput(invocation,"boolean", "Enabled", enabled == null ? null : enabled.getValue());
+                setInput(invocation,"string", "RoomUUID", roomUUID == null ? null : roomUUID.getValue());
+                setInput(invocation,"string", "ProgramURI", programURI == null ? null : programURI.getValue());
+                setInput(invocation,"string", "ProgramMetaData", programMetaData == null ? null : programMetaData.getValue());
+                setInput(invocation,"string", "PlayMode", playMode == null ? null : playMode.getValue());
+                setInput(invocation,"ui2", "Volume", volume == null ? null : volume.getValue());
+                setInput(invocation,"boolean", "IncludeLinkedZones", includeLinkedZones == null ? null : includeLinkedZones.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -304,17 +304,17 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "ID", iD.getValue());
-                setInput(invocation,"string", "StartLocalTime", startLocalTime.getValue());
-                setInput(invocation,"string", "Duration", duration.getValue());
-                setInput(invocation,"string", "Recurrence", recurrence.getValue());
-                setInput(invocation,"boolean", "Enabled", enabled.getValue());
-                setInput(invocation,"string", "RoomUUID", roomUUID.getValue());
-                setInput(invocation,"string", "ProgramURI", programURI.getValue());
-                setInput(invocation,"string", "ProgramMetaData", programMetaData.getValue());
-                setInput(invocation,"string", "PlayMode", playMode.getValue());
-                setInput(invocation,"ui2", "Volume", volume.getValue());
-                setInput(invocation,"boolean", "IncludeLinkedZones", includeLinkedZones.getValue());
+                setInput(invocation,"ui4", "ID", iD == null ? null : iD.getValue());
+                setInput(invocation,"string", "StartLocalTime", startLocalTime == null ? null : startLocalTime.getValue());
+                setInput(invocation,"string", "Duration", duration == null ? null : duration.getValue());
+                setInput(invocation,"string", "Recurrence", recurrence == null ? null : recurrence.getValue());
+                setInput(invocation,"boolean", "Enabled", enabled == null ? null : enabled.getValue());
+                setInput(invocation,"string", "RoomUUID", roomUUID == null ? null : roomUUID.getValue());
+                setInput(invocation,"string", "ProgramURI", programURI == null ? null : programURI.getValue());
+                setInput(invocation,"string", "ProgramMetaData", programMetaData == null ? null : programMetaData.getValue());
+                setInput(invocation,"string", "PlayMode", playMode == null ? null : playMode.getValue());
+                setInput(invocation,"ui2", "Volume", volume == null ? null : volume.getValue());
+                setInput(invocation,"boolean", "IncludeLinkedZones", includeLinkedZones == null ? null : includeLinkedZones.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -330,7 +330,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "ID", iD.getValue());
+                setInput(invocation,"ui4", "ID", iD == null ? null : iD.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -364,7 +364,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "DesiredDailyIndexRefreshTime", desiredDailyIndexRefreshTime.getValue());
+                setInput(invocation,"string", "DesiredDailyIndexRefreshTime", desiredDailyIndexRefreshTime == null ? null : desiredDailyIndexRefreshTime.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {

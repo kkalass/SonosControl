@@ -79,7 +79,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "DesiredLEDState", desiredLEDState.getValue());
+                setInput(invocation,"string", "DesiredLEDState", desiredLEDState == null ? null : desiredLEDState.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -112,7 +112,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"boolean", "DesiredInvisible", desiredInvisible.getValue());
+                setInput(invocation,"boolean", "DesiredInvisible", desiredInvisible == null ? null : desiredInvisible.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -145,7 +145,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "ChannelMapSet", channelMapSet.getValue());
+                setInput(invocation,"string", "ChannelMapSet", channelMapSet == null ? null : channelMapSet.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -161,7 +161,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "ChannelMapSet", channelMapSet.getValue());
+                setInput(invocation,"string", "ChannelMapSet", channelMapSet == null ? null : channelMapSet.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -177,7 +177,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "ChannelMapSet", channelMapSet.getValue());
+                setInput(invocation,"string", "ChannelMapSet", channelMapSet == null ? null : channelMapSet.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -193,7 +193,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "ChannelMapSet", channelMapSet.getValue());
+                setInput(invocation,"string", "ChannelMapSet", channelMapSet == null ? null : channelMapSet.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -209,8 +209,8 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "DesiredZoneName", desiredZoneName.getValue());
-                setInput(invocation,"string", "DesiredIcon", desiredIcon.getValue());
+                setInput(invocation,"string", "DesiredZoneName", desiredZoneName == null ? null : desiredZoneName.getValue());
+                setInput(invocation,"string", "DesiredIcon", desiredIcon == null ? null : desiredIcon.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -285,7 +285,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"boolean", "IncludeLinkedZones", includeLinkedZones.getValue());
+                setInput(invocation,"boolean", "IncludeLinkedZones", includeLinkedZones == null ? null : includeLinkedZones.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -318,7 +318,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "RoomUUID", roomUUID.getValue());
+                setInput(invocation,"string", "RoomUUID", roomUUID == null ? null : roomUUID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -351,7 +351,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui2", "Volume", volume.getValue());
+                setInput(invocation,"ui2", "Volume", volume == null ? null : volume.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -384,8 +384,8 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "SettingID", settingID.getValue());
-                setInput(invocation,"string", "SettingURI", settingURI.getValue());
+                setInput(invocation,"ui4", "SettingID", settingID == null ? null : settingID.getValue());
+                setInput(invocation,"string", "SettingURI", settingURI == null ? null : settingURI.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -401,7 +401,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"i2", "SpeakerSize", speakerSize.getValue());
+                setInput(invocation,"i2", "SpeakerSize", speakerSize == null ? null : speakerSize.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -434,7 +434,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"boolean", "UseVolume", useVolume.getValue());
+                setInput(invocation,"boolean", "UseVolume", useVolume == null ? null : useVolume.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {

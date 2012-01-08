@@ -124,8 +124,8 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "CurrentURI", currentURI.getValue());
-                setInput(invocation,"string", "CurrentURIMetaData", currentURIMetaData.getValue());
+                setInput(invocation,"string", "CurrentURI", currentURI == null ? null : currentURI.getValue());
+                setInput(invocation,"string", "CurrentURIMetaData", currentURIMetaData == null ? null : currentURIMetaData.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -145,10 +145,10 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "EnqueuedURI", enqueuedURI.getValue());
-                setInput(invocation,"string", "EnqueuedURIMetaData", enqueuedURIMetaData.getValue());
-                setInput(invocation,"ui4", "DesiredFirstTrackNumberEnqueued", desiredFirstTrackNumberEnqueued.getValue());
-                setInput(invocation,"boolean", "EnqueueAsNext", enqueueAsNext.getValue());
+                setInput(invocation,"string", "EnqueuedURI", enqueuedURI == null ? null : enqueuedURI.getValue());
+                setInput(invocation,"string", "EnqueuedURIMetaData", enqueuedURIMetaData == null ? null : enqueuedURIMetaData.getValue());
+                setInput(invocation,"ui4", "DesiredFirstTrackNumberEnqueued", desiredFirstTrackNumberEnqueued == null ? null : desiredFirstTrackNumberEnqueued.getValue());
+                setInput(invocation,"boolean", "EnqueueAsNext", enqueueAsNext == null ? null : enqueueAsNext.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -172,10 +172,10 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"ui4", "StartingIndex", startingIndex.getValue());
-                setInput(invocation,"ui4", "NumberOfTracks", numberOfTracks.getValue());
-                setInput(invocation,"ui4", "InsertBefore", insertBefore.getValue());
-                setInput(invocation,"ui4", "UpdateID", updateID.getValue());
+                setInput(invocation,"ui4", "StartingIndex", startingIndex == null ? null : startingIndex.getValue());
+                setInput(invocation,"ui4", "NumberOfTracks", numberOfTracks == null ? null : numberOfTracks.getValue());
+                setInput(invocation,"ui4", "InsertBefore", insertBefore == null ? null : insertBefore.getValue());
+                setInput(invocation,"ui4", "UpdateID", updateID == null ? null : updateID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -195,8 +195,8 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "ObjectID", objectID.getValue());
-                setInput(invocation,"ui4", "UpdateID", updateID.getValue());
+                setInput(invocation,"string", "ObjectID", objectID == null ? null : objectID.getValue());
+                setInput(invocation,"ui4", "UpdateID", updateID == null ? null : updateID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -235,8 +235,8 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Title", title.getValue());
-                setInput(invocation,"string", "ObjectID", objectID.getValue());
+                setInput(invocation,"string", "Title", title == null ? null : title.getValue());
+                setInput(invocation,"string", "ObjectID", objectID == null ? null : objectID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -463,8 +463,8 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Unit", unit.getValue());
-                setInput(invocation,"string", "Target", target.getValue());
+                setInput(invocation,"string", "Unit", unit == null ? null : unit.getValue());
+                setInput(invocation,"string", "Target", target == null ? null : target.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -579,7 +579,7 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "NewPlayMode", newPlayMode.getValue());
+                setInput(invocation,"string", "NewPlayMode", newPlayMode == null ? null : newPlayMode.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -599,7 +599,7 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"boolean", "CrossfadeMode", crossfadeMode.getValue());
+                setInput(invocation,"boolean", "CrossfadeMode", crossfadeMode == null ? null : crossfadeMode.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -619,7 +619,7 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "DeletedURI", deletedURI.getValue());
+                setInput(invocation,"string", "DeletedURI", deletedURI == null ? null : deletedURI.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -679,16 +679,16 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "CurrentCoordinator", currentCoordinator.getValue());
-                setInput(invocation,"string", "CurrentGroupID", currentGroupID.getValue());
-                setInput(invocation,"string", "OtherMembers", otherMembers.getValue());
-                setInput(invocation,"string", "TransportSettings", transportSettings.getValue());
-                setInput(invocation,"string", "CurrentURI", currentURI.getValue());
-                setInput(invocation,"string", "CurrentURIMetaData", currentURIMetaData.getValue());
-                setInput(invocation,"string", "SleepTimerState", sleepTimerState.getValue());
-                setInput(invocation,"string", "AlarmState", alarmState.getValue());
-                setInput(invocation,"string", "StreamRestartState", streamRestartState.getValue());
-                setInput(invocation,"string", "CurrentQueueTrackList", currentQueueTrackList.getValue());
+                setInput(invocation,"string", "CurrentCoordinator", currentCoordinator == null ? null : currentCoordinator.getValue());
+                setInput(invocation,"string", "CurrentGroupID", currentGroupID == null ? null : currentGroupID.getValue());
+                setInput(invocation,"string", "OtherMembers", otherMembers == null ? null : otherMembers.getValue());
+                setInput(invocation,"string", "TransportSettings", transportSettings == null ? null : transportSettings.getValue());
+                setInput(invocation,"string", "CurrentURI", currentURI == null ? null : currentURI.getValue());
+                setInput(invocation,"string", "CurrentURIMetaData", currentURIMetaData == null ? null : currentURIMetaData.getValue());
+                setInput(invocation,"string", "SleepTimerState", sleepTimerState == null ? null : sleepTimerState.getValue());
+                setInput(invocation,"string", "AlarmState", alarmState == null ? null : alarmState.getValue());
+                setInput(invocation,"string", "StreamRestartState", streamRestartState == null ? null : streamRestartState.getValue());
+                setInput(invocation,"string", "CurrentQueueTrackList", currentQueueTrackList == null ? null : currentQueueTrackList.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -708,18 +708,18 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "CurrentCoordinator", currentCoordinator.getValue());
-                setInput(invocation,"string", "CurrentGroupID", currentGroupID.getValue());
-                setInput(invocation,"string", "OtherMembers", otherMembers.getValue());
-                setInput(invocation,"string", "CurrentURI", currentURI.getValue());
-                setInput(invocation,"string", "CurrentURIMetaData", currentURIMetaData.getValue());
-                setInput(invocation,"string", "SleepTimerState", sleepTimerState.getValue());
-                setInput(invocation,"string", "AlarmState", alarmState.getValue());
-                setInput(invocation,"string", "StreamRestartState", streamRestartState.getValue());
-                setInput(invocation,"string", "CurrentAVTTrackList", currentAVTTrackList.getValue());
-                setInput(invocation,"string", "CurrentQueueTrackList", currentQueueTrackList.getValue());
-                setInput(invocation,"string", "CurrentSourceState", currentSourceState.getValue());
-                setInput(invocation,"boolean", "ResumePlayback", resumePlayback.getValue());
+                setInput(invocation,"string", "CurrentCoordinator", currentCoordinator == null ? null : currentCoordinator.getValue());
+                setInput(invocation,"string", "CurrentGroupID", currentGroupID == null ? null : currentGroupID.getValue());
+                setInput(invocation,"string", "OtherMembers", otherMembers == null ? null : otherMembers.getValue());
+                setInput(invocation,"string", "CurrentURI", currentURI == null ? null : currentURI.getValue());
+                setInput(invocation,"string", "CurrentURIMetaData", currentURIMetaData == null ? null : currentURIMetaData.getValue());
+                setInput(invocation,"string", "SleepTimerState", sleepTimerState == null ? null : sleepTimerState.getValue());
+                setInput(invocation,"string", "AlarmState", alarmState == null ? null : alarmState.getValue());
+                setInput(invocation,"string", "StreamRestartState", streamRestartState == null ? null : streamRestartState.getValue());
+                setInput(invocation,"string", "CurrentAVTTrackList", currentAVTTrackList == null ? null : currentAVTTrackList.getValue());
+                setInput(invocation,"string", "CurrentQueueTrackList", currentQueueTrackList == null ? null : currentQueueTrackList.getValue());
+                setInput(invocation,"string", "CurrentSourceState", currentSourceState == null ? null : currentSourceState.getValue());
+                setInput(invocation,"boolean", "ResumePlayback", resumePlayback == null ? null : resumePlayback.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -739,9 +739,9 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "CurrentCoordinator", currentCoordinator.getValue());
-                setInput(invocation,"string", "NewCoordinator", newCoordinator.getValue());
-                setInput(invocation,"string", "NewTransportSettings", newTransportSettings.getValue());
+                setInput(invocation,"string", "CurrentCoordinator", currentCoordinator == null ? null : currentCoordinator.getValue());
+                setInput(invocation,"string", "NewCoordinator", newCoordinator == null ? null : newCoordinator.getValue());
+                setInput(invocation,"string", "NewTransportSettings", newTransportSettings == null ? null : newTransportSettings.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -761,8 +761,8 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "NewTransportSettings", newTransportSettings.getValue());
-                setInput(invocation,"string", "CurrentAVTransportURI", currentAVTransportURI.getValue());
+                setInput(invocation,"string", "NewTransportSettings", newTransportSettings == null ? null : newTransportSettings.getValue());
+                setInput(invocation,"string", "CurrentAVTransportURI", currentAVTransportURI == null ? null : currentAVTransportURI.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -782,7 +782,7 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "NewSleepTimerDuration", newSleepTimerDuration.getValue());
+                setInput(invocation,"string", "NewSleepTimerDuration", newSleepTimerDuration == null ? null : newSleepTimerDuration.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -824,14 +824,14 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"ui4", "AlarmID", alarmID.getValue());
-                setInput(invocation,"string", "LoggedStartTime", loggedStartTime.getValue());
-                setInput(invocation,"string", "Duration", duration.getValue());
-                setInput(invocation,"string", "ProgramURI", programURI.getValue());
-                setInput(invocation,"string", "ProgramMetaData", programMetaData.getValue());
-                setInput(invocation,"string", "PlayMode", playMode.getValue());
-                setInput(invocation,"ui2", "Volume", volume.getValue());
-                setInput(invocation,"boolean", "IncludeLinkedZones", includeLinkedZones.getValue());
+                setInput(invocation,"ui4", "AlarmID", alarmID == null ? null : alarmID.getValue());
+                setInput(invocation,"string", "LoggedStartTime", loggedStartTime == null ? null : loggedStartTime.getValue());
+                setInput(invocation,"string", "Duration", duration == null ? null : duration.getValue());
+                setInput(invocation,"string", "ProgramURI", programURI == null ? null : programURI.getValue());
+                setInput(invocation,"string", "ProgramMetaData", programMetaData == null ? null : programMetaData.getValue());
+                setInput(invocation,"string", "PlayMode", playMode == null ? null : playMode.getValue());
+                setInput(invocation,"ui2", "Volume", volume == null ? null : volume.getValue());
+                setInput(invocation,"boolean", "IncludeLinkedZones", includeLinkedZones == null ? null : includeLinkedZones.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -851,11 +851,11 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "ProgramURI", programURI.getValue());
-                setInput(invocation,"string", "ProgramMetaData", programMetaData.getValue());
-                setInput(invocation,"ui2", "Volume", volume.getValue());
-                setInput(invocation,"boolean", "IncludeLinkedZones", includeLinkedZones.getValue());
-                setInput(invocation,"boolean", "ResetVolumeAfter", resetVolumeAfter.getValue());
+                setInput(invocation,"string", "ProgramURI", programURI == null ? null : programURI.getValue());
+                setInput(invocation,"string", "ProgramMetaData", programMetaData == null ? null : programMetaData.getValue());
+                setInput(invocation,"ui2", "Volume", volume == null ? null : volume.getValue());
+                setInput(invocation,"boolean", "IncludeLinkedZones", includeLinkedZones == null ? null : includeLinkedZones.getValue());
+                setInput(invocation,"boolean", "ResetVolumeAfter", resetVolumeAfter == null ? null : resetVolumeAfter.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -898,7 +898,7 @@ public abstract class AbstractAVTransportServiceClingImpl extends AbstractServic
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Duration", duration.getValue());
+                setInput(invocation,"string", "Duration", duration == null ? null : duration.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {

@@ -56,8 +56,8 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "VariableName", variableName.getValue());
-                setInput(invocation,"string", "StringValue", stringValue.getValue());
+                setInput(invocation,"string", "VariableName", variableName == null ? null : variableName.getValue());
+                setInput(invocation,"string", "StringValue", stringValue == null ? null : stringValue.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -73,7 +73,7 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "VariableName", variableName.getValue());
+                setInput(invocation,"string", "VariableName", variableName == null ? null : variableName.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -91,7 +91,7 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"string", "VariableName", variableName.getValue());
+                setInput(invocation,"string", "VariableName", variableName == null ? null : variableName.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -107,7 +107,7 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "AccountType", accountType.getValue());
+                setInput(invocation,"ui4", "AccountType", accountType == null ? null : accountType.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -125,7 +125,7 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "AccountType", accountType.getValue());
+                setInput(invocation,"ui4", "AccountType", accountType == null ? null : accountType.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -141,9 +141,9 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "AccountType", accountType.getValue());
-                setInput(invocation,"string", "AccountID", accountID.getValue());
-                setInput(invocation,"string", "AccountPassword", accountPassword.getValue());
+                setInput(invocation,"ui4", "AccountType", accountType == null ? null : accountType.getValue());
+                setInput(invocation,"string", "AccountID", accountID == null ? null : accountID.getValue());
+                setInput(invocation,"string", "AccountPassword", accountPassword == null ? null : accountPassword.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -161,9 +161,9 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "TargetAccountType", targetAccountType.getValue());
-                setInput(invocation,"string", "TargetAccountID", targetAccountID.getValue());
-                setInput(invocation,"string", "TargetAccountPassword", targetAccountPassword.getValue());
+                setInput(invocation,"ui4", "TargetAccountType", targetAccountType == null ? null : targetAccountType.getValue());
+                setInput(invocation,"string", "TargetAccountID", targetAccountID == null ? null : targetAccountID.getValue());
+                setInput(invocation,"string", "TargetAccountPassword", targetAccountPassword == null ? null : targetAccountPassword.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -179,9 +179,9 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "AccountType", accountType.getValue());
-                setInput(invocation,"string", "AccountID", accountID.getValue());
-                setInput(invocation,"string", "AccountPassword", accountPassword.getValue());
+                setInput(invocation,"ui4", "AccountType", accountType == null ? null : accountType.getValue());
+                setInput(invocation,"string", "AccountID", accountID == null ? null : accountID.getValue());
+                setInput(invocation,"string", "AccountPassword", accountPassword == null ? null : accountPassword.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -197,8 +197,8 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "AccountType", accountType.getValue());
-                setInput(invocation,"string", "AccountID", accountID.getValue());
+                setInput(invocation,"ui4", "AccountType", accountType == null ? null : accountType.getValue());
+                setInput(invocation,"string", "AccountID", accountID == null ? null : accountID.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -214,9 +214,9 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "AccountType", accountType.getValue());
-                setInput(invocation,"string", "AccountID", accountID.getValue());
-                setInput(invocation,"string", "NewAccountPassword", newAccountPassword.getValue());
+                setInput(invocation,"ui4", "AccountType", accountType == null ? null : accountType.getValue());
+                setInput(invocation,"string", "AccountID", accountID == null ? null : accountID.getValue());
+                setInput(invocation,"string", "NewAccountPassword", newAccountPassword == null ? null : newAccountPassword.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -232,9 +232,9 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
             public void prepareArguments(ActionInvocation invocation)
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
-                setInput(invocation,"ui4", "AccountType", accountType.getValue());
-                setInput(invocation,"string", "AccountID", accountID.getValue());
-                setInput(invocation,"string", "NewAccountMd", newAccountMd.getValue());
+                setInput(invocation,"ui4", "AccountType", accountType == null ? null : accountType.getValue());
+                setInput(invocation,"string", "AccountID", accountID == null ? null : accountID.getValue());
+                setInput(invocation,"string", "NewAccountMd", newAccountMd == null ? null : newAccountMd.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {

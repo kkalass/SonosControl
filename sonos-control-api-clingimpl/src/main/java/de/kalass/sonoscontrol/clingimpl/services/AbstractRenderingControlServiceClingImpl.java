@@ -78,7 +78,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -100,8 +100,8 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
-                setInput(invocation,"boolean", "DesiredMute", desiredMute.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
+                setInput(invocation,"boolean", "DesiredMute", desiredMute == null ? null : desiredMute.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -146,7 +146,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "EQType", eQType.getValue());
+                setInput(invocation,"string", "EQType", eQType == null ? null : eQType.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -166,7 +166,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -188,8 +188,8 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
-                setInput(invocation,"ui2", "DesiredVolume", desiredVolume.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
+                setInput(invocation,"ui2", "DesiredVolume", desiredVolume == null ? null : desiredVolume.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -209,8 +209,8 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
-                setInput(invocation,"i4", "Adjustment", adjustment.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
+                setInput(invocation,"i4", "Adjustment", adjustment == null ? null : adjustment.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -232,7 +232,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -254,8 +254,8 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
-                setInput(invocation,"i2", "DesiredVolume", desiredVolume.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
+                setInput(invocation,"i2", "DesiredVolume", desiredVolume == null ? null : desiredVolume.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -275,7 +275,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -319,7 +319,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"i2", "DesiredBass", desiredBass.getValue());
+                setInput(invocation,"i2", "DesiredBass", desiredBass == null ? null : desiredBass.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -360,7 +360,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"i2", "DesiredTreble", desiredTreble.getValue());
+                setInput(invocation,"i2", "DesiredTreble", desiredTreble == null ? null : desiredTreble.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -380,7 +380,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "EQType", eQType.getValue());
+                setInput(invocation,"string", "EQType", eQType == null ? null : eQType.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -402,8 +402,8 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "EQType", eQType.getValue());
-                setInput(invocation,"i2", "DesiredValue", desiredValue.getValue());
+                setInput(invocation,"string", "EQType", eQType == null ? null : eQType.getValue());
+                setInput(invocation,"i2", "DesiredValue", desiredValue == null ? null : desiredValue.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -423,7 +423,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -445,8 +445,8 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
-                setInput(invocation,"boolean", "DesiredLoudness", desiredLoudness.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
+                setInput(invocation,"boolean", "DesiredLoudness", desiredLoudness == null ? null : desiredLoudness.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -508,7 +508,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"boolean", "DesiredFixed", desiredFixed.getValue());
+                setInput(invocation,"boolean", "DesiredFixed", desiredFixed == null ? null : desiredFixed.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -549,11 +549,11 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
-                setInput(invocation,"string", "RampType", rampType.getValue());
-                setInput(invocation,"ui2", "DesiredVolume", desiredVolume.getValue());
-                setInput(invocation,"boolean", "ResetVolumeAfter", resetVolumeAfter.getValue());
-                setInput(invocation,"string", "ProgramURI", programURI.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
+                setInput(invocation,"string", "RampType", rampType == null ? null : rampType.getValue());
+                setInput(invocation,"ui2", "DesiredVolume", desiredVolume == null ? null : desiredVolume.getValue());
+                setInput(invocation,"boolean", "ResetVolumeAfter", resetVolumeAfter == null ? null : resetVolumeAfter.getValue());
+                setInput(invocation,"string", "ProgramURI", programURI == null ? null : programURI.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -575,7 +575,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "Channel", channel.getValue());
+                setInput(invocation,"string", "Channel", channel == null ? null : channel.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
@@ -595,7 +595,7 @@ public abstract class AbstractRenderingControlServiceClingImpl extends AbstractS
                     throws InvalidValueException {
                 // Throws InvalidValueException if the value is of wrong type
                 setInput(invocation,"ui4", "InstanceID", InstanceID.DEFAULT_VALUE.getValue());
-                setInput(invocation,"string", "ChannelMap", channelMap.getValue());
+                setInput(invocation,"string", "ChannelMap", channelMap == null ? null : channelMap.getValue());
             }
             @Override
             public void success(C handler, ActionInvocation invocation) {
