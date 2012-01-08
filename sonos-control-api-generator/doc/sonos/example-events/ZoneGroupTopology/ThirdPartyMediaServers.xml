@@ -1,1 +1,8 @@
-<MediaServers><Service UDN="SA_RINCON11_<username>" Md="1" Password="<pwd>" NumAccounts="1" Username0="<username>" Md0="1" Password0="<pwd>"/><Service UDN="SA_RINCON519_<username>" Md="" Password="<pwd>" NumAccounts="1" Username0="<username>" Md0="" Password0="<pwd>"/><Service UDN="SA_RINCON2055_<username>" Md="" Password="<pwd>" NumAccounts="1" Username0="<username>" Md0="" Password0="<pwd>"/></MediaServers>
+<MediaServers>
+    <Service UDN="SA_RINCON11_<username>" Md="1" Password="<pwd>"
+        NumAccounts="1" Username0="<username>" Md0="1" Password0="<pwd>" />
+    <Service UDN="SA_RINCON519_<username>" Md="" Password="<pwd>"
+        NumAccounts="1" Username0="<username>" Md0="" Password0="<pwd>" />
+    <Service UDN="SA_RINCON2055_<username>" Md="" Password="<pwd>"
+        NumAccounts="1" Username0="<username>" Md0="" Password0="<pwd>" />
+</MediaServers>

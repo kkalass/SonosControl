@@ -1,1 +1,16 @@
-<Event xmlns="urn:schemas-upnp-org:metadata-1-0/RCS/"><InstanceID val="0"><Volume channel="Master" val="75"/><Volume channel="LF" val="100"/><Volume channel="RF" val="100"/><Mute channel="Master" val="0"/><Mute channel="LF" val="0"/><Mute channel="RF" val="0"/><Bass val="0"/><Treble val="0"/><Loudness channel="Master" val="0"/><OutputFixed val="0"/><HeadphoneConnected val="0"/><PresetNameList>FactoryDefaults</PresetNameList></InstanceID></Event>
+<Event xmlns="urn:schemas-upnp-org:metadata-1-0/RCS/">
+    <InstanceID val="0">
+        <Volume channel="Master" val="75" />
+        <Volume channel="LF" val="100" />
+        <Volume channel="RF" val="100" />
+        <Mute channel="Master" val="0" />
+        <Mute channel="LF" val="0" />
+        <Mute channel="RF" val="0" />
+        <Bass val="0" />
+        <Treble val="0" />
+        <Loudness channel="Master" val="0" />
+        <OutputFixed val="0" />
+        <HeadphoneConnected val="0" />
+        <PresetNameList>FactoryDefaults</PresetNameList>
+    </InstanceID>
+</Event>

@@ -31,16 +31,16 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.EQType;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ResetVolumeAfter;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ChannelMap;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.LastChange;
+import de.kalass.sonoscontrol.api.eventmodels.renderingcontrol.LastRenderingControlChange;
 
 public interface RenderingControlService {
 
 
-    LastChange getLastChange();
+    LastRenderingControlChange getLastChange();
 
-    void addLastChangeListener(EventListener<LastChange> listener);
+    void addLastChangeListener(EventListener<LastRenderingControlChange> listener);
 
-    void removeLastChangeListener(EventListener<LastChange> listener);
+    void removeLastChangeListener(EventListener<LastRenderingControlChange> listener);
 
 
     /**

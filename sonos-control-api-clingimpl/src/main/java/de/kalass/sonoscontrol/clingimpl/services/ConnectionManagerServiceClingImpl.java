@@ -166,6 +166,7 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         return _eventedValues.get(key);
     }
 
+    
 
     public SinkProtocolInfo getSinkProtocolInfo() {
         return (SinkProtocolInfo)getEventedValueOrWait("SinkProtocolInfo");
@@ -193,9 +194,12 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         }
     }
 
-    protected SinkProtocolInfo convertSinkProtocolInfo(String rawValue) {
+    protected  SinkProtocolInfo convertSinkProtocolInfo(String rawValue) {
         return SinkProtocolInfo.getInstance(rawValue);
     }
+    
+    
+    
 
     public SourceProtocolInfo getSourceProtocolInfo() {
         return (SourceProtocolInfo)getEventedValueOrWait("SourceProtocolInfo");
@@ -223,9 +227,11 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         }
     }
 
-    protected SourceProtocolInfo convertSourceProtocolInfo(String rawValue) {
+    protected  SourceProtocolInfo convertSourceProtocolInfo(String rawValue) {
         return SourceProtocolInfo.getInstance(rawValue);
     }
+    
+    
 
     public CurrentConnectionIDs getCurrentConnectionIDs() {
         return (CurrentConnectionIDs)getEventedValueOrWait("CurrentConnectionIDs");
@@ -253,7 +259,8 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         }
     }
 
-    protected CurrentConnectionIDs convertCurrentConnectionIDs(String rawValue) {
+    protected  CurrentConnectionIDs convertCurrentConnectionIDs(String rawValue) {
         return CurrentConnectionIDs.getInstance(rawValue);
     }
+    
 }

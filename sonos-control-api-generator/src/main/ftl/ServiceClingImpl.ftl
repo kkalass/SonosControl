@@ -35,7 +35,7 @@ import ${import.FQN};
 </#list>
 
 @SuppressWarnings("rawtypes")
-public final class ${data.javaImplClassName.name} extends AbstractServiceImpl implements ${data.javaClassName.name} {
+public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${data.javaImplClassName.name} extends AbstractServiceImpl implements ${data.javaClassName.name} {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(${data.javaImplClassName.name}.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
     private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
@@ -76,7 +76,11 @@ public final class ${data.javaImplClassName.name} extends AbstractServiceImpl im
                 <#if action.out.singleValue??>
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
+                 <#if action.out.type.customSerializationNeeded>
+                 final ${action.out.type.javaClassName.name} value = convert${action.out.type.javaClassName.name}((${action.out.type.dataType.javaClass.simpleName})getValue("${action.out.type.dataType.value}",output[0].getValue()));
+                 <#else>
                  final ${action.out.type.javaClassName.name} value = ${action.out.type.javaClassName.name}.getInstance((${action.out.type.dataType.javaClass.simpleName})getValue("${action.out.type.dataType.value}",output[0].getValue()));
+                 </#if>
                  handler.success(value);
                 <#else>
                 <#if action.out.properties??>
@@ -161,9 +165,11 @@ public final class ${data.javaImplClassName.name} extends AbstractServiceImpl im
         }
     }
 
-    protected ${stateVariable.type.javaClassName.name} convert${stateVariable.stateVariableName}(${stateVariable.type.dataType.javaClass.simpleName} rawValue) {
+    protected <#if stateVariable.type.customSerializationNeeded>abstract</#if> ${stateVariable.type.javaClassName.name} convert${stateVariable.stateVariableName}(${stateVariable.type.dataType.javaClass.simpleName} rawValue)<#if stateVariable.type.customSerializationNeeded>;<#else> {
         return ${stateVariable.type.javaClassName.name}.getInstance(rawValue);
-    }
+    }</#if>
+    <#else>
+    <#if stateVariable.type.customSerializationNeeded>protected abstract ${stateVariable.type.javaClassName.name} convert${stateVariable.type.javaClassName.name}(${stateVariable.type.dataType.javaClass.simpleName} rawValue);</#if>
     </#if>
     </#list>
 }

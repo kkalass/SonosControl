@@ -12,6 +12,7 @@ import de.kalass.sonoscontrol.api.services.GroupManagementService;
 import de.kalass.sonoscontrol.api.services.MusicServicesService;
 import de.kalass.sonoscontrol.api.services.RenderingControlService;
 import de.kalass.sonoscontrol.api.services.SystemPropertiesService;
+import de.kalass.sonoscontrol.api.services.ZoneGroupTopologyService;
 
 public interface SonosDevice {
 
@@ -45,4 +46,6 @@ public interface SonosDevice {
     @Nonnull
     SystemPropertiesService getSystemPropertiesService();
 
+    @Nonnull
+    ZoneGroupTopologyService getZoneGroupTopologyService();
 }

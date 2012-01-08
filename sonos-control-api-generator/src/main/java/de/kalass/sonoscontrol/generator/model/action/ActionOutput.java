@@ -56,7 +56,7 @@ public abstract class ActionOutput {
 
             @Override
             public Parameter apply(ActionArgument input) {
-                return new Parameter(input.getParameterName(), input.getRelatedStateVariable().getType());
+                return new Parameter(input.getParameterName(), input.getRelatedStateVariable().getJavaClassName());
             }
         }));
         return new ActionOutputCompound(serviceNameFactory, actionName, properties, compoundType);

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +24,12 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 
+import de.kalass.sonoscontrol.generator.model.IService;
 import de.kalass.sonoscontrol.generator.model.JavaPackageName;
 import de.kalass.sonoscontrol.generator.model.Service;
 import de.kalass.sonoscontrol.generator.model.ServiceImpl;
 import de.kalass.sonoscontrol.generator.model.StateVariable;
+import de.kalass.sonoscontrol.generator.model.TypeFactoryImpl;
 import de.kalass.sonoscontrol.generator.model.action.Action;
 import de.kalass.sonoscontrol.generator.model.action.ActionOutput;
 import de.kalass.sonoscontrol.generator.model.action.ActionOutputCompound;
@@ -64,6 +67,7 @@ public class Generator {
         final JavaPackageName corePackageName = apiPackageName.childPackage("core");
         final JavaPackageName servicesPackageName = apiPackageName.childPackage("services");
         final JavaPackageName modelPackageName = apiPackageName.childPackage("model");
+        final JavaPackageName customEventModelPackage = JavaPackageName.valueOf("de.kalass.sonoscontrol.api.eventmodels");
 
         // make sure to start from a clean state
         delete(corePackageName.asFile(outputDir));
@@ -79,15 +83,25 @@ public class Generator {
 
         final List<UpnpService> types = UpnpServiceReader.readTypeDescriptions(docDir);
 
-        final TypeNameMappings mappings = new TypeNameMappings();
-        mappings.add("MemberID", modelPackageName.childClass("MemberID"));
-        mappings.add("InstanceID", modelPackageName.childClass("InstanceID"));
+        final TypeConfigurations.Builder configBuilder = TypeConfigurations.builder();
+        configBuilder.add("MemberID", modelPackageName.childClass("MemberID"));
+        configBuilder.add("InstanceID", modelPackageName.childClass("InstanceID"));
+        configBuilder.add("ZoneGroupTopology", "ThirdPartyMediaServers", customEventModelPackage.childPackage("zonegrouptopology").childClass("ThirdPartyMediaServers"));
+        configBuilder.add("ZoneGroupTopology", "AvailableSoftwareUpdate", customEventModelPackage.childPackage("zonegrouptopology").childClass("AvailableSoftwareUpdate"));
+        configBuilder.add("ZoneGroupTopology", "UpdateItem", customEventModelPackage.childPackage("zonegrouptopology").childClass("UpdateItem"));
+        configBuilder.add("ZoneGroupTopology", "ZoneGroupState", customEventModelPackage.childPackage("zonegrouptopology").childClass("ZoneGroupState"));
+        configBuilder.add("AVTransport", "LastChange", customEventModelPackage.childPackage("avtransport").childClass("LastAVTransportChange"));
+        configBuilder.add("RenderingControl", "LastChange", customEventModelPackage.childPackage("renderingcontrol").childClass("LastRenderingControlChange"));
 
-        final NameFactoryImpl nameFactory = new NameFactoryImpl(corePackageName, servicesPackageName, modelPackageName, mappings.asFkt());
+        final TypeConfigurations configurations = configBuilder.build();
+
+        final NameFactoryImpl nameFactory = new NameFactoryImpl(corePackageName, servicesPackageName, modelPackageName, configurations);
 
         System.out.println("Generating API...");
+        final List<IService> serviceTypes = new ArrayList<IService>();
         for (UpnpService scdp : types) {
-            final Service type = new Service(scdp, nameFactory);
+            final IService type = new Service(scdp, nameFactory, new TypeFactoryImpl(configurations));
+            serviceTypes.add(type);
             for (StateVariable stateVariable : type.getStateVariables()) {
                 final Type stateVariableType = stateVariable.getType();
                 final File typeFile = stateVariableType.getJavaClassName().asFile(outputDir);
@@ -99,6 +113,8 @@ public class Generator {
                         template = "BooleanStateVariableType.ftl";
                     } else if (stateVariableType instanceof EnumType) {
                         template = "EnumStateVariableType.ftl";
+                    } else if (stateVariableType instanceof CompoundType) {
+                        template = "CompoundType.ftl";
                     } else {
                         template = "StateVariableType.ftl";
                     }
@@ -134,20 +150,20 @@ public class Generator {
 
         System.out.println("");
         System.out.println("Generating Cling Implementation");
-        for (UpnpService scdp : types) {
-            final ServiceImpl type = new ServiceImpl(scdp, nameFactory, clingimplServicesPackageName);
+        for (IService service : serviceTypes) {
+            final ServiceImpl type = new ServiceImpl(service, clingimplServicesPackageName);
             final File serviceFile = type.getJavaImplClassName().asFile(clingImplOutputDir);
             if (!serviceFile.exists()) {
                 Files.createParentDirs(serviceFile);
                 final String sourceCode = render(cfg, "ServiceClingImpl.ftl", type);
                 Files.write(sourceCode, serviceFile, UTF8);
-                System.out.println("ServiceImpl: " + scdp.getName());
+                System.out.println("ServiceImpl: " + service.getUpnpName());
                 System.out.println("");
             }
         }
 
         System.out.println("");
-        Map<String, Collection<String>> candidatesForCommon = Maps.filterValues(nameFactory.getServicesByTypeName(), new Predicate<Collection<String>>() {
+        final Map<String, Collection<String>> candidatesForCommon = Maps.filterValues(nameFactory.getServicesByTypeName(), new Predicate<Collection<String>>() {
             @Override
             public boolean apply(Collection<String> input) {
                 return input.size() > 1;

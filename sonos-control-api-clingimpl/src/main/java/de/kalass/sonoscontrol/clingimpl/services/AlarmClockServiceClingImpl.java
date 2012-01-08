@@ -481,6 +481,10 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         return _eventedValues.get(key);
     }
 
+    
+    
+    
+    
 
     public TimeGeneration getTimeGeneration() {
         return (TimeGeneration)getEventedValueOrWait("TimeGeneration");
@@ -508,9 +512,11 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         }
     }
 
-    protected TimeGeneration convertTimeGeneration(Long rawValue) {
+    protected  TimeGeneration convertTimeGeneration(Long rawValue) {
         return TimeGeneration.getInstance(rawValue);
     }
+    
+    
 
     public AlarmListVersion getAlarmListVersion() {
         return (AlarmListVersion)getEventedValueOrWait("AlarmListVersion");
@@ -538,9 +544,13 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         }
     }
 
-    protected AlarmListVersion convertAlarmListVersion(String rawValue) {
+    protected  AlarmListVersion convertAlarmListVersion(String rawValue) {
         return AlarmListVersion.getInstance(rawValue);
     }
+    
+    
+    
+    
 
     public DateFormat getDateFormat() {
         return (DateFormat)getEventedValueOrWait("DateFormat");
@@ -568,9 +578,11 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         }
     }
 
-    protected DateFormat convertDateFormat(String rawValue) {
+    protected  DateFormat convertDateFormat(String rawValue) {
         return DateFormat.getInstance(rawValue);
     }
+    
+    
 
     public TimeServer getTimeServer() {
         return (TimeServer)getEventedValueOrWait("TimeServer");
@@ -598,9 +610,10 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         }
     }
 
-    protected TimeServer convertTimeServer(String rawValue) {
+    protected  TimeServer convertTimeServer(String rawValue) {
         return TimeServer.getInstance(rawValue);
     }
+    
 
     public TimeZone getTimeZone() {
         return (TimeZone)getEventedValueOrWait("TimeZone");
@@ -628,9 +641,11 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         }
     }
 
-    protected TimeZone convertTimeZone(String rawValue) {
+    protected  TimeZone convertTimeZone(String rawValue) {
         return TimeZone.getInstance(rawValue);
     }
+    
+    
 
     public TimeFormat getTimeFormat() {
         return (TimeFormat)getEventedValueOrWait("TimeFormat");
@@ -658,7 +673,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         }
     }
 
-    protected TimeFormat convertTimeFormat(String rawValue) {
+    protected  TimeFormat convertTimeFormat(String rawValue) {
         return TimeFormat.getInstance(rawValue);
     }
 
@@ -688,7 +703,7 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         }
     }
 
-    protected DailyIndexRefreshTime convertDailyIndexRefreshTime(String rawValue) {
+    protected  DailyIndexRefreshTime convertDailyIndexRefreshTime(String rawValue) {
         return DailyIndexRefreshTime.getInstance(rawValue);
     }
 }

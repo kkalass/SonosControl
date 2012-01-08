@@ -32,22 +32,22 @@ import de.kalass.sonoscontrol.clingimpl.services.AbstractServiceImpl;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
-import de.kalass.sonoscontrol.api.model.zonegrouptopology.UpdateItem;
+import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.UpdateItem;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.DiagnosticID;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.CachedOnly;
-import de.kalass.sonoscontrol.api.model.zonegrouptopology.AvailableSoftwareUpdate;
+import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.AvailableSoftwareUpdate;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.UpdateType;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.UpdateFlags;
-import de.kalass.sonoscontrol.api.model.zonegrouptopology.ZoneGroupState;
+import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.ZoneGroupState;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.UpdateURL;
 import de.kalass.sonoscontrol.api.model.MemberID;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.Version;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.UnresponsiveDeviceActionType;
-import de.kalass.sonoscontrol.api.model.zonegrouptopology.ThirdPartyMediaServers;
+import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.ThirdPartyMediaServers;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.AlarmRunSequence;
 
 @SuppressWarnings("rawtypes")
-public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl implements ZoneGroupTopologyService {
+public abstract class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl implements ZoneGroupTopologyService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ZoneGroupTopologyServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
     private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
@@ -75,7 +75,7 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
             public void success(C handler, ActionInvocation invocation) {
                  assert invocation.getOutput().length == 1;
                  final ActionArgumentValue[] output = invocation.getOutput();
-                 final UpdateItem value = UpdateItem.getInstance((String)getValue("string",output[0].getValue()));
+                 final UpdateItem value = convertUpdateItem((String)getValue("string",output[0].getValue()));
                  handler.success(value);
             }
         });
@@ -205,6 +205,7 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
         return _eventedValues.get(key);
     }
 
+    
 
     public AvailableSoftwareUpdate getAvailableSoftwareUpdate() {
         return (AvailableSoftwareUpdate)getEventedValueOrWait("AvailableSoftwareUpdate");
@@ -232,9 +233,10 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
         }
     }
 
-    protected AvailableSoftwareUpdate convertAvailableSoftwareUpdate(String rawValue) {
-        return AvailableSoftwareUpdate.getInstance(rawValue);
-    }
+    protected abstract AvailableSoftwareUpdate convertAvailableSoftwareUpdate(String rawValue);
+    
+    protected abstract UpdateItem convertUpdateItem(String rawValue);
+    
 
     public ZoneGroupState getZoneGroupState() {
         return (ZoneGroupState)getEventedValueOrWait("ZoneGroupState");
@@ -262,9 +264,12 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
         }
     }
 
-    protected ZoneGroupState convertZoneGroupState(String rawValue) {
-        return ZoneGroupState.getInstance(rawValue);
-    }
+    protected abstract ZoneGroupState convertZoneGroupState(String rawValue);
+    
+    
+    
+    
+    
 
     public ThirdPartyMediaServers getThirdPartyMediaServers() {
         return (ThirdPartyMediaServers)getEventedValueOrWait("ThirdPartyMediaServers");
@@ -292,9 +297,7 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
         }
     }
 
-    protected ThirdPartyMediaServers convertThirdPartyMediaServers(String rawValue) {
-        return ThirdPartyMediaServers.getInstance(rawValue);
-    }
+    protected abstract ThirdPartyMediaServers convertThirdPartyMediaServers(String rawValue);
 
     public AlarmRunSequence getAlarmRunSequence() {
         return (AlarmRunSequence)getEventedValueOrWait("AlarmRunSequence");
@@ -322,7 +325,7 @@ public final class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl
         }
     }
 
-    protected AlarmRunSequence convertAlarmRunSequence(String rawValue) {
+    protected  AlarmRunSequence convertAlarmRunSequence(String rawValue) {
         return AlarmRunSequence.getInstance(rawValue);
     }
 }

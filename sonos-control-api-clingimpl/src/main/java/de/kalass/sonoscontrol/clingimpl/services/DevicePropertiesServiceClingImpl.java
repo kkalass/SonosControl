@@ -568,7 +568,7 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         }
     }
 
-    protected SettingsReplicationState convertSettingsReplicationState(String rawValue) {
+    protected  SettingsReplicationState convertSettingsReplicationState(String rawValue) {
         return SettingsReplicationState.getInstance(rawValue);
     }
 
@@ -598,9 +598,10 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         }
     }
 
-    protected ZoneName convertZoneName(String rawValue) {
+    protected  ZoneName convertZoneName(String rawValue) {
         return ZoneName.getInstance(rawValue);
     }
+    
 
     public ChannelMapSet getChannelMapSet() {
         return (ChannelMapSet)getEventedValueOrWait("ChannelMapSet");
@@ -628,9 +629,21 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         }
     }
 
-    protected ChannelMapSet convertChannelMapSet(String rawValue) {
+    protected  ChannelMapSet convertChannelMapSet(String rawValue) {
         return ChannelMapSet.getInstance(rawValue);
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public Invisible getInvisible() {
         return (Invisible)getEventedValueOrWait("Invisible");
@@ -658,9 +671,10 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         }
     }
 
-    protected Invisible convertInvisible(Boolean rawValue) {
+    protected  Invisible convertInvisible(Boolean rawValue) {
         return Invisible.getInstance(rawValue);
     }
+    
 
     public IsZoneBridge getIsZoneBridge() {
         return (IsZoneBridge)getEventedValueOrWait("IsZoneBridge");
@@ -688,9 +702,11 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         }
     }
 
-    protected IsZoneBridge convertIsZoneBridge(Boolean rawValue) {
+    protected  IsZoneBridge convertIsZoneBridge(Boolean rawValue) {
         return IsZoneBridge.getInstance(rawValue);
     }
+    
+    
 
     public Icon getIcon() {
         return (Icon)getEventedValueOrWait("Icon");
@@ -718,7 +734,8 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         }
     }
 
-    protected Icon convertIcon(String rawValue) {
+    protected  Icon convertIcon(String rawValue) {
         return Icon.getInstance(rawValue);
     }
+    
 }

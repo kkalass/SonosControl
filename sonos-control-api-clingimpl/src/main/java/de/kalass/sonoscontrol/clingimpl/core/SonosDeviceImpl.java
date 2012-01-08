@@ -7,6 +7,12 @@ import org.teleal.cling.model.meta.Device;
 
 import de.kalass.sonoscontrol.api.control.SonosDevice;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
+import de.kalass.sonoscontrol.api.eventmodels.avtransport.LastAVTransportChange;
+import de.kalass.sonoscontrol.api.eventmodels.renderingcontrol.LastRenderingControlChange;
+import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.AvailableSoftwareUpdate;
+import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.ThirdPartyMediaServers;
+import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.UpdateItem;
+import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.ZoneGroupState;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.AVTransportService;
 import de.kalass.sonoscontrol.api.services.AlarmClockService;
@@ -17,6 +23,7 @@ import de.kalass.sonoscontrol.api.services.GroupManagementService;
 import de.kalass.sonoscontrol.api.services.MusicServicesService;
 import de.kalass.sonoscontrol.api.services.RenderingControlService;
 import de.kalass.sonoscontrol.api.services.SystemPropertiesService;
+import de.kalass.sonoscontrol.api.services.ZoneGroupTopologyService;
 import de.kalass.sonoscontrol.clingimpl.services.AVTransportServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.AlarmClockServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.AudioInServiceClingImpl;
@@ -25,6 +32,7 @@ import de.kalass.sonoscontrol.clingimpl.services.GroupManagementServiceClingImpl
 import de.kalass.sonoscontrol.clingimpl.services.MusicServicesServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.RenderingControlServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.SystemPropertiesServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.ZoneGroupTopologyServiceClingImpl;
 
 public class SonosDeviceImpl implements SonosDevice {
 
@@ -57,11 +65,26 @@ public class SonosDeviceImpl implements SonosDevice {
 
     @Override
     public RenderingControlService getRenderingControlService() {
-        return new RenderingControlServiceClingImpl(_service, _device, _errorStrategy);
+        return new RenderingControlServiceClingImpl(_service, _device, _errorStrategy) {
+
+            @Override
+            protected LastRenderingControlChange convertLastChange(
+                    String rawValue) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException();
+            }
+
+        };
     }
     @Override
     public AVTransportService getAVTransportService() {
-        return new AVTransportServiceClingImpl(_service, _device, _errorStrategy);
+        return new AVTransportServiceClingImpl(_service, _device, _errorStrategy) {
+
+            @Override
+            protected LastAVTransportChange convertLastChange(String rawValue) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException();
+            }};
     }
 
     @Override
@@ -94,4 +117,35 @@ public class SonosDeviceImpl implements SonosDevice {
         return new SystemPropertiesServiceClingImpl(_service, _device, _errorStrategy);
     }
 
+    @Override
+    public ZoneGroupTopologyService getZoneGroupTopologyService() {
+        return new ZoneGroupTopologyServiceClingImpl(_service, _device, _errorStrategy) {
+
+            @Override
+            protected ZoneGroupState convertZoneGroupState(String rawValue) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            protected UpdateItem convertUpdateItem(String rawValue) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            protected ThirdPartyMediaServers convertThirdPartyMediaServers(
+                    String rawValue) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            protected AvailableSoftwareUpdate convertAvailableSoftwareUpdate(
+                    String rawValue) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException();
+            }
+        };
+    }
 }

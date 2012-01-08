@@ -138,7 +138,9 @@ public final class MusicServicesServiceClingImpl extends AbstractServiceImpl imp
         }
     }
 
-    protected ServiceListVersion convertServiceListVersion(String rawValue) {
+    protected  ServiceListVersion convertServiceListVersion(String rawValue) {
         return ServiceListVersion.getInstance(rawValue);
     }
+    
+    
 }

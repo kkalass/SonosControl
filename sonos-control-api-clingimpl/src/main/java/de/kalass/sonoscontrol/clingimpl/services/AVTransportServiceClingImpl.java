@@ -67,7 +67,7 @@ import de.kalass.sonoscontrol.api.model.avtransport.CurrentTrackMetaData;
 import de.kalass.sonoscontrol.api.model.avtransport.ResetVolumeAfter;
 import de.kalass.sonoscontrol.api.model.avtransport.RelativeCounterPosition;
 import de.kalass.sonoscontrol.api.model.avtransport.SeekMode;
-import de.kalass.sonoscontrol.api.model.avtransport.LastChange;
+import de.kalass.sonoscontrol.api.eventmodels.avtransport.LastAVTransportChange;
 import de.kalass.sonoscontrol.api.model.avtransport.ISO8601Time;
 import de.kalass.sonoscontrol.api.model.avtransport.PossibleRecordStorageMedia;
 import de.kalass.sonoscontrol.api.model.avtransport.StreamRestartState;
@@ -105,11 +105,11 @@ import de.kalass.sonoscontrol.api.model.avtransport.TrackNumber;
 import de.kalass.sonoscontrol.api.model.avtransport.CurrentRecordQualityMode;
 
 @SuppressWarnings("rawtypes")
-public final class AVTransportServiceClingImpl extends AbstractServiceImpl implements AVTransportService {
+public abstract class AVTransportServiceClingImpl extends AbstractServiceImpl implements AVTransportService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(AVTransportServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
     private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
-    private final List<EventListener<LastChange>> _changeLastChangeListeners = new ArrayList<EventListener<LastChange>>();
+    private final List<EventListener<LastAVTransportChange>> _changeLastChangeListeners = new ArrayList<EventListener<LastAVTransportChange>>();
 
     public AVTransportServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("AVTransport", upnpService, device, errorStrategy);
@@ -915,8 +915,8 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final LastChange newLastChange = convertLastChange((String)getValue("string", ((StateVariableValue)values.get("LastChange")).getValue()));
-        final LastChange oldLastChange = (LastChange)stored.get("LastChange");
+        final LastAVTransportChange newLastChange = convertLastChange((String)getValue("string", ((StateVariableValue)values.get("LastChange")).getValue()));
+        final LastAVTransportChange oldLastChange = (LastAVTransportChange)stored.get("LastChange");
         if (!Objects.equal(oldLastChange, newLastChange)) {
             _eventedValues.put("LastChange", newLastChange);
         }
@@ -938,34 +938,94 @@ public final class AVTransportServiceClingImpl extends AbstractServiceImpl imple
         return _eventedValues.get(key);
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    public LastChange getLastChange() {
-        return (LastChange)getEventedValueOrWait("LastChange");
+    public LastAVTransportChange getLastChange() {
+        return (LastAVTransportChange)getEventedValueOrWait("LastChange");
     }
 
-    public void addLastChangeListener(EventListener<LastChange> listener) {
+    public void addLastChangeListener(EventListener<LastAVTransportChange> listener) {
         synchronized(_changeLastChangeListeners) {
             _changeLastChangeListeners.add(listener);
         }
     }
 
-    public void removeLastChangeListener(EventListener<LastChange> listener) {
+    public void removeLastChangeListener(EventListener<LastAVTransportChange> listener) {
         synchronized(_changeLastChangeListeners) {
             _changeLastChangeListeners.remove(listener);
         }
     }
 
-    protected void notifyLastChangeChanged(LastChange oldValue, LastChange newValue) {
-        final Iterable<EventListener<LastChange>> listeners;
+    protected void notifyLastChangeChanged(LastAVTransportChange oldValue, LastAVTransportChange newValue) {
+        final Iterable<EventListener<LastAVTransportChange>> listeners;
         synchronized(_changeLastChangeListeners) {
-            listeners = new ArrayList<EventListener<LastChange>>(_changeLastChangeListeners);            
+            listeners = new ArrayList<EventListener<LastAVTransportChange>>(_changeLastChangeListeners);            
         }
-        for(EventListener<LastChange> listener: listeners) {
+        for(EventListener<LastAVTransportChange> listener: listeners) {
             listener.valueChanged(oldValue, newValue);
         }
     }
 
-    protected LastChange convertLastChange(String rawValue) {
-        return LastChange.getInstance(rawValue);
-    }
+    protected abstract LastAVTransportChange convertLastChange(String rawValue);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

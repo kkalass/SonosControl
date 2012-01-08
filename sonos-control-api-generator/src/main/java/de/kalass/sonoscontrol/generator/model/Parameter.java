@@ -2,19 +2,17 @@ package de.kalass.sonoscontrol.generator.model;
 
 import com.google.common.base.Function;
 
-import de.kalass.sonoscontrol.generator.model.types.Type;
-
 public class Parameter {
-    public static final Function<Parameter, Type> GET_TYPE = new Function<Parameter, Type>() {
+    public static final Function<Parameter, JavaClassName> GET_JAVA_CLASS_NAME = new Function<Parameter, JavaClassName>() {
         @Override
-        public Type apply(Parameter input) {
-            return input.getType();
+        public JavaClassName apply(Parameter input) {
+            return input.getJavaClassName();
         }
     };
     private final String _name;
-    private final Type _type;
+    private final JavaClassName _type;
 
-    public Parameter(String name, Type type) {
+    public Parameter(String name, JavaClassName type) {
         _name = name;
         _type = type;
     }
@@ -32,7 +30,7 @@ public class Parameter {
         return _name;
     }
 
-    public Type getType() {
+    public JavaClassName getJavaClassName() {
         return _type;
     }
 }

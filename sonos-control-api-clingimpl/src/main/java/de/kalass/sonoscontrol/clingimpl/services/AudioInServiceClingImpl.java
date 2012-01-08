@@ -286,7 +286,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         }
     }
 
-    protected RightLineInLevel convertRightLineInLevel(Long rawValue) {
+    protected  RightLineInLevel convertRightLineInLevel(Long rawValue) {
         return RightLineInLevel.getInstance(rawValue);
     }
 
@@ -316,9 +316,10 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         }
     }
 
-    protected LeftLineInLevel convertLeftLineInLevel(Long rawValue) {
+    protected  LeftLineInLevel convertLeftLineInLevel(Long rawValue) {
         return LeftLineInLevel.getInstance(rawValue);
     }
+    
 
     public AudioInputName getAudioInputName() {
         return (AudioInputName)getEventedValueOrWait("AudioInputName");
@@ -346,9 +347,11 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         }
     }
 
-    protected AudioInputName convertAudioInputName(String rawValue) {
+    protected  AudioInputName convertAudioInputName(String rawValue) {
         return AudioInputName.getInstance(rawValue);
     }
+    
+    
 
     public LineInConnected getLineInConnected() {
         return (LineInConnected)getEventedValueOrWait("LineInConnected");
@@ -376,7 +379,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         }
     }
 
-    protected LineInConnected convertLineInConnected(Boolean rawValue) {
+    protected  LineInConnected convertLineInConnected(Boolean rawValue) {
         return LineInConnected.getInstance(rawValue);
     }
 
@@ -406,7 +409,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         }
     }
 
-    protected Playing convertPlaying(Boolean rawValue) {
+    protected  Playing convertPlaying(Boolean rawValue) {
         return Playing.getInstance(rawValue);
     }
 
@@ -436,7 +439,7 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         }
     }
 
-    protected Icon convertIcon(String rawValue) {
+    protected  Icon convertIcon(String rawValue) {
         return Icon.getInstance(rawValue);
     }
 }

@@ -195,7 +195,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         }
     }
 
-    protected LocalGroupUUID convertLocalGroupUUID(String rawValue) {
+    protected  LocalGroupUUID convertLocalGroupUUID(String rawValue) {
         return LocalGroupUUID.getInstance(rawValue);
     }
 
@@ -225,9 +225,10 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         }
     }
 
-    protected ResetVolumeAfter convertResetVolumeAfter(Boolean rawValue) {
+    protected  ResetVolumeAfter convertResetVolumeAfter(Boolean rawValue) {
         return ResetVolumeAfter.getInstance(rawValue);
     }
+    
 
     public GroupCoordinatorIsLocal getGroupCoordinatorIsLocal() {
         return (GroupCoordinatorIsLocal)getEventedValueOrWait("GroupCoordinatorIsLocal");
@@ -255,7 +256,7 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         }
     }
 
-    protected GroupCoordinatorIsLocal convertGroupCoordinatorIsLocal(Boolean rawValue) {
+    protected  GroupCoordinatorIsLocal convertGroupCoordinatorIsLocal(Boolean rawValue) {
         return GroupCoordinatorIsLocal.getInstance(rawValue);
     }
 
@@ -285,7 +286,9 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         }
     }
 
-    protected VolumeAVTransportURI convertVolumeAVTransportURI(String rawValue) {
+    protected  VolumeAVTransportURI convertVolumeAVTransportURI(String rawValue) {
         return VolumeAVTransportURI.getInstance(rawValue);
     }
+    
+    
 }

@@ -42,7 +42,7 @@ import de.kalass.sonoscontrol.api.model.avtransport.CurrentTrackMetaData;
 import de.kalass.sonoscontrol.api.model.avtransport.ResetVolumeAfter;
 import de.kalass.sonoscontrol.api.model.avtransport.RelativeCounterPosition;
 import de.kalass.sonoscontrol.api.model.avtransport.SeekMode;
-import de.kalass.sonoscontrol.api.model.avtransport.LastChange;
+import de.kalass.sonoscontrol.api.eventmodels.avtransport.LastAVTransportChange;
 import de.kalass.sonoscontrol.api.model.avtransport.ISO8601Time;
 import de.kalass.sonoscontrol.api.model.avtransport.PossibleRecordStorageMedia;
 import de.kalass.sonoscontrol.api.model.avtransport.StreamRestartState;
@@ -82,11 +82,11 @@ import de.kalass.sonoscontrol.api.model.avtransport.CurrentRecordQualityMode;
 public interface AVTransportService {
 
 
-    LastChange getLastChange();
+    LastAVTransportChange getLastChange();
 
-    void addLastChangeListener(EventListener<LastChange> listener);
+    void addLastChangeListener(EventListener<LastAVTransportChange> listener);
 
-    void removeLastChangeListener(EventListener<LastChange> listener);
+    void removeLastChangeListener(EventListener<LastAVTransportChange> listener);
 
 
     /**

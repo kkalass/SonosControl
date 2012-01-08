@@ -6,9 +6,16 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 
 public final class UpnpStateVariable {
+    public static final Function<UpnpStateVariable, String> GET_NAME = new Function<UpnpStateVariable, String>() {
+        @Override
+        public String apply(UpnpStateVariable input) {
+            return input.getName();
+        }
+    };
     @Nonnull
     private final String name;
     @Nonnull

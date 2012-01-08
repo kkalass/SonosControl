@@ -1,1 +1,4 @@
-<UpdateItem xmlns="urn:schemas-rinconnetworks-com:update-1-0" Type="Software" Version="16.5-48010" UpdateURL="http://update.sonos.com/firmware/Gold/v3.6Tosh_QFE1_AudioPatch/^16.5-48010" DownloadSize="0"/>
+<UpdateItem xmlns="urn:schemas-rinconnetworks-com:update-1-0"
+    Type="Software" Version="16.5-48010"
+    UpdateURL="http://update.sonos.com/firmware/Gold/v3.6Tosh_QFE1_AudioPatch/^16.5-48010"
+    DownloadSize="0" />

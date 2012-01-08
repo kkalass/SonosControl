@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 
@@ -31,7 +30,7 @@ public final class CompoundType extends CustomType {
     }
 
     public List<JavaClassName> getNeededImports() {
-        final Iterable<JavaClassName> classNames = Iterables.transform(_properties, Functions.compose(Type.GET_JAVA_TYPE_NAME, Parameter.GET_TYPE));
+        final Iterable<JavaClassName> classNames = Iterables.transform(_properties, Parameter.GET_JAVA_CLASS_NAME);
         return Util.getNeededImports(getJavaClassName().getPackage(), classNames);
     }
 

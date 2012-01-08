@@ -56,14 +56,14 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.EQType;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ResetVolumeAfter;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ChannelMap;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.LastChange;
+import de.kalass.sonoscontrol.api.eventmodels.renderingcontrol.LastRenderingControlChange;
 
 @SuppressWarnings("rawtypes")
-public final class RenderingControlServiceClingImpl extends AbstractServiceImpl implements RenderingControlService {
+public abstract class RenderingControlServiceClingImpl extends AbstractServiceImpl implements RenderingControlService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(RenderingControlServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
     private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
-    private final List<EventListener<LastChange>> _changeLastChangeListeners = new ArrayList<EventListener<LastChange>>();
+    private final List<EventListener<LastRenderingControlChange>> _changeLastChangeListeners = new ArrayList<EventListener<LastRenderingControlChange>>();
 
     public RenderingControlServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("RenderingControl", upnpService, device, errorStrategy);
@@ -612,8 +612,8 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
         final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
 
 
-        final LastChange newLastChange = convertLastChange((String)getValue("string", ((StateVariableValue)values.get("LastChange")).getValue()));
-        final LastChange oldLastChange = (LastChange)stored.get("LastChange");
+        final LastRenderingControlChange newLastChange = convertLastChange((String)getValue("string", ((StateVariableValue)values.get("LastChange")).getValue()));
+        final LastRenderingControlChange oldLastChange = (LastRenderingControlChange)stored.get("LastChange");
         if (!Objects.equal(oldLastChange, newLastChange)) {
             _eventedValues.put("LastChange", newLastChange);
         }
@@ -635,34 +635,54 @@ public final class RenderingControlServiceClingImpl extends AbstractServiceImpl 
         return _eventedValues.get(key);
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    public LastChange getLastChange() {
-        return (LastChange)getEventedValueOrWait("LastChange");
+    public LastRenderingControlChange getLastChange() {
+        return (LastRenderingControlChange)getEventedValueOrWait("LastChange");
     }
 
-    public void addLastChangeListener(EventListener<LastChange> listener) {
+    public void addLastChangeListener(EventListener<LastRenderingControlChange> listener) {
         synchronized(_changeLastChangeListeners) {
             _changeLastChangeListeners.add(listener);
         }
     }
 
-    public void removeLastChangeListener(EventListener<LastChange> listener) {
+    public void removeLastChangeListener(EventListener<LastRenderingControlChange> listener) {
         synchronized(_changeLastChangeListeners) {
             _changeLastChangeListeners.remove(listener);
         }
     }
 
-    protected void notifyLastChangeChanged(LastChange oldValue, LastChange newValue) {
-        final Iterable<EventListener<LastChange>> listeners;
+    protected void notifyLastChangeChanged(LastRenderingControlChange oldValue, LastRenderingControlChange newValue) {
+        final Iterable<EventListener<LastRenderingControlChange>> listeners;
         synchronized(_changeLastChangeListeners) {
-            listeners = new ArrayList<EventListener<LastChange>>(_changeLastChangeListeners);            
+            listeners = new ArrayList<EventListener<LastRenderingControlChange>>(_changeLastChangeListeners);            
         }
-        for(EventListener<LastChange> listener: listeners) {
+        for(EventListener<LastRenderingControlChange> listener: listeners) {
             listener.valueChanged(oldValue, newValue);
         }
     }
 
-    protected LastChange convertLastChange(String rawValue) {
-        return LastChange.getInstance(rawValue);
-    }
+    protected abstract LastRenderingControlChange convertLastChange(String rawValue);
 }
