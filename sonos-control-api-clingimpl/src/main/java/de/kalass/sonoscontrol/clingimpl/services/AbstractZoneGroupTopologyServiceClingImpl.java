@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -47,16 +45,16 @@ import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.ThirdPartyMediaS
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.AlarmRunSequence;
 
 @SuppressWarnings("rawtypes")
-public abstract class ZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl implements ZoneGroupTopologyService {
-    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ZoneGroupTopologyServiceClingImpl.class);
+public abstract class AbstractZoneGroupTopologyServiceClingImpl extends AbstractServiceImpl implements ZoneGroupTopologyService {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(AbstractZoneGroupTopologyServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
     private final List<EventListener<AvailableSoftwareUpdate>> _changeAvailableSoftwareUpdateListeners = new ArrayList<EventListener<AvailableSoftwareUpdate>>();
     private final List<EventListener<ZoneGroupState>> _changeZoneGroupStateListeners = new ArrayList<EventListener<ZoneGroupState>>();
     private final List<EventListener<ThirdPartyMediaServers>> _changeThirdPartyMediaServersListeners = new ArrayList<EventListener<ThirdPartyMediaServers>>();
     private final List<EventListener<AlarmRunSequence>> _changeAlarmRunSequenceListeners = new ArrayList<EventListener<AlarmRunSequence>>();
 
-    public ZoneGroupTopologyServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public AbstractZoneGroupTopologyServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("ZoneGroupTopology", upnpService, device, errorStrategy);
     }
 
@@ -193,7 +191,6 @@ public abstract class ZoneGroupTopologyServiceClingImpl extends AbstractServiceI
         if (!Objects.equal(oldAlarmRunSequence, newAlarmRunSequence)) {
             notifyAlarmRunSequenceChanged(oldAlarmRunSequence, newAlarmRunSequence);
         }
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {

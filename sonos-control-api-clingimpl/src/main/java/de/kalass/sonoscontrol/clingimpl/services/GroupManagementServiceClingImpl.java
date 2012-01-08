@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -45,7 +43,7 @@ import de.kalass.sonoscontrol.api.model.groupmanagement.TransportSettings;
 public final class GroupManagementServiceClingImpl extends AbstractServiceImpl implements GroupManagementService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(GroupManagementServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
     private final List<EventListener<LocalGroupUUID>> _changeLocalGroupUUIDListeners = new ArrayList<EventListener<LocalGroupUUID>>();
     private final List<EventListener<ResetVolumeAfter>> _changeResetVolumeAfterListeners = new ArrayList<EventListener<ResetVolumeAfter>>();
     private final List<EventListener<GroupCoordinatorIsLocal>> _changeGroupCoordinatorIsLocalListeners = new ArrayList<EventListener<GroupCoordinatorIsLocal>>();
@@ -156,7 +154,6 @@ public final class GroupManagementServiceClingImpl extends AbstractServiceImpl i
         if (!Objects.equal(oldVolumeAVTransportURI, newVolumeAVTransportURI)) {
             notifyVolumeAVTransportURIChanged(oldVolumeAVTransportURI, newVolumeAVTransportURI);
         }
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {

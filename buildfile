@@ -34,8 +34,10 @@ define "sonos-control" do
   project.version = VERSION_NUMBER
   project.group = GROUP
   manifest["Implementation-Vendor"] = COPYRIGHT
+  test.using :testng
 
   define 'api-generator', :base_dir => 'sonos-control-api-generator' do
+      test.using :testng
       compile.with LIB_GUAVA,LIB_SLF4J_API,LIB_JSR305, LIB_FREEMARKER,LIB_CLING_CORE,LIB_TELEAL_COMMON
       package(:jar)
   end
@@ -46,6 +48,8 @@ define "sonos-control" do
   end
 
   define 'api-clingimpl', :base_dir => 'sonos-control-api-clingimpl' do
+      test.using :testng
+      test.with LIB_SLF4J_IMPL
       compile.with LIB_GUAVA,LIB_SLF4J_API,LIB_JSR305,LIB_CLING_CORE,LIB_TELEAL_COMMON,project('api')
       package(:jar)
   end

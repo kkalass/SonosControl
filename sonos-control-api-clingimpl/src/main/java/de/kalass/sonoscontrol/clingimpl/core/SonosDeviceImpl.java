@@ -24,15 +24,15 @@ import de.kalass.sonoscontrol.api.services.MusicServicesService;
 import de.kalass.sonoscontrol.api.services.RenderingControlService;
 import de.kalass.sonoscontrol.api.services.SystemPropertiesService;
 import de.kalass.sonoscontrol.api.services.ZoneGroupTopologyService;
-import de.kalass.sonoscontrol.clingimpl.services.AVTransportServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.AbstractAVTransportServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.AbstractRenderingControlServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.AbstractZoneGroupTopologyServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.AlarmClockServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.AudioInServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.ConnectionManagerServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.GroupManagementServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.MusicServicesServiceClingImpl;
-import de.kalass.sonoscontrol.clingimpl.services.RenderingControlServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.SystemPropertiesServiceClingImpl;
-import de.kalass.sonoscontrol.clingimpl.services.ZoneGroupTopologyServiceClingImpl;
 
 public class SonosDeviceImpl implements SonosDevice {
 
@@ -65,7 +65,7 @@ public class SonosDeviceImpl implements SonosDevice {
 
     @Override
     public RenderingControlService getRenderingControlService() {
-        return new RenderingControlServiceClingImpl(_service, _device, _errorStrategy) {
+        return new AbstractRenderingControlServiceClingImpl(_service, _device, _errorStrategy) {
 
             @Override
             protected LastRenderingControlChange convertLastChange(
@@ -78,7 +78,7 @@ public class SonosDeviceImpl implements SonosDevice {
     }
     @Override
     public AVTransportService getAVTransportService() {
-        return new AVTransportServiceClingImpl(_service, _device, _errorStrategy) {
+        return new AbstractAVTransportServiceClingImpl(_service, _device, _errorStrategy) {
 
             @Override
             protected LastAVTransportChange convertLastChange(String rawValue) {
@@ -119,7 +119,7 @@ public class SonosDeviceImpl implements SonosDevice {
 
     @Override
     public ZoneGroupTopologyService getZoneGroupTopologyService() {
-        return new ZoneGroupTopologyServiceClingImpl(_service, _device, _errorStrategy) {
+        return new AbstractZoneGroupTopologyServiceClingImpl(_service, _device, _errorStrategy) {
 
             @Override
             protected ZoneGroupState convertZoneGroupState(String rawValue) {

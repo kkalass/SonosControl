@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -62,7 +60,7 @@ import de.kalass.sonoscontrol.api.model.deviceproperties.Icon;
 public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl implements DevicePropertiesService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(DevicePropertiesServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
     private final List<EventListener<SettingsReplicationState>> _changeSettingsReplicationStateListeners = new ArrayList<EventListener<SettingsReplicationState>>();
     private final List<EventListener<ZoneName>> _changeZoneNameListeners = new ArrayList<EventListener<ZoneName>>();
     private final List<EventListener<ChannelMapSet>> _changeChannelMapSetListeners = new ArrayList<EventListener<ChannelMapSet>>();
@@ -529,7 +527,6 @@ public final class DevicePropertiesServiceClingImpl extends AbstractServiceImpl 
         if (!Objects.equal(oldIcon, newIcon)) {
             notifyIconChanged(oldIcon, newIcon);
         }
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {

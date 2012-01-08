@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -59,13 +57,13 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
 import de.kalass.sonoscontrol.api.eventmodels.renderingcontrol.LastRenderingControlChange;
 
 @SuppressWarnings("rawtypes")
-public abstract class RenderingControlServiceClingImpl extends AbstractServiceImpl implements RenderingControlService {
-    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(RenderingControlServiceClingImpl.class);
+public abstract class AbstractRenderingControlServiceClingImpl extends AbstractServiceImpl implements RenderingControlService {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(AbstractRenderingControlServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
     private final List<EventListener<LastRenderingControlChange>> _changeLastChangeListeners = new ArrayList<EventListener<LastRenderingControlChange>>();
 
-    public RenderingControlServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public AbstractRenderingControlServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("RenderingControl", upnpService, device, errorStrategy);
     }
 
@@ -623,7 +621,6 @@ public abstract class RenderingControlServiceClingImpl extends AbstractServiceIm
         if (!Objects.equal(oldLastChange, newLastChange)) {
             notifyLastChangeChanged(oldLastChange, newLastChange);
         }
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {

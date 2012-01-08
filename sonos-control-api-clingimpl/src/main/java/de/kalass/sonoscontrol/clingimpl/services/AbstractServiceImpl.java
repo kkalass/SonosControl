@@ -1,5 +1,7 @@
 package de.kalass.sonoscontrol.clingimpl.services;
 
+import java.util.concurrent.CountDownLatch;
+
 import javax.annotation.CheckForNull;
 
 import org.slf4j.Logger;
@@ -34,6 +36,7 @@ public abstract class AbstractServiceImpl {
     private final Device _device;
 
     private final ErrorStrategy _errorStrategy;
+    protected final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
 
     public abstract class Call<C extends Callback> {
         private final String _actionName;
@@ -72,7 +75,7 @@ public abstract class AbstractServiceImpl {
         this._device = device;
         this._errorStrategy = errorStrategy;
 
-        upnpService.getControlPoint().execute(new SubscriptionCallback(Preconditions.checkNotNull(getService())) {
+        upnpService.getControlPoint().execute(new SubscriptionCallback(Preconditions.checkNotNull(getService(), "Cannot listen for events on Service " + _serviceId + " because the service is not found")) {
 
             @Override
             protected void failed(GENASubscription subscription,
@@ -86,7 +89,12 @@ public abstract class AbstractServiceImpl {
 
             @Override
             protected void eventReceived(GENASubscription subscription) {
-                AbstractServiceImpl.this.eventReceived(subscription);
+                try {
+                    AbstractServiceImpl.this.eventReceived(subscription);
+                } catch(RuntimeException e) {
+                    LOG.error("failed to process received event: ", e);
+                }
+                _eventsReceivedLatch.countDown();
             }
 
             @Override
@@ -169,8 +177,24 @@ public abstract class AbstractServiceImpl {
         }
     }
 
+    private static final int MAX_RETRIES = 10;
+    private static final int RETRY_MILLIS = 200;
+
     @CheckForNull
     protected Service getService() {
-        return this._device.findService(_serviceId);
+        Service service = null;
+        int count = MAX_RETRIES;
+        int retryMillis = RETRY_MILLIS;
+        while (count > 0 && (service = this._device.findService(_serviceId)) == null) {
+            count -= 1;
+            LOG.warn("Could not find Service " + _serviceId + " on device " + _device + ", will wait " + retryMillis + "ms  and then retry for the " + (MAX_RETRIES - count) + ". time");
+            try {
+                Thread.sleep(retryMillis);
+            } catch (InterruptedException e) {
+                LOG.warn("Interrupted while waiting until retry to find Service");
+            }
+            retryMillis = (int)Math.round(retryMillis * 1.5);
+        }
+        return service;
     }
 }

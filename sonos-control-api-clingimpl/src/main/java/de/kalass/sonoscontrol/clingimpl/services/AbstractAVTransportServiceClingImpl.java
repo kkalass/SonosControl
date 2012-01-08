@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -105,13 +103,13 @@ import de.kalass.sonoscontrol.api.model.avtransport.TrackNumber;
 import de.kalass.sonoscontrol.api.model.avtransport.CurrentRecordQualityMode;
 
 @SuppressWarnings("rawtypes")
-public abstract class AVTransportServiceClingImpl extends AbstractServiceImpl implements AVTransportService {
-    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(AVTransportServiceClingImpl.class);
+public abstract class AbstractAVTransportServiceClingImpl extends AbstractServiceImpl implements AVTransportService {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(AbstractAVTransportServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
     private final List<EventListener<LastAVTransportChange>> _changeLastChangeListeners = new ArrayList<EventListener<LastAVTransportChange>>();
 
-    public AVTransportServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
+    public AbstractAVTransportServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("AVTransport", upnpService, device, errorStrategy);
     }
 
@@ -926,7 +924,6 @@ public abstract class AVTransportServiceClingImpl extends AbstractServiceImpl im
         if (!Objects.equal(oldLastChange, newLastChange)) {
             notifyLastChangeChanged(oldLastChange, newLastChange);
         }
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {

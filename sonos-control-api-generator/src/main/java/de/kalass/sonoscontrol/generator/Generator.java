@@ -53,8 +53,10 @@ public class Generator {
         final String base= "/Users/klas/Documents/Programmieren/SonosControl/src/SonosControl/";
         final File docDir = new File(args.length == 0 ? base+"sonos-control-api-generator/doc/sonos/example-device-descriptions" : args[0]);
         final File outputDir = new File(args.length < 2 ? base+"sonos-control-api/src/main/java/" : args[1]);
+        final File testsOutputDir = new File(base+"sonos-control-api-clingimpl/src/test/java/");
         final File templatesInputDir = new File(args.length < 3 ? base+"sonos-control-api-generator/src/main/ftl/" : args[2]);
         final File javaFilesInputDir = new File(args.length < 4 ? base+"sonos-control-api-generator/src/main/java/" : args[3]);
+        final File clingTestFilesInputDir = new File(base+"sonos-control-api-generator/src/test/java/");
         final File clingImplOutputDir = new File(args.length < 5 ? base+"sonos-control-api-clingimpl/src/main/java/" : args[4]);
         Preconditions.checkArgument(docDir.isDirectory());
 
@@ -73,6 +75,7 @@ public class Generator {
         delete(corePackageName.asFile(outputDir));
         delete(servicesPackageName.asFile(outputDir));
         delete(modelPackageName.asFile(outputDir));
+        delete(clingimplServicesPackageName.asFile(testsOutputDir));
         delete(clingimplServicesPackageName.asFile(clingImplOutputDir));
 
         // copy all files that will not be generated
@@ -80,6 +83,7 @@ public class Generator {
         copyFromTo(servicesPackageName, javaFilesInputDir, outputDir);
         copyFromTo(modelPackageName, javaFilesInputDir, outputDir);
         copyFromTo(clingimplServicesPackageName, javaFilesInputDir, clingImplOutputDir);
+        copyFromTo(clingimplServicesPackageName, clingTestFilesInputDir, testsOutputDir);
 
         final List<UpnpService> types = UpnpServiceReader.readTypeDescriptions(docDir);
 
@@ -149,7 +153,7 @@ public class Generator {
         }
 
         System.out.println("");
-        System.out.println("Generating Cling Implementation");
+        System.out.println("Generating Cling Implementation and tests");
         for (IService service : serviceTypes) {
             final ServiceImpl type = new ServiceImpl(service, clingimplServicesPackageName);
             final File serviceFile = type.getJavaImplClassName().asFile(clingImplOutputDir);
@@ -157,8 +161,17 @@ public class Generator {
                 Files.createParentDirs(serviceFile);
                 final String sourceCode = render(cfg, "ServiceClingImpl.ftl", type);
                 Files.write(sourceCode, serviceFile, UTF8);
+
                 System.out.println("ServiceImpl: " + service.getUpnpName());
                 System.out.println("");
+            }
+            final File serviceTestFile = type.getJavaImplClassName().getPackage()
+                    .childClass(type.getJavaClassName().getName() + "Test").asFile(testsOutputDir);
+
+            if (!serviceTestFile.exists()) {
+                Files.createParentDirs(serviceTestFile);
+                final String testSourceCode = render(cfg, "ServiceClingImplTest.ftl", type);
+                Files.write(testSourceCode, serviceTestFile, UTF8);
             }
         }
 

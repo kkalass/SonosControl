@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -48,7 +46,7 @@ import de.kalass.sonoscontrol.api.model.audioin.Icon;
 public final class AudioInServiceClingImpl extends AbstractServiceImpl implements AudioInService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(AudioInServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
     private final List<EventListener<RightLineInLevel>> _changeRightLineInLevelListeners = new ArrayList<EventListener<RightLineInLevel>>();
     private final List<EventListener<LeftLineInLevel>> _changeLeftLineInLevelListeners = new ArrayList<EventListener<LeftLineInLevel>>();
     private final List<EventListener<AudioInputName>> _changeAudioInputNameListeners = new ArrayList<EventListener<AudioInputName>>();
@@ -247,7 +245,6 @@ public final class AudioInServiceClingImpl extends AbstractServiceImpl implement
         if (!Objects.equal(oldIcon, newIcon)) {
             notifyIconChanged(oldIcon, newIcon);
         }
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {

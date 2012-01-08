@@ -13,7 +13,11 @@ public class ServiceImpl implements IService {
     public ServiceImpl(IService service, JavaPackageName implDirName) {
         super();
         _service = service;
-        _javaClassName = implDirName.childClass(service.getUpnpName() + "ServiceClingImpl");
+        if (_service.isCustomSerializationNeeded()) {
+            _javaClassName = implDirName.childClass("Abstract" + service.getUpnpName() + "ServiceClingImpl");
+        } else {
+            _javaClassName = implDirName.childClass(service.getUpnpName() + "ServiceClingImpl");
+        }
     }
 
     @Override

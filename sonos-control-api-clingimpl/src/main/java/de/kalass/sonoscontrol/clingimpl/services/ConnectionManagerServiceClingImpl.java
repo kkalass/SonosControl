@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -49,7 +47,7 @@ import de.kalass.sonoscontrol.api.model.connectionmanager.AVTransportID;
 public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl implements ConnectionManagerService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ConnectionManagerServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
     private final List<EventListener<SinkProtocolInfo>> _changeSinkProtocolInfoListeners = new ArrayList<EventListener<SinkProtocolInfo>>();
     private final List<EventListener<SourceProtocolInfo>> _changeSourceProtocolInfoListeners = new ArrayList<EventListener<SourceProtocolInfo>>();
     private final List<EventListener<CurrentConnectionIDs>> _changeCurrentConnectionIDsListeners = new ArrayList<EventListener<CurrentConnectionIDs>>();
@@ -154,7 +152,6 @@ public final class ConnectionManagerServiceClingImpl extends AbstractServiceImpl
         if (!Objects.equal(oldCurrentConnectionIDs, newCurrentConnectionIDs)) {
             notifyCurrentConnectionIDsChanged(oldCurrentConnectionIDs, newCurrentConnectionIDs);
         }
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {

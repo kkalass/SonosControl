@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -38,7 +36,7 @@ import ${import.FQN};
 public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${data.javaImplClassName.name} extends AbstractServiceImpl implements ${data.javaClassName.name} {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(${data.javaImplClassName.name}.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
     <#list data.stateVariables as stateVariable>
     <#if stateVariable.sendEvents>
     private final List<EventListener<${stateVariable.type.javaClassName.name}>> _change${stateVariable.stateVariableName}Listeners = new ArrayList<EventListener<${stateVariable.type.javaClassName.name}>>();
@@ -124,7 +122,6 @@ public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${da
         }
         </#if>
         </#list>
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {

@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -64,7 +62,7 @@ import de.kalass.sonoscontrol.api.model.alarmclock.TimeFormat;
 public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implements AlarmClockService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(AlarmClockServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
     private final List<EventListener<TimeGeneration>> _changeTimeGenerationListeners = new ArrayList<EventListener<TimeGeneration>>();
     private final List<EventListener<AlarmListVersion>> _changeAlarmListVersionListeners = new ArrayList<EventListener<AlarmListVersion>>();
     private final List<EventListener<DateFormat>> _changeDateFormatListeners = new ArrayList<EventListener<DateFormat>>();
@@ -469,7 +467,6 @@ public final class AlarmClockServiceClingImpl extends AbstractServiceImpl implem
         if (!Objects.equal(oldDailyIndexRefreshTime, newDailyIndexRefreshTime)) {
             notifyDailyIndexRefreshTimeChanged(oldDailyIndexRefreshTime, newDailyIndexRefreshTime);
         }
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {

@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -45,7 +43,7 @@ import de.kalass.sonoscontrol.api.model.systemproperties.AccountPassword;
 public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl implements SystemPropertiesService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(SystemPropertiesServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
 
     public SystemPropertiesServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
         super("SystemProperties", upnpService, device, errorStrategy);
@@ -282,7 +280,6 @@ public final class SystemPropertiesServiceClingImpl extends AbstractServiceImpl 
 
 
         // after the values were updated, send the change notifications
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {

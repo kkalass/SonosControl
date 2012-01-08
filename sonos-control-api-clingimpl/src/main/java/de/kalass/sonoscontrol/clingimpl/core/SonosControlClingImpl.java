@@ -6,6 +6,7 @@ import org.teleal.cling.UpnpService;
 import org.teleal.cling.UpnpServiceImpl;
 import org.teleal.cling.model.message.header.STAllHeader;
 import org.teleal.cling.model.meta.Device;
+import org.teleal.cling.model.meta.RemoteDevice;
 import org.teleal.cling.registry.DefaultRegistryListener;
 import org.teleal.cling.registry.Registry;
 import org.teleal.cling.registry.RegistryListener;
@@ -60,9 +61,46 @@ public class SonosControlClingImpl implements SonosControl {
             this.zoneName = zoneName;
         }
 
+        @Override
+        public void beforeShutdown(Registry registry) {
+            LOG.info("Device discovery shutdown started");
+        }
+
+        @Override
+        public void afterShutdown() {
+            LOG.info("Device discovery shutdown finished");
+        }
+
+        @Override
+        public void deviceRemoved(Registry registry, Device device) {
+            LOG.info("Device removed: " + device.getDisplayString());
+        }
+
+        @Override
+        public void remoteDeviceDiscoveryStarted(Registry registry,
+                RemoteDevice device) {
+            LOG.info("Remote device discovery started: " + device.getDisplayString());
+        }
+
+        @Override
+        public void remoteDeviceDiscoveryFailed(Registry registry,
+                RemoteDevice device, Exception ex) {
+            LOG.info("Remote device discovery failed: " + device.getDisplayString(), ex);
+        }
+
+        @Override
+        public void remoteDeviceUpdated(Registry registry, RemoteDevice device) {
+            LOG.info("Remote device updated: " + device.getDisplayString());
+        }
+
         @SuppressWarnings("rawtypes")
         @Override
         public void deviceAdded(Registry registry, final Device device) {
+            LOG.info("Found device: " + device.getDisplayString() + " " + device.getIdentity().getUdn().getIdentifierString());
+            if (!device.getDetails().getManufacturerDetails().getManufacturer().contains("Sonos")) {
+                return;
+            }
+
             final DevicePropertiesService propsService = new DevicePropertiesServiceClingImpl(_upnpService, device, _errorStrategy);
             propsService.retrieveZoneAttributes(new Callback1<GetZoneAttributesResult>() {
                 @Override
@@ -111,6 +149,7 @@ public class SonosControlClingImpl implements SonosControl {
 
         // Send a search message to all devices and services, they should respond soon
         this._upnpService.getControlPoint().search(new STAllHeader());
+        LOG.info("currently found devices:" + this._upnpService.getRegistry().getDevices());
     }
 
     @Override

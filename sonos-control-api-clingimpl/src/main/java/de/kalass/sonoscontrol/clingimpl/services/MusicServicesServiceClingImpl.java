@@ -1,5 +1,3 @@
-
-
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
@@ -41,7 +39,7 @@ import de.kalass.sonoscontrol.api.model.musicservices.ServiceDescriptorList;
 public final class MusicServicesServiceClingImpl extends AbstractServiceImpl implements MusicServicesService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(MusicServicesServiceClingImpl.class);
     private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
-    private final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    
     private final List<EventListener<ServiceListVersion>> _changeServiceListVersionListeners = new ArrayList<EventListener<ServiceListVersion>>();
 
     public MusicServicesServiceClingImpl(UpnpService upnpService, Device device, ErrorStrategy errorStrategy) {
@@ -99,7 +97,6 @@ public final class MusicServicesServiceClingImpl extends AbstractServiceImpl imp
         if (!Objects.equal(oldServiceListVersion, newServiceListVersion)) {
             notifyServiceListVersionChanged(oldServiceListVersion, newServiceListVersion);
         }
-        _eventsReceivedLatch.countDown();
     }
 
     protected Object getEventedValueOrWait(String key) {
