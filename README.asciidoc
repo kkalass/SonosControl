@@ -2,7 +2,9 @@
 
 === TODO ===
 
+* optionally scan the network for devices, because discovery is not reliable, as already visible in the official clients
 * convert from String to the StateVariable types which actually send XML sniplets
+* Implement the grouping stuff to finally implement my auto-joining
 
 === About ===
 A Java API and a simple command line client for controlling the SONOS.
