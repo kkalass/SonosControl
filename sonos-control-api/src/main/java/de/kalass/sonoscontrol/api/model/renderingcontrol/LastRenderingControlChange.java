@@ -1,7 +1,7 @@
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
-package de.kalass.sonoscontrol.api.eventmodels.renderingcontrol;
+package de.kalass.sonoscontrol.api.model.renderingcontrol;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,14 +12,6 @@ import javax.annotation.Nonnull;
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.model.InstanceID;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Bass;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.HeadphoneConnected;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Loudness;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.OutputFixed;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Treble;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.Volume;
 
 public final class LastRenderingControlChange implements Serializable {
     private static final long serialVersionUID = 1L;

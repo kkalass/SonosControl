@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology;
+package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 
 import java.util.List;
 

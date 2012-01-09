@@ -11,8 +11,8 @@ import de.kalass.sonoscontrol.api.control.SonosControl;
 import de.kalass.sonoscontrol.api.control.SonosControl.SonosDeviceCallback;
 import de.kalass.sonoscontrol.api.control.SonosDevice;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
-import de.kalass.sonoscontrol.clingimpl.core.ServiceNotAvailableException;
 import de.kalass.sonoscontrol.clingimpl.core.SonosControlClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.ServiceNotAvailableException;
 
 public abstract class AbstractSonosServiceTest<T> {
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(AbstractSonosServiceTest.class);

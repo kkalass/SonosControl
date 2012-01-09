@@ -1,23 +1,24 @@
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
-package de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology;
+package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 
 import java.io.Serializable;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public final class Username implements Serializable {
+public final class BootSeq implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final String _value;
 
-    private Username(String value) {
+    private final Long _value;
+
+    private BootSeq(Long value) {
         _value = Preconditions.checkNotNull(value);
     }
 
-    public String getValue() {
+    public Long getValue() {
         return _value;
     }
 
@@ -33,14 +34,14 @@ public final class Username implements Serializable {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Username) {
-            Username obj = (Username)other;
+        if (other instanceof BootSeq) {
+            BootSeq obj = (BootSeq)other;
             return Objects.equal(_value, obj._value);
         }
         return false;
     }
 
-    public static Username getInstance(String value) {
-        return value == null ? null : new Username(value);
+    public static BootSeq getInstance(Long value) {
+        return value == null ? null : new BootSeq(value);
     }
 }

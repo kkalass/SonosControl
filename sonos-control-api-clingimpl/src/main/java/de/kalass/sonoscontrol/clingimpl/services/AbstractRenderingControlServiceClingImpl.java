@@ -32,6 +32,7 @@ import de.kalass.sonoscontrol.clingimpl.services.AbstractServiceImpl;
 
 import de.kalass.sonoscontrol.api.core.Callback0;
 import de.kalass.sonoscontrol.api.core.Callback1;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.LastRenderingControlChange;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Mute;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ResetBasicEQResult;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Volume;
@@ -56,7 +57,6 @@ import de.kalass.sonoscontrol.api.model.renderingcontrol.EQType;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ResetVolumeAfter;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.ChannelMap;
 import de.kalass.sonoscontrol.api.model.renderingcontrol.Channel;
-import de.kalass.sonoscontrol.api.eventmodels.renderingcontrol.LastRenderingControlChange;
 
 @SuppressWarnings("rawtypes")
 public abstract class AbstractRenderingControlServiceClingImpl extends AbstractServiceImpl implements RenderingControlService {

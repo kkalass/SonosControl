@@ -7,12 +7,6 @@ import org.teleal.cling.model.meta.Device;
 
 import de.kalass.sonoscontrol.api.control.SonosDevice;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
-import de.kalass.sonoscontrol.api.eventmodels.avtransport.LastAVTransportChange;
-import de.kalass.sonoscontrol.api.eventmodels.renderingcontrol.LastRenderingControlChange;
-import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.AvailableSoftwareUpdate;
-import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.ThirdPartyMediaServers;
-import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.UpdateItem;
-import de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology.ZoneGroupState;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.AVTransportService;
 import de.kalass.sonoscontrol.api.services.AlarmClockService;
@@ -24,80 +18,17 @@ import de.kalass.sonoscontrol.api.services.MusicServicesService;
 import de.kalass.sonoscontrol.api.services.RenderingControlService;
 import de.kalass.sonoscontrol.api.services.SystemPropertiesService;
 import de.kalass.sonoscontrol.api.services.ZoneGroupTopologyService;
-import de.kalass.sonoscontrol.clingimpl.services.AbstractAVTransportServiceClingImpl;
-import de.kalass.sonoscontrol.clingimpl.services.AbstractRenderingControlServiceClingImpl;
-import de.kalass.sonoscontrol.clingimpl.services.AbstractZoneGroupTopologyServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.AVTransportServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.AlarmClockServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.AudioInServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.ConnectionManagerServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.GroupManagementServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.MusicServicesServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.RenderingControlServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.SystemPropertiesServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.ZoneGroupTopologyServiceClingImpl;
 
 public class SonosDeviceImpl implements SonosDevice {
-
-    private static final class ZoneGroupTopologyServiceClingImpl extends
-    AbstractZoneGroupTopologyServiceClingImpl {
-        private ZoneGroupTopologyServiceClingImpl(UpnpService upnpService,
-                Device device, ErrorStrategy errorStrategy) {
-            super(upnpService, device, errorStrategy);
-        }
-
-        @Override
-        protected ZoneGroupState convertZoneGroupState(String rawValue) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        protected UpdateItem convertUpdateItem(String rawValue) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        protected ThirdPartyMediaServers convertThirdPartyMediaServers(
-                String rawValue) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        protected AvailableSoftwareUpdate convertAvailableSoftwareUpdate(
-                String rawValue) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException();
-        }
-    }
-
-    private static final class AVTransportServiceClingImpl extends
-    AbstractAVTransportServiceClingImpl {
-        private AVTransportServiceClingImpl(UpnpService upnpService,
-                Device device, ErrorStrategy errorStrategy) {
-            super(upnpService, device, errorStrategy);
-        }
-
-        @Override
-        protected LastAVTransportChange convertLastChange(String rawValue) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException();
-        }
-    }
-
-    private static final class RenderingControlServiceClingImpl extends
-    AbstractRenderingControlServiceClingImpl {
-        private RenderingControlServiceClingImpl(UpnpService upnpService,
-                Device device, ErrorStrategy errorStrategy) {
-            super(upnpService, device, errorStrategy);
-        }
-
-        @Override
-        protected LastRenderingControlChange convertLastChange(
-                String rawValue) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException();
-        }
-    }
 
     private final DevicePropertiesService _propsService;
     private final ZoneName _zoneName;

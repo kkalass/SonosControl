@@ -1,4 +1,4 @@
-package de.kalass.sonoscontrol.clingimpl.core;
+package de.kalass.sonoscontrol.clingimpl.services;
 
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 

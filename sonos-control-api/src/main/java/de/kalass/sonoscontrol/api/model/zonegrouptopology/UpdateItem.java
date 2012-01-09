@@ -1,16 +1,13 @@
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
-package de.kalass.sonoscontrol.api.eventmodels.zonegrouptopology;
+package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 
 import java.io.Serializable;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-import de.kalass.sonoscontrol.api.model.zonegrouptopology.UpdateType;
-import de.kalass.sonoscontrol.api.model.zonegrouptopology.UpdateURL;
-import de.kalass.sonoscontrol.api.model.zonegrouptopology.Version;
 
 public final class UpdateItem implements Serializable {
     private static final long serialVersionUID = 1L;

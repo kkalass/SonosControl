@@ -1,22 +1,13 @@
 /**
  * AUTOMATICALLY GENERATED - DO NOT MODIFY
  */
-package de.kalass.sonoscontrol.api.eventmodels.avtransport;
+package de.kalass.sonoscontrol.api.model.avtransport;
 
 import java.io.Serializable;
 
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.model.InstanceID;
-import de.kalass.sonoscontrol.api.model.avtransport.CurrentCrossfadeMode;
-import de.kalass.sonoscontrol.api.model.avtransport.CurrentPlayMode;
-import de.kalass.sonoscontrol.api.model.avtransport.CurrentSection;
-import de.kalass.sonoscontrol.api.model.avtransport.CurrentTrack;
-import de.kalass.sonoscontrol.api.model.avtransport.CurrentTrackDuration;
-import de.kalass.sonoscontrol.api.model.avtransport.CurrentTrackMetaData;
-import de.kalass.sonoscontrol.api.model.avtransport.CurrentTrackURI;
-import de.kalass.sonoscontrol.api.model.avtransport.NumberOfTracks;
-import de.kalass.sonoscontrol.api.model.avtransport.TransportState;
 
 public final class LastAVTransportChange implements Serializable {
     private static final long serialVersionUID = 1L;
