@@ -1,6 +1,3 @@
-/**
- * AUTOMATICALLY GENERATED - DO NOT MODIFY
- */
 package ${data.javaClassName.package.FQN};
 
 public enum ${data.javaClassName.name} {

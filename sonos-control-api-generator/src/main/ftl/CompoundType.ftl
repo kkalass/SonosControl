@@ -1,6 +1,3 @@
-/**
- * AUTOMATICALLY GENERATED - DO NOT MODIFY
- */
 package ${data.javaClassName.package.FQN};
 
 import com.google.common.base.Objects;

@@ -1,6 +1,3 @@
-/**
- * AUTOMATICALLY GENERATED - DO NOT MODIFY
- */
 package ${data.javaImplClassName.package.FQN};
 
 import ${data.javaClassName.FQN};
