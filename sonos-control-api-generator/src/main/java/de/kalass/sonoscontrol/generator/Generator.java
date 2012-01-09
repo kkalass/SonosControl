@@ -117,9 +117,7 @@ public class Generator {
             for (StateVariable stateVariable : type.getStateVariables()) {
                 final Type stateVariableType = stateVariable.getType();
                 final File typeFile = stateVariableType.getJavaClassName().asFile(outputDir);
-                if (!typeFile.exists() && stateVariableType instanceof CustomType) {
-
-                    Files.createParentDirs(typeFile);
+                if (stateVariableType instanceof CustomType) {
                     final String template;
                     if (stateVariableType instanceof BooleanType) {
                         template = "BooleanStateVariableType.ftl";
@@ -130,9 +128,7 @@ public class Generator {
                     } else {
                         template = "StateVariableType.ftl";
                     }
-                    final String sourceCode = render(cfg, template, stateVariableType);
-                    Files.write(sourceCode, typeFile, UTF8);
-                    System.out.println("StateVariableType: " + typeFile);
+                    autogenerate(cfg, template, stateVariableType, typeFile);
                 }
             }
 
@@ -142,22 +138,11 @@ public class Generator {
                     final ActionOutputCompound compound = (ActionOutputCompound)out;
                     final CompoundType compoundType = (CompoundType)compound.getType();
                     final File typeFile = compoundType.getJavaClassName().asFile(outputDir);
-                    if (!typeFile.exists()) {
-                        Files.createParentDirs(typeFile);
-                        final String sourceCode = render(cfg, "CompoundType.ftl", compoundType);
-                        Files.write(sourceCode, typeFile, UTF8);
-                        System.out.println("ActionOutputType: " + typeFile);
-                    }
+                    autogenerate(cfg, "CompoundType.ftl", compoundType, typeFile);
                 }
             }
             final File serviceFile = type.getJavaClassName().asFile(outputDir);
-            if (!serviceFile.exists()) {
-                Files.createParentDirs(serviceFile);
-                final String sourceCode = render(cfg, "ServiceInterface.ftl", type);
-                Files.write(sourceCode, serviceFile, UTF8);
-                System.out.println("Service: " + scdp.getName());
-                System.out.println("");
-            }
+            autogenerate(cfg, "ServiceInterface.ftl", type, serviceFile);
         }
 
         System.out.println("");
@@ -165,23 +150,12 @@ public class Generator {
         for (IService service : serviceTypes) {
             final ServiceImpl type = new ServiceImpl(service, clingimplServicesPackageName);
             final File serviceFile = type.getJavaImplClassName().asFile(clingImplOutputDir);
-            if (!serviceFile.exists()) {
-                Files.createParentDirs(serviceFile);
-                final String sourceCode = render(cfg, "ServiceClingImpl.ftl", type);
-                Files.write(sourceCode, serviceFile, UTF8);
+            autogenerate(cfg, "ServiceClingImpl.ftl", type, serviceFile);
 
-                System.out.println("ServiceImpl: " + service.getUpnpName());
-                System.out.println("");
-            }
             if (GENERATE_TESTS) {
                 final File serviceTestFile = type.getJavaImplClassName().getPackage()
                         .childClass(type.getJavaClassName().getName() + "Test").asFile(testsOutputDir);
-
-                if (!serviceTestFile.exists()) {
-                    Files.createParentDirs(serviceTestFile);
-                    final String testSourceCode = render(cfg, "ServiceClingImplTest.ftl", type);
-                    Files.write(testSourceCode, serviceTestFile, UTF8);
-                }
+                autogenerate(cfg, "ServiceClingImplTest.ftl", type, serviceTestFile);
             }
         }
 
@@ -199,6 +173,20 @@ public class Generator {
                 return Strings.padEnd(input.getKey() + ":", 25, ' ') +input.getValue();
             }
         })));
+    }
+
+    private static void autogenerate(
+            final Configuration cfg,
+            final String templateName,
+            final Object model,
+            final File typeFile)
+                    throws IOException {
+        if (!typeFile.exists()) {
+            Files.createParentDirs(typeFile);
+            final String sourceCode = render(cfg, templateName, model);
+            Files.write(sourceCode, typeFile, UTF8);
+            System.out.println(templateName + ": " + typeFile);
+        }
     }
 
     private static void copyFromTo(JavaPackageName packageName, File input, File output) {
