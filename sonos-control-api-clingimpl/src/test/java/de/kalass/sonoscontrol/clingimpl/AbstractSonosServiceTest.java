@@ -1,6 +1,8 @@
 package de.kalass.sonoscontrol.clingimpl;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
@@ -27,11 +29,20 @@ public abstract class AbstractSonosServiceTest<T> {
 
             @Override
             public void success(SonosDevice device) {
-                // Will only change value for the first found device - we will always use the first sonos this way
-                deviceFuture.set(device);
+                if (extractService(device) != null) {
+                    // Will only change value for the first found device - we will always use the first sonos this way
+                    deviceFuture.set(device);
+                } else {
+                    LOG.info("Did not find service" + getServiceName() + " in device " + device.getZoneName() + ", will look in other device");
+                }
             }
         });
-        final SonosDevice device = deviceFuture.get();
+        SonosDevice device = null;
+        try {
+            device = deviceFuture.get(5, TimeUnit.SECONDS);
+        } catch (TimeoutException e) {
+            LOG.info("Gave up looking for service " + getServiceName());
+        }
         _zoneName = device.getZoneName();
         _service = extractService(device);
 

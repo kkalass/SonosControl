@@ -99,7 +99,8 @@ AbstractRenderingControlServiceClingImpl {
         final Treble treble = Treble.getInstance(getLongVal(children.getSingleItem("Treble")));
         final OutputFixed outputFixed = OutputFixed.getInstance(getBooleanVal(children.getSingleItem("OutputFixed")));
         final HeadphoneConnected headphoneConnected = HeadphoneConnected.getInstance(getBooleanVal(children.getSingleItem("HeadphoneConnected")));
-        final PresetNameList presetNameList = PresetNameList.getInstance(children.getSingleItem("PresetNameList").getTextContent());
+        final Node singleItem = children.getSingleItem("PresetNameList");
+        final PresetNameList presetNameList = PresetNameList.getInstance(singleItem == null ? null : singleItem.getTextContent());
 
         return new LastChange(
                 instanceId, volumes, mutes,

@@ -32,7 +32,6 @@ import ${import.FQN};
 @SuppressWarnings("rawtypes")
 public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${data.javaImplClassName.name} extends AbstractServiceImpl implements ${data.javaClassName.name} {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(${data.javaImplClassName.name}.class);
-    private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
     
     <#list data.stateVariables as stateVariable>
     <#if stateVariable.sendEvents>
@@ -97,7 +96,7 @@ public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${da
 
     protected void eventReceived(GENASubscription subscription) {
         final Map values = subscription.getCurrentValues();
-        final Map<String, Object> stored = new HashMap<String, Object>(_eventedValues);
+        final Map<String, Object> stored = getStoredValues();
 
         <#list data.stateVariables as stateVariable>
         <#if stateVariable.sendEvents>
@@ -113,11 +112,13 @@ public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${da
             old${stateVariable.stateVariableName} = null;
         }
         if (!Objects.equal(old${stateVariable.stateVariableName}, new${stateVariable.stateVariableName})) {
-            _eventedValues.put("${stateVariable.stateVariableName}", new${stateVariable.stateVariableName});
+            stored.put("${stateVariable.stateVariableName}", new${stateVariable.stateVariableName});
         }
         </#if>
         </#list>
 
+        setEventedValues(stored);
+        
         // after the values were updated, send the change notifications
         <#list data.stateVariables as stateVariable>
         <#if stateVariable.sendEvents>
@@ -127,15 +128,6 @@ public <#if data.customSerializationNeeded>abstract<#else>final</#if> class ${da
         }
         </#if>
         </#list>
-    }
-
-    protected Object getEventedValueOrWait(String key) {
-        try {
-            _eventsReceivedLatch.await();
-        } catch (InterruptedException e) {
-            LOG.warn("waiting for evented value countdown latch was interrupted, will continue");
-        }
-        return _eventedValues.get(key);
     }
 
     <#list data.stateVariables as stateVariable>

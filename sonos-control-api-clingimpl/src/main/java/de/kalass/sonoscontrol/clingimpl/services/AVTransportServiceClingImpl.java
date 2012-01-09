@@ -7,6 +7,8 @@ import static de.kalass.sonoscontrol.clingimpl.services.XMLUtil.getLongVal;
 import static de.kalass.sonoscontrol.clingimpl.services.XMLUtil.getRoot;
 import static de.kalass.sonoscontrol.clingimpl.services.XMLUtil.getVal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.meta.Device;
 import org.w3c.dom.Node;
@@ -26,6 +28,9 @@ import de.kalass.sonoscontrol.api.model.avtransport.TransportState;
 
 public final class AVTransportServiceClingImpl extends
 AbstractAVTransportServiceClingImpl {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AVTransportServiceClingImpl.class);
+
     public AVTransportServiceClingImpl(UpnpService upnpService,
             @SuppressWarnings("rawtypes") Device device, ErrorStrategy errorStrategy) {
         super(upnpService, device, errorStrategy);
@@ -57,6 +62,7 @@ AbstractAVTransportServiceClingImpl {
            </InstanceID>
        </Event>
          */
+        LOG.info("GotLastChange value: " + rawValue);
 
         final Node instanceNode = getChildNotNull(getRoot(rawValue), "InstanceID");
         final XMLUtil.Children nodes = getChildren(instanceNode);

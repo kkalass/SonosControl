@@ -1,6 +1,10 @@
 package de.kalass.sonoscontrol.clingimpl.services;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.CheckForNull;
 
@@ -36,6 +40,7 @@ public abstract class AbstractServiceImpl {
 
     private final ErrorStrategy _errorStrategy;
     protected final CountDownLatch _eventsReceivedLatch = new CountDownLatch(1);
+    private final Map<String, Object> _eventedValues = new ConcurrentHashMap<String, Object>();
 
     private boolean _available;
 
@@ -121,6 +126,22 @@ public abstract class AbstractServiceImpl {
 
     public boolean isAvailable() {
         return _available;
+    }
+    protected Object getEventedValueOrWait(String key) {
+        try {
+            _eventsReceivedLatch.await(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            LOG.warn("waiting for evented value countdown latch was interrupted, will continue");
+        }
+        return _eventedValues.get(key);
+    }
+
+    protected void setEventedValues(Map<String, Object> map) {
+        _eventedValues.putAll(map);
+    }
+
+    protected Map<String, Object> getStoredValues() {
+        return new HashMap<String, Object>(_eventedValues);
     }
 
     protected void eventReceived(GENASubscription subscription) {

@@ -9,6 +9,7 @@ import de.kalass.sonoscontrol.api.services.AVTransportService;
 import de.kalass.sonoscontrol.api.services.AlarmClockService;
 import de.kalass.sonoscontrol.api.services.AudioInService;
 import de.kalass.sonoscontrol.api.services.ConnectionManagerService;
+import de.kalass.sonoscontrol.api.services.ContentDirectoryService;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 import de.kalass.sonoscontrol.api.services.GroupManagementService;
 import de.kalass.sonoscontrol.api.services.MusicServicesService;
@@ -38,10 +39,19 @@ public interface SonosDevice {
     AVTransportService getAVTransportService();
 
     /**
-     * Please note: ConnectionManager is announced, but not actually available at least on my Sonos Systems (Play:3, ZP-90 and ZP-120) (KK, 07.01.2012).
+     * The ConnectionManager Service of the MediaRenderer (sub)device.
+     */
+    @CheckForNull
+    ConnectionManagerService getMediaRendererConnectionManagerService();
+
+    /**
+     * The ConnectionManager Service of the MediaServer (sub)device.
      */
     @CheckForNull
     ConnectionManagerService getConnectionManagerService();
+
+    @Nonnull
+    ContentDirectoryService getContentDirectoryService();
 
     @Nonnull
     DevicePropertiesService getDevicePropertiesService();

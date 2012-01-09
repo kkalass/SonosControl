@@ -4,6 +4,9 @@ import javax.annotation.Nonnull;
 
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.meta.Device;
+import org.teleal.cling.model.types.DeviceType;
+
+import com.google.common.base.Preconditions;
 
 import de.kalass.sonoscontrol.api.control.SonosDevice;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
@@ -13,6 +16,7 @@ import de.kalass.sonoscontrol.api.services.AVTransportService;
 import de.kalass.sonoscontrol.api.services.AlarmClockService;
 import de.kalass.sonoscontrol.api.services.AudioInService;
 import de.kalass.sonoscontrol.api.services.ConnectionManagerService;
+import de.kalass.sonoscontrol.api.services.ContentDirectoryService;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
 import de.kalass.sonoscontrol.api.services.GroupManagementService;
 import de.kalass.sonoscontrol.api.services.MusicServicesService;
@@ -23,6 +27,7 @@ import de.kalass.sonoscontrol.clingimpl.services.AVTransportServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.AlarmClockServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.AudioInServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.ConnectionManagerServiceClingImpl;
+import de.kalass.sonoscontrol.clingimpl.services.ContentDirectoryServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.GroupManagementServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.MusicServicesServiceClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.RenderingControlServiceClingImpl;
@@ -90,8 +95,25 @@ public class SonosDeviceImpl implements SonosDevice {
     }
 
     @Override
+    public ConnectionManagerService getMediaRendererConnectionManagerService() {
+        @SuppressWarnings("rawtypes")
+        Device mediaServerDevice = Preconditions.checkNotNull(_device.findDevices(DeviceType.valueOf("urn:schemas-upnp-org:device:MediaRenderer:1"))[0]);
+        final ConnectionManagerServiceClingImpl service = new ConnectionManagerServiceClingImpl(_service, mediaServerDevice, _errorStrategy);
+        return service.isAvailable() ? service : null;
+    }
+
+    @Override
     public ConnectionManagerService getConnectionManagerService() {
-        final ConnectionManagerServiceClingImpl service = new ConnectionManagerServiceClingImpl(_service, _device, _errorStrategy);
+        @SuppressWarnings("rawtypes")
+        Device mediaServerDevice = Preconditions.checkNotNull(_device.findDevices(DeviceType.valueOf("urn:schemas-upnp-org:device:MediaServer:1"))[0]);
+        final ConnectionManagerServiceClingImpl service = new ConnectionManagerServiceClingImpl(_service, mediaServerDevice, _errorStrategy);
+        return service.isAvailable() ? service : null;
+    }
+    @Override
+    public ContentDirectoryService getContentDirectoryService() {
+        @SuppressWarnings("rawtypes")
+        Device mediaServerDevice = Preconditions.checkNotNull(_device.findDevices(DeviceType.valueOf("urn:schemas-upnp-org:device:MediaServer:1"))[0]);
+        final ContentDirectoryServiceClingImpl service = new ContentDirectoryServiceClingImpl(_service, mediaServerDevice, _errorStrategy);
         return service.isAvailable() ? service : null;
     }
 
