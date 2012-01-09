@@ -57,6 +57,10 @@ public abstract class AbstractServiceImpl {
         }
         protected void setInput(ActionInvocation invocation, String upnpType, String name, Long value) {
             final Object upnpValue;
+            if (value == null) {
+                invocation.setInput(name, null);
+                return;
+            }
             if ("ui4".equals(upnpType) || "i4".equals(upnpType)) {
                 upnpValue = new UnsignedIntegerFourBytes(value);
             } else if ("ui2".equals(upnpType) || "i2".equals(upnpType)) {
