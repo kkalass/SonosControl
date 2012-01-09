@@ -1,0 +1,178 @@
+<Services>
+    <Service Id="0" Name="Napster" Version="1.1"
+        Uri="http://napster.sonos-ws-us.com/Napster/Service1.asmx"
+        SecureUri="https://napster.sonos-ws-us.com/Napster/Service1.asmx"
+        ContainerType="MService" Capabilities="31" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="300" />
+        <Presentation>
+            <Strings Version="3"
+                Uri="http://napster.sonos-ws-us.com/Napster/strings.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="2" Name="Deezer" Version="1.1"
+        Uri="http://moapi.sonos.com/Deezer/SonosAPI.php" SecureUri="https://moapi.sonos.com/Deezer/SonosAPI.php"
+        ContainerType="MService" Capabilities="19" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="60" />
+        <Presentation></Presentation>
+    </Service>
+    <Service Id="3" Name="Twitter" Version="1.2"
+        Uri="https://moapi.sonos.com/SocialMsg/Twitter.php" SecureUri="https://moapi.sonos.com/SocialMsg/Twitter.php"
+        ContainerType="MService" Capabilities="256" MaxMessagingChars="140">
+        <Policy Auth="Stateless" PollInterval="0" />
+        <Presentation></Presentation>
+    </Service>
+    <Service Id="6" Name="iheartradio" Version="1.1"
+        Uri="http://iheartradio.com/cc-common/sonos/production/WSDLAPI.php"
+        SecureUri="http://iheartradio.com/cc-common/sonos/production/WSDLAPI.php"
+        ContainerType="MService" Capabilities="0" MaxMessagingChars="0">
+        <Policy Auth="Anonymous" PollInterval="0" />
+        <Presentation>
+            <Strings Version="1"
+                Uri="http://update-services.sonos.com/services/Str/ihradio.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="7" Name="Wolfgang&apos;s Vault" Version="1.1"
+        Uri="http://concerts.wolfgangsvault.com/ws/MOAPI.asmx"
+        SecureUri="http://concerts.wolfgangsvault.com/ws/MOAPI.asmx"
+        ContainerType="MService" Capabilities="3" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="30" />
+        <Presentation>
+            <Strings Version="1"
+                Uri="http://update-services.sonos.com/services/Str/wv.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="8" Name="AUPEO!" Version="1.1"
+        Uri="http://sonos.aupeo.com/sonos" SecureUri="http://sonos.aupeo.com/sonos"
+        ContainerType="MService" Capabilities="3" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="30" />
+        <Presentation>
+            <Strings Version="1"
+                Uri="http://sonos.aupeo.com/aupeo_string.xml" />
+            <PresentationMap Version="1"
+                Uri="http://update-services.sonos.com/services/Str/aupeo_pmap.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="9" Name="Spotify" Version="1.1"
+        Uri="http://spotify.sonos-ws-eu.com/SpotifyMOAPI/Service1.asmx"
+        SecureUri="https://spotify.sonos-ws-eu.com/SpotifyMOAPI/Service1.asmx"
+        ContainerType="MService" Capabilities="1" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="30" />
+        <Presentation>
+            <Strings Version="4"
+                Uri="http://spotify.sonos-ws-eu.com/SpotifyMOAPI/strings.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="10" Name="Songl" Version="1.1"
+        Uri="http://api.anubis.fm/service/sonos" SecureUri="https://secure.anubis.fm/service/sonos"
+        ContainerType="MService" Capabilities="65" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="300" />
+        <Presentation>
+            <Strings Version="2"
+                Uri="http://update-services.sonos.com/services/Str/songl.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="11" Name="Rdio" Version="1.1"
+        Uri="https://www.rdio.com/moapi/" SecureUri="https://www.rdio.com/moapi/"
+        ContainerType="MService" Capabilities="595" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="60" />
+        <Presentation>
+            <Strings Version="1"
+                Uri="http://update-services.sonos.com/services/Str/rdio.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="12" Name="Spotify" Version="1.1"
+        Uri="http://spotify.sonos-ws-us.com/SpotifyMOAPI/Service1.asmx"
+        SecureUri="https://spotify.sonos-ws-us.com/SpotifyMOAPI/Service1.asmx"
+        ContainerType="MService" Capabilities="1" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="30" />
+        <Presentation>
+            <Strings Version="4"
+                Uri="http://spotify.sonos-ws-us.com/SpotifyMOAPI/strings.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="13" Name="Stitcher SmartRadio" Version="1.1"
+        Uri="http://stitcher.com/Service/Sonos/Sonos.php" SecureUri="http://stitcher.com/Service/Sonos/Sonos.php"
+        ContainerType="MService" Capabilities="579" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="60" />
+        <Presentation>
+            <Strings Version="2"
+                Uri="http://stitcher.com/Service/Sonos/stitcher_string.xml" />
+            <PresentationMap Version="2"
+                Uri="http://update-services.sonos.com/services/Str/stitcher_pmap.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="15" Name="MOG" Version="1.1"
+        Uri="http://sonos.mog.com/gateway" SecureUri="https://sonos.mog.com/gateway"
+        ContainerType="MService" Capabilities="627" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="30" />
+        <Presentation>
+            <Strings Version="1"
+                Uri="http://update-services.sonos.com/services/Str/mog.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="16" Name="????" Version="1.1"
+        Uri="http://fe.sonos.duomi.com/SonosServer/services/SonosSoap"
+        SecureUri="http://fe.sonos.duomi.com/SonosServer/services/SonosSoap"
+        ContainerType="MService" Capabilities="1" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="30" />
+        <Presentation>
+            <Strings Version="1"
+                Uri="http://update-services.sonos.com/services/str/A8.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="17" Name="Slacker" Version="1.1"
+        Uri="http://sonos.slacker.com/wsv1/sonos" SecureUri="https://sonos.slacker.com/wsv1/sonos"
+        ContainerType="MService" Capabilities="579" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="30" />
+        <Presentation>
+            <Strings Version="1"
+                Uri="http://images.slacker.com/sonos/sonos_strings.xml" />
+            <PresentationMap Version="3"
+                Uri="http://update-services.sonos.com/services/Str/slacker_pmap.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="19" Name="Juke" Version="1.1"
+        Uri="http://device.247base.com/moapi_de/musicopen.svc"
+        SecureUri="https://device.247base.com/moapi_de/musicopen.svc"
+        ContainerType="MService" Capabilities="1" MaxMessagingChars="0">
+        <Policy Auth="UserID" PollInterval="30" />
+        <Presentation>
+            <Strings Version="1"
+                Uri="http://update-services.sonos.com/services/Str/juke.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="254" Name="RadioTime" Version="1.1"
+        Uri="http://legato.radiotime.com/Radio.asmx" SecureUri="http://legato.radiotime.com/Radio.asmx"
+        ContainerType="MService" Capabilities="0" MaxMessagingChars="0">
+        <Policy Auth="Anonymous" PollInterval="0" />
+        <Presentation></Presentation>
+    </Service>
+    <Service Id="20" Name="WiMP" Version="1.1"
+        Uri="http://wimpws3.aspiro.com/sonos/services/Sonos" SecureUri="https://wimpws3.aspiro.com/sonos/services/Sonos"
+        ContainerType="SoundLab" Capabilities="115" MaxMessagingChars="0">
+        <Policy Auth="UserId" PollInterval="120" />
+        <Presentation>
+            <Strings Version="3"
+                Uri="http://wimpws3.aspiro.com/sonos/SonosStrings.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="21" Name="Juke" Version="1.1"
+        Uri="http://device.247base.com/moapi_at/musicopen.svc"
+        SecureUri="https://device.247base.com/moapi_at/musicopen.svc"
+        ContainerType="MService" Capabilities="1" MaxMessagingChars="0">
+        <Policy Auth="UserID" PollInterval="30" />
+        <Presentation>
+            <Strings Version="1"
+                Uri="http://update-services.sonos.com/services/Str/juke.xml" />
+        </Presentation>
+    </Service>
+    <Service Id="22" Name="Sonora" Version="1.1"
+        Uri="http://sonos.sonora.terra.com/sonora.asmx" SecureUri="http://sonos.sonora.terra.com/sonora.asmx"
+        ContainerType="SoundLab" Capabilities="512" MaxMessagingChars="0">
+        <Policy Auth="Anonymous" PollInterval="300" />
+        <Presentation>
+            <Strings Version="1"
+                Uri="http://sonos.sonora.terra.com/stringtables.xml" />
+        </Presentation>
+    </Service>
+</Services>
