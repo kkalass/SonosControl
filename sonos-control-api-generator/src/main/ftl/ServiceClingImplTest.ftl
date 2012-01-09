@@ -4,6 +4,8 @@ import ${data.javaClassName.FQN};
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import de.kalass.sonoscontrol.api.core.VoidCallback;
+import de.kalass.sonoscontrol.api.core.AsyncValue;
 import de.kalass.sonoscontrol.api.control.SonosDevice;
 import de.kalass.sonoscontrol.clingimpl.AbstractSonosServiceTest;
 
@@ -41,17 +43,36 @@ public class ${data.javaClassName.name}Test extends AbstractSonosServiceTest<${d
     /*
     @Test
     public void ${action.methodName}Test() throws Exception{
-        getService().${action.methodName}(new de.kalass.sonoscontrol.api.core.VoidCallback()).waitForSuccess();
+        getService().${action.methodName}(new VoidCallback()).waitForSuccess();
         System.out.println("Finished ${action.methodName}");
     }
     */
     <#else>
     @Test
     public void ${action.methodName}Test() throws Exception{
-        final ${action.out.javaClassName.name} value = getService().${action.methodName}(new de.kalass.sonoscontrol.api.core.AsyncValue<${action.out.javaClassName.name}>()).get();
+        final ${action.out.javaClassName.name} value = getService().${action.methodName}(new AsyncValue<${action.out.javaClassName.name}>()).get();
         Assert.assertNotNull(value);
         System.out.println("Got ${action.methodName}: " + value);
     }
+    </#if>
+    <#else>
+    <#if action.out.void??>
+    /*
+    @Test
+    public void ${action.methodName}Test() throws Exception{
+        getService().${action.methodName}(<#list action.in as param>${param.parameterName}, </#list>new VoidCallback()).waitForSuccess();
+        System.out.println("Finished ${action.methodName}");
+    }
+    */
+    <#else>
+    /*
+    @Test
+    public void ${action.methodName}Test() throws Exception{
+        final ${action.out.javaClassName.name} value = getService().${action.methodName}(<#list action.in as param>${param.parameterName}, </#list>new AsyncValue<${action.out.javaClassName.name}>()).get();
+        Assert.assertNotNull(value);
+        System.out.println("Got ${action.methodName}: " + value);
+    }
+    */
     </#if>
     </#if>
   </#list>
