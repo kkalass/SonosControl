@@ -1,6 +1,3 @@
-/**
- * AUTOMATICALLY GENERATED - DO NOT MODIFY
- */
 package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 
 import java.io.Serializable;

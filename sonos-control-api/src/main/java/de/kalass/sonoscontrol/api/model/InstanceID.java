@@ -1,6 +1,3 @@
-/**
- * AUTOMATICALLY GENERATED - DO NOT MODIFY
- */
 package de.kalass.sonoscontrol.api.model;
 
 import java.io.Serializable;
