@@ -1,7 +1,6 @@
 package de.kalass.sonoscontrol.api.model.renderingcontrol;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -13,39 +12,21 @@ import de.kalass.sonoscontrol.api.model.InstanceID;
 public final class LastChange implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /*
- <Event xmlns="urn:schemas-upnp-org:metadata-1-0/RCS/">
-    <InstanceID val="0">
-        <Volume channel="Master" val="75" />
-        <Volume channel="LF" val="100" />
-        <Volume channel="RF" val="100" />
-        <Mute channel="Master" val="0" />
-        <Mute channel="LF" val="0" />
-        <Mute channel="RF" val="0" />
-        <Bass val="0" />
-        <Treble val="0" />
-        <Loudness channel="Master" val="0" />
-        <OutputFixed val="0" />
-        <HeadphoneConnected val="0" />
-        <PresetNameList>FactoryDefaults</PresetNameList>
-    </InstanceID>
-</Event>
-     */
     private final InstanceID _instanceId;
     private final Map<Channel, Volume> _volumes;
-    private final Map<Channel, Mute> _mutes;
+    private final Map<MuteChannel, Mute> _mutes;
     private final Bass _bass;
     private final Treble _treble;
     private final Loudness _masterLoudness;
     private final OutputFixed _outputFixed;
     private final HeadphoneConnected _headphoneConnected;
-    private final List<String> _presetNameList;
+    private final PresetNameList _presetNameList;
 
 
     public LastChange(InstanceID instanceId, Map<Channel, Volume> volumes,
-            Map<Channel, Mute> mutes, Bass bass, Treble treble,
+            Map<MuteChannel, Mute> mutes, Bass bass, Treble treble,
             Loudness masterLoudness, OutputFixed outputFixed,
-            HeadphoneConnected headphoneConnected, List<String> presetNameList) {
+            HeadphoneConnected headphoneConnected, PresetNameList presetNameList) {
         super();
         _instanceId = instanceId;
         _volumes = volumes;
@@ -96,7 +77,7 @@ public final class LastChange implements Serializable {
     }
 
 
-    public List<String> getPresetNameList() {
+    public PresetNameList getPresetNameList() {
         return _presetNameList;
     }
 
@@ -142,9 +123,9 @@ public final class LastChange implements Serializable {
 
     public static LastChange getInstance(
             InstanceID instanceId, Map<Channel, Volume> volumes,
-            Map<Channel, Mute> mutes, Bass bass, Treble treble,
+            Map<MuteChannel, Mute> mutes, Bass bass, Treble treble,
             Loudness masterLoudness, OutputFixed outputFixed,
-            HeadphoneConnected headphoneConnected, List<String> presetNameList
+            HeadphoneConnected headphoneConnected, PresetNameList presetNameList
             ) {
         return new LastChange(
                 instanceId, volumes, mutes,

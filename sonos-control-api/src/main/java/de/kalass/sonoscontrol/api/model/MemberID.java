@@ -32,7 +32,7 @@ public final class MemberID {
         return Objects.toStringHelper(this).add("value", _value).toString();
     }
 
-    public static MemberID valueOf(String value) {
+    public static MemberID getInstance(String value) {
         return value == null ? null : new MemberID(value);
     }
 }

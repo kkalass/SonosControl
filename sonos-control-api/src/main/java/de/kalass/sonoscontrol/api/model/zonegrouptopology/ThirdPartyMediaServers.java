@@ -95,7 +95,7 @@ public final class ThirdPartyMediaServers implements Serializable {
         _value = Preconditions.checkNotNull(value);
     }
 
-    public List<AccountData> getValue() {
+    public List<AccountData> getAccountData() {
         return _value;
     }
 

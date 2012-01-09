@@ -27,14 +27,12 @@ public final class ZoneGroupMember implements Serializable {
     private final SoftwareVersion _softwareVersion;
     private final SoftwareVersion _minCompatibleVersion;
     private final BootSeq _bootSeq;
-    private final DownloadSize _downloadSize;
 
     private ZoneGroupMember(
             MemberID zonePlayerId,
             URI location,
             ZoneName zoneName, Icon icon, SoftwareVersion softwareVersion,
-            SoftwareVersion minCompatibleVersion, BootSeq bootSeq,
-            DownloadSize downloadSize) {
+            SoftwareVersion minCompatibleVersion, BootSeq bootSeq) {
         super();
         _zonePlayerId = zonePlayerId;
         _location = location;
@@ -43,7 +41,6 @@ public final class ZoneGroupMember implements Serializable {
         _softwareVersion = softwareVersion;
         _minCompatibleVersion = minCompatibleVersion;
         _bootSeq = bootSeq;
-        _downloadSize = downloadSize;
     }
 
     public static long getSerialversionuid() {
@@ -78,15 +75,11 @@ public final class ZoneGroupMember implements Serializable {
         return _bootSeq;
     }
 
-    public DownloadSize getDownloadSize() {
-        return _downloadSize;
-    }
 
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("bootSeq", _bootSeq)
-                .add("downloadSize", _downloadSize)
                 .add("icon", _icon)
                 .add("location", _location)
                 .add("minCompatibleVersion", _minCompatibleVersion)
@@ -99,7 +92,7 @@ public final class ZoneGroupMember implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(
-                _bootSeq, _downloadSize, _icon, _location,
+                _bootSeq,  _icon, _location,
                 _minCompatibleVersion, _softwareVersion, _zoneName, _zonePlayerId);
     }
 
@@ -108,7 +101,6 @@ public final class ZoneGroupMember implements Serializable {
         if (other instanceof ZoneGroupMember) {
             final ZoneGroupMember obj = (ZoneGroupMember)other;
             return Objects.equal(_bootSeq, obj._bootSeq) &&
-                    Objects.equal(_downloadSize, obj._downloadSize) &&
                     Objects.equal(_icon, obj._icon) &&
                     Objects.equal(_location, obj._location) &&
                     Objects.equal(_minCompatibleVersion, obj._minCompatibleVersion) &&
@@ -123,11 +115,10 @@ public final class ZoneGroupMember implements Serializable {
             MemberID zonePlayerId,
             URI location,
             ZoneName zoneName, Icon icon, SoftwareVersion softwareVersion,
-            SoftwareVersion minCompatibleVersion, BootSeq bootSeq,
-            DownloadSize downloadSize
+            SoftwareVersion minCompatibleVersion, BootSeq bootSeq
             ) {
         return new ZoneGroupMember(
                 zonePlayerId, location, zoneName, icon, softwareVersion,
-                minCompatibleVersion, bootSeq, downloadSize);
+                minCompatibleVersion, bootSeq);
     }
 }
