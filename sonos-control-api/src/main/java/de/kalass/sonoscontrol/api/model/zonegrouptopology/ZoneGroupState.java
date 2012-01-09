@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
+
+import de.kalass.sonoscontrol.api.model.MemberID;
 
 public final class ZoneGroupState implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -35,6 +40,15 @@ public final class ZoneGroupState implements Serializable {
 
     public List<ZoneGroup> getValue() {
         return _zoneGroups;
+    }
+
+    public ZoneGroup getOwnedGroup(MemberID deviceId) {
+        final List<ZoneGroup> zoneGroups = getValue();
+        final Predicate<ZoneGroup> isGroupCoordinator = Predicates.compose(
+                Predicates.equalTo(deviceId),
+                ZoneGroup.GET_COORDINATOR
+                );
+        return Iterables.find(zoneGroups, isGroupCoordinator);
     }
 
     @Override

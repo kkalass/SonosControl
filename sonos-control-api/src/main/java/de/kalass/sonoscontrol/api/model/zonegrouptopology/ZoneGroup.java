@@ -1,12 +1,17 @@
 package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.base.Function;
+import com.google.common.base.Functions;
 import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 
 import de.kalass.sonoscontrol.api.model.MemberID;
 import de.kalass.sonoscontrol.api.model.avtransport.GroupID;
+import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 
 public class ZoneGroup {
     public static Function<ZoneGroup, MemberID> GET_COORDINATOR = new Function<ZoneGroup, MemberID>() {
@@ -52,6 +57,13 @@ public class ZoneGroup {
         return _members;
     }
 
+    public Set<MemberID> getMemberIds() {
+        return ImmutableSet.copyOf(Iterables.transform(getMembers(), ZoneGroupMember.GET_ZONE_PLAYER_ID));
+    }
+
+    public Set<String> getMemberZoneNames() {
+        return ImmutableSet.copyOf(Iterables.transform(getMembers(), Functions.compose(ZoneName.GET_VALUE, ZoneGroupMember.GET_ZONE_NAME)));
+    }
 
     @Override
     public String toString() {

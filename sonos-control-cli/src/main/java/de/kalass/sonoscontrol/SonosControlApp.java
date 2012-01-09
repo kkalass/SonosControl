@@ -1,29 +1,26 @@
 package de.kalass.sonoscontrol;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Predicates;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import de.kalass.sonoscontrol.api.control.SonosControl;
 import de.kalass.sonoscontrol.api.control.SonosControl.SonosDeviceCallback;
 import de.kalass.sonoscontrol.api.control.SonosDevice;
-import de.kalass.sonoscontrol.api.core.AsyncValue;
+import de.kalass.sonoscontrol.api.core.EventListener;
 import de.kalass.sonoscontrol.api.core.LoggingErrorStrategy;
+import de.kalass.sonoscontrol.api.core.VoidCallback;
 import de.kalass.sonoscontrol.api.model.MemberID;
+import de.kalass.sonoscontrol.api.model.avtransport.AVTransportURI;
 import de.kalass.sonoscontrol.api.model.avtransport.GroupID;
-import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
-import de.kalass.sonoscontrol.api.model.groupmanagement.AddMemberResult;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.ZoneGroup;
-import de.kalass.sonoscontrol.api.model.zonegrouptopology.ZoneGroupMember;
 import de.kalass.sonoscontrol.api.model.zonegrouptopology.ZoneGroupState;
 import de.kalass.sonoscontrol.api.services.ZoneGroupTopologyService;
 import de.kalass.sonoscontrol.cli.arguments.Arguments;
@@ -108,15 +105,14 @@ public class SonosControlApp {
             @Override
             public Void visitGroup(final GroupZoneSpec spec) {
                 sonosControl.executeOnAllZones(new SonosDeviceCallback() {
+                    Map<MemberID, SonosDevice> _devices = Maps.newHashMap();
                     SonosDevice _groupCoordinator;
-                    Set<MemberID> _currentMembers = Sets.newHashSet();
                     Set<MemberID> _pendingMembers = Sets.newHashSet();
 
                     private void setGroupOwningDevice(SonosDevice device,
                             ZoneGroup ownedGroup) {
                         synchronized(this) {
-                            _currentMembers.clear();
-                            _currentMembers.addAll(ImmutableSet.copyOf(Iterables.transform(ownedGroup.getMembers(), ZoneGroupMember.GET_ZONE_PLAYER_ID)));
+                            _devices.put(device.getDeviceId(), device);
                             _groupCoordinator = device;
                             if (!_pendingMembers.isEmpty()) {
                                 final Iterator<MemberID> members = _pendingMembers.iterator();
@@ -129,8 +125,10 @@ public class SonosControlApp {
                         }
                     }
 
-                    private void addToGroup(MemberID memberId) {
+                    private void addToGroup(SonosDevice device) {
                         synchronized(this) {
+                            MemberID memberId = device.getDeviceId();
+                            _devices.put(memberId, device);
                             if (_groupCoordinator != null) {
                                 doAddToGroup(memberId);
                             } else {
@@ -142,12 +140,23 @@ public class SonosControlApp {
                     private void doAddToGroup(MemberID memberId) {
                         synchronized(this) {
                             System.out.println("Try to add group member: " + memberId );
-                            if (!_currentMembers.contains(memberId)) {
-                                System.out.println("before call");
-                                AddMemberResult r = _groupCoordinator.getGroupManagementService().addMember(memberId, new AsyncValue<AddMemberResult>()).get();
-                                System.out.println("after call" + r);
-                                LOG.info("Added group member: " + r);
-                                _currentMembers.add(memberId);
+                            final ZoneGroupTopologyService topologyService = _groupCoordinator.getZoneGroupTopologyService();
+                            final  MemberID coordinatorDeviceID = _groupCoordinator.getDeviceId();
+                            final ZoneGroup ownedGroup = topologyService.getLastValueForZoneGroupState().getOwnedGroup(coordinatorDeviceID);
+                            final EventListener<ZoneGroupState> listener = new EventListener<ZoneGroupState>() {
+                                @Override
+                                public void valueChanged(
+                                        ZoneGroupState oldValue,
+                                        ZoneGroupState newValue) {
+                                    System.out.println("Zone now contains: " + newValue.getOwnedGroup(coordinatorDeviceID).getMemberZoneNames());
+                                    topologyService.removeZoneGroupStateListener(this);
+                                }
+                            };
+                            topologyService.addZoneGroupStateListener(listener);
+                            final Set<MemberID> currentMembers = ownedGroup.getMemberIds();
+                            if (!currentMembers.contains(memberId)) {
+                                SonosDevice sonosDevice = _devices.get(memberId);
+                                sonosDevice.getAVTransportService().setAVTransportURI(AVTransportURI.playFromDevice(coordinatorDeviceID), null, new VoidCallback()).waitForSuccess();
                             }
                         }
 
@@ -158,12 +167,11 @@ public class SonosControlApp {
                         LOG.debug("Found  Sonos device " + device.getZoneName().getValue() + " => "+ device.getZoneName());
                         if (spec.getGroupCoordinator().equals(device.getZoneName())) {
                             final ZoneGroupTopologyService topologyService = device.getZoneGroupTopologyService();
-                            final ZoneGroupState groupState = Preconditions.checkNotNull(topologyService.getLastValueForZoneGroupState());
 
-                            ZoneGroup ownedGroup = Iterables.find(groupState.getValue(), Predicates.compose(Predicates.equalTo(device.getDeviceId()), ZoneGroup.GET_COORDINATOR));
+                            final ZoneGroup ownedGroup = topologyService.getLastValueForZoneGroupState().getOwnedGroup(device.getDeviceId());
                             if (ownedGroup != null) {
                                 GroupID groupId = ownedGroup.getGroupId();
-                                System.out.println("found owned group: " + groupId + " " + Iterables.transform(ownedGroup.getMembers(), Functions.compose(ZoneName.GET_VALUE, ZoneGroupMember.GET_ZONE_NAME)));
+                                System.out.println("found owned group: " + groupId + " " + ownedGroup.getMemberZoneNames());
                                 setGroupOwningDevice(device, ownedGroup);
                             } else {
                                 throw new UnsupportedOperationException();
@@ -174,7 +182,7 @@ public class SonosControlApp {
                                 multipleDevicesCommandResultCallback.fail(t);
                             }
                         } else {
-                            addToGroup(device.getDeviceId());
+                            addToGroup(device);
                         }
                     }
 

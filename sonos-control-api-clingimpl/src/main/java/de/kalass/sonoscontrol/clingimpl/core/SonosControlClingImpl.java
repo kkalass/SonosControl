@@ -121,7 +121,7 @@ public class SonosControlClingImpl implements SonosControl {
                                 attributes.getCurrentZoneName(), propsService, _upnpService, device, _errorStrategy));
 
                         // avoid firing multiple times
-                        _upnpService.getRegistry().removeListener(ExecuteOnZoneListener.this);
+                        //_upnpService.getRegistry().removeListener(ExecuteOnZoneListener.this);
                         LOG.debug("removed "+ ExecuteOnZoneListener.this);
 
                     }
@@ -159,14 +159,8 @@ public class SonosControlClingImpl implements SonosControl {
         this._upnpService.getRegistry().addListener(listener);
 
         // Send a search message to all devices and services, they should respond soon
-        this._upnpService.getControlPoint().search(new STAllHeader());
+        this._upnpService.getControlPoint().search(new STAllHeader(), 120);
         LOG.info("currently found devices:" + this._upnpService.getRegistry().getDevices());
-
-        // FIXME(KK): Improve device Discovery, sometimes I do not get any sonos devices,
-        //            even though they are on the network, and scanning the network with a
-        //            simple wget-bash script will find them correctly
-        //
-        //            Maybe I need to add scanning of the network as an option.
     }
 
     @Override
