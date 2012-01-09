@@ -20,6 +20,7 @@ import de.kalass.sonoscontrol.api.core.Callback;
 import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 import de.kalass.sonoscontrol.api.core.FailableCallback;
+import de.kalass.sonoscontrol.api.model.MemberID;
 import de.kalass.sonoscontrol.api.model.deviceproperties.GetZoneAttributesResult;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.DevicePropertiesService;
@@ -103,6 +104,7 @@ public class SonosControlClingImpl implements SonosControl {
         @SuppressWarnings("rawtypes")
         @Override
         public void deviceAdded(Registry registry, final Device device) {
+            System.out.println("Found device:" + device.getDisplayString());
             LOG.info("Found device: " + device.getDisplayString() + " " + device.getIdentity().getUdn().getIdentifierString());
             if (!device.getDetails().getManufacturerDetails().getManufacturer().contains("Sonos")) {
                 return;
@@ -114,7 +116,9 @@ public class SonosControlClingImpl implements SonosControl {
                 public void success(GetZoneAttributesResult attributes) {
                     if (zoneName == null || zoneName.equals(attributes.getCurrentZoneName())) {
 
-                        callback.success(new SonosDeviceImpl(attributes.getCurrentZoneName(), propsService, _upnpService, device, _errorStrategy));
+                        callback.success(new SonosDeviceImpl(
+                                MemberID.getInstance(device.getIdentity().getUdn().getIdentifierString()),
+                                attributes.getCurrentZoneName(), propsService, _upnpService, device, _errorStrategy));
 
                         // avoid firing multiple times
                         _upnpService.getRegistry().removeListener(ExecuteOnZoneListener.this);

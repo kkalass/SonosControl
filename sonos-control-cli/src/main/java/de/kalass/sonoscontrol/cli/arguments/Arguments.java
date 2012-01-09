@@ -42,6 +42,12 @@ public abstract class Arguments {
             return new HelpArgs();
         }
         final String cmd = args[0];
+        if (HelpArgs.CMD.equals(cmd)) {
+            return new HelpArgs();
+        }
+        if (ListZones.CMD.equals(cmd)) {
+            return new ListZones(null);
+        }
         final ZoneSpec zoneSpec = getZoneSpec(args);
         if (zoneSpec == null || HelpArgs.CMD.equals(cmd)) {
             return new HelpArgs();

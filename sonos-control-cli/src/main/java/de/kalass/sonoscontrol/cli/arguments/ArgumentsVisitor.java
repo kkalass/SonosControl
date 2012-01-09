@@ -6,4 +6,5 @@ public interface ArgumentsVisitor<T> {
     T visitStart(StartArgs start);
     T visitStop(StopArgs stop);
     T visitMute(MuteArgs mute);
+    T visitListZones(ListZones mute);
 }

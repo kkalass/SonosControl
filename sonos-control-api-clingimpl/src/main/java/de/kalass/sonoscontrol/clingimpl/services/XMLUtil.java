@@ -73,7 +73,7 @@ public final class XMLUtil {
     }
 
     public static String getAttr(final Node node, String attrName) {
-        return node.getAttributes().getNamedItem(attrName).getTextContent();
+        return node == null ? null : node.getAttributes().getNamedItem(attrName).getTextContent();
     }
     public static Boolean getBooleanAttr(final Node node, String attrName) {
         final String val = getAttr(node, attrName);

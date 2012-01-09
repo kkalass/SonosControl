@@ -7,6 +7,7 @@ import org.teleal.cling.model.meta.Device;
 
 import de.kalass.sonoscontrol.api.control.SonosDevice;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
+import de.kalass.sonoscontrol.api.model.MemberID;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.AVTransportService;
 import de.kalass.sonoscontrol.api.services.AlarmClockService;
@@ -36,15 +37,23 @@ public class SonosDeviceImpl implements SonosDevice {
     private final Device _device;
     private final UpnpService _service;
     private final ErrorStrategy _errorStrategy;
+    private final MemberID _deviceId;
 
     @SuppressWarnings("rawtypes")
-    SonosDeviceImpl(@Nonnull ZoneName zoneName, @Nonnull DevicePropertiesService propsService,
+    SonosDeviceImpl(
+            @Nonnull MemberID deviceId, @Nonnull ZoneName zoneName, @Nonnull DevicePropertiesService propsService,
             @Nonnull UpnpService service, @Nonnull Device device, @Nonnull ErrorStrategy errorStrategy) {
+        _deviceId = deviceId;
         this._zoneName = zoneName;
         this._propsService = propsService;
         this._service = service;
         this._device = device;
         this._errorStrategy = errorStrategy;
+    }
+
+    @Override
+    public MemberID getDeviceId() {
+        return _deviceId;
     }
 
     @Override
