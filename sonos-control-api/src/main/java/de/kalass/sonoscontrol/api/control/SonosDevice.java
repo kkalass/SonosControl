@@ -3,6 +3,7 @@ package de.kalass.sonoscontrol.api.control;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import de.kalass.sonoscontrol.api.model.MemberID;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.api.services.AVTransportService;
 import de.kalass.sonoscontrol.api.services.AlarmClockService;
@@ -16,6 +17,9 @@ import de.kalass.sonoscontrol.api.services.SystemPropertiesService;
 import de.kalass.sonoscontrol.api.services.ZoneGroupTopologyService;
 
 public interface SonosDevice {
+
+    @Nonnull
+    MemberID getDeviceId();
 
     @Nonnull
     ZoneName getZoneName();

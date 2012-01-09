@@ -3,6 +3,7 @@ package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 import java.io.Serializable;
 import java.net.URI;
 
+import com.google.common.base.Function;
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.model.MemberID;
@@ -19,7 +20,18 @@ public final class ZoneGroupMember implements Serializable {
             SoftwareVersion="16.5-48010a" MinCompatibleVersion="15.0-00000"
             BootSeq="238" />
      */
-
+    public static Function<ZoneGroupMember, MemberID> GET_ZONE_PLAYER_ID = new Function<ZoneGroupMember, MemberID>() {
+        @Override
+        public MemberID apply(ZoneGroupMember input) {
+            return input.getZonePlayerId();
+        }
+    };
+    public static Function<ZoneGroupMember, ZoneName> GET_ZONE_NAME = new Function<ZoneGroupMember, ZoneName>() {
+        @Override
+        public ZoneName apply(ZoneGroupMember input) {
+            return input.getZoneName();
+        }
+    };
     private final MemberID _zonePlayerId;
     private final URI _location;
     private final ZoneName _zoneName;

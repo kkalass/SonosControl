@@ -2,12 +2,32 @@ package de.kalass.sonoscontrol.api.model.zonegrouptopology;
 
 import java.util.List;
 
+import com.google.common.base.Function;
 import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.model.MemberID;
 import de.kalass.sonoscontrol.api.model.avtransport.GroupID;
 
 public class ZoneGroup {
+    public static Function<ZoneGroup, MemberID> GET_COORDINATOR = new Function<ZoneGroup, MemberID>() {
+        @Override
+        public MemberID apply(ZoneGroup input) {
+            return input.getCoordinator();
+        }
+    };
+    public static Function<ZoneGroup, GroupID> GET_GROUP_ID = new Function<ZoneGroup, GroupID>() {
+        @Override
+        public GroupID apply(ZoneGroup input) {
+            return input.getGroupId();
+        }
+    };
+    public static Function<ZoneGroup, List<ZoneGroupMember>> GET_MEMBERS = new Function<ZoneGroup, List<ZoneGroupMember>>() {
+        @Override
+        public List<ZoneGroupMember> apply(ZoneGroup input) {
+            return input.getMembers();
+        }
+    };
+
     private final MemberID _coordinator;
     private final GroupID _groupId;
     private final List<ZoneGroupMember> _members;

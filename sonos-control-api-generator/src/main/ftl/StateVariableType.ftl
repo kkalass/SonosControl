@@ -2,10 +2,18 @@ package ${data.javaClassName.package.FQN};
 
 import java.io.Serializable;
 import com.google.common.base.Objects;
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 
 public final class ${data.javaClassName.name} implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public static final Function<${data.javaClassName.name}, ${data.dataType.javaClass.simpleName}> GET_VALUE = new Function<${data.javaClassName.name}, ${data.dataType.javaClass.simpleName}>() {
+        @Override
+        public ${data.dataType.javaClass.simpleName} apply(${data.javaClassName.name} input) {
+            return input == null ? null : input.getValue();
+        }
+    };
 
     <#if data.allowedValueRange??>
     public static final long MIN = ${data.allowedValueRange.minimum};
