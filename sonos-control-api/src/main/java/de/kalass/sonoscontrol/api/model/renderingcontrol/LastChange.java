@@ -1,6 +1,3 @@
-/**
- * AUTOMATICALLY GENERATED - DO NOT MODIFY
- */
 package de.kalass.sonoscontrol.api.model.renderingcontrol;
 
 import java.io.Serializable;
@@ -13,7 +10,7 @@ import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.model.InstanceID;
 
-public final class LastRenderingControlChange implements Serializable {
+public final class LastChange implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /*
@@ -45,7 +42,7 @@ public final class LastRenderingControlChange implements Serializable {
     private final List<String> _presetNameList;
 
 
-    public LastRenderingControlChange(InstanceID instanceId, Map<Channel, Volume> volumes,
+    public LastChange(InstanceID instanceId, Map<Channel, Volume> volumes,
             Map<Channel, Mute> mutes, Bass bass, Treble treble,
             Loudness masterLoudness, OutputFixed outputFixed,
             HeadphoneConnected headphoneConnected, List<String> presetNameList) {
@@ -128,8 +125,8 @@ public final class LastRenderingControlChange implements Serializable {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof LastRenderingControlChange) {
-            LastRenderingControlChange obj = (LastRenderingControlChange)other;
+        if (other instanceof LastChange) {
+            LastChange obj = (LastChange)other;
             return Objects.equal(_bass, obj._bass) &&
                     Objects.equal(_headphoneConnected, obj._headphoneConnected) &&
                     Objects.equal(_instanceId, obj._instanceId) &&
@@ -143,13 +140,13 @@ public final class LastRenderingControlChange implements Serializable {
         return false;
     }
 
-    public static LastRenderingControlChange getInstance(
+    public static LastChange getInstance(
             InstanceID instanceId, Map<Channel, Volume> volumes,
             Map<Channel, Mute> mutes, Bass bass, Treble treble,
             Loudness masterLoudness, OutputFixed outputFixed,
             HeadphoneConnected headphoneConnected, List<String> presetNameList
             ) {
-        return new LastRenderingControlChange(
+        return new LastChange(
                 instanceId, volumes, mutes,
                 bass, treble, masterLoudness, outputFixed,
                 headphoneConnected, presetNameList);

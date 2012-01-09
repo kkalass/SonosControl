@@ -4,7 +4,7 @@ import org.teleal.cling.UpnpService;
 import org.teleal.cling.model.meta.Device;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
-import de.kalass.sonoscontrol.api.model.renderingcontrol.LastRenderingControlChange;
+import de.kalass.sonoscontrol.api.model.renderingcontrol.LastChange;
 
 public final class RenderingControlServiceClingImpl extends
 AbstractRenderingControlServiceClingImpl {
@@ -14,7 +14,7 @@ AbstractRenderingControlServiceClingImpl {
     }
 
     @Override
-    protected LastRenderingControlChange convertLastChange(
+    protected LastChange convertLastChange(
             String rawValue) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException();

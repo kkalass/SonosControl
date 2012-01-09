@@ -1,6 +1,3 @@
-/**
- * AUTOMATICALLY GENERATED - DO NOT MODIFY
- */
 package de.kalass.sonoscontrol.api.model.avtransport;
 
 import java.io.Serializable;
@@ -9,7 +6,7 @@ import com.google.common.base.Objects;
 
 import de.kalass.sonoscontrol.api.model.InstanceID;
 
-public final class LastAVTransportChange implements Serializable {
+public final class LastChange implements Serializable {
     private static final long serialVersionUID = 1L;
     /*
  <Event xmlns="urn:schemas-upnp-org:metadata-1-0/AVT/" xmlns:r="urn:schemas-rinconnetworks-com:metadata-1-0/">
@@ -47,7 +44,7 @@ public final class LastAVTransportChange implements Serializable {
     private final CurrentTrackDuration _currentTrackDuration;
     private final CurrentTrackMetaData _currentTrackMetaData;
 
-    public LastAVTransportChange(
+    public LastChange(
             InstanceID instanceId, TransportState transportState,
             CurrentPlayMode currentPlayMode,
             CurrentCrossfadeMode currentCrossfadeMode,
@@ -136,8 +133,8 @@ public final class LastAVTransportChange implements Serializable {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof LastAVTransportChange) {
-            LastAVTransportChange obj = (LastAVTransportChange)other;
+        if (other instanceof LastChange) {
+            LastChange obj = (LastChange)other;
             return Objects.equal(_currentCrossfadeMode, obj._currentCrossfadeMode) &&
                     Objects.equal(_currentPlayMode, obj._currentPlayMode) &&
                     Objects.equal(_currentSection, obj._currentSection) &&
@@ -152,7 +149,7 @@ public final class LastAVTransportChange implements Serializable {
         return false;
     }
 
-    public static LastAVTransportChange getInstance(
+    public static LastChange getInstance(
             InstanceID instanceId, TransportState transportState,
             CurrentPlayMode currentPlayMode,
             CurrentCrossfadeMode currentCrossfadeMode,
@@ -161,7 +158,7 @@ public final class LastAVTransportChange implements Serializable {
             CurrentTrackDuration currentTrackDuration,
             CurrentTrackMetaData currentTrackMetaData
             ) {
-        return new LastAVTransportChange(
+        return new LastChange(
                 instanceId, transportState, currentPlayMode,
                 currentCrossfadeMode, numberOfTracks, currentTrack,
                 currentSection, currentTrackUri, currentTrackDuration, currentTrackMetaData);

@@ -38,7 +38,11 @@ public final class TypeConfigurations {
         }
 
         public void add(String serviceName, String typename, JavaClassName clsname) {
-            add(serviceName, typename, TypeConfiguration.builder().setJavaClassName(clsname).setCustomSerializationNeeded(true).build());
+            add(serviceName, typename, TypeConfiguration.builder().setJavaClassName(clsname).build());
+        }
+
+        public void add(String serviceName, String typename, boolean customSerializationNeeded) {
+            add(serviceName, typename, TypeConfiguration.builder().setCustomSerializationNeeded(customSerializationNeeded).build());
         }
 
         public TypeConfigurations build() {
