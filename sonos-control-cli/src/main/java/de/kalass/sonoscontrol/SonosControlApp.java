@@ -46,7 +46,7 @@ import de.kalass.sonoscontrol.clingimpl.core.SonosControlClingImpl;
 public class SonosControlApp {
     private static final Logger LOG = LoggerFactory.getLogger(SonosControlApp.class);
 
-    static Void execute(final SonosDeviceCommand command) {
+    public static Void execute(final SonosDeviceCommand command) {
         final SonosControl sonosControl = new SonosControlClingImpl();
         Runtime.getRuntime().addShutdownHook(new Thread("shutdown-hook") {
             @Override
