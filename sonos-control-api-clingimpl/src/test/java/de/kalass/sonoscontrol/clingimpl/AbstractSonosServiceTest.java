@@ -9,9 +9,10 @@ import org.testng.annotations.BeforeClass;
 
 import com.google.common.util.concurrent.SettableFuture;
 
+import de.kalass.sonoscontrol.api.control.ExecutionMode;
 import de.kalass.sonoscontrol.api.control.SonosControl;
-import de.kalass.sonoscontrol.api.control.SonosControl.SonosDeviceCallback;
 import de.kalass.sonoscontrol.api.control.SonosDevice;
+import de.kalass.sonoscontrol.api.control.SonosDeviceCallback;
 import de.kalass.sonoscontrol.api.model.deviceproperties.ZoneName;
 import de.kalass.sonoscontrol.clingimpl.core.SonosControlClingImpl;
 import de.kalass.sonoscontrol.clingimpl.services.ServiceNotAvailableException;
@@ -25,16 +26,18 @@ public abstract class AbstractSonosServiceTest<T> {
     protected void prepareDevice() throws InterruptedException, ExecutionException{
         final SonosControl c = new SonosControlClingImpl();
         final SettableFuture<SonosDevice> deviceFuture = SettableFuture.create();
-        c.executeOnAllZones(new SonosDeviceCallback() {
+        c.executeOnAnyZone(new SonosDeviceCallback() {
 
             @Override
-            public void success(SonosDevice device) {
+            public ExecutionMode execute(SonosDevice device) {
                 if (extractService(device) != null) {
                     // Will only change value for the first found device - we will always use the first sonos this way
                     deviceFuture.set(device);
+                    return ExecutionMode.FINISH;
                 } else {
                     LOG.info("Did not find service" + getServiceName() + " in device " + device.getZoneName() + ", will look in other device");
                 }
+                return ExecutionMode.EACH_DEVICE_DETECTION;
             }
         });
         SonosDevice device = null;

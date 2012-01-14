@@ -1,23 +1,30 @@
 package de.kalass.sonoscontrol.clingimpl.core;
 
-import javax.annotation.CheckForNull;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.UpnpServiceImpl;
-import org.teleal.cling.model.message.header.STAllHeader;
 import org.teleal.cling.model.meta.Device;
 import org.teleal.cling.model.meta.RemoteDevice;
 import org.teleal.cling.registry.DefaultRegistryListener;
 import org.teleal.cling.registry.Registry;
-import org.teleal.cling.registry.RegistryListener;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+
+import de.kalass.sonoscontrol.api.control.ExecutionMode;
 import de.kalass.sonoscontrol.api.control.SonosControl;
+import de.kalass.sonoscontrol.api.control.SonosDevice;
+import de.kalass.sonoscontrol.api.control.SonosDeviceCallback;
+import de.kalass.sonoscontrol.api.core.AsyncValue;
 import de.kalass.sonoscontrol.api.core.Callback;
-import de.kalass.sonoscontrol.api.core.Callback1;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;
 import de.kalass.sonoscontrol.api.core.FailableCallback;
 import de.kalass.sonoscontrol.api.model.MemberID;
@@ -36,8 +43,9 @@ public class SonosControlClingImpl implements SonosControl {
     private final UpnpService _upnpService;
 
     private ErrorStrategy _errorStrategy = new BaseErrorStrategy(null);
+    private final ExecuteOnZoneListener _listener = new ExecuteOnZoneListener();
 
-    private int _millis;
+    private final boolean _ownUpnpService;
 
     private static final class BaseErrorStrategy implements ErrorStrategy {
         private final ErrorStrategy _delegate;
@@ -55,18 +63,34 @@ public class SonosControlClingImpl implements SonosControl {
             }
         }
     }
+
+    private final class SingleZoneCallback implements SonosDeviceCallback {
+        private final SonosDeviceCallback _callback;
+        private final ZoneName _zoneName;
+
+        public SingleZoneCallback(SonosDeviceCallback callback,
+                ZoneName zoneName) {
+            super();
+            _callback = Preconditions.checkNotNull(callback);
+            _zoneName = Preconditions.checkNotNull(zoneName);
+        }
+
+        @Override
+        public ExecutionMode execute(SonosDevice device) {
+            if (_zoneName.equals(device.getZoneName())) {
+                return _callback.execute(device);
+            }
+            return ExecutionMode.EACH_DEVICE_DETECTION;
+        }
+    }
+
     private final class ExecuteOnZoneListener extends
     DefaultRegistryListener {
         @Nonnull
-        private final SonosDeviceCallback callback;
-        @CheckForNull
-        private final ZoneName zoneName;
+        private final Queue<SonosDeviceCallback> _commands;
 
-        private ExecuteOnZoneListener(
-                @Nonnull SonosDeviceCallback callback,
-                @Nullable ZoneName zoneName) {
-            this.callback = callback;
-            this.zoneName = zoneName;
+        private ExecuteOnZoneListener() {
+            _commands = new ConcurrentLinkedQueue<SonosDeviceCallback>();
         }
 
         @Override
@@ -80,7 +104,7 @@ public class SonosControlClingImpl implements SonosControl {
         }
 
         @Override
-        public void deviceRemoved(Registry registry, Device device) {
+        public void deviceRemoved(Registry registry, @SuppressWarnings("rawtypes") Device device) {
             LOG.info("Device removed: " + device.getDisplayString());
         }
 
@@ -101,41 +125,79 @@ public class SonosControlClingImpl implements SonosControl {
             LOG.info("Remote device updated: " + device.getDisplayString());
         }
 
+        public void execute(SonosDeviceCallback cmd) {
+            @SuppressWarnings("rawtypes")
+            final Collection<Device> devices = ImmutableList.copyOf(_upnpService.getRegistry().getDevices());
+
+            for (@SuppressWarnings("rawtypes") Device device : devices) {
+                if (executeIfSonos(device, cmd) == ExecutionMode.FINISH) {
+                    return;
+                }
+            }
+            // needs to continue execution on further device detections
+            _commands.add(cmd);
+        }
+
         @SuppressWarnings("rawtypes")
         @Override
-        public void deviceAdded(Registry registry, final Device device) {
+        public synchronized void deviceAdded(Registry registry, final Device device) {
             System.out.println("Found device:" + device.getDisplayString());
             LOG.info("Found device: " + device.getDisplayString() + " " + device.getIdentity().getUdn().getIdentifierString());
-            if (!device.getDetails().getManufacturerDetails().getManufacturer().contains("Sonos")) {
-                return;
-            }
 
-            final DevicePropertiesService propsService = new DevicePropertiesServiceClingImpl(_upnpService, device, _errorStrategy);
-            propsService.retrieveZoneAttributes(new Callback1<GetZoneAttributesResult>() {
+            executeIfSonos(device, new SonosDeviceCallback() {
                 @Override
-                public void success(GetZoneAttributesResult attributes) {
-                    if (zoneName == null || zoneName.equals(attributes.getCurrentZoneName())) {
-
-                        callback.success(new SonosDeviceImpl(
-                                MemberID.getInstance(device.getIdentity().getUdn().getIdentifierString()),
-                                attributes.getCurrentZoneName(), propsService, _upnpService, device, _errorStrategy));
-
-                        // avoid firing multiple times
-                        //_upnpService.getRegistry().removeListener(ExecuteOnZoneListener.this);
-                        LOG.debug("removed "+ ExecuteOnZoneListener.this);
-
+                public ExecutionMode execute(SonosDevice device) {
+                    final Collection<SonosDeviceCallback> reexecutionList = new ArrayList<SonosDeviceCallback>();
+                    SonosDeviceCallback cmd;
+                    while ((cmd = _commands.poll()) != null) {
+                        if (cmd.execute(device) == ExecutionMode.EACH_DEVICE_DETECTION) {
+                            // reschedule
+                            reexecutionList.add(cmd);
+                        }
                     }
+                    if (!reexecutionList.isEmpty()) {
+                        for (SonosDeviceCallback cb : reexecutionList) {
+                            _commands.add(cb);
+                        }
+                    }
+                    return ExecutionMode.FINISH;
                 }
             });
+        }
+
+        private ExecutionMode executeIfSonos(@SuppressWarnings("rawtypes") final Device device, final SonosDeviceCallback cb) {
+            if (!isSonos(device)) {
+                return ExecutionMode.EACH_DEVICE_DETECTION;
+            }
+            final DevicePropertiesService propsService = new DevicePropertiesServiceClingImpl(_upnpService, device, _errorStrategy);
+            final GetZoneAttributesResult attributes = propsService.retrieveZoneAttributes(new AsyncValue<GetZoneAttributesResult>()).get();
+            final ZoneName currentZoneName = attributes.getCurrentZoneName();
+            final SonosDevice sonosDevice = new SonosDeviceImpl(
+                    MemberID.getInstance(device.getIdentity().getUdn().getIdentifierString()),
+                    currentZoneName, propsService, _upnpService, device, _errorStrategy);
+            return cb.execute(sonosDevice);
+        }
+
+        private boolean isSonos(@SuppressWarnings("rawtypes") final Device device) {
+            return device.getDetails().getManufacturerDetails().getManufacturer().contains("Sonos");
         }
     }
 
     public SonosControlClingImpl() {
-        this(new UpnpServiceImpl());
+        this(new UpnpServiceImpl(), true);
     }
 
     public SonosControlClingImpl(UpnpService upnpService) {
+        this(upnpService, false);
+    }
+    private SonosControlClingImpl(UpnpService upnpService, boolean ownUpnpService) {
         this._upnpService = upnpService;
+        _ownUpnpService = ownUpnpService;
+        this._upnpService.getRegistry().addListener(_listener);
+
+        // Send a search message to all devices and services, they should respond soon
+        this._upnpService.getControlPoint().search(/*new STAllHeader(), 120*/);
+        LOG.info("currently found devices:" + this._upnpService.getRegistry().getDevices());
     }
 
     @Override
@@ -143,33 +205,22 @@ public class SonosControlClingImpl implements SonosControl {
         this._errorStrategy = new BaseErrorStrategy(errorStrategy);
     }
 
-    @Override
-    public void setTimeout(int millis) {
-        this._millis = millis;
-    }
 
     @Override
     public void shutdown() {
-        _upnpService.shutdown();
-    }
-
-    protected void execute(RegistryListener listener, int timeout) {
-        // FIXME (KK): how to implement timeout?
-        LOG.debug("Added " + listener);
-        this._upnpService.getRegistry().addListener(listener);
-
-        // Send a search message to all devices and services, they should respond soon
-        this._upnpService.getControlPoint().search(new STAllHeader(), 120);
-        LOG.info("currently found devices:" + this._upnpService.getRegistry().getDevices());
+        _upnpService.getRegistry().removeListener(_listener);
+        if (_ownUpnpService) {
+            _upnpService.shutdown();
+        }
     }
 
     @Override
     public void executeOnZone(final ZoneName zoneName, final SonosDeviceCallback callback) {
-        execute(new ExecuteOnZoneListener(callback, zoneName), _millis);
+        _listener.execute(new SingleZoneCallback(callback, zoneName));
     }
 
     @Override
-    public void executeOnAllZones(SonosDeviceCallback callback) {
-        execute(new ExecuteOnZoneListener(callback, null), _millis);
+    public void executeOnAnyZone(SonosDeviceCallback callback) {
+        _listener.execute(callback);
     }
 }

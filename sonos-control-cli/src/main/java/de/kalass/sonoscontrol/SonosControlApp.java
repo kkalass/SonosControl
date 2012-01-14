@@ -11,9 +11,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import de.kalass.sonoscontrol.api.control.ExecutionMode;
 import de.kalass.sonoscontrol.api.control.SonosControl;
-import de.kalass.sonoscontrol.api.control.SonosControl.SonosDeviceCallback;
 import de.kalass.sonoscontrol.api.control.SonosDevice;
+import de.kalass.sonoscontrol.api.control.SonosDeviceCallback;
 import de.kalass.sonoscontrol.api.core.EventListener;
 import de.kalass.sonoscontrol.api.core.LoggingErrorStrategy;
 import de.kalass.sonoscontrol.api.core.VoidCallback;
@@ -45,7 +46,6 @@ import de.kalass.sonoscontrol.clingimpl.core.SonosControlClingImpl;
 
 public class SonosControlApp {
     private static final Logger LOG = LoggerFactory.getLogger(SonosControlApp.class);
-
     public static Void execute(final SonosDeviceCommand command) {
         final SonosControl sonosControl = new SonosControlClingImpl();
         Runtime.getRuntime().addShutdownHook(new Thread("shutdown-hook") {
@@ -55,6 +55,9 @@ public class SonosControlApp {
                 sonosControl.shutdown();
             }
         });
+        return execute(sonosControl, command);
+    }
+    public static Void execute(final SonosControl sonosControl, final SonosDeviceCommand command) {
 
         final CliCommandResultCallback singleDeviceCommandResultCallback = new CliCommandResultCallback(){
             @Override
@@ -88,15 +91,16 @@ public class SonosControlApp {
 
         final ZoneSpec zoneSpec = command.getZoneSpec();
         if (zoneSpec == null) {
-            sonosControl.executeOnAllZones(new SonosDeviceCallback() {
+            sonosControl.executeOnAnyZone(new SonosDeviceCallback() {
 
                 @Override
-                public void success(SonosDevice device) {
+                public ExecutionMode execute(SonosDevice device) {
                     try {
                         command.call(device, multipleDevicesCommandResultCallback);
                     } catch(Throwable t) {
                         multipleDevicesCommandResultCallback.fail(t);
                     }
+                    return ExecutionMode.EACH_DEVICE_DETECTION;
                 }
             });
             return null;
@@ -104,7 +108,7 @@ public class SonosControlApp {
         zoneSpec.invite(new ZoneSpecVisitor<Void>() {
             @Override
             public Void visitGroup(final GroupZoneSpec spec) {
-                sonosControl.executeOnAllZones(new SonosDeviceCallback() {
+                sonosControl.executeOnAnyZone(new SonosDeviceCallback() {
                     Map<MemberID, SonosDevice> _devices = Maps.newHashMap();
                     SonosDevice _groupCoordinator;
                     Set<MemberID> _pendingMembers = Sets.newHashSet();
@@ -163,18 +167,22 @@ public class SonosControlApp {
                     }
 
                     @Override
-                    public void success(SonosDevice device) {
+                    public ExecutionMode execute(final SonosDevice device) {
                         LOG.debug("Found  Sonos device " + device.getZoneName().getValue() + " => "+ device.getZoneName());
                         if (spec.getGroupCoordinator().equals(device.getZoneName())) {
-                            final ZoneGroupTopologyService topologyService = device.getZoneGroupTopologyService();
-
-                            final ZoneGroup ownedGroup = topologyService.getLastValueForZoneGroupState().getOwnedGroup(device.getDeviceId());
-                            if (ownedGroup != null) {
-                                GroupID groupId = ownedGroup.getGroupId();
-                                System.out.println("found owned group: " + groupId + " " + ownedGroup.getMemberZoneNames());
-                                setGroupOwningDevice(device, ownedGroup);
+                            final ZoneGroupTopologyService topologyService = Preconditions.checkNotNull(device.getZoneGroupTopologyService(), "topologyService must not be null!");
+                            final ZoneGroupState zoneGroupState = topologyService.getLastValueForZoneGroupState();
+                            if (zoneGroupState == null) {
+                                topologyService.addZoneGroupStateListener(new EventListener<ZoneGroupState>() {
+                                    @Override
+                                    public void valueChanged(
+                                            ZoneGroupState oldValue,
+                                            ZoneGroupState newValue) {
+                                        registerOwnedGroup(device, newValue);
+                                    }
+                                });
                             } else {
-                                throw new UnsupportedOperationException();
+                                registerOwnedGroup(device, zoneGroupState);
                             }
                             try {
                                 command.call(device, multipleDevicesCommandResultCallback);
@@ -183,6 +191,19 @@ public class SonosControlApp {
                             }
                         } else {
                             addToGroup(device);
+                        }
+                        return ExecutionMode.EACH_DEVICE_DETECTION;
+                    }
+
+                    private void registerOwnedGroup(SonosDevice device,
+                            final ZoneGroupState zoneGroupState) {
+                        final ZoneGroup ownedGroup = zoneGroupState.getOwnedGroup(device.getDeviceId());
+                        if (ownedGroup != null) {
+                            GroupID groupId = ownedGroup.getGroupId();
+                            System.out.println("found owned group: " + groupId + " " + ownedGroup.getMemberZoneNames());
+                            setGroupOwningDevice(device, ownedGroup);
+                        } else {
+                            throw new UnsupportedOperationException();
                         }
                     }
 
@@ -194,7 +215,7 @@ public class SonosControlApp {
                 sonosControl.executeOnZone(spec.getZoneName(), new SonosDeviceCallback() {
 
                     @Override
-                    public void success(SonosDevice device) {
+                    public ExecutionMode execute(SonosDevice device) {
                         LOG.debug("Found  Sonos device " + device.getZoneName());
                         Preconditions.checkState(device.getZoneName().equals(spec.getZoneName()));
                         try {
@@ -202,6 +223,7 @@ public class SonosControlApp {
                         } catch(Throwable t) {
                             singleDeviceCommandResultCallback.fail(t);
                         }
+                        return ExecutionMode.FINISH;
                     }
                 });
                 return null;
