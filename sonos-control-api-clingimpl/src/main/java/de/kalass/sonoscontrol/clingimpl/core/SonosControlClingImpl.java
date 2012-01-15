@@ -136,6 +136,9 @@ public class SonosControlClingImpl implements SonosControl {
             }
             // needs to continue execution on further device detections
             _commands.add(cmd);
+            // trigger (re-)detection of devices, on android cling will often
+            // fail to detect a sonos device when it comes available on the network
+            _upnpService.getControlPoint().search();
         }
 
         @SuppressWarnings("rawtypes")
@@ -164,23 +167,12 @@ public class SonosControlClingImpl implements SonosControl {
                 }
             });
         }
-
         private ExecutionMode executeIfSonos(@SuppressWarnings("rawtypes") final Device device, final SonosDeviceCallback cb) {
-            if (!isSonos(device)) {
-                return ExecutionMode.EACH_DEVICE_DETECTION;
-            }
-            final DevicePropertiesService propsService = new DevicePropertiesServiceClingImpl(_upnpService, device, _errorStrategy);
-            final GetZoneAttributesResult attributes = propsService.retrieveZoneAttributes(new AsyncValue<GetZoneAttributesResult>()).get();
-            final ZoneName currentZoneName = attributes.getCurrentZoneName();
-            final SonosDevice sonosDevice = new SonosDeviceImpl(
-                    MemberID.getInstance(device.getIdentity().getUdn().getIdentifierString()),
-                    currentZoneName, propsService, _upnpService, device, _errorStrategy);
-            return cb.execute(sonosDevice);
+            final SonosDevice sonosDevice = getSonosDevice(device);
+            return sonosDevice == null ? ExecutionMode.EACH_DEVICE_DETECTION : cb.execute(sonosDevice);
         }
 
-        private boolean isSonos(@SuppressWarnings("rawtypes") final Device device) {
-            return device.getDetails().getManufacturerDetails().getManufacturer().contains("Sonos");
-        }
+
     }
 
     public SonosControlClingImpl() {
@@ -190,6 +182,8 @@ public class SonosControlClingImpl implements SonosControl {
     public SonosControlClingImpl(UpnpService upnpService) {
         this(upnpService, false);
     }
+
+
     private SonosControlClingImpl(UpnpService upnpService, boolean ownUpnpService) {
         this._upnpService = upnpService;
         _ownUpnpService = ownUpnpService;
@@ -199,6 +193,32 @@ public class SonosControlClingImpl implements SonosControl {
         this._upnpService.getControlPoint().search(/*new STAllHeader(), 120*/);
         LOG.info("currently found devices:" + this._upnpService.getRegistry().getDevices());
     }
+
+
+    private boolean isSonos(@SuppressWarnings("rawtypes") final Device device) {
+        return device.getDetails().getManufacturerDetails().getManufacturer().contains("Sonos");
+    }
+
+    private SonosDevice getSonosDevice(Device device) {
+        if (!isSonos(device)) {
+            return null;
+        }
+        try {
+
+            final DevicePropertiesService propsService = new DevicePropertiesServiceClingImpl(_upnpService, device, _errorStrategy);
+            final GetZoneAttributesResult attributes = propsService.retrieveZoneAttributes(new AsyncValue<GetZoneAttributesResult>()).get();
+            final ZoneName currentZoneName = attributes.getCurrentZoneName();
+            final SonosDevice sonosDevice = new SonosDeviceImpl(
+                    MemberID.getInstance(device.getIdentity().getUdn().getIdentifierString()),
+                    currentZoneName, propsService, _upnpService, device, _errorStrategy);
+            return sonosDevice;
+        } catch (IllegalStateException e) {
+            LOG.warn("Failed to talk to sonos device. This is possibly due to it being offline. Will remove it from the registry", e);
+            _upnpService.getRegistry().removeDevice(device.getIdentity().getUdn());
+            return null;
+        }
+    }
+
 
     @Override
     public void setErrorStrategy(ErrorStrategy errorStrategy) {
@@ -216,7 +236,7 @@ public class SonosControlClingImpl implements SonosControl {
 
     @Override
     public void executeOnZone(final ZoneName zoneName, final SonosDeviceCallback callback) {
-        _listener.execute(new SingleZoneCallback(callback, zoneName));
+        executeOnAnyZone(new SingleZoneCallback(callback, zoneName));
     }
 
     @Override

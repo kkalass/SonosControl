@@ -25,6 +25,9 @@ public interface SonosControl {
      * deregistered after execution. Else, it will be rescheduled for execution, should the
      * zone become unavailable and then available again at a later time.</p>
      * 
+     * <p>The implementation might trigger a search if this method is called. This is due
+     * to some implementations (for example cling) do not always discover new devices correctly.</p>
+     * 
      * @param zoneName the name of the zone to execute on.
      * @param callback the command to execute
      */

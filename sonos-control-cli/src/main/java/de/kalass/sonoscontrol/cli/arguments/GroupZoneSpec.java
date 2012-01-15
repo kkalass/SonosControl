@@ -15,7 +15,7 @@ public class GroupZoneSpec extends ZoneSpec {
     private final ZoneName _groupCoordinator;
 
     @Nonnull
-    private final Iterable<ZoneName> _groupMembers;
+    private final Set<ZoneName> _groupMembers;
 
     private GroupZoneSpec(@Nonnull ZoneName groupCoordinator, @Nonnull Set<ZoneName> groupMembers) {
         super();
@@ -41,5 +41,15 @@ public class GroupZoneSpec extends ZoneSpec {
     @Override
     public <T> T invite(@Nonnull ZoneSpecVisitor<T> visitor) {
         return visitor.visitGroup(this);
+    }
+
+    public boolean isGroupMember(ZoneName zoneName) {
+        //return _groupMembers.contains(zoneName);
+        // FIXME (KK): implement wildcard vs. specified zone names
+        boolean contains = _groupMembers.contains(zoneName);
+        if (!contains) {
+            System.out.println("Disregarded candidate zone " + zoneName + " as member of " + _groupCoordinator);
+        }
+        return contains;
     }
 }

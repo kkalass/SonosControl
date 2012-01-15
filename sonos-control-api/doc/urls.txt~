@@ -1,0 +1,4 @@
+http://<ip>:1400/status - a list of files that export a lot of interesting status information, for example dmsg, etc/resolv.conf and others
+http://<ip>:1400/support/review
+http://<ip>:1400/advconfig.htm
+http://<ip>:1400/xml/device_description.xml
