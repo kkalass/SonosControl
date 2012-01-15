@@ -8,23 +8,23 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.CheckForNull;
 
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.controlpoint.ActionCallback;
+import org.fourthline.cling.controlpoint.SubscriptionCallback;
+import org.fourthline.cling.model.action.ActionInvocation;
+import org.fourthline.cling.model.gena.CancelReason;
+import org.fourthline.cling.model.gena.GENASubscription;
+import org.fourthline.cling.model.message.UpnpResponse;
+import org.fourthline.cling.model.meta.Device;
+import org.fourthline.cling.model.meta.Service;
+import org.fourthline.cling.model.state.StateVariableValue;
+import org.fourthline.cling.model.types.InvalidValueException;
+import org.fourthline.cling.model.types.ServiceId;
+import org.fourthline.cling.model.types.UDAServiceId;
+import org.fourthline.cling.model.types.UnsignedIntegerFourBytes;
+import org.fourthline.cling.model.types.UnsignedIntegerTwoBytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.controlpoint.ActionCallback;
-import org.teleal.cling.controlpoint.SubscriptionCallback;
-import org.teleal.cling.model.action.ActionInvocation;
-import org.teleal.cling.model.gena.CancelReason;
-import org.teleal.cling.model.gena.GENASubscription;
-import org.teleal.cling.model.message.UpnpResponse;
-import org.teleal.cling.model.meta.Device;
-import org.teleal.cling.model.meta.Service;
-import org.teleal.cling.model.state.StateVariableValue;
-import org.teleal.cling.model.types.InvalidValueException;
-import org.teleal.cling.model.types.ServiceId;
-import org.teleal.cling.model.types.UDAServiceId;
-import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
-import org.teleal.cling.model.types.UnsignedIntegerTwoBytes;
 
 import de.kalass.sonoscontrol.api.core.Callback;
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;

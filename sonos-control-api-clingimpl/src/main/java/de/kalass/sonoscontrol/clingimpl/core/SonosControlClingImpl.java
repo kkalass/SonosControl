@@ -7,14 +7,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.annotation.Nonnull;
 
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.UpnpServiceImpl;
+import org.fourthline.cling.model.meta.Device;
+import org.fourthline.cling.model.meta.RemoteDevice;
+import org.fourthline.cling.registry.DefaultRegistryListener;
+import org.fourthline.cling.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.UpnpServiceImpl;
-import org.teleal.cling.model.meta.Device;
-import org.teleal.cling.model.meta.RemoteDevice;
-import org.teleal.cling.registry.DefaultRegistryListener;
-import org.teleal.cling.registry.Registry;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;

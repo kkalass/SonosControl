@@ -8,8 +8,8 @@ import static de.kalass.sonoscontrol.clingimpl.services.XMLUtil.getRoot;
 import java.net.URI;
 import java.util.List;
 
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.model.meta.Device;
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.model.meta.Device;
 import org.w3c.dom.Node;
 
 import com.google.common.base.Function;

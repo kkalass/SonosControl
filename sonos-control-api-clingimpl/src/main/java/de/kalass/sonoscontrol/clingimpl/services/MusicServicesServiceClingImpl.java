@@ -7,14 +7,14 @@ package de.kalass.sonoscontrol.clingimpl.services;
 import de.kalass.sonoscontrol.api.services.MusicServicesService;
 import de.kalass.sonoscontrol.api.core.EventListener;
 
-import org.teleal.cling.model.gena.GENASubscription;
-import org.teleal.cling.model.action.ActionArgumentValue;
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.model.action.ActionInvocation;
-import org.teleal.cling.model.meta.Device;
-import org.teleal.cling.model.types.InvalidValueException;
-import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
-import org.teleal.cling.model.state.StateVariableValue;
+import org.fourthline.cling.model.gena.GENASubscription;
+import org.fourthline.cling.model.action.ActionArgumentValue;
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.model.action.ActionInvocation;
+import org.fourthline.cling.model.meta.Device;
+import org.fourthline.cling.model.types.InvalidValueException;
+import org.fourthline.cling.model.types.UnsignedIntegerFourBytes;
+import org.fourthline.cling.model.state.StateVariableValue;
 
 import java.util.List;
 import java.util.Map;

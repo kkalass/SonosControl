@@ -2,9 +2,9 @@ package de.kalass.sonoscontrol.clingimpl.core;
 
 import javax.annotation.Nonnull;
 
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.model.meta.Device;
-import org.teleal.cling.model.types.DeviceType;
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.model.meta.Device;
+import org.fourthline.cling.model.types.DeviceType;
 
 import com.google.common.base.Preconditions;
 

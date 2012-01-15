@@ -7,10 +7,10 @@ import static de.kalass.sonoscontrol.clingimpl.services.XMLUtil.getLongVal;
 import static de.kalass.sonoscontrol.clingimpl.services.XMLUtil.getRoot;
 import static de.kalass.sonoscontrol.clingimpl.services.XMLUtil.getVal;
 
+import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.model.meta.Device;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.teleal.cling.UpnpService;
-import org.teleal.cling.model.meta.Device;
 import org.w3c.dom.Node;
 
 import de.kalass.sonoscontrol.api.core.ErrorStrategy;

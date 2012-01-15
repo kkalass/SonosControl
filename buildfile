@@ -11,8 +11,8 @@ LIB_GUAVA='com.google.guava:guava:jar:11.0'
 LIB_SLF4J_API='org.slf4j:slf4j-api:jar:1.6.4'
 LIB_JSR305='com.google.code.findbugs:jsr305:jar:1.3.9'
 
-LIB_CLING_CORE='org.teleal.cling:cling-core:jar:1.0.5'
-LIB_TELEAL_COMMON='org.teleal:teleal-common:jar:1.0.14'
+LIB_CLING_CORE='org.fourthline.cling:cling-core:jar:2.0-SNAPSHOT'
+LIB_TELEAL_COMMON='org.seamless:seamless-util:jar:1.0-SNAPSHOT','org.seamless:seamless-http:jar:1.0-SNAPSHOT'
 LIB_SLF4J_IMPL='org.slf4j:slf4j-jdk14:jar:1.6.4'
 
 LIB_FREEMARKER='org.freemarker:freemarker:jar:2.3.18'
